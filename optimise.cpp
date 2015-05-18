@@ -74,9 +74,9 @@ void opt::generate(int pop)
   }
 }
 
-vector<double> opt::optimise(int max_gen)
+vector<double> opt::optimise(int max_gen, int pop)
 {
-  generate(100);
+  generate(pop);
 
   for(int g = 0; g < max_gen; g++) {
     for(int i = 0; i < particles.size(); i++) {
