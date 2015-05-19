@@ -14,9 +14,9 @@ int main() {
   vector<double> upper = {10.0};
   EGO ego(1, lower, upper, &fit);
   for(double i = 0; i < 6; ++i) {
-    double x[] = {i * 2};
-    double y = fit(x);
-    ego.sg->add(x, y);
+    vector<double> x = {i * 2};
+    double y = fit(&x[0]);
+    ego.add_training(x, y);
   }
   ego.run();
   vector<double> r;
@@ -27,5 +27,6 @@ int main() {
     } 
     cout << endl;
   }
+  cout << ego.best_result()[0] << endl;
 }
 

@@ -83,12 +83,12 @@ vector<double> opt::optimise(int max_gen, int pop)
       Particle *part = particles[i];
       double result = ego->fitness(part->p);
 
-      if(result > part->best_fitness) {
+      if(result < part->best_fitness) {
         part->best_fitness = result;
 	part->best = part->p;
       }
 
-      if(result > best_part->best_fitness) {
+      if(result < best_part->best_fitness) {
         best_part->best_fitness = result;
 	best_part->p = part->p;
       }

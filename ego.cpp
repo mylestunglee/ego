@@ -3,11 +3,14 @@
 #include "gp.h"
 #include "ego.h"
 #include "optimise.h"
+#include <thread>
 #include <Eigen/Dense>
 
 using namespace std;
 
 double gaussrand1();
+double phi(double x);
+double normal_pdf(double x);
 
 const double PI = std::atan(1.0)*4;
 
@@ -17,10 +20,6 @@ EGO::EGO(int dim, vector<double> low, vector<double> up, double(*fit)(double x[]
   dimension = dim;
   upper = up;
   lower = low;
-  for(int i = 0; i < dimension; i++) {
-    uniform_real_distribution<> dist(lower[i], upper[i]);
-    _generator.push_back(dist);
-  }
   proper_fitness = fit;
   sg = new Surrogate(dim);
 }
@@ -33,19 +32,62 @@ void EGO::run()
     vector<double> best_xs = max_ei_par(lambda);
 
     for(int l = 0; l < lambda; l++) {
-      double y [dimension];
+      vector<double> y(dimension, 0.0);
       for(int j = 0; j < dimension; j++) {
         y[j] = best_xs[l * dimension + j];
       }
-      fitness_function(y);
+      evaluate(y);
+    }
+
+    if(best_fitness <= max_fitness) {
+      cout << "Found best" << endl;
+      break;
     }
   }
 }
 
-void EGO::fitness_function(double x[])
+vector<double> EGO::best_result()
 {
-  double result = proper_fitness(x);
-  sg->add(x, result);
+  return best_particle;
+}
+
+void EGO::evaluate(vector<double> x)
+{
+  double *data = &x[0];
+  double mean = sg->_mean(data);
+  mu_means.push_back(mean);
+  min_running = min(min_running, mean);
+  mu_vars.push_back(sg->_var(data));
+
+  //Add to running set
+  pair<vector<double>,int> run = make_pair(x, -1);
+  running.push_back(run);
+
+  worker_task(x);
+}
+
+void EGO::worker_task(vector<double> x)
+{
+  //Perform calculation
+  double *data = &x[0];
+  double result = proper_fitness(data);
+
+  //Add to list of finished points
+  running_mtx.lock();
+  finished_fitness.push_back(result);
+  running[pos].second = finished_fitness.size() - 1;
+
+  running_mtx.unlock();
+
+}
+
+void EGO::check_running_tasks()
+{
+  running_mtx.lock()
+  if(result < best_fitness) {
+    best_particle = x;
+    best_fitness = result;
+  }
 }
 
 double EGO::fitness(vector<double> x)
@@ -65,33 +107,96 @@ double EGO::fitness(vector<double> x)
     lambda_vars[i] = sg->_var(y);
   }
 
-  double result = ei_multi(lambda_vars, lambda_means, num, n_sims);
+  double result = -1 * ei_multi(lambda_vars, lambda_means, num, n_sims);
   return result / n_sims;
 };
 
+void EGO::add_training(vector<double> x, double y)
+{
+  training.push_back(x);
+  training_fitness.push_back(y);
+  sg->add(x, y);
+  if(y < best_fitness) {
+    best_fitness = y;
+  }
+}
+
 vector<double> EGO::max_ei_par(int lambda) 
 {
-  int dim = dimension;
-  int x = dim * lambda;
-  vector<double> low(x, 0.0), up(x, 0.0);
-  random_device rd;
-  mt19937 gen(rd());
+  vector<double> best;
+  if(lambda <= 1) {
+    best = brute_search(10);
+  } else {
+    int x = dimension * lambda;
+    vector<double> low(x, 0.0), up(x, 0.0);
+    random_device rd;
+    mt19937 gen(rd());
 
-  for(int i = 0; i < x; i++) {
-    low[i] = lower[i % dim];
-    up[i] = upper[i % dim];
+    for(int i = 0; i < x; i++) {
+      low[i] = lower[i % dimension];
+      up[i] = upper[i % dimension];
+    }
+
+    opt op(x, up, low, this);
+    best = op.optimise(100);
   }
-
-  opt op(x, up, low, this);
-  vector<double> best = op.optimise(100);
 
   return best;
 }
 
+vector<double> EGO::brute_search(int npts=10)
+{
+  double best = -1000000;
+  double y_min = get_y_min();
+  vector<double> best_point(dimension, 0);
+  double points[dimension][npts];
+
+  //Build our steps of possible values in each dimension
+  for(int i = 0; i < dimension; i++) {
+    double step = (upper[i] - lower[i]) / npts;
+    for(int j= 0; j < npts; j++) {
+      points[i][j] = lower[i] + j * step;
+    }
+  }
+
+  //Loop through each possible combination of values
+  for(int i = 0; i < pow(npts, dimension); i++) {
+    double x[dimension];
+    for(int j = 0; j < dimension; j++) {
+      x[j] = points[j][((int)(i / pow(npts, j))) % npts];
+    }
+    
+    double result = ei(sg->_mean(x), sg->_var(x), y_min);
+    if(result > best) {
+      best = result;
+      best_point.assign(x, x + dimension);
+    }
+  }
+  return best_point;
+}
+
+double EGO::get_y_min()
+{
+  double result = min(best_fitness, min_running);
+  return result;
+}
+
+double EGO::ei(double y, double S2, double y_min) 
+{
+  if(S2 <= 0.0) {
+    return 0.0;
+  } else {
+    double s = sqrt(S2);
+    double y_diff = y - y_min;
+    double y_diff_s = y_diff / s;
+    return y_diff * phi(y_diff_s) + s * normal_pdf(y_diff_s);
+  }
+}
+
 double EGO::ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n)
 {
-    double sum_ei=0.0, ei=0.0;
-    double y_best = sg->y_best();
+    double sum_ei=0.0, e_i=0.0;
+    double y_best = get_y_min();
     int max_mus = mu_means.size();
 
     for (int k=0; k < n; k++) {
@@ -108,11 +213,11 @@ double EGO::ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, 
                 min2 = lambda;
         }
         
-        ei = min - min2;
-        if (ei < 0.0) {
-          ei = 0.0;
+        e_i = min - min2;
+        if (e_i < 0.0) {
+          e_i = 0.0;
 	}
-        sum_ei = ei + sum_ei;
+        sum_ei = e_i + sum_ei;
     }
     return sum_ei;
 }
@@ -134,4 +239,36 @@ double gaussrand1()
 	phase = 1 - phase;
 
 	return Z;
+}
+
+ 
+//Code for CDF of normal distribution
+double phi(double x)
+{
+    // constants
+    double a1 =  0.254829592;
+    double a2 = -0.284496736;
+    double a3 =  1.421413741;
+    double a4 = -1.453152027;
+    double a5 =  1.061405429;
+    double p  =  0.3275911;
+ 
+    // Save the sign of x
+    int sign = 1;
+    if (x < 0)
+        sign = -1;
+    x = fabs(x)/sqrt(2.0);
+ 
+    // A&S formula 7.1.26
+    double t = 1.0/(1.0 + p*x);
+    double y = 1.0 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*exp(-x*x);
+ 
+    return 0.5*(1.0 + sign*y);
+}
+
+double normal_pdf(double x)
+{
+    static const double inv_sqrt_2pi = 0.3989422804014327;
+
+    return inv_sqrt_2pi * exp(-0.5 * x * x);
 }
