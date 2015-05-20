@@ -27,7 +27,8 @@ EGO::EGO(int dim, vector<double> low, vector<double> up, double(*fit)(double x[]
 void EGO::run()
 {
   for(int iter = 0; iter < max_iterations; iter++) {
-
+    //Check to see if any workers have finished computing
+    check_running_tasks();
     int lambda = num_lambda - running.size();
     vector<double> best_xs = max_ei_par(lambda);
 
@@ -60,34 +61,49 @@ void EGO::evaluate(vector<double> x)
   mu_vars.push_back(sg->_var(data));
 
   //Add to running set
-  pair<vector<double>,int> run = make_pair(x, -1);
+  struct running_node run; 
+  run.fitness = mean;
+  run.is_finished = false;
+  run.data = x;
   running.push_back(run);
 
-  worker_task(x);
+  worker_task(&run);
 }
 
-void EGO::worker_task(vector<double> x)
+void EGO::worker_task(struct running_node *node)
 {
   //Perform calculation
-  double *data = &x[0];
+  double *data = &(node->data[0]);
   double result = proper_fitness(data);
 
-  //Add to list of finished points
   running_mtx.lock();
-  finished_fitness.push_back(result);
-  running[pos].second = finished_fitness.size() - 1;
+
+  //Add results back to node keeping track
+  node->is_finished = true;
+  node->fitness = result;
 
   running_mtx.unlock();
-
 }
 
 void EGO::check_running_tasks()
 {
-  running_mtx.lock()
-  if(result < best_fitness) {
-    best_particle = x;
-    best_fitness = result;
+  min_running = 1000000000;
+  running_mtx.lock();
+
+  vector<struct running_node>::iterator node = running.begin();
+
+  while(node != running.end()) {
+    if(node->is_finished) {
+      //Add it to our training set
+      add_training(node->data, node->fitness);
+      node = running.erase(node);
+    } else {
+      min_running = min(min_running, node->fitness);
+      node++;
+    }
   }
+  
+  running_mtx.unlock();
 }
 
 double EGO::fitness(vector<double> x)
@@ -118,6 +134,7 @@ void EGO::add_training(vector<double> x, double y)
   sg->add(x, y);
   if(y < best_fitness) {
     best_fitness = y;
+    best_particle = x;
   }
 }
 

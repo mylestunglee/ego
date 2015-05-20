@@ -33,14 +33,19 @@ class EGO
     double best_fitness = 100000000;
     double max_fitness = 0;
     double min_running = 100000000;
-    mutex running_mtx;
 
     double (* proper_fitness) (double x[]);
 
-    vector<pair<vector<double>, int>> running;
+    struct running_node {
+      double fitness;
+      bool is_finished;
+      vector<double> data;
+    };
+
+    mutex running_mtx;
+    vector<struct running_node> running;
     vector<vector<double>> training;
     vector<double> training_fitness;
-    vector<double> finished_fitness;
     vector<double> mu_means;
     vector<double> mu_vars;
     vector<double> lower;
