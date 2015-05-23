@@ -26,24 +26,33 @@ EGO::EGO(int dim, vector<double> low, vector<double> up, double(*fit)(double x[]
 
 void EGO::run()
 {
-  for(int iter = 0; iter < max_iterations; iter++) {
+  while(num_iterations < max_iterations) {
     //Check to see if any workers have finished computing
     check_running_tasks();
-    int lambda = num_lambda - running.size();
-    vector<double> best_xs = max_ei_par(lambda);
-
-    for(int l = 0; l < lambda; l++) {
-      vector<double> y(dimension, 0.0);
-      for(int j = 0; j < dimension; j++) {
-        y[j] = best_xs[l * dimension + j];
-      }
-      evaluate(y);
-    }
 
     if(best_fitness <= max_fitness) {
       cout << "Found best" << endl;
       break;
     }
+
+    cout << "Iter: " << num_iterations << " / " << max_iterations << endl;
+
+    int lambda = num_lambda - running.size();
+    cout << "RUNNING: " << running.size() << " Lambda: " << lambda << endl;
+    vector<double> best_xs = max_ei_par(lambda);
+
+    for(int l = 0; l < lambda; l++) {
+      vector<double> y(dimension, 0.0);
+      cout << "Evaluating: ";
+      for(int j = 0; j < dimension; j++) {
+        y[j] = best_xs[l * dimension + j];
+	cout << y[j] << " ";
+      }
+      cout << endl;
+      evaluate(y);
+      
+    }
+
   }
 }
 
@@ -56,8 +65,8 @@ void EGO::evaluate(vector<double> x)
 {
   double *data = &x[0];
   double mean = sg->_mean(data);
-  mu_means.push_back(mean);
   min_running = min(min_running, mean);
+  mu_means.push_back(mean);
   mu_vars.push_back(sg->_var(data));
 
   //Add to running set
@@ -65,12 +74,14 @@ void EGO::evaluate(vector<double> x)
   run.fitness = mean;
   run.is_finished = false;
   run.data = x;
+  run.pos = mu_means.size() - 1;
   running.push_back(run);
 
-  worker_task(&run);
+  //Launch another thread to calculate
+  thread (&EGO::worker_task, this, &running.back()).detach();
 }
 
-void EGO::worker_task(struct running_node *node)
+void EGO::worker_task(EGO::running_node *node)
 {
   //Perform calculation
   double *data = &(node->data[0]);
@@ -94,10 +105,18 @@ void EGO::check_running_tasks()
 
   while(node != running.end()) {
     if(node->is_finished) {
+      num_iterations++;
       //Add it to our training set
       add_training(node->data, node->fitness);
+
+      //Delete estimations
+      mu_means.erase(mu_means.begin() + node->pos);
+      mu_vars.erase(mu_vars.begin() + node->pos);
+
+      //Delete node from running vector
       node = running.erase(node);
     } else {
+      //Recalculate minimum estimate
       min_running = min(min_running, node->fitness);
       node++;
     }
@@ -119,8 +138,13 @@ double EGO::fitness(vector<double> x)
       y[j] = x[i * dimension + j];
     }
 
-    lambda_means[i] = sg->_mean(y);
-    lambda_vars[i] = sg->_var(y);
+    if(not_run(y)) {
+      lambda_means[i] = sg->_mean(y);
+      lambda_vars[i] = sg->_var(y);
+    } else {
+      lambda_means[i] = 100000000000;
+      lambda_vars[i] = 0;
+    }
   }
 
   double result = -1 * ei_multi(lambda_vars, lambda_means, num, n_sims);
@@ -182,20 +206,45 @@ vector<double> EGO::brute_search(int npts=10)
     for(int j = 0; j < dimension; j++) {
       x[j] = points[j][((int)(i / pow(npts, j))) % npts];
     }
-    
-    double result = ei(sg->_mean(x), sg->_var(x), y_min);
-    if(result > best) {
-      best = result;
-      best_point.assign(x, x + dimension);
+    if(not_run(x)) {
+      double result = ei(sg->_mean(x), sg->_var(x), y_min);
+      if(result > best) {
+        best = result;
+        best_point.assign(x, x + dimension);
+      }
     }
   }
   return best_point;
 }
 
+bool EGO::not_run(double x[])
+{
+  vector<vector<double>>::iterator train = training.begin();
+  while(train != training.end()) {
+    int i = 0;
+    for(; i < dimension; i++) {
+      if((*train)[i] != x[i]) break;
+    }
+    if(i == dimension) return false;
+    train++;
+  }
+  vector<struct running_node>::iterator node = running.begin();
+  while(node != running.end()) {
+    int i = 0;
+    for(; i < dimension; i++) {
+      if(node->data[i] != x[i]) break;
+    }
+    if(i == dimension) return false;
+    node++;
+  }
+  //Not in training or running set, so hasn't been run
+  return true;
+  
+}
+
 double EGO::get_y_min()
 {
-  double result = min(best_fitness, min_running);
-  return result;
+  return min(best_fitness, min_running);
 }
 
 double EGO::ei(double y, double S2, double y_min) 

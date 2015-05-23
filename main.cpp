@@ -13,8 +13,8 @@ int main() {
   vector<double> lower = {0.0};
   vector<double> upper = {10.0};
   EGO ego(1, lower, upper, &fit);
-  for(double i = 0; i < 6; ++i) {
-    vector<double> x = {i * 2};
+  for(double i = 0; i < 3; ++i) {
+    vector<double> x = {i * 5};
     double y = fit(&x[0]);
     ego.add_training(x, y);
   }

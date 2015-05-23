@@ -12,6 +12,13 @@ class EGO
     //Constructor
     EGO(int dim, vector<double> low, vector<double> up, double(*fit)(double x[]));
 
+    struct running_node {
+      double fitness;
+      bool is_finished;
+      vector<double> data;
+      int pos;
+    };
+
     //Functions
     vector<double> max_ei_par(int lambda);
     double fitness(vector<double> x);
@@ -22,12 +29,16 @@ class EGO
     vector<double> brute_search(int npts);
     double get_y_min();
     double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n);
-    double ei(double y, double S2);
+    double ei(double y, double S2, double y_min);
+    void check_running_tasks();
+    void worker_task(running_node *node);
+    bool not_run(double x[]);
 
     //Variables
     int dimension = 1;
     int n_sims = 50;
     int max_iterations = 30;
+    int num_iterations = 0;
     int num_lambda = 1;
     vector<double> best_particle;
     double best_fitness = 100000000;
@@ -35,12 +46,6 @@ class EGO
     double min_running = 100000000;
 
     double (* proper_fitness) (double x[]);
-
-    struct running_node {
-      double fitness;
-      bool is_finished;
-      vector<double> data;
-    };
 
     mutex running_mtx;
     vector<struct running_node> running;
