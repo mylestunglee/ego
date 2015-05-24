@@ -15,13 +15,13 @@ double normal_pdf(double x);
 const double PI = std::atan(1.0)*4;
 
 
-EGO::EGO(int dim, vector<double> low, vector<double> up, double(*fit)(double x[]))
+EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*fit)(double x[]))
 {
   dimension = dim;
   upper = up;
   lower = low;
   proper_fitness = fit;
-  sg = new Surrogate(dim);
+  sg = s;
 }
 
 void EGO::run()
@@ -35,24 +35,25 @@ void EGO::run()
       break;
     }
 
-    cout << "Iter: " << num_iterations << " / " << max_iterations << endl;
-
     int lambda = num_lambda - running.size();
-    cout << "RUNNING: " << running.size() << " Lambda: " << lambda << endl;
+
+    //cout << "Iter: " << num_iterations << " / " << max_iterations << endl;
+    //cout << "RUNNING: " << running.size() << " Lambda: " << lambda << endl;
+
     vector<double> best_xs = max_ei_par(lambda);
 
     for(int l = 0; l < lambda; l++) {
       vector<double> y(dimension, 0.0);
+
       cout << "Evaluating: ";
       for(int j = 0; j < dimension; j++) {
         y[j] = best_xs[l * dimension + j];
 	cout << y[j] << " ";
       }
       cout << endl;
-      evaluate(y);
-      
-    }
 
+      evaluate(y);
+    }
   }
 }
 
@@ -106,6 +107,12 @@ void EGO::check_running_tasks()
   while(node != running.end()) {
     if(node->is_finished) {
       num_iterations++;
+
+      for(int i = 0; i < dimension; i++) {
+        cout << node->data[i] << " ";
+      }
+      cout << " evaluated to: " << node->fitness << endl;
+
       //Add it to our training set
       add_training(node->data, node->fitness);
 
@@ -190,21 +197,34 @@ vector<double> EGO::brute_search(int npts=10)
   double best = -1000000;
   double y_min = get_y_min();
   vector<double> best_point(dimension, 0);
-  double points[dimension][npts];
+  double points[dimension][npts + 1];
+  int num_steps = npts + 1;
 
   //Build our steps of possible values in each dimension
   for(int i = 0; i < dimension; i++) {
-    double step = (upper[i] - lower[i]) / npts;
-    for(int j= 0; j < npts; j++) {
-      points[i][j] = lower[i] + j * step;
+    if(is_discrete) {
+      double step = floor((upper[i] - lower[i]) / (npts * discrete_steps[i]));
+      if(step == 0) step = 1;
+      int j = 0;
+      for(; j <= npts && (lower[i] + j * step * discrete_steps[i]) <= upper[i]; j++) {
+        points[i][j] = lower[i] + j * step;
+      }
+      num_steps = min(num_steps, j);
+    } else {
+      double step = (upper[i] - lower[i]) / npts;
+      int j = 0;
+      for(; j <= npts; j++) {
+        points[i][j] = lower[i] + j * step;
+      }
+      num_steps = min(num_steps, j);
     }
   }
 
   //Loop through each possible combination of values
-  for(int i = 0; i < pow(npts, dimension); i++) {
+  for(int i = 0; i < pow(num_steps, dimension); i++) {
     double x[dimension];
     for(int j = 0; j < dimension; j++) {
-      x[j] = points[j][((int)(i / pow(npts, j))) % npts];
+      x[j] = points[j][((int)(i / pow(num_steps, j))) % num_steps];
     }
     if(not_run(x)) {
       double result = ei(sg->_mean(x), sg->_var(x), y_min);
@@ -253,7 +273,7 @@ double EGO::ei(double y, double S2, double y_min)
     return 0.0;
   } else {
     double s = sqrt(S2);
-    double y_diff = y - y_min;
+    double y_diff = y_min - y;
     double y_diff_s = y_diff / s;
     return y_diff * phi(y_diff_s) + s * normal_pdf(y_diff_s);
   }

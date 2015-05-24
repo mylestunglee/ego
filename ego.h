@@ -10,7 +10,7 @@ class EGO
 {
   public:
     //Constructor
-    EGO(int dim, vector<double> low, vector<double> up, double(*fit)(double x[]));
+    EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*fit)(double x[]));
 
     struct running_node {
       double fitness;
@@ -44,6 +44,8 @@ class EGO
     double best_fitness = 100000000;
     double max_fitness = 0;
     double min_running = 100000000;
+    bool is_discrete = false;
+    vector<double> discrete_steps;
 
     double (* proper_fitness) (double x[]);
 
@@ -60,5 +62,4 @@ class EGO
     Surrogate *sg;
 
 };
-
 

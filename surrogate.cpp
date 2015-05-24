@@ -5,12 +5,18 @@
 using namespace std;
 using namespace libgp;
 
-Surrogate::Surrogate(int d)
+Surrogate::Surrogate(int d, s_type type)
 {
   dim = d;
-  gp = new GaussianProcess(dim, "CovSEiso");
+  if(type == SEiso) {
+    gp = new GaussianProcess(dim, "CovSEiso");
+  } 
+}
+
+void Surrogate::set_params(double x, double y)
+{
   Eigen::VectorXd params(gp->covf().get_param_dim());
-  params <<  0.1, 2.0;
+  params << x, y;
   gp->covf().set_loghyper(params);
 }
 
