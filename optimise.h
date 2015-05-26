@@ -21,6 +21,7 @@ class opt
     int dimension;
     vector<double> upper;
     vector<double> lower;
+    bool is_discrete;
     EGO *ego;
     Particle *best_part;
     vector<Particle *> particles;
@@ -29,7 +30,7 @@ class opt
     vector<uniform_real_distribution<>> *speed_generator;
     vector<double> speed_max;
 
-    opt(int d, vector<double> u, vector<double> l, EGO *e);
+    opt(int d, vector<double> u, vector<double> l, EGO *e, bool disc);
     void update_particles(int generation, int max_iter);
     void filter();
     void generate(int pop);

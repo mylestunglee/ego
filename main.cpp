@@ -46,7 +46,7 @@ int main(int argc, char * argv[]) {
   }
     
   Surrogate sg(dimension, SEiso);
-  sg.set_params(0.2, 1);
+  sg.set_params(0.3, 2);
   EGO ego(dimension, &sg, lower, upper, fitness);
 
   if(which == 1) {
@@ -59,9 +59,10 @@ int main(int argc, char * argv[]) {
     }
     ego.max_fitness = -33.75;
     ego.max_iterations = 50;
+    ego.is_discrete = true;
   } else if(which == 2) {
-    for(double i = -5.0; i <= 5; i += 4) {
-      for(double z = -4.0; z <= 5; z += 2) {
+    for(double i = -5.0; i <= 5; i += 2) {
+      for(double z = -5.0; z <= 5; z += 2) {
         vector<double> x = {i, z};
         double y = fitness(&x[0]);
         ego.add_training(x, y);
@@ -69,6 +70,7 @@ int main(int argc, char * argv[]) {
     }
     ego.max_fitness = 0;
     ego.max_iterations = 50;
+    ego.is_discrete = true;
   }
 
   ego.run();
@@ -85,6 +87,6 @@ int main(int argc, char * argv[]) {
   for(int i = 0; i < ego.dimension; i++) {
     cout << ego.best_result()[i] << " ";
   }
-  cout << ": best result" << endl;
+  cout << ": best result " << ego.best_fitness << endl;
 }
 

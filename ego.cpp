@@ -31,14 +31,22 @@ void EGO::run()
     check_running_tasks();
 
     if(best_fitness <= max_fitness) {
-      cout << "Found best" << endl;
+      cout << "Found best at [";
+      for(auto x : best_particle) {
+        cout << x << ", ";
+      }
+      cout << "\b\b] with fitness [" << best_fitness << "]" << endl;
       break;
     }
 
     int lambda = num_lambda - running.size();
+    lambda = min(lambda, max_iterations - num_iterations);
 
-    //cout << "Iter: " << num_iterations << " / " << max_iterations << endl;
-    //cout << "RUNNING: " << running.size() << " Lambda: " << lambda << endl;
+    if(is_new_result) {
+      cout << "Iter: " << num_iterations << " / " << max_iterations;
+      cout << ", RUNNING: " << running.size() << " Lambda: " << lambda << endl;
+      is_new_result = false;
+    }
 
     vector<double> best_xs = max_ei_par(lambda);
 
@@ -52,9 +60,20 @@ void EGO::run()
       }
       cout << endl;
 
-      evaluate(y);
+      if(not_run(&y[0])) {
+        evaluate(y);
+      } else {
+        y = max_ei_par(1);
+        cout << "Evaluating: ";
+        for(int j = 0; j < dimension; j++) {
+          cout << y[j] << " ";
+        }
+        cout << endl;
+        evaluate(y);
+      }
     }
   }
+  check_running_tasks();
 }
 
 vector<double> EGO::best_result()
@@ -77,22 +96,35 @@ void EGO::evaluate(vector<double> x)
   run.data = x;
   run.pos = mu_means.size() - 1;
   running.push_back(run);
+  num_iterations++;
 
   //Launch another thread to calculate
-  thread (&EGO::worker_task, this, &running.back()).detach();
+  thread (&EGO::worker_task, this, running.back(), num_iterations).detach();
+  //worker_task(running.back(), num_iterations);
 }
 
-void EGO::worker_task(EGO::running_node *node)
+void EGO::worker_task(EGO::running_node node, int num)
 {
   //Perform calculation
-  double *data = &(node->data[0]);
+  vector<double> data_vec = node.data;
+  double *data = &(data_vec[0]);
   double result = proper_fitness(data);
 
   running_mtx.lock();
 
   //Add results back to node keeping track
-  node->is_finished = true;
-  node->fitness = result;
+  vector<struct running_node>::iterator running_i = running.begin();
+  while(running_i != running.end()) {
+    int i = 0;
+    for(; i < dimension; i++) {
+      if(running_i->data[i] != node.data[i]) break;
+    }
+    if(i == dimension) {
+      running_i->is_finished = true;
+      running_i->fitness = result;
+    }
+    running_i++;
+  }
 
   running_mtx.unlock();
 }
@@ -106,8 +138,7 @@ void EGO::check_running_tasks()
 
   while(node != running.end()) {
     if(node->is_finished) {
-      num_iterations++;
-
+      //num_iterations++;
       for(int i = 0; i < dimension; i++) {
         cout << node->data[i] << " ";
       }
@@ -119,9 +150,13 @@ void EGO::check_running_tasks()
       //Delete estimations
       mu_means.erase(mu_means.begin() + node->pos);
       mu_vars.erase(mu_vars.begin() + node->pos);
+      for(int i = 0; i < running.size(); i++) {
+        if(running[i].pos > node->pos) running[i].pos--;
+      }
 
       //Delete node from running vector
       node = running.erase(node);
+      is_new_result = true;
     } else {
       //Recalculate minimum estimate
       min_running = min(min_running, node->fitness);
@@ -185,8 +220,8 @@ vector<double> EGO::max_ei_par(int lambda)
       up[i] = upper[i % dimension];
     }
 
-    opt op(x, up, low, this);
-    best = op.optimise(100);
+    opt op(x, up, low, this, is_discrete);
+    best = op.optimise(200);
   }
 
   return best;
@@ -199,15 +234,16 @@ vector<double> EGO::brute_search(int npts=10)
   vector<double> best_point(dimension, 0);
   double points[dimension][npts + 1];
   int num_steps = npts + 1;
+  bool has_result = false;
 
   //Build our steps of possible values in each dimension
   for(int i = 0; i < dimension; i++) {
     if(is_discrete) {
-      double step = floor((upper[i] - lower[i]) / (npts * discrete_steps[i]));
+      int step = floor((upper[i] - lower[i]) / npts);
       if(step == 0) step = 1;
       int j = 0;
-      for(; j <= npts && (lower[i] + j * step * discrete_steps[i]) <= upper[i]; j++) {
-        points[i][j] = lower[i] + j * step;
+      for(; j <= npts && (lower[i] + j * step) <= upper[i]; j++) {
+        points[i][j] = floor(lower[i] + j * step);
       }
       num_steps = min(num_steps, j);
     } else {
@@ -231,10 +267,19 @@ vector<double> EGO::brute_search(int npts=10)
       if(result > best) {
         best = result;
         best_point.assign(x, x + dimension);
+	has_result = true;
       }
     }
   }
-  return best_point;
+  if(has_result) { 
+    return best_point;
+  } else {
+    if(num_steps > npts || !is_discrete) {
+      return brute_search(npts * 2);
+    }
+    cout << "Broken, can't brute search" << endl;
+    exit(1);
+  }
 }
 
 bool EGO::not_run(double x[])

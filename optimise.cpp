@@ -26,18 +26,27 @@ void opt::filter()
   for(int i = 0; i < particles.size(); i++) {
     Particle *part = particles[i];
     for(int j = 0; j < dimension; j++) {
+      if(is_discrete) {
+        if(part->p[j] - floor(part->p[j]) > 0.5) {
+	  part->p[j] = ceil(part->p[j]);
+	} else {
+	  part->p[j] = floor(part->p[j]);
+	}
+      }
       part->p[j] = min(part->p[j], upper[j]);
       part->p[j] = max(part->p[j], lower[j]);
+      if(part->p[j] == 0.0) part->p[j] = 0.0;
     }
   }
 }
 
-opt::opt(int d, vector<double> u, vector<double> l, EGO *e)
+opt::opt(int d, vector<double> u, vector<double> l, EGO *e, bool disc)
 {
   dimension = d;
   upper = u;
   lower = l;
   ego = e;
+  is_discrete = disc;
   best_part = new Particle();
 
   space_generator = new vector<uniform_real_distribution<>>();

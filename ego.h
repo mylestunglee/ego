@@ -31,20 +31,21 @@ class EGO
     double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n);
     double ei(double y, double S2, double y_min);
     void check_running_tasks();
-    void worker_task(running_node *node);
+    void worker_task(running_node node, int num);
     bool not_run(double x[]);
 
     //Variables
     int dimension = 1;
     int n_sims = 50;
-    int max_iterations = 30;
+    int max_iterations = 50;
     int num_iterations = 0;
-    int num_lambda = 1;
+    int num_lambda = 3;
     vector<double> best_particle;
     double best_fitness = 100000000;
     double max_fitness = 0;
     double min_running = 100000000;
     bool is_discrete = false;
+    bool is_new_result = false;
     vector<double> discrete_steps;
 
     double (* proper_fitness) (double x[]);
