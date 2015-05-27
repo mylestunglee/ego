@@ -27,11 +27,7 @@ void opt::filter()
     Particle *part = particles[i];
     for(int j = 0; j < dimension; j++) {
       if(is_discrete) {
-        if(part->p[j] - floor(part->p[j]) > 0.5) {
-	  part->p[j] = ceil(part->p[j]);
-	} else {
-	  part->p[j] = floor(part->p[j]);
-	}
+        part->p[j] = round(part->p[j]);
       }
       part->p[j] = min(part->p[j], upper[j]);
       part->p[j] = max(part->p[j], lower[j]);
@@ -74,13 +70,16 @@ void opt::generate(int pop)
       part->p.push_back((*space_generator)[j](gen));
       part->best.push_back(part->p[j]);
       part->speed.push_back((*speed_generator)[j](gen));
+      part->best_fitness = 100000000;
     }
     particles.push_back(part);
   }
   best_part = new Particle();
   for(int j = 0; j < dimension; j++) {
     best_part->p.push_back((*space_generator)[j](gen));
+    best_part->best_fitness = 1000000000;
   }
+  filter();
 }
 
 vector<double> opt::optimise(int max_gen, int pop)

@@ -1,4 +1,5 @@
 #include "surrogate.h"
+#include <dlib/svm.h>
 #include "gp.h"
 
 

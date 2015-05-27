@@ -1,10 +1,10 @@
 CC = g++
 CFLAGS = -c -std=c++11 -Wall -Werror -Wmissing-prototypes
-INC = -I/usr/local/Cellar/eigen/3.2.4/include/eigen3/ -I../../libs/libgp/include -I../../libs/libgp/src
+INC = -I/usr/local/Cellar/eigen/3.2.4/include/eigen3/ -I../../libs/libgp/include -I../../libs/libgp/src -I../../libs/dlib-18.15
 LIBS =  -L../../libs/libgp/ -lgp
 
-SOURCES = surrogate.cpp main.cpp optimise.cpp ego.cpp 
-HEADERS = surrogate.h optimise.h ego.h 
+SOURCES = surrogate.cpp functions.cpp main.cpp optimise.cpp ego.cpp
+HEADERS = surrogate.h optimise.h ego.h functions.h
 OBJECTS = $(SOURCES:.cpp=.o)
 EXECUTABLE = test
 

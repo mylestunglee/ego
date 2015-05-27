@@ -1,23 +1,9 @@
 #include "ego.h"
 #include "surrogate.h"
+#include "functions.h"
 #include <vector>
 
 using namespace std;
-const double PI = std::atan(1.0)*4;
-
-static double easy_test(double x[])
-{
-  return (5.5 - x[0]) * (7.5 - x[1]);
-}
-
-static double ackley(double z[])
-{
-  double x = z[0];
-  double y = z[1];
-  double part1 = -20 * exp(-0.2 * sqrt(0.5 * (x * x + y * y)));
-  double part2 = -exp(0.5 * (cos(2 * PI * x) + cos(2 * PI * y))) + exp(1) + 20;
-  return part1 + part2;
-}
 
 int main(int argc, char * argv[]) {
 
@@ -41,12 +27,28 @@ int main(int argc, char * argv[]) {
         upper = {5.0, 5.0};
         break;
       case 3:
+        fitness = &goldstein;
+	dimension = 2;
+        lower = {-2.0, -2.0};
+        upper = {2.0, 2.0};
+        break;
+      case 4:
+        fitness = &sphere_4;
+	dimension = 4;
+        lower = {-10, -10, -10, -10};
+        upper = {10, 10, 10, 10};
+        break;
+      case 5:
+        fitness = &sphere_3;
+	dimension = 3;
+        lower = {-10, -10, -10};
+        upper = {10, 10, 10};
         break;
     }
   }
     
   Surrogate sg(dimension, SEiso);
-  sg.set_params(0.3, 2);
+  sg.set_params(0.0, 0.0);
   EGO ego(dimension, &sg, lower, upper, fitness);
 
   if(which == 1) {
@@ -70,19 +72,56 @@ int main(int argc, char * argv[]) {
     }
     ego.max_fitness = 0;
     ego.max_iterations = 50;
+    //ego.is_discrete = true;
+  } else if(which == 3) {
+    for(double i = -2.0; i <= 2; i += 4) {
+      for(double z = -2.0; z <= 2; z += 4) {
+        vector<double> x = {i, z};
+        double y = fitness(&x[0]);
+        ego.add_training(x, y);
+      }
+    }
+    ego.max_fitness = 3;
+    ego.max_iterations = 50;
     ego.is_discrete = true;
+  } else if(which == 4) {
+    for(double i = -10; i <= 10; i += 7) {
+      for(double j = -10; j <= 10; j += 7) {
+        for(double k = -10; k <= 10; k += 7) {
+          for(double z = -10; z <= 10; z += 7) {
+            vector<double> x = {i, j, k, z};
+            double y = fitness(&x[0]);
+            ego.add_training(x, y);
+	  }
+	}
+      }
+    }
+    ego.max_fitness = 0;
+    ego.max_iterations = 1000;
+    ego.is_discrete = true;
+  } else if(which == 5) {
+    for(double i = -10; i <= 10; i += 5) {
+      for(double j = -10; j <= 10; j += 5) {
+        for(double k = -10; k <= 10; k += 5) {
+	  if(i != 0 || j != 0 || k != 0) {
+            vector<double> x = {i, j, k};
+            double y = fitness(&x[0]);
+            ego.add_training(x, y);
+	  }
+	}
+      }
+    }
+    ego.max_fitness = 0;
+    ego.max_iterations = 100;
+    ego.is_discrete = true;
+    ego.n_sims = 10;
+    ego.population_size = 10;
+    ego.num_lambda = 2;
+    //ego.use_brute_search = true;
   }
 
   ego.run();
 
-  vector<double> r;
-  for(int i = 1; i < 7; i++) {
-    r = ego.max_ei_par(i);
-    for(int j = 0; j < i * ego.dimension; j++) {
-      cout << r[j] << " ";
-    } 
-    cout << endl;
-  }
   cout << "BEST: " << endl;
   for(int i = 0; i < ego.dimension; i++) {
     cout << ego.best_result()[i] << " ";
