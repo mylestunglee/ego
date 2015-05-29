@@ -27,8 +27,10 @@ class EGO
     vector<double> best_result();
     void add_training(vector<double> x, double y);
     vector<double> brute_search(int npts, int lambda);
-    vector<double> local_brute_search(vector<double> particle, int npts, double radius);
-    double get_y_min();
+    vector<double> brute_search_local(vector<double> particle, int npts=3, double radius=1.0, int lambda=1, bool has_to_run=false);
+    vector<double> brute_search_local_loop(vector<double> particle, int npts=3, double radius=1.0, int lambda=1, bool has_to_run=false);
+    vector<double>* brute_search_loop(int npts=10, int lambda=1, double min_ei=0);
+    vector<double>* brute_search_loop_2(int npts=10, int lambda=1, double min_ei=0);
     double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n);
     double ei(double y, double S2, double y_min);
     void check_running_tasks();
@@ -43,10 +45,11 @@ class EGO
     int num_iterations = 0;
     int num_lambda = 3;
     int population_size = 100;
+    int num_points = 10;
     vector<double> best_particle;
     double best_fitness = 100000000;
     double max_fitness = 0;
-    double min_running = 100000000;
+    double min_expected_imp = 1;
     bool is_discrete = false;
     bool is_new_result = false;
     bool use_brute_search = false;

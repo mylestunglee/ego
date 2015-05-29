@@ -85,13 +85,15 @@ int main(int argc, char * argv[]) {
     ego.max_iterations = 50;
     ego.is_discrete = true;
   } else if(which == 4) {
-    for(double i = -10; i <= 10; i += 7) {
-      for(double j = -10; j <= 10; j += 7) {
-        for(double k = -10; k <= 10; k += 7) {
-          for(double z = -10; z <= 10; z += 7) {
-            vector<double> x = {i, j, k, z};
-            double y = fitness(&x[0]);
-            ego.add_training(x, y);
+    for(double i = -10; i <= 10; i += 5) {
+      for(double j = -10; j <= 10; j += 5) {
+        for(double k = -10; k <= 10; k += 5) {
+          for(double z = -10; z <= 10; z += 5) {
+	    if(i != 0 || j != 0 || k != 0 || z != 0) {
+              vector<double> x = {i, j, k, z};
+              double y = fitness(&x[0]);
+              ego.add_training(x, y);
+	    }
 	  }
 	}
       }
@@ -99,6 +101,10 @@ int main(int argc, char * argv[]) {
     ego.max_fitness = 0;
     ego.max_iterations = 1000;
     ego.is_discrete = true;
+    ego.use_brute_search = true;
+    ego.num_lambda = 2;
+    ego.num_points = 4;
+    ego.n_sims = 20;
   } else if(which == 5) {
     for(double i = -10; i <= 10; i += 5) {
       for(double j = -10; j <= 10; j += 5) {
@@ -113,11 +119,13 @@ int main(int argc, char * argv[]) {
     }
     ego.max_fitness = 0;
     ego.max_iterations = 100;
+    ego.min_expected_imp = 10;
     ego.is_discrete = true;
-    ego.n_sims = 10;
-    ego.population_size = 10;
+    ego.n_sims = 5;
+    ego.population_size = 500;
     ego.num_lambda = 2;
-    //ego.use_brute_search = true;
+    ego.num_points = 5;
+    ego.use_brute_search = true;
   }
 
   ego.run();
