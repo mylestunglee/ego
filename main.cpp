@@ -118,14 +118,14 @@ int main(int argc, char * argv[]) {
       }
     }
     ego.max_fitness = 0;
-    ego.max_iterations = 100;
+    ego.max_iterations = 1000;
     ego.min_expected_imp = 10;
     ego.is_discrete = true;
-    ego.n_sims = 5;
-    ego.population_size = 500;
+    ego.n_sims = 500;
+    ego.population_size = 1;
     ego.num_lambda = 2;
     ego.num_points = 5;
-    ego.use_brute_search = true;
+    //ego.use_brute_search = true;
   }
 
   ego.run();

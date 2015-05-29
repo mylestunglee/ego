@@ -81,7 +81,7 @@ void EGO::run()
           for(int j = 0; j < dimension; j++) {
             cout << y[j] << " ";
           }
-          y = brute_search_local(best_particle, 2, 1, 1, true);
+          y = brute_search_local_loop(best_particle, 2, 1, 1, true);
           evaluate(y);
         }
         cout << "Evaluating: ";
@@ -221,20 +221,34 @@ vector<double> EGO::max_ei_par(int lambda)
 {
   vector<double> best;
   if(lambda <= 1) {
-    best = brute_search(10, 1);
+    vector<double> *x = brute_search_loop(num_points, 1);
+    if(x) {
+      best = *x;
+    } else {
+      best = brute_search_local_loop(best_particle, 3, 1.0, 1, true);
+    }
   } else {
-    int x = dimension * lambda;
-    vector<double> low(x, 0.0), up(x, 0.0);
+    int size = dimension * lambda;
+    vector<double> low(size, 0.0), up(size, 0.0);
     random_device rd;
     mt19937 gen(rd());
 
-    for(int i = 0; i < x; i++) {
+    for(int i = 0; i < size; i++) {
       low[i] = lower[i % dimension];
       up[i] = upper[i % dimension];
     }
 
-    opt op(x, up, low, this, is_discrete);
-    best = op.optimise(100, population_size);
+    opt op(size, up, low, this, is_discrete);
+    best = op.optimise(size * population_size, 100);
+
+    cout << "[";
+    for(int i = 0; i < lambda; i++) {
+      for(int j = 0; j < dimension; j++) {
+        cout << best[i*dimension + j] << " ";
+      }
+      cout << "\b; ";
+    }
+    cout << "\b\b] = best = "  << fitness(best) << endl;
   }
 
   return best;
@@ -526,6 +540,8 @@ vector<double> EGO::brute_search_local_loop(vector<double> particle, int npts, d
   }
   if(has_result) {
     return best_point;
+  } else if(has_to_run) {
+    return brute_search_local_loop(particle, 2*(radius + 1), radius + 1, lambda, has_to_run);
   } else {
     return brute_search_local_loop(particle, npts, radius + 1, lambda, has_to_run);
   }
@@ -588,6 +604,7 @@ vector<double>* EGO::brute_search_loop(int npts, int lambda, double min_ei)
     }
   } else {
     //lambda >= 2
+    int num_loops = pow(npts + 1, dimension);
     while(more_viable) {
       vector<double> x(size, 0.0);
       bool can_run = true;
@@ -599,7 +616,7 @@ vector<double>* EGO::brute_search_loop(int npts, int lambda, double min_ei)
       }
       int i = lambda - 1;
       for(; i >= 0; i--) {
-        if(++loop[i] == (pow(npts + 1, dimension) + i - (lambda - 1))) {
+        if(++loop[i] == (num_loops + i - (lambda - 1))) {
           if(i == 0) more_viable = false;
         } else {
           break;
@@ -607,7 +624,7 @@ vector<double>* EGO::brute_search_loop(int npts, int lambda, double min_ei)
       }
       for(int j = max(i + 1, 1); j < lambda; j++) {
         loop[j] = loop[j-1] + 1;
-	if(loop[i] >= pow(npts + 1, dimension)) more_viable = false;
+	if(loop[j] >= num_loops) more_viable = false;
       }
 
       if(can_run) {
