@@ -30,6 +30,7 @@ class EGO
     vector<double> brute_search_local(vector<double> particle, int npts=3, double radius=1.0, int lambda=1, bool has_to_run=false);
     vector<double> brute_search_local_loop(vector<double> particle, int npts=3, double radius=1.0, int lambda=1, bool has_to_run=false);
     vector<double>* brute_search_loop(int npts=10, int lambda=1, double min_ei=0);
+    vector<double>* brute_search_swarm(int npts=10, int lambda=1);
     vector<double>* brute_search_loop_2(int npts=10, int lambda=1, double min_ei=0);
     double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n);
     double ei(double y, double S2, double y_min);
@@ -37,6 +38,7 @@ class EGO
     void worker_task(running_node node, int num);
     bool not_run(double x[]);
     bool not_running(double x[]);
+    void sample_plan(int F, int D=5);
 
     //Variables
     int dimension = 1;
@@ -53,6 +55,8 @@ class EGO
     bool is_discrete = false;
     bool is_new_result = false;
     bool use_brute_search = false;
+    bool swarm = false;
+    bool suppress = false;
     vector<double> discrete_steps;
 
     double (* proper_fitness) (double x[]);

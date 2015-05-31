@@ -1,6 +1,7 @@
 #include "functions.h"
 #include <cmath>
 #include <iostream>
+#include <thread>
 
 using namespace std;
 
@@ -31,11 +32,13 @@ double goldstein(double z[])
 
 double sphere_4(double x[])
 {
+  std::this_thread::sleep_for(std::chrono::milliseconds(800));
   return sphere(x, 4);
 }
 
 double sphere_3(double x[])
 {
+  std::this_thread::sleep_for(std::chrono::milliseconds(400));
   return sphere(x, 3);
 }
 

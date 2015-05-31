@@ -34,6 +34,8 @@ class opt
     void update_particles(int generation, int max_iter);
     void filter();
     void generate(int pop);
-    vector<double> optimise(int max_gen, int pop = 100);
+    vector<double> swarm_optimise(int max_gen, int pop = 100);
+    vector<double> swarm_optimise(vector<double> best, int max_gen, int pop);
+    vector<double> swarm_main_optimise(int max_gen);
 };
 

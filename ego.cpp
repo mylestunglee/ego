@@ -3,6 +3,7 @@
 #include "gp.h"
 #include "ego.h"
 #include "optimise.h"
+#include "ihs.hpp"
 #include <thread>
 #include <Eigen/Dense>
 
@@ -27,6 +28,7 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*f
 void EGO::run()
 {
   cout << "Started, dim=" << dimension << ", lambda=" << num_lambda << endl;
+  int counter = 0;
   while(num_iterations < max_iterations) {
     //Check to see if any workers have finished computing
     check_running_tasks();
@@ -37,13 +39,17 @@ void EGO::run()
         cout << x << ", ";
       }
       cout << "\b\b] with fitness [" << best_fitness << "]" << endl;
+      while(running.size() > 0){
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+	check_running_tasks();
+      }
       break;
     }
 
     int lambda = num_lambda - running.size();
     lambda = min(lambda, max_iterations - num_iterations);
 
-    if(is_new_result) {
+    if(is_new_result && !suppress) {
       cout << "Iter: " << num_iterations << " / " << max_iterations;
       cout << ", RUNNING: " << running.size() << " Lambda: " << lambda;
       cout << " best " << best_fitness << endl;
@@ -53,16 +59,27 @@ void EGO::run()
     vector<double> best_xs;
     if(lambda > 0) {
       if(use_brute_search) {
-        vector<double> *best = brute_search_loop(num_points, lambda, min_expected_imp);
+        vector<double> *best = NULL;
+	if(counter < dimension * num_points) {
+	  if(swarm) {
+	    best = brute_search_swarm(num_points, lambda);
+	  } else {
+	    best = brute_search_loop(num_points, lambda, min_expected_imp);
+	  }
+	}
         if(best) { 
           best_xs = *best;
+	  delete best;
+	  counter++;
         } else {
-          cout << "Couldn't find new particles, searching in region of best" << endl;
-          best_xs = brute_search_local_loop(best_particle, lambda, max(lambda/2, 1), lambda);
-          for(int i = 0; i < lambda * dimension; i++) {
-            cout << best_xs[i] << " ";
-          }
-          cout << " got around best" << endl;
+          if(!suppress) cout << "Couldn't find new particles, searching in region of best" << endl;
+          best_xs = brute_search_local_loop(best_particle, lambda, max(lambda/2, 1), lambda, true);
+	  if(!suppress) {
+            for(int i = 0; i < lambda * dimension; i++) {
+              cout << best_xs[i] << " ";
+            }
+            cout << " got around best" << endl;
+	  }
         }
       } else { 
         best_xs = max_ei_par(lambda);
@@ -77,18 +94,15 @@ void EGO::run()
         if(not_running(&y[0]) && not_run(&y[0])) {
           evaluate(y);
         } else {
-          cout << "Have run: ";
-          for(int j = 0; j < dimension; j++) {
-            cout << y[j] << " ";
-          }
+	  if(!suppress) {
+            cout << "Have run: ";
+            for(int j = 0; j < dimension; j++) {
+              cout << y[j] << " ";
+            }
+	  }
           y = brute_search_local_loop(best_particle, 2, 1, 1, true);
           evaluate(y);
         }
-        cout << "Evaluating: ";
-        for(int j = 0; j < dimension; j++) {
-          cout << y[j] << " ";
-        }
-        cout << endl;
       }
     }
   }
@@ -103,6 +117,13 @@ vector<double> EGO::best_result()
 void EGO::evaluate(vector<double> x)
 {
   double *data = &x[0];
+  if(!suppress) {
+    cout << "Evaluating: ";
+    for(int j = 0; j < dimension; j++) {
+      cout << x[j] << " ";
+    }
+    cout << endl;
+  }
   double mean = sg->_mean(data);
   mu_means.push_back(mean);
   mu_vars.push_back(sg->_var(data));
@@ -154,10 +175,12 @@ void EGO::check_running_tasks()
   vector<struct running_node>::iterator node = running.begin();
   while(node != running.end()) {
     if(node->is_finished) {
-      for(int i = 0; i < dimension; i++) {
-        cout << node->data[i] << " ";
+      if(!suppress) {
+        for(int i = 0; i < dimension; i++) {
+          cout << node->data[i] << " ";
+        }
+        cout << " evaluated to: " << node->fitness << endl;
       }
-      cout << " evaluated to: " << node->fitness << endl;
 
       //Add it to our training set
       add_training(node->data, node->fitness);
@@ -220,7 +243,7 @@ void EGO::add_training(vector<double> x, double y)
 vector<double> EGO::max_ei_par(int lambda) 
 {
   vector<double> best;
-  if(lambda <= 1) {
+  if(lambda == 1) {
     vector<double> *x = brute_search_loop(num_points, 1);
     if(x) {
       best = *x;
@@ -229,30 +252,170 @@ vector<double> EGO::max_ei_par(int lambda)
     }
   } else {
     int size = dimension * lambda;
-    vector<double> low(size, 0.0), up(size, 0.0);
+    vector<double> low(size, 0.0), up(size, 0.0), x(size, 0.0);
     random_device rd;
     mt19937 gen(rd());
 
     for(int i = 0; i < size; i++) {
       low[i] = lower[i % dimension];
       up[i] = upper[i % dimension];
+      x[i] = best_particle[i % dimension];
     }
 
     opt op(size, up, low, this, is_discrete);
-    best = op.optimise(size * population_size, 100);
+    best = op.swarm_optimise(x, size * lambda, population_size);
 
-    cout << "[";
-    for(int i = 0; i < lambda; i++) {
-      for(int j = 0; j < dimension; j++) {
-        cout << best[i*dimension + j] << " ";
+    if(!suppress) {
+      cout << "[";
+      for(int i = 0; i < lambda; i++) {
+        for(int j = 0; j < dimension; j++) {
+          cout << best[i*dimension + j] << " ";
+        }
+        cout << "\b; ";
       }
-      cout << "\b; ";
-    }
     cout << "\b\b] = best = "  << fitness(best) << endl;
+    }
   }
 
   return best;
 }
+
+vector<double> *EGO::brute_search_swarm(int npts, int lambda)
+{
+  double best = -0.1;
+  int size = dimension * lambda;
+  vector<double> *best_point = new vector<double>(size, 0);
+  int loop[lambda];
+  double steps[dimension];
+  bool has_result = false;
+  bool more_viable = true;
+  for(int i = 0; i < lambda; i++) loop[i] = i;
+  for(int i = 0; i < dimension; i++) {
+    if(is_discrete) {
+      steps[i] = (int) floor((upper[i] - lower[i]) / npts);
+      if(steps[i] == 0) steps[i] = 1;
+    } else {
+      steps[i] = (upper[i] - lower[i]) / npts;
+    }
+  }
+
+  if(lambda == 1) {
+    while(more_viable) {
+      vector<double> x(size, 0.0);
+      bool can_run = true;
+      for(int i = 0; i < lambda; i++) {
+        for(int j = 0; j < dimension; j++) {
+          x[i * dimension + j] = lower[j] + floor((loop[i] % (int) pow(npts + 1, dimension - j)) / pow(npts + 1, dimension - j - 1)) * steps[j];
+          if(x[i*dimension +j] > upper[j] || x[i*dimension+j] < lower[j]) can_run = false;
+	}
+      }
+      int i = lambda - 1;
+      for(; i >= 0; i--) {
+        if(++loop[i] == (pow(npts + 1, dimension) + i - (lambda - 1))) {
+          if(i == 0) more_viable = false;
+        } else {
+          break;
+        }
+      }
+      for(int j = max(i + 1, 1); j < lambda; j++) {
+        loop[j] = loop[j-1] + 1;
+	if(loop[i] >= pow(npts + 1, dimension)) more_viable = false;
+      }
+
+      if(can_run) {
+        double mean = sg->_mean(&x[0]);
+        double var = sg->_var(&x[0]);
+        double result = -ei(mean, var, best_fitness);
+        if(result < best) {
+          best_point->assign(x.begin(), x.end());
+          best = result;
+          has_result = true;
+        }
+      }
+    }
+  } else {
+    //lambda >= 2
+    int num_loops = pow(npts + 1, dimension);
+    for(int i = 0; i < lambda; i++) {
+      best = -0.1;
+      vector<double> point((i+1)*dimension, 0.0);
+      bool found = false;
+
+      for(int j = 0; j < i*dimension; j++) {
+        point[j] = (*best_point)[j];
+      }
+
+      for(int j = 0; j < num_loops; j++) {
+        bool can_run = true;
+	if(i > 0 && j == loop[i-1]) j++;
+
+        for(int k = 0; k < dimension; k++) {
+          point[i * dimension + k] = lower[k] + floor((j % (int) pow(npts + 1, dimension - k)) / pow(npts + 1, dimension - k - 1)) * steps[k];
+          if(point[i * dimension + k] > upper[k] || point[i * dimension + k] < lower[k]) can_run = false;
+        }
+
+        if(can_run) {
+	  double result = 0.0;
+	  if(i == 0) {
+            double mean = sg->_mean(&point[0]);
+            double var = sg->_var(&point[0]);
+            result = -ei(mean, var, best_fitness);
+	  } else {
+            result = fitness(point);
+	  }
+
+          if(result < best) {
+            for(int k = 0; k < dimension; k++) {
+              (*best_point)[i*dimension + k] = point[i*dimension + k];
+            }
+            best = result;
+	    loop[i] = j;
+            if(i == lambda - 1) has_result = true;
+	    found = true;
+          }
+        }
+      }
+      if(!found) {
+        return NULL;
+      }
+    }
+  }
+
+  if(has_result) {
+    if(!suppress) {
+      cout << "[";
+      for(int i = 0; i < lambda; i++) {
+        for(int j = 0; j < dimension; j++) {
+          cout << (*best_point)[i*dimension + j] << " ";
+        }
+        cout << "\b; ";
+      }
+      cout << "\b\b] = best = "  << best << endl;
+    }
+    return best_point;
+  } else {
+    return NULL;
+  }
+}
+
+void EGO::sample_plan(int F, int D)
+{
+  int* latin = ihs(dimension, F, D, D);
+  for(int i = 0; i < F; i++) {
+    vector<double> x(dimension, 0.0);
+    for(int j = 0; j < dimension; j++) {
+      x[j] = latin[i*dimension+j];
+    }
+    while(running.size() == num_lambda) {
+      check_running_tasks();
+    }
+    evaluate(x);
+  }
+  while(training.size() < F) {
+    check_running_tasks();
+  }
+}
+
 vector<double> EGO::brute_search_local(vector<double> particle, int npts, double radius, int lambda, bool has_to_run)
 {
   double best = 1000000;
@@ -460,7 +623,7 @@ vector<double> EGO::brute_search_local_loop(vector<double> particle, int npts, d
   double steps[dimension];
   bool has_result = false;
   bool more_viable = true;
-  for(int i = 0; i < lambda; i++) loop[i] = 0;
+  for(int i = 0; i < lambda; i++) loop[i] = i;
   for(int i = 0; i < dimension; i++) {
     if(is_discrete) {
       steps[i] = (int) floor(2 * radius / npts);
@@ -512,8 +675,9 @@ vector<double> EGO::brute_search_local_loop(vector<double> particle, int npts, d
       for(int i = 0; i < lambda; i++) {
         for(int j = 0; j < dimension; j++) {
           x[i * dimension + j] = particle[j] + (floor((loop[i] % (int) pow(npts + 1, dimension - j)) / pow(npts + 1, dimension - j - 1)) - npts/2) * steps[j];
-          if(x[j] > upper[j % dimension] || x[j] < lower[j % dimension]) can_run = false;
+          if(x[i*dimension +j] > upper[j] || x[i*dimension+j] < lower[j]) can_run = false;
 	}
+	if(!can_run) break;
       }
       int i = lambda - 1;
       for(; i >= 0; i--) {
@@ -525,7 +689,7 @@ vector<double> EGO::brute_search_local_loop(vector<double> particle, int npts, d
       }
       for(int j = max(i + 1, 1); j < lambda; j++) {
         loop[j] = loop[j-1] + 1;
-	if(loop[i] >= pow(npts + 1, dimension)) more_viable = false;
+	//if(loop[j] >= pow(npts + 1, dimension) + j - (lambda - 1)) more_viable = false;
       }
 
       if(can_run && (!has_to_run || (not_run(&x[0]) && not_running(&x[0])))) {
@@ -556,9 +720,7 @@ vector<double>* EGO::brute_search_loop(int npts, int lambda, double min_ei)
   double steps[dimension];
   bool has_result = false;
   bool more_viable = true;
-  for(int i = 0; i < lambda; i++) {
-    loop[i] = i;
-  }
+  for(int i = 0; i < lambda; i++) loop[i] = i;
   for(int i = 0; i < dimension; i++) {
     if(is_discrete) {
       steps[i] = (int) floor((upper[i] - lower[i]) / npts);
@@ -575,7 +737,7 @@ vector<double>* EGO::brute_search_loop(int npts, int lambda, double min_ei)
       for(int i = 0; i < lambda; i++) {
         for(int j = 0; j < dimension; j++) {
           x[i * dimension + j] = lower[j] + floor((loop[i] % (int) pow(npts + 1, dimension - j)) / pow(npts + 1, dimension - j - 1)) * steps[j];
-          if(x[j] > upper[j % dimension] || x[j] < lower[j % dimension]) can_run = false;
+          if(x[i*dimension +j] > upper[j] || x[i*dimension+j] < lower[j]) can_run = false;
 	}
       }
       int i = lambda - 1;
@@ -639,14 +801,16 @@ vector<double>* EGO::brute_search_loop(int npts, int lambda, double min_ei)
   }
 
   if(has_result) {
-    cout << "[";
-    for(int i = 0; i < lambda; i++) {
-      for(int j = 0; j < dimension; j++) {
-        cout << (*best_point)[i*dimension + j] << " ";
+    if(!suppress) {
+      cout << "[";
+      for(int i = 0; i < lambda; i++) {
+        for(int j = 0; j < dimension; j++) {
+          cout << (*best_point)[i*dimension + j] << " ";
+        }
+        cout << "\b; ";
       }
-      cout << "\b; ";
+      cout << "\b\b] = best = "  << best << endl;
     }
-    cout << "\b\b] = best = "  << best << endl;
     return best_point;
   } else {
     return NULL;

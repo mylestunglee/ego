@@ -70,22 +70,37 @@ void opt::generate(int pop)
       part->p.push_back((*space_generator)[j](gen));
       part->best.push_back(part->p[j]);
       part->speed.push_back((*speed_generator)[j](gen));
-      part->best_fitness = 100000000;
     }
+    part->best_fitness = 100000000;
     particles.push_back(part);
   }
   best_part = new Particle();
   for(int j = 0; j < dimension; j++) {
     best_part->p.push_back((*space_generator)[j](gen));
-    best_part->best_fitness = 1000000000;
   }
+  best_part->best_fitness = 1000000000;
   filter();
 }
 
-vector<double> opt::optimise(int max_gen, int pop)
+vector<double> opt::swarm_optimise(vector<double> best, int max_gen, int pop)
 {
   generate(pop);
+  Particle *part = particles[0];
+  for(int i = 0; i < dimension; i++) {
+   part->p[i] = best[i];
+  }
+  return swarm_main_optimise(max_gen);
+  
+}
 
+vector<double> opt::swarm_optimise(int max_gen, int pop)
+{
+  generate(pop);
+  return swarm_main_optimise(max_gen);
+}
+
+vector<double> opt::swarm_main_optimise(int max_gen)
+{
   for(int g = 0; g < max_gen; g++) {
     for(int i = 0; i < particles.size(); i++) {
       Particle *part = particles[i];

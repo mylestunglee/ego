@@ -41,8 +41,8 @@ int main(int argc, char * argv[]) {
       case 5:
         fitness = &sphere_3;
 	dimension = 3;
-        lower = {-10, -10, -10};
-        upper = {10, 10, 10};
+        lower = {-5.0, -5.0, -5.0};
+        upper = {5.0, 5.0, 5.0};
         break;
     }
   }
@@ -106,9 +106,9 @@ int main(int argc, char * argv[]) {
     ego.num_points = 4;
     ego.n_sims = 20;
   } else if(which == 5) {
-    for(double i = -10; i <= 10; i += 5) {
-      for(double j = -10; j <= 10; j += 5) {
-        for(double k = -10; k <= 10; k += 5) {
+    for(double i = -5; i <= 5; i += 5) {
+      for(double j = -5; j <= 5; j += 5) {
+        for(double k = -5; k <= 5; k += 5) {
 	  if(i != 0 || j != 0 || k != 0) {
             vector<double> x = {i, j, k};
             double y = fitness(&x[0]);
@@ -121,8 +121,8 @@ int main(int argc, char * argv[]) {
     ego.max_iterations = 1000;
     ego.min_expected_imp = 10;
     ego.is_discrete = true;
-    ego.n_sims = 500;
-    ego.population_size = 1;
+    ego.n_sims = 10;
+    ego.population_size = 5;
     ego.num_lambda = 2;
     ego.num_points = 5;
     //ego.use_brute_search = true;
