@@ -32,13 +32,13 @@ double goldstein(double z[])
 
 double sphere_4(double x[])
 {
-  std::this_thread::sleep_for(std::chrono::milliseconds(800));
+  std::this_thread::sleep_for(std::chrono::milliseconds(600));
   return sphere(x, 4);
 }
 
 double sphere_3(double x[])
 {
-  std::this_thread::sleep_for(std::chrono::milliseconds(400));
+  std::this_thread::sleep_for(std::chrono::milliseconds(600));
   return sphere(x, 3);
 }
 
