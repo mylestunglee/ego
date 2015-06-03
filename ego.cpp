@@ -16,7 +16,7 @@ double normal_pdf(double x);
 const double PI = std::atan(1.0)*4;
 
 
-EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*fit)(double x[]))
+EGO::EGO(int dim, shared_ptr<Surrogate> s, vector<double> low, vector<double> up, double(*fit)(double x[]))
 {
   dimension = dim;
   upper = up;
@@ -27,17 +27,19 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*f
 
 void EGO::run()
 {
-  cout << "Started, dim=" << dimension << ", lambda=" << num_lambda << endl;
+  if(!suppress) cout << "Started, dim=" << dimension << ", lambda=" << num_lambda << endl;
   while(num_iterations < max_iterations) {
     //Check to see if any workers have finished computing
     check_running_tasks();
 
     if(best_fitness <= max_fitness) {
-      cout << "Found best at [";
-      for(auto x : best_particle) {
-        cout << x << ", ";
+      if(!suppress) {
+        cout << "Found best at [";
+        for(auto x : best_particle) {
+          cout << x << ", ";
+        }
+        cout << "\b\b] with fitness [" << best_fitness << "]" << endl;
       }
-      cout << "\b\b] with fitness [" << best_fitness << "]" << endl;
       while(running.size() > 0){
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
 	check_running_tasks();
@@ -96,9 +98,9 @@ void EGO::evaluate(vector<double> x)
     }
     cout << endl;
   }
-  double mean = sg->_mean(data);
+  double mean = sg->mean(data);
   mu_means.push_back(mean);
-  mu_vars.push_back(sg->_var(data));
+  mu_vars.push_back(sg->var(data));
 
   //Add to running set
   struct running_node run; 
@@ -189,8 +191,8 @@ double EGO::fitness(vector<double> x)
     }
 
     if(not_running(y)) {
-      lambda_means[i] = sg->_mean(y);
-      lambda_vars[i] = sg->_var(y);
+      lambda_means[i] = sg->mean(y);
+      lambda_vars[i] = sg->var(y);
     } else {
       lambda_means[i] = 100000000000;
       lambda_vars[i] = 0;
@@ -214,6 +216,7 @@ void EGO::add_training(vector<double> x, double y)
 vector<double> EGO::max_ei_par(int lambda) 
 {
   vector<double> best;
+  //if(2*(num_iterations - max_points) > num_points * dimension) num_points = min(max_points, 2*num_points);
   if(lambda == 1) {
     vector<double> *x = brute_search_swarm(num_points, 1);
     if(x) {
@@ -224,17 +227,14 @@ vector<double> EGO::max_ei_par(int lambda)
   } else {
     if(use_brute_search) {
       vector<double> *ptr = NULL;
-      //if(counter < dimension * num_points * 2) {
-        if(swarm) {
-          ptr = brute_search_swarm(num_points, lambda);
-        } else {
-          ptr = brute_search_loop(num_points, lambda, 0.01);
-        }
-      //}
+      if(swarm) {
+        ptr = brute_search_swarm(num_points, lambda);
+      } else {
+        ptr = brute_search_loop(num_points, lambda, 0.01);
+      }
       if(ptr) { 
         best = *ptr;
         delete ptr;
-        counter += lambda;
       } else {
         if(!suppress) cout << "Couldn't find new particles, searching in region of best" << endl;
         best = brute_search_local_swarm(best_particle, max(lambda, 4), max(lambda/2.0, 2.0), lambda, true);
@@ -258,7 +258,7 @@ vector<double> EGO::max_ei_par(int lambda)
       }
 
       opt op(size, up, low, this, is_discrete);
-      best = op.swarm_optimise(x, size * pso_gen, population_size);
+      best = op.swarm_optimise(x, lambda * dimension, lambda * population_size);
 
       if(!suppress) {
         cout << "[";
@@ -306,8 +306,8 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
       if(++loop[0] == pow(npts + 1, dimension)) more_viable = false;
 
       if(can_run) {
-        double mean = sg->_mean(&x[0]);
-        double var = sg->_var(&x[0]);
+        double mean = sg->mean(&x[0]);
+        double var = sg->var(&x[0]);
         double result = -ei(mean, var, best_fitness);
         if(result < best) {
           best_point->assign(x.begin(), x.end());
@@ -346,8 +346,8 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
         if(can_run) {
 	  double result = 0.0;
 	  if(i == 0) {
-            double mean = sg->_mean(&point[0]);
-            double var = sg->_var(&point[0]);
+            double mean = sg->mean(&point[0]);
+            double var = sg->var(&point[0]);
             result = -ei(mean, var, best_fitness);
 	  } else {
             result = fitness(point);
@@ -394,7 +394,7 @@ void EGO::sample_plan(int F, int D)
   for(int i = 0; i < F; i++) {
     vector<double> x(dimension, 0.0);
     for(int j = 0; j < dimension; j++) {
-      x[j] = latin[i*dimension+j];
+      x[j] = lower[j] + latin[i*dimension+j];
     }
     while(running.size() == num_lambda) {
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -450,8 +450,8 @@ vector<double> EGO::brute_search_local(vector<double> particle, int npts, double
       }
 
       if(can_run && (!has_to_run || (not_run(&x[0]) && not_running(&x[0])))) {
-	double mean = sg->_mean(&x[0]);
-	double var = sg->_var(&x[0]);
+	double mean = sg->mean(&x[0]);
+	double var = sg->var(&x[0]);
         double result = ei(mean, var, best_fitness);
         if(result < best) {
           best_point = x;
@@ -531,8 +531,8 @@ vector<double> EGO::brute_search_local_swarm(vector<double> particle, int npts, 
       if(++loop[0] == pow(npts + 1, dimension)) more_viable = false;
 
       if(can_run && (!has_to_run || (not_run(&x[0]) && not_running(&x[0])))) {
-        double mean = sg->_mean(&x[0]);
-        double var = sg->_var(&x[0]);
+        double mean = sg->mean(&x[0]);
+        double var = sg->var(&x[0]);
         double result = -ei(mean, var, best_fitness);
         if(result < best) {
           best_point = x;
@@ -570,8 +570,8 @@ vector<double> EGO::brute_search_local_swarm(vector<double> particle, int npts, 
         if(can_run && (!has_to_run || (not_run(&point[i*dimension]) && not_running(&point[i*dimension])))) {
 	  double result = 0.0;
 	  if(i == 0) {
-            double mean = sg->_mean(&point[0]);
-            double var = sg->_var(&point[0]);
+            double mean = sg->mean(&point[0]);
+            double var = sg->var(&point[0]);
             result = -ei(mean, var, best_fitness);
 	  } else {
             result = fitness(point);
@@ -645,8 +645,8 @@ vector<double> EGO::brute_search_local_loop(vector<double> particle, int npts, d
       }
 
       if(can_run && (!has_to_run || (not_run(&x[0]) && not_running(&x[0])))) {
-        double mean = sg->_mean(&x[0]);
-        double var = sg->_var(&x[0]);
+        double mean = sg->mean(&x[0]);
+        double var = sg->var(&x[0]);
         double result = -ei(mean, var, best_fitness);
         if(result < best) {
           best_point = x;
@@ -742,8 +742,8 @@ vector<double>* EGO::brute_search_loop(int npts, int lambda, double min_ei)
       }
 
       if(can_run) {
-        double mean = sg->_mean(&x[0]);
-        double var = sg->_var(&x[0]);
+        double mean = sg->mean(&x[0]);
+        double var = sg->var(&x[0]);
         double result = -ei(mean, var, best_fitness);
         if(result < min(best, -min_ei)) {
           best_point->assign(x.begin(), x.end());
@@ -843,7 +843,7 @@ vector<double> EGO::brute_search(int npts=10, int lambda=1)
         x[j] = points[j][((int)(i / pow(num_steps, j))) % num_steps];
       }
       if(not_running(x)) {
-        double result = -ei(sg->_mean(x), sg->_var(x), best_fitness);
+        double result = -ei(sg->mean(x), sg->var(x), best_fitness);
         if(result < best) {
           best = result;
           best_point.assign(x, x + dimension);

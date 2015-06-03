@@ -10,7 +10,7 @@ class EGO
 {
   public:
     //Constructor
-    EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*fit)(double x[]));
+    EGO(int dim, shared_ptr<Surrogate> s, vector<double> low, vector<double> up, double(*fit)(double x[]));
 
     struct running_node {
       double fitness;
@@ -48,8 +48,8 @@ class EGO
     int num_lambda = 3;
     int population_size = 100;
     int num_points = 10;
+    int max_points = 10;
     int pso_gen = 1;
-    int counter = 0;
     vector<double> best_particle;
     double best_fitness = 100000000;
     double max_fitness = 0;
@@ -70,9 +70,8 @@ class EGO
     vector<double> mu_vars;
     vector<double> lower;
     vector<double> upper;
-    vector<uniform_real_distribution<>> _generator;
 
-    Surrogate *sg;
+    shared_ptr<Surrogate> sg;
 
 };
 
