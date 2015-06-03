@@ -273,6 +273,7 @@ vector<double> EGO::max_ei_par(int lambda)
     }
   }
 
+  iter++;
   return best;
 }
 
@@ -507,6 +508,7 @@ vector<double> EGO::brute_search_local_swarm(vector<double> particle, int npts, 
   vector<double> best_point(size, 0);
   int loop[lambda];
   double steps[dimension];
+  int npts_plus[dimension + 1];
   bool has_result = false;
   bool more_viable = true;
   for(int i = 0; i < lambda; i++) loop[i] = i;
@@ -517,14 +519,18 @@ vector<double> EGO::brute_search_local_swarm(vector<double> particle, int npts, 
     } else {
       steps[i] = 2 * radius / npts;
     }
+    npts_plus[i] = (int) pow(npts + 1, dimension - i);
   }
+  npts_plus[dimension] = 1;
 
   if(lambda == 1) {
+
     while(more_viable) {
       vector<double> x(size, 0.0);
       bool can_run = true;
       for(int j = 0; j < dimension; j++) {
-        x[j] = particle[j] + (floor((loop[0] % (int) pow(npts + 1, dimension - j)) / pow(npts + 1, dimension - j - 1)) - npts/2) * steps[j];
+        //x[j] = particle[j] + (floor((loop[0] % (int) pow(npts + 1, dimension - j)) / pow(npts + 1, dimension - (j + 1))) - npts/2) * steps[j];
+        x[j] = particle[j] + floor(((loop[0] % npts_plus[j]) / npts_plus[j+1]) - npts/2) * steps[j];
         if(x[j] > upper[j] || x[j] < lower[j]) can_run = false;
       }
 
@@ -543,7 +549,7 @@ vector<double> EGO::brute_search_local_swarm(vector<double> particle, int npts, 
     }
   } else {
     //lambda >= 2
-    int num_loops = pow(npts + 1, dimension);
+    //int num_loops = pow(npts + 1, dimension);
     for(int i = 0; i < lambda; i++) {
       best = -0.01;
       vector<double> point((i+1)*dimension, 0.0);
@@ -553,7 +559,7 @@ vector<double> EGO::brute_search_local_swarm(vector<double> particle, int npts, 
         point[j] = best_point[j];
       }
 
-      for(int j = 0; j < num_loops; j++) {
+      for(int j = 0; j < npts_plus[0]; j++) {
         bool can_run = true;
 	for(int k = 0; k < i; k++) {
 	  if(j == loop[k]) {
@@ -563,7 +569,7 @@ vector<double> EGO::brute_search_local_swarm(vector<double> particle, int npts, 
 	}
 
         for(int k = 0; k < dimension; k++) {
-          point[i * dimension + k] = particle[i*dimension+k] + (floor((j % (int) pow(npts + 1, dimension - k)) / pow(npts + 1, dimension - k - 1)) - npts/2 )* steps[k];
+          point[i * dimension + k] = particle[i*dimension+k] + floor(((j % npts_plus[j]) / npts_plus[j+1]) - npts/2) * steps[k];
           if(point[i * dimension + k] > upper[k] || point[i * dimension + k] < lower[k]) can_run = false;
         }
 

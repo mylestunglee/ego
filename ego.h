@@ -50,6 +50,7 @@ class EGO
     int num_points = 10;
     int max_points = 10;
     int pso_gen = 1;
+    int iter = 0;
     vector<double> best_particle;
     double best_fitness = 100000000;
     double max_fitness = 0;

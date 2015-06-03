@@ -104,7 +104,7 @@ int main(int argc, char * argv[]) {
     ego->run();
     auto t2 = std::chrono::high_resolution_clock::now();
     auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
-    cout << "Brute Swarm search l=" << i << " took " << t3 << " iter=" << ego->num_iterations << endl;
+    cout << "Brute Swarm search l=" << i << " took " << t3  << " iter=" << ego->iter << " / " << ego->num_iterations<< endl;
     }
   }
   
@@ -119,7 +119,7 @@ int main(int argc, char * argv[]) {
     ego->run();
     auto t2 = std::chrono::high_resolution_clock::now();
     auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
-    cout << "PSO search l=" << i << " took " << t3  << " iter=" << ego->num_iterations << endl;
+    cout << "PSO search l=" << i << " took " << t3  << " iter=" << ego->iter << " / " << ego->num_iterations<< endl;
     }
   }
 }
