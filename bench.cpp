@@ -36,7 +36,7 @@ shared_ptr<EGO> reset_ego()
   ego->n_sims = 10;
   ego->max_points = upper[0] - lower[0];
   ego->num_points = ego->max_points;
-  ego->pso_gen = 500;
+  ego->pso_gen = 100;
   //cout << "sampling" << endl;
   //ego->sample_plan(10, 5);
 
@@ -94,7 +94,7 @@ int main(int argc, char * argv[]) {
 
 
 
-  for(int i = 3; i < 6; i++) {
+  for(int i = 2; i < 6; i++) {
     for(int j = 0; j < 4; j++) {
     ego = reset_ego();
     ego->num_lambda = i;
