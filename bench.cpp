@@ -37,16 +37,13 @@ EGO *reset_ego()
   //cout << "Built" << endl;
 
   ego->suppress = true;
-  ego->suppress = false;
   ego->is_discrete = true;
   ego->n_sims = 10;
   ego->max_points = upper[0] - lower[0];
   ego->num_points = ego->max_points;
   ego->pso_gen = 100;
 
-  cout << "sampling" << endl;
   ego->sample_plan(ego->max_points, 5);
-  cout << "finished resetting" << endl;
   return ego;
 }
 
@@ -121,50 +118,50 @@ int main(int argc, char * argv[])
 
 
 
-  for(int i = 0; i < 1000; i++) {
-    cout << "Iteration " << i << endl;
-    ego = reset_ego();
-    delete ego;
-  }
-  //for(int i = 1; i < 6; i++) {
-  //  for(int j = 0; j < 4; j++) {
+  //for(int i = 0; i < 1000; i++) {
+  //  cout << "Iteration " << i << endl;
   //  ego = reset_ego();
-  //  ego->num_lambda = i;
-  //  ego->use_brute_search = true;
-  //  ego->swarm = true;
-  //  ego->suppress = false;
-  //  //for(int i = -13; i < 14; i++) {
-  //  //  for(int j = -13; j < 14; j++) {
-  //  //    vector<double> x(2, 0);
-  //  //    x[0] = i;
-  //  //    x[1] = j;
-  //  //    pair<double, double> p = ego->sg->predict(&x[0]);
-  //  //    cout << i<< "," << j << " " << p.first << " " << p.second << " "<< ego->ei(p.first, p.second, ego->best_fitness) << endl;
-  //  //  }
-  //  //}
-  //  auto t1 = std::chrono::high_resolution_clock::now();
-  //  ego->brute_search_local_swarm(ego->best_particle, i, i, true);
-  //  //ego->run();
-  //  auto t2 = std::chrono::high_resolution_clock::now();
-  //  auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
-  //  cout << "Brute Swarm search l=" << i << " took " << t3  << " iter=" << ego->iter << " / " << ego->num_iterations<< endl;
   //  delete ego;
-  //  cout << "delete" << endl;
-  //  }
   //}
+
+
+  for(int i = 2; i < 6; i++) {
+    for(int j = 0; j < 4; j++) {
+    ego = reset_ego();
+    ego->num_lambda = i;
+    ego->use_brute_search = true;
+    ego->swarm = true;
+    //for(int i = -13; i < 14; i++) {
+    //  for(int j = -13; j < 14; j++) {
+    //    vector<double> x(2, 0);
+    //    x[0] = i;
+    //    x[1] = j;
+    //    pair<double, double> p = ego->sg->predict(&x[0]);
+    //    cout << i<< "," << j << " " << p.first << " " << p.second << " "<< ego->ei(p.first, p.second, ego->best_fitness) << endl;
+    //  }
+    //}
+    auto t1 = std::chrono::high_resolution_clock::now();
+    //ego->brute_search_local_swarm(ego->best_particle, i, i, true);
+    ego->run();
+    auto t2 = std::chrono::high_resolution_clock::now();
+    auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+    cout << "Brute Swarm search l=" << i << " num " << j << " took " << t3  << " iter=" << ego->iter << " / " << ego->num_iterations<< endl;
+    delete ego;
+    }
+  }
  
 
-  //for(int i = 2; i < 6; i++) {
-  //  for(int j = 0; j < 4; j++) {
-  //  ego = reset_ego();
-  //  ego->num_lambda = i;
-  //  ego->use_brute_search = false;
-  //  ego->pso_gen = 20;
-  //  auto t1 = std::chrono::high_resolution_clock::now();
-  //  ego->run();
-  //  auto t2 = std::chrono::high_resolution_clock::now();
-  //  auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
-  //  cout << "PSO search l=" << i << " took " << t3  << " iter=" << ego->iter << " / " << ego->num_iterations<< endl;
-  //  }
-  //}
+  for(int i = 2; i < 6; i++) {
+    for(int j = 0; j < 4; j++) {
+    ego = reset_ego();
+    ego->num_lambda = i;
+    ego->use_brute_search = false;
+    ego->pso_gen = 20;
+    auto t1 = std::chrono::high_resolution_clock::now();
+    ego->run();
+    auto t2 = std::chrono::high_resolution_clock::now();
+    auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+    cout << "PSO search l=" << i << " took " << t3  << " iter=" << ego->iter << " / " << ego->num_iterations<< endl;
+    }
+  }
 }

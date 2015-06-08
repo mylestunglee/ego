@@ -22,12 +22,12 @@ class EGO
 
     //Functions
     vector<double> max_ei_par(int lambda);
-    double fitness(vector<double> x);
-    void evaluate(vector<double> x);
+    double fitness(const vector<double> &x);
+    void evaluate(const vector<double> &x);
     void run();
     vector<double> best_result();
-    void add_training(vector<double> x, double y);
-    vector<double> brute_search_local_swarm(vector<double> particle, double radius=1.0, int lambda=1, bool has_to_run=false);
+    void add_training(const vector<double> &x, double y);
+    vector<double> brute_search_local_swarm(const vector<double> &particle, double radius=1.0, int lambda=1, bool has_to_run=false);
     vector<double>* brute_search_swarm(int npts=10, int lambda=1);
     double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n);
     double ei(double y, double S2, double y_min);

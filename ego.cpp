@@ -93,9 +93,9 @@ vector<double> EGO::best_result()
   return best_particle;
 }
 
-void EGO::evaluate(vector<double> x)
+void EGO::evaluate(const vector<double> &x)
 {
-  double *data = &x[0];
+  double *data = (double *) &x[0];
   if(!suppress) {
     cout << "Evaluating: ";
     for(int j = 0; j < dimension; j++) {
@@ -117,7 +117,6 @@ void EGO::evaluate(vector<double> x)
   mu_vars.push_back(var);
 
   //Add to running set
-  cout <<"Add to run" <<endl;
   struct running_node run; 
   run.fitness = mean;
   run.is_finished = false;
@@ -125,11 +124,10 @@ void EGO::evaluate(vector<double> x)
   run.pos = mu_means.size() - 1;
   running.push_back(run);
   num_iterations++;
-  cout <<"Added to run" <<endl;
 
   //Launch another thread to calculate
   thread (&EGO::worker_task, this, x).detach();
-  //worker_task(running.back(), num_iterations);
+  //worker_task(x);
 }
 
 void EGO::worker_task(vector<double> node)
@@ -149,6 +147,7 @@ void EGO::worker_task(vector<double> node)
     if(i == dimension) {
       running_i->is_finished = true;
       running_i->fitness = result;
+      break;
     }
     running_i++;
   }
@@ -191,7 +190,7 @@ void EGO::check_running_tasks()
   running_mtx.unlock();
 }
 
-double EGO::fitness(vector<double> x)
+double EGO::fitness(const vector<double> &x)
 {
   int num = x.size() / dimension;
   double lambda_means[num];
@@ -220,7 +219,7 @@ double EGO::fitness(vector<double> x)
   return result / n_sims;
 }
 
-void EGO::add_training(vector<double> x, double y)
+void EGO::add_training(const vector<double> &x, double y)
 {
   training.push_back(x);
   training_fitness.push_back(y);
@@ -241,7 +240,6 @@ vector<double> EGO::max_ei_par(int lambda)
       best = *x;
     } else {
       if(!suppress) cout << "Locally ";
-      cout << "local swarm" << endl;
       best = brute_search_local_swarm(best_particle, 1, 1, true);
     }
   } else {
@@ -296,16 +294,14 @@ void EGO::sample_plan(int F, int D)
 {
   int* latin = ihs(dimension, F, D, D);
   if(!latin) {
-    cout << "DAMN IT" << endl;
+    cout << "Sample plan broke horribly, exiting" << endl;
     exit(-1);
   }
   for(int i = 0; i < F; i++) {
-    cout << i << endl;
     vector<double> x(dimension, 0.0);
     for(int j = 0; j < dimension; j++) {
       x[j] = lower[j] + latin[i*dimension+j];
     }
-    cout << i << endl;
     while(running.size() == num_lambda) {
       std::this_thread::sleep_for(std::chrono::milliseconds(20));
       check_running_tasks();
@@ -316,15 +312,13 @@ void EGO::sample_plan(int F, int D)
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
     check_running_tasks();
   }
-  cout << "delete latin" << endl;
   delete latin;
   sg->train();
-  cout << "Trained svm" << endl;
 }
 
 vector<double> *EGO::brute_search_swarm(int npts, int lambda)
 {
-  double best = -0.5;
+  double best = -0.1;
   int size = dimension * lambda;
   vector<double> *best_point = new vector<double>(size, 0);
   int loop[lambda];
@@ -431,10 +425,9 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
   }
 }
 
-vector<double> EGO::brute_search_local_swarm(vector<double> particle, double radius, int lambda, bool has_to_run)
+vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, double radius, int lambda, bool has_to_run)
 {
-  cout <<"SWARM " << radius<<endl;
-  double best = -0.01;
+  double best = -0.001;
   int size = dimension * lambda;
   vector<double> best_point(size, 0);
   int loop[lambda];
@@ -446,18 +439,15 @@ vector<double> EGO::brute_search_local_swarm(vector<double> particle, double rad
     if(is_discrete) {
       steps[i] = 1;
       npts_plus[i] = (int) pow(2*radius + 1, dimension - i);
-      cout << npts_plus[i] << " ";
     } else {
       steps[i] = 2 * radius / max_points;
       npts_plus[i] = (int) pow(max_points + 1, dimension - i);
     }
   }
-  cout << endl;
   npts_plus[dimension] = 1;
 
   if(lambda == 1) {
     for(int i = 0; i < npts_plus[0]; i++) {
-      cout << i << endl;
       vector<double> x(size, 0.0);
       bool can_run = true;
       for(int j = 0; j < dimension; j++) {
@@ -476,9 +466,8 @@ vector<double> EGO::brute_search_local_swarm(vector<double> particle, double rad
       }
     }
   } else {
-    //lambda >= 2
     for(int i = 0; i < lambda; i++) {
-      best = -0.01;
+      best = -0.0001;
       vector<double> point((i+1)*dimension, 0.0);
       bool found = false;
 
@@ -496,7 +485,7 @@ vector<double> EGO::brute_search_local_swarm(vector<double> particle, double rad
 	}
 
         for(int k = 0; k < dimension; k++) {
-          point[i * dimension + k] = particle[i*dimension+k] + floor(((j % npts_plus[k]) / npts_plus[k+1]) - radius) * steps[k];
+          point[i * dimension + k] = particle[k] + floor(((j % npts_plus[k]) / npts_plus[k+1]) - radius) * steps[k];
           if(point[i * dimension + k] > upper[k] || point[i * dimension + k] < lower[k]) can_run = false;
         }
 
@@ -527,7 +516,13 @@ vector<double> EGO::brute_search_local_swarm(vector<double> particle, double rad
   if(has_result) {
     return best_point;
   } else {
-    return brute_search_local_swarm(particle, radius + 1, lambda, has_to_run);
+    if(radius / lambda > 3) {
+      cout << "Cannot find new points in direct vicinity of best" << endl;
+      return best_point;
+    } else {
+      cout << "Increasing radius" << endl;
+      return brute_search_local_swarm(particle, radius + 1, lambda, has_to_run);
+    }
   }
 }
 
