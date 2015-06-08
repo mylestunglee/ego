@@ -1,5 +1,4 @@
 #include "surrogate.h"
-#include <dlib/svm.h>
 #include "gp.h"
 #include <thread>
 #include <iostream>
@@ -28,11 +27,9 @@ Surrogate::Surrogate(int d, s_type type, bool svm)
       gp = make_shared<GaussianProcess>(dim, "CovSEard");
   }
   Eigen::VectorXd params(gp->covf().get_param_dim());
-  params.setZero();
+  //params.setZero();
+  params << 1, 1;
   gp->covf().set_loghyper(params);
-  //if(type == SEiso) {
-  //  gp = make_shared<GaussianProcess>(dim, "CovSEiso");
-  //} 
 
   if(is_svm) {
     s_param.svm_type = C_SVC;
@@ -55,14 +52,40 @@ Surrogate::Surrogate(int d, s_type type, bool svm)
   }
 }
 
-//void Surrogate::choose_kernel(int num_folds)
-//{
-//  if(training.size() == 0) return;
-//  int subset_size = ceil(training.size() / num_folds);
-//  for(int i = 0; i < num_folds; i++) {
-//    int fold = min(subset_size, (int) training.size() - i * subset_size);
-//  }
-//}
+void Surrogate::choose_kernel(int num_folds)
+{
+  if(training.size() == 0) return;
+  int subset_size = ceil(training.size() / num_folds);
+  double best_mse = 10000000000;
+  Eigen::VectorXd best_params;
+  string best_cov = covs[0];
+  for(auto cov : covs) {
+    gp = make_shared<GaussianProcess>(dim, cov);
+    Eigen::VectorXd params = Eigen::VectorXd(gp->covf().get_param_dim());
+    params.setZero();
+    gp->covf().set_loghyper(params);
+
+    double mse = 0;
+    for(int i = 0; i < num_folds; i++) {
+      int fold = min(subset_size, (int) training.size() - i * subset_size);
+      for(int j = 0; j < i * subset_size; j++) {
+        gp->add_pattern(&(training[j][0]), training_f[j]);
+      }
+      for(int j = (i+1)*subset_size; j < training.size(); j++) {
+        gp->add_pattern(&(training[j][0]), training_f[j]);
+      }
+      for(int j = i*subset_size; j < i*subset_size + fold; j++) {
+        double mean_err = gp->f(&training[j][0]) - training_f[j];
+	mse += mean_err * mean_err;
+      }
+    }
+    if(mse < best_mse) {
+      best_mse = mse;
+      best_cov = cov;
+      best_params = params;
+    }
+  }
+}
 
 //void Surrogate::set_params(double x, double y)
 //{

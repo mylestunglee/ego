@@ -5,6 +5,7 @@
 #include <chrono>
 
 using namespace std;
+EGO *reset_ego();
 
 
 EGO *reset_ego()
@@ -14,8 +15,8 @@ EGO *reset_ego()
   //vector<double> lower = {-5.0, -5.0, -5.0};
   //vector<double> upper = {5.0, 5.0, 5.0};
 
-  double (*fitness)(double x[]) =  &sphere_2;
-  int dimension = 2;
+  double (*fitness)(double x[]) =  &sphere_3;
+  int dimension = 3;
   vector<double> lower = {-13.0, -13.0, -13.0};
   vector<double> upper = {13.0, 13.0, 13.0};
 
@@ -36,7 +37,6 @@ EGO *reset_ego()
   //cout << "Built" << endl;
 
   ego->suppress = true;
-  ego->suppress = false;
   ego->is_discrete = false;
   ego->n_sims = 10;
   ego->max_points = upper[0] - lower[0];
@@ -121,22 +121,22 @@ int main(int argc, char * argv[])
 
 
 
-  for(int i = 1; i < 2; i++) {
-    for(int j = 0; j < 4; j++) {
+  for(int i = 1; i < 6; i++) {
+    for(int j = 0; j < 2; j++) {
     ego = reset_ego();
     ego->num_lambda = i;
     ego->use_brute_search = true;
     ego->swarm = true;
     ego->suppress = false;
-    for(int i = -13; i < 14; i++) {
-      for(int j = -13; j < 14; j++) {
-	vector<double> x(2, 0);
-	x[0] = i;
-	x[1] = j;
-	pair<double, double> p = ego->sg->predict(&x[0]);
-        cout << i<< "," << j << " " << p.first << " " << p.second << " "<< ego->ei(p.first, p.second, ego->best_fitness) << endl;
-      }
-    }
+    //for(int i = -13; i < 14; i++) {
+    //  for(int j = -13; j < 14; j++) {
+    //    vector<double> x(2, 0);
+    //    x[0] = i;
+    //    x[1] = j;
+    //    pair<double, double> p = ego->sg->predict(&x[0]);
+    //    cout << i<< "," << j << " " << p.first << " " << p.second << " "<< ego->ei(p.first, p.second, ego->best_fitness) << endl;
+    //  }
+    //}
     auto t1 = std::chrono::high_resolution_clock::now();
     ego->run();
     auto t2 = std::chrono::high_resolution_clock::now();

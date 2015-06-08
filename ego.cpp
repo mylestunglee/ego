@@ -233,7 +233,6 @@ void EGO::add_training(vector<double> x, double y)
 vector<double> EGO::max_ei_par(int lambda) 
 {
   vector<double> best;
-  //if(2*(num_iterations - max_points) > num_points * dimension) num_points = min(max_points, 2*num_points);
   if(lambda == 1) {
     vector<double> *x = brute_search_swarm(num_points, 1);
     if(x) {
@@ -244,12 +243,7 @@ vector<double> EGO::max_ei_par(int lambda)
     }
   } else {
     if(use_brute_search) {
-      vector<double> *ptr = NULL;
-      if(swarm) {
-        ptr = brute_search_swarm(num_points, lambda);
-      } else {
-        ptr = brute_search_loop(num_points, lambda, 0.01);
-      }
+      vector<double> *ptr = brute_search_swarm(num_points, lambda);
       if(ptr) { 
         best = *ptr;
         delete ptr;
@@ -351,19 +345,9 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
       if(++loop[0] == pow(npts + 1, dimension)) more_viable = false;
 
       if(can_run) {
-        //double mean = sg->mean(&x[0]);
-        //double var = sg->var(&x[0]);
-        double mean, var;
 	pair<double, double> p = sg->predict(&x[0]);
-	mean = p.first;
-	var = p.second;
-        double result = -ei(mean, var, best_fitness);
+        double result = -ei(p.first, p.second, best_fitness);
         if(result < best) {
-	  if(x[0] > 5) {
-	    cout << x[0] << " " << x[1] << " " << x[2] << " best" << result << " " << p.first << " " << p.second << endl;
-	    cout << sg->svm_label(&x[0]) << endl;
-	  }
-	    
           best_point->assign(x.begin(), x.end());
           best = result;
           has_result = true;
@@ -407,10 +391,6 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
             for(int k = 0; k < dimension; k++) {
               (*best_point)[i*dimension + k] = point[i*dimension + k];
             }
-	    if(point[0] > 5) {
-	      cout << point[0] << " " << point[1] << " " << point[2] << " best" << endl;
-	      cout << sg->svm_label(&point[0]) << endl;
-	    }
             best = result;
 	    loop[i] = j;
             if(i == lambda - 1) has_result = true;
@@ -479,9 +459,8 @@ vector<double> EGO::brute_search_local_swarm(vector<double> particle, int npts, 
       if(++loop[0] == pow(npts + 1, dimension)) more_viable = false;
 
       if(can_run && (!has_to_run || (not_run(&x[0]) && not_running(&x[0])))) {
-        double mean = sg->mean(&x[0]);
-        double var = sg->var(&x[0]);
-        double result = -ei(mean, var, best_fitness);
+	pair<double, double> p = sg->predict(&x[0]);
+        double result = -ei(p.first, p.second, best_fitness);
         if(result < best) {
           best_point = x;
           best = result;
@@ -517,9 +496,8 @@ vector<double> EGO::brute_search_local_swarm(vector<double> particle, int npts, 
         if(can_run && (!has_to_run || (not_run(&point[i*dimension]) && not_running(&point[i*dimension])))) {
 	  double result = 0.0;
 	  if(i == 0) {
-            double mean = sg->mean(&point[0]);
-            double var = sg->var(&point[0]);
-            result = -ei(mean, var, best_fitness);
+	    pair<double, double> p = sg->predict(&point[0]);
+            result = -ei(p.first, p.second, best_fitness);
 	  } else {
             result = fitness(point);
 	  }
@@ -547,7 +525,6 @@ vector<double> EGO::brute_search_local_swarm(vector<double> particle, int npts, 
     return brute_search_local_swarm(particle, npts, radius + 1, lambda, has_to_run);
   }
 }
-
 
 bool EGO::not_run(double x[])
 {

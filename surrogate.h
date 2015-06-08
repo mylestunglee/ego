@@ -6,7 +6,7 @@
 #pragma once
 using namespace std;
 
-enum s_type { SEiso , SEard};
+enum s_type {SEiso, SEard};
 
 class Surrogate
 {
@@ -23,7 +23,7 @@ class Surrogate
     pair<double, double> predict(double x[]);
     int svm_label(double x[]);
 
-    //void set_params(double, double);
+    void choose_kernel(int folds);
     void train();
     bool is_trained = false;
 
@@ -38,6 +38,7 @@ class Surrogate
     struct svm_model *s_model = NULL;
     struct svm_parameter s_param;
     struct svm_problem s_prob;
+    vector<string> covs = {"CovSEiso", "CovSEard", "CovSum (CovSEiso, CovNoise)"};
 
 };
 
