@@ -27,11 +27,7 @@ class EGO
     void run();
     vector<double> best_result();
     void add_training(vector<double> x, double y);
-    vector<double> brute_search(int npts, int lambda);
-    vector<double> brute_search_local(vector<double> particle, int npts=2, double radius=1.0, int lambda=1, bool has_to_run=false);
-    vector<double> brute_search_local_loop(vector<double> particle, int npts=2, double radius=1.0, int lambda=1, bool has_to_run=false);
-    vector<double> brute_search_local_swarm(vector<double> particle, int npts=2, double radius=1.0, int lambda=1, bool has_to_run=false);
-    vector<double>* brute_search_loop(int npts=10, int lambda=1, double min_ei=0);
+    vector<double> brute_search_local_swarm(vector<double> particle, double radius=1.0, int lambda=1, bool has_to_run=false);
     vector<double>* brute_search_swarm(int npts=10, int lambda=1);
     double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n);
     double ei(double y, double S2, double y_min);

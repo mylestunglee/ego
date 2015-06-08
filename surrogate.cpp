@@ -16,15 +16,15 @@ Surrogate::Surrogate(int d, s_type type, bool svm)
 
   switch(type) {
     case SEiso:
-      gp = make_shared<GaussianProcess>(dim, "CovSEiso");
+      gp = new GaussianProcess(dim, "CovSEiso");
       break;
 
     case SEard:
-      gp = make_shared<GaussianProcess>(dim, "CovSEard");
+      gp = new GaussianProcess(dim, "CovSEard");
       break;
 
     default:
-      gp = make_shared<GaussianProcess>(dim, "CovSEard");
+      gp = new GaussianProcess(dim, "CovSEard");
   }
   Eigen::VectorXd params(gp->covf().get_param_dim());
   //params.setZero();
@@ -60,7 +60,7 @@ void Surrogate::choose_kernel(int num_folds)
   Eigen::VectorXd best_params;
   string best_cov = covs[0];
   for(auto cov : covs) {
-    gp = make_shared<GaussianProcess>(dim, cov);
+    gp = new GaussianProcess(dim, cov);
     Eigen::VectorXd params = Eigen::VectorXd(gp->covf().get_param_dim());
     params.setZero();
     gp->covf().set_loghyper(params);
@@ -213,4 +213,5 @@ Surrogate::~Surrogate()
     free(s_prob.y);
     free(s_prob.x);
   }
+  delete gp;
 }

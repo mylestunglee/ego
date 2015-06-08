@@ -11,7 +11,7 @@ enum s_type {SEiso, SEard};
 class Surrogate
 {
   public:
-    shared_ptr<libgp::GaussianProcess> gp;
+    libgp::GaussianProcess *gp;
     
     //Functions
     Surrogate(int d, s_type t, bool svm=false);
