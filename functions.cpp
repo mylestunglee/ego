@@ -12,6 +12,11 @@ double easy_test(double x[])
   return (5.5 - x[0]) * (7.5 - x[1]);
 }
 
+double easy_test2(double x[])
+{
+  return sphere(x, 1);
+}
+
 double ackley(double z[])
 {
   double x = z[0];
@@ -36,10 +41,18 @@ double sphere_4(double x[])
   return sphere(x, 4);
 }
 
+double sphere_2(double x[])
+{
+  return sphere(x, 2);
+}
+
 double sphere_3(double x[])
 {
-  std::this_thread::sleep_for(std::chrono::milliseconds(600));
+  //std::this_thread::sleep_for(std::chrono::milliseconds(600));
   return sphere(x, 3);
+  //double result = sphere(x, 3);
+  ////std::this_thread::sleep_for(std::chrono::milliseconds(500 + (int) result));
+  //return result;
 }
 
 double sphere(double x[], int n)

@@ -1,8 +1,11 @@
 #include "surrogate.h"
 #include <dlib/svm.h>
 #include "gp.h"
+#include <thread>
+#include <iostream>
+#include <sstream>
 
-#define Malloc(type,n) (type *)malloc((n)*sizeof(type))
+#define Malloc(type, n) (type *)malloc((n)*sizeof(type))
 
 using namespace std;
 using namespace libgp;
@@ -10,13 +13,28 @@ using namespace libgp;
 Surrogate::Surrogate(int d, s_type type, bool svm)
 {
   dim = d;
+  is_svm = svm;
 
-  if(type == SEiso) {
-    gp = new GaussianProcess(dim, "CovSEiso");
-  } 
+  switch(type) {
+    case SEiso:
+      gp = make_shared<GaussianProcess>(dim, "CovSEiso");
+      break;
 
-  if(svm) {
-    is_svm = true;
+    case SEard:
+      gp = make_shared<GaussianProcess>(dim, "CovSEard");
+      break;
+
+    default:
+      gp = make_shared<GaussianProcess>(dim, "CovSEard");
+  }
+  Eigen::VectorXd params(gp->covf().get_param_dim());
+  params.setZero();
+  gp->covf().set_loghyper(params);
+  //if(type == SEiso) {
+  //  gp = make_shared<GaussianProcess>(dim, "CovSEiso");
+  //} 
+
+  if(is_svm) {
     s_param.svm_type = C_SVC;
     s_param.kernel_type = RBF;
     s_param.degree = 3;
@@ -37,17 +55,28 @@ Surrogate::Surrogate(int d, s_type type, bool svm)
   }
 }
 
-void Surrogate::set_params(double x, double y)
-{
-  Eigen::VectorXd params(gp->covf().get_param_dim());
-  params << x, y;
-  gp->covf().set_loghyper(params);
-}
+//void Surrogate::choose_kernel(int num_folds)
+//{
+//  if(training.size() == 0) return;
+//  int subset_size = ceil(training.size() / num_folds);
+//  for(int i = 0; i < num_folds; i++) {
+//    int fold = min(subset_size, (int) training.size() - i * subset_size);
+//  }
+//}
+
+//void Surrogate::set_params(double x, double y)
+//{
+//  Eigen::VectorXd params(gp->covf().get_param_dim());
+//  params << x, y;
+//  gp->covf().set_loghyper(params);
+//}
 
 void Surrogate::add(vector<double> x, double y)
 {
   double *data = &x[0];
   gp->add_pattern(data, y);
+  training.push_back(x);
+  training_f.push_back(y);
 }
 
 void Surrogate::add(vector<double> x, double y, int cl)
@@ -57,41 +86,61 @@ void Surrogate::add(vector<double> x, double y, int cl)
     exit(-1);
   }
   add(x, y);
-  training.push_back(x);
   training_cl.push_back(cl);
   is_trained = false;
 }
+
 void Surrogate::train()
 {
-  if(!is_trained) {
-    int amount = training.size();
-    int elements = amount * dim;
-    if(s_model) {
+  int amount = training.size();
+  if(is_svm && !is_trained && amount > 0) {
+    if(s_model != NULL) {
       svm_free_and_destroy_model(&s_model);
       free(s_node);
       free(s_prob.y);
       free(s_prob.x);
     }
+    int elements = 0;
+    for(int i = 0; i < amount; i++, elements++) {
+      for(int k = 0; k < dim; k++) {
+        if(training[i][k] != 0) elements++;
+      }
+    }
     s_prob.l = amount;
     s_prob.y = Malloc(double, amount);
     s_prob.x = Malloc(struct svm_node *, amount);
     s_node = Malloc(struct svm_node, elements);
-    for(int i = 0; i < training.size(); i++) {
-      s_prob.x[i] = &s_node[i*(dim+1)];
+    int k = 0;
+    for(int i = 0, j = 0; i < training.size(); i++) {
+      s_prob.x[i] = &s_node[j];
       s_prob.y[i] = training_cl[i];
       for(int k = 0; k < dim; k++) {
-        s_node[i*(dim+1) + k].index = k;
-	s_node[i*(dim+1) + k].value = training[i][k];
+	if(training[i][k] != 0) {
+          s_node[j].index = k;
+	  s_node[j].value = training[i][k];
+	  j++;
+	}
       }
-      s_node[(i+1)*(dim+1)].index = -1;
+      k = max(k, j);
+      s_node[j++].index = -1;
     }
+    s_param.gamma = 1.0 / k;
+    streambuf *old = cout.rdbuf(); // <-- save        
+    stringstream ss;
+
+    cout.rdbuf(ss.rdbuf());       // <-- redirect
+
+    svm_check_parameter(&s_prob, &s_param);
     s_model = svm_train(&s_prob, &s_param);
+
+    cout.rdbuf (old);              // <-- restore
     is_trained = true;
   }
 }
+
 pair<double, double> Surrogate::predict(double x[])
 {
-  if(svm_label(x) != 1.0) {
+  if(svm_label(x) != 1) {
     return make_pair(100000000000, 0.0);
   } else {
     return make_pair(gp->f(x), gp->var(x));
@@ -111,20 +160,34 @@ double Surrogate::mean(double x[])
   return result;
 }
 
-double Surrogate::svm_label(double x[])
+int Surrogate::svm_label(double x[])
 {
   if(!is_svm) return 1.0;
-  if(!s_model) {
+  if(!is_trained) {
     cout << "Haven't trained svm when calling, exiting" << endl;
     exit(-1);
   }
   struct svm_node *node = Malloc(struct svm_node, dim+1);
+  int j = 0;
   for(int i = 0; i < dim; i++) {
-    node[i].index = i;
-    node[i].value = x[i];
+    if(x[i] != 0) {
+      node[j].index = i;
+      node[j].value = x[i];
+      j++;
+    }
   }
-  node[dim+1].index = -1;
-  double result = svm_predict(s_model, node);
+  node[j].index = -1;
+  int result = round(svm_predict(s_model, node));
   free(node);
   return result;
+}
+
+Surrogate::~Surrogate()
+{
+  if(s_model != NULL) {
+    svm_free_and_destroy_model(&s_model);
+    free(s_node);
+    free(s_prob.y);
+    free(s_prob.x);
+  }
 }

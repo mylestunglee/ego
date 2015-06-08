@@ -10,7 +10,8 @@ class EGO
 {
   public:
     //Constructor
-    EGO(int dim, shared_ptr<Surrogate> s, vector<double> low, vector<double> up, double(*fit)(double x[]));
+    EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*fit)(double x[]));
+    ~EGO();
 
     struct running_node {
       double fitness;
@@ -35,7 +36,7 @@ class EGO
     double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n);
     double ei(double y, double S2, double y_min);
     void check_running_tasks();
-    void worker_task(running_node node, int num);
+    void worker_task(vector<double> data);
     bool not_run(double x[]);
     bool not_running(double x[]);
     void sample_plan(int F, int D=5);
@@ -72,7 +73,7 @@ class EGO
     vector<double> lower;
     vector<double> upper;
 
-    shared_ptr<Surrogate> sg;
+    Surrogate *sg;
 
 };
 

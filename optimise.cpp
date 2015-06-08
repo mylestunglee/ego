@@ -122,3 +122,14 @@ vector<double> opt::swarm_main_optimise(int max_gen)
 
   return best_part->p;
 }
+
+opt::~opt()
+{
+  for(auto part : particles) {
+    delete part;
+  }
+  particles.clear();
+  delete best_part;
+  delete space_generator;
+  delete speed_generator;
+}

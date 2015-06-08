@@ -30,7 +30,9 @@ class opt
     vector<uniform_real_distribution<>> *speed_generator;
     vector<double> speed_max;
 
+    //Functions
     opt(int d, vector<double> u, vector<double> l, EGO *e, bool disc);
+    ~opt();
     void update_particles(int generation, int max_iter);
     void filter();
     void generate(int pop);
