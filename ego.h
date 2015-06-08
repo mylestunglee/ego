@@ -35,14 +35,14 @@ class EGO
     void worker_task(vector<double> data);
     bool not_run(double x[]);
     bool not_running(double x[]);
-    void sample_plan(int F, int D=5);
+    void sample_plan(size_t F, int D=5);
 
     //Variables
     int dimension = 1;
     int n_sims = 50;
     int max_iterations = 1000;
     int num_iterations = 0;
-    int num_lambda = 3;
+    size_t num_lambda = 3;
     int population_size = 100;
     int num_points = 10;
     int max_points = 10;

@@ -23,8 +23,7 @@ void opt::update_particles(int generation, int max_iter)
 
 void opt::filter()
 {
-  for(int i = 0; i < particles.size(); i++) {
-    Particle *part = particles[i];
+  for(auto part : particles) {
     for(int j = 0; j < dimension; j++) {
       if(is_discrete) {
         part->p[j] = round(part->p[j]);
@@ -102,8 +101,7 @@ vector<double> opt::swarm_optimise(int max_gen, int pop)
 vector<double> opt::swarm_main_optimise(int max_gen)
 {
   for(int g = 0; g < max_gen; g++) {
-    for(int i = 0; i < particles.size(); i++) {
-      Particle *part = particles[i];
+    for(auto part : particles){
       double result = ego->fitness(part->p);
 
       if(result < part->best_fitness) {

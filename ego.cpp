@@ -138,18 +138,29 @@ void EGO::worker_task(vector<double> node)
   running_mtx.lock();
 
   //Add results back to node keeping track
-  vector<struct running_node>::iterator running_i = running.begin();
-  while(running_i != running.end()) {
+  //vector<struct running_node>::iterator running_i = running.begin();
+  //while(running_i != running.end()) {
+  //  int i = 0;
+  //  for(; i < dimension; i++) {
+  //    if(running_i->data[i] != node[i]) break;
+  //  }
+  //  if(i == dimension) {
+  //    running_i->is_finished = true;
+  //    running_i->fitness = result;
+  //    break;
+  //  }
+  //  running_i++;
+  //}
+  for(auto &run : running) {
     int i = 0;
     for(; i < dimension; i++) {
-      if(running_i->data[i] != node[i]) break;
+      if(run.data[i] != node[i]) break;
     }
     if(i == dimension) {
-      running_i->is_finished = true;
-      running_i->fitness = result;
+      run.is_finished = true;
+      run.fitness = result;
       break;
     }
-    running_i++;
   }
 
   running_mtx.unlock();
@@ -175,7 +186,7 @@ void EGO::check_running_tasks()
       //Delete estimations
       mu_means.erase(mu_means.begin() + node->pos);
       mu_vars.erase(mu_vars.begin() + node->pos);
-      for(int i = 0; i < running.size(); i++) {
+      for(size_t i = 0; i < running.size(); i++) {
         if(running[i].pos > node->pos) running[i].pos--;
       }
 
@@ -290,14 +301,14 @@ vector<double> EGO::max_ei_par(int lambda)
   return best;
 }
 
-void EGO::sample_plan(int F, int D)
+void EGO::sample_plan(size_t F, int D)
 {
   int* latin = ihs(dimension, F, D, D);
   if(!latin) {
     cout << "Sample plan broke horribly, exiting" << endl;
     exit(-1);
   }
-  for(int i = 0; i < F; i++) {
+  for(size_t i = 0; i < F; i++) {
     vector<double> x(dimension, 0.0);
     for(int j = 0; j < dimension; j++) {
       x[j] = lower[j] + latin[i*dimension+j];
@@ -321,11 +332,11 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
   double best = -0.1;
   int size = dimension * lambda;
   vector<double> *best_point = new vector<double>(size, 0);
-  int loop[lambda];
   int npts_plus[dimension + 1];
+  //int loop[lambda];
   double steps[dimension];
   bool has_result = false;
-  for(int i = 0; i < lambda; i++) loop[i] = i;
+  //for(int i = 0; i < lambda; i++) loop[i] = i;
   for(int i = 0; i < dimension; i++) {
     if(is_discrete) {
       steps[i] = (int) floor((upper[i] - lower[i]) / npts);
@@ -394,7 +405,7 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
               (*best_point)[i*dimension + k] = point[i*dimension + k];
             }
             best = result;
-	    loop[i] = j;
+	    //loop[i] = j;
             if(i == lambda - 1) has_result = true;
 	    found = true;
           }
