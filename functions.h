@@ -8,3 +8,4 @@ double sphere(double x[], int n);
 double sphere_4(double x[]);
 double sphere_3(double x[]);
 double sphere_2(double x[]);
+double sphere_20(double x[]);

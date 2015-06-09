@@ -146,7 +146,8 @@ void EGO::evaluate(const vector<double> &x)
   num_iterations++;
 
   //Launch another thread to calculate
-  thread (&EGO::worker_task, this, x).detach();
+  std::thread (&EGO::worker_task, this, x).detach();
+  
   //worker_task(x);
 }
 
@@ -167,6 +168,7 @@ void EGO::worker_task(vector<double> node)
     if(i == dimension) {
       running_i->is_finished = true;
       running_i->fitness = result;
+      running_i->label = (int) (node[0] < 5);
       break;
     }
     running_i++;
@@ -199,7 +201,7 @@ void EGO::check_running_tasks()
         for(int i = 0; i < dimension; i++) {
           cout << node->data[i] << " ";
         }
-        cout << " evaluated to: " << node->fitness << endl;
+        cout << " evaluated to: " << node->fitness << " with label: " << node->label << endl;
       }
 
       //Add it to our training set
@@ -305,6 +307,7 @@ vector<double> EGO::max_ei_par(int lambda)
 
       opt op(size, up, low, this, is_discrete);
       best = op.swarm_optimise(x, pso_gen * size, lambda * population_size);
+      double best_fitness = op.best_part->best_fitness;
 
       if(!suppress) {
         cout << "[";
@@ -314,7 +317,7 @@ vector<double> EGO::max_ei_par(int lambda)
           }
           cout << "\b; ";
         }
-        cout << "\b\b] = best = "  << fitness(best) << endl;
+        cout << "\b\b] = best = "  << best_fitness << endl;
       }
     }
   }

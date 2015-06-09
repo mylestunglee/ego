@@ -80,7 +80,7 @@ void opt::generate(int pop)
       part->p.push_back(uni_dist(lower[j], upper[j]));
       part->best.push_back(part->p[j]);
       //part->speed.push_back((*speed_generator)[j](gen));
-      part->p.push_back(uni_dist(-speed_max[j], speed_max[j]));
+      part->speed.push_back(uni_dist(-speed_max[j], speed_max[j]));
     }
     part->best_fitness = 100000000;
     particles.push_back(part);
@@ -90,7 +90,7 @@ void opt::generate(int pop)
     //best_part->p.push_back((*space_generator)[j](gen));
     best_part->p.push_back(uni_dist(-speed_max[j], speed_max[j]));
   }
-  best_part->best_fitness = 1000000000;
+  best_part->best_fitness = -0.01;
   filter();
 }
 

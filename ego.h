@@ -15,9 +15,10 @@ class EGO
 
     struct running_node {
       double fitness;
+      int label;
       bool is_finished;
-      vector<double> data;
       int pos;
+      vector<double> data;
     };
 
     //Functions

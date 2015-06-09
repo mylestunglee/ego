@@ -41,9 +41,9 @@ double sphere_4(double x[])
   return sphere(x, 4);
 }
 
-double sphere_2(double x[])
+double sphere_20(double x[])
 {
-  return sphere(x, 2);
+  return sphere(x, 10);
 }
 
 double sphere_3(double x[])

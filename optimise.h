@@ -41,3 +41,4 @@ class opt
     vector<double> swarm_main_optimise(int max_gen);
 };
 
+double uni_dist(double N, double M);
