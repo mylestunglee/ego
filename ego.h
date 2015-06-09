@@ -38,24 +38,23 @@ class EGO
     void sample_plan(size_t F, int D=5);
 
     //Variables
-    int dimension = 1;
-    int n_sims = 50;
-    int max_iterations = 1000;
-    int num_iterations = 0;
-    size_t num_lambda = 3;
-    int population_size = 100;
-    int num_points = 10;
-    int max_points = 10;
-    int pso_gen = 1;
-    int iter = 0;
+    int dimension;
+    int n_sims;
+    int max_iterations;
+    int num_iterations;
+    size_t num_lambda;
+    int population_size;
+    int num_points;
+    int max_points;
+    int pso_gen;
+    int iter;
     vector<double> best_particle;
-    double best_fitness = 100000000;
-    double max_fitness = 0;
-    bool is_discrete = false;
-    bool is_new_result = false;
-    bool use_brute_search = false;
-    bool swarm = false;
-    bool suppress = false;
+    double best_fitness;
+    double max_fitness;
+    bool is_discrete;
+    bool is_new_result;
+    bool use_brute_search;
+    bool suppress;
     vector<double> discrete_steps;
 
     double (* proper_fitness) (double x[]);

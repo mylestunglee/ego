@@ -1,6 +1,6 @@
 CC = g++
-CFLAGS = -c -std=c++11 -Wall #-Werror #-Wmissing-prototypes
-INC = -I. -Ilibgp/include -Ilibgp/src 
+CFLAGS = -c -std=c++0x -Wall #-Werror #-Wmissing-prototypes
+INC = -Ieigen-eigen-10219c95fe65 -Ilibgp/include -Ilibgp/src 
 LIBS = -Llibgp -lgp
 
 SOURCES = surrogate.cpp functions.cpp bench.cpp optimise.cpp ego.cpp ihs.cpp libsvm-3.20/svm.cpp

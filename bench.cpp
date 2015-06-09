@@ -54,7 +54,6 @@ int main(int argc, char * argv[])
   //ego = reset_ego();
   //ego->suppress = false;
   //ego->use_brute_search = true;
-  //ego->swarm = true;
   //vector<double> x = {6};
   //ego->evaluate(x);
   //x = {4};
@@ -87,7 +86,6 @@ int main(int argc, char * argv[])
   //  ego->n_sims = i * 10 / 2;
   //  ego->n_sims = 10;
   //  ego->use_brute_search = false;
-  //  ego->swarm = false;
   //  ego->pso_gen = 500;
   //  auto t1 = std::chrono::high_resolution_clock::now();
   //  vector<double> x = ego->max_ei_par(i);
@@ -105,7 +103,6 @@ int main(int argc, char * argv[])
   //  ego->n_sims = 10;
   //  //ego->n_sims = i * 10 / 2;
   //  ego->use_brute_search = true;
-  //  ego->swarm = true;
   //  auto t1 = std::chrono::high_resolution_clock::now();
   //  vector<double> x = ego->max_ei_par(i);
   //  auto t2 = std::chrono::high_resolution_clock::now();
@@ -130,7 +127,6 @@ int main(int argc, char * argv[])
     ego = reset_ego();
     ego->num_lambda = i;
     ego->use_brute_search = true;
-    ego->swarm = true;
     //for(int i = -13; i < 14; i++) {
     //  for(int j = -13; j < 14; j++) {
     //    vector<double> x(2, 0);

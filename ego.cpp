@@ -27,6 +27,21 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*f
   lower = low;
   proper_fitness = fit;
   sg = s;
+  n_sims = 50;
+  max_iterations = 1000;
+  num_iterations = 0;
+  num_lambda = 3;
+  population_size = 100;
+  num_points = 10;
+  max_points = 10;
+  pso_gen = 1;
+  iter = 0;
+  best_fitness = 100000000;
+  max_fitness = 0;
+  is_discrete = false;
+  is_new_result = false;
+  use_brute_search = true;
+  suppress = false;
 }
 
 void EGO::run()
