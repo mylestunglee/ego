@@ -25,20 +25,20 @@ class Surrogate
 
     void choose_kernel(int folds);
     void train();
-    bool is_trained = false;
+    bool is_trained;
 
   private:
     int dim;
     mutex mtx;
-    bool is_svm = false;
+    bool is_svm;
     vector<vector<double>> training;
     vector<double> training_f;
     vector<int> training_cl;
-    struct svm_node *s_node = NULL;
-    struct svm_model *s_model = NULL;
+    struct svm_node *s_node;
+    struct svm_model *s_model;
     struct svm_parameter s_param;
     struct svm_problem s_prob;
-    vector<string> covs = {"CovSEiso", "CovSEard", "CovSum (CovSEiso, CovNoise)"};
+    vector<string> covs;
 
 };
 

@@ -31,6 +31,10 @@ Surrogate::Surrogate(int d, s_type type, bool svm)
   params << 1, 1;
   gp->covf().set_loghyper(params);
 
+  s_node = NULL;
+  s_model = NULL;
+  is_trained = false;
+  covs = {"CovSEiso", "CovSEard", "CovSum (CovSEiso, CovNoise)"};
   if(is_svm) {
     s_param.svm_type = C_SVC;
     s_param.kernel_type = RBF;
