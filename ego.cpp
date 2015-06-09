@@ -4,8 +4,13 @@
 #include "ego.h"
 #include "optimise.h"
 #include "ihs.hpp"
+
+#define _GLIBCXX_USE_NANOSLEEP //Need to send thread to sleep on old GCC
+
 #include <thread>
+#include <chrono>
 #include <Eigen/Dense>
+
 
 using namespace std;
 
@@ -55,8 +60,8 @@ void EGO::run()
     if(best_fitness <= max_fitness) {
       if(!suppress) {
         cout << "Found best at [";
-        for(auto x : best_particle) {
-          cout << x << ", ";
+        for(int i = 0; i < dimension; i++) {
+          cout << best_particle[i] << ", ";
         }
         cout << "\b\b] with fitness [" << best_fitness << "]" << endl;
       }
@@ -153,30 +158,32 @@ void EGO::worker_task(vector<double> node)
   running_mtx.lock();
 
   //Add results back to node keeping track
-  //vector<struct running_node>::iterator running_i = running.begin();
-  //while(running_i != running.end()) {
-  //  int i = 0;
-  //  for(; i < dimension; i++) {
-  //    if(running_i->data[i] != node[i]) break;
-  //  }
-  //  if(i == dimension) {
-  //    running_i->is_finished = true;
-  //    running_i->fitness = result;
-  //    break;
-  //  }
-  //  running_i++;
-  //}
-  for(auto &run : running) {
+  vector<struct running_node>::iterator running_i = running.begin();
+  while(running_i != running.end()) {
     int i = 0;
     for(; i < dimension; i++) {
-      if(run.data[i] != node[i]) break;
+      if(running_i->data[i] != node[i]) break;
     }
     if(i == dimension) {
-      run.is_finished = true;
-      run.fitness = result;
+      running_i->is_finished = true;
+      running_i->fitness = result;
       break;
     }
+    running_i++;
   }
+
+  //Uses C++11 features and can't compile on old gcc
+  //for(auto &run : running) {
+  //  int i = 0;
+  //  for(; i < dimension; i++) {
+  //    if(run.data[i] != node[i]) break;
+  //  }
+  //  if(i == dimension) {
+  //    run.is_finished = true;
+  //    run.fitness = result;
+  //    break;
+  //  }
+  //}
 
   running_mtx.unlock();
 }

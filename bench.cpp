@@ -124,6 +124,7 @@ int main(int argc, char * argv[])
 
   for(int i = 2; i < 6; i++) {
     for(int j = 0; j < 4; j++) {
+    cout << "Start" << endl;
     ego = reset_ego();
     ego->num_lambda = i;
     ego->use_brute_search = true;
