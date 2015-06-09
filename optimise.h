@@ -26,8 +26,8 @@ class opt
     Particle *best_part;
     vector<Particle *> particles;
 
-    vector<uniform_real_distribution<>> *space_generator;
-    vector<uniform_real_distribution<>> *speed_generator;
+    vector<std::uniform_real_distribution<double>> *space_generator;
+    vector<std::uniform_real_distribution<double>> *speed_generator;
     vector<double> speed_max;
 
     //Functions

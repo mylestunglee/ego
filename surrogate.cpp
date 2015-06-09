@@ -137,7 +137,7 @@ void Surrogate::train()
     s_prob.y = Malloc(double, amount);
     s_prob.x = Malloc(struct svm_node *, amount);
     s_node = Malloc(struct svm_node, elements);
-    int k = 0;
+    int gam = 0;
     for(int i = 0, j = 0; i < amount; i++) {
       s_prob.x[i] = &s_node[j];
       s_prob.y[i] = training_cl[i];
@@ -148,10 +148,10 @@ void Surrogate::train()
 	  j++;
 	}
       }
-      k = max(k, j);
+      gam = max(gam, j);
       s_node[j++].index = -1;
     }
-    s_param.gamma = 1.0 / k;
+    s_param.gamma = 1.0 / gam;
     streambuf *old = cout.rdbuf(); // <-- save        
     stringstream ss;
 

@@ -3,15 +3,15 @@
 void opt::update_particles(int generation, int max_iter)
 {
   double frac = generation / max_iter;
-  uniform_real_distribution<> dist(0, 2.0);
+  std::uniform_real_uni_distribution<double> uni_dist(0, 2.0);
   random_device rd;
   mt19937 gen(rd());
 
-  for(Particle *part : particles) {
+  for(auto part : particles) {
     for(int j = 0; j < dimension; j++) {
       double maxVel = (1 - pow(frac, 2.0)) * speed_max[j];
-      part->speed[j] += dist(gen) * (best_part->p[j] - part->p[j]);
-      part->speed[j] += dist(gen) * (part->best[j] - part->p[j]);
+      part->speed[j] += uni_dist(gen) * (best_part->p[j] - part->p[j]);
+      part->speed[j] += uni_dist(gen) * (part->best[j] - part->p[j]);
 
       if (part->speed[j] < -maxVel) part->speed[j] = -maxVel;
       if (part->speed[j] > maxVel) part->speed[j] = maxVel;
