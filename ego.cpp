@@ -231,12 +231,14 @@ double EGO::fitness(const vector<double> &x)
   double lambda_means[num];
   double lambda_vars[num];
 
+  double sum = 0;
   for(int i = 0; i < num; i++) {
     double y [dimension];
 
     for(int j = 0; j < dimension; j++) {
       y[j] = x[i * dimension + j];
     }
+    sum += proper_fitness(y);
 
     if(not_running(y)) {
       //lambda_means[i] = sg->mean(y);
@@ -251,7 +253,9 @@ double EGO::fitness(const vector<double> &x)
   }
 
   double result = -1 * ei_multi(lambda_vars, lambda_means, num, n_sims);
-  return result / n_sims;
+  //return result / n_sims;
+  
+  return sum;
 }
 
 void EGO::add_training(const vector<double> &x, double y)
@@ -269,15 +273,15 @@ void EGO::add_training(const vector<double> &x, double y)
 vector<double> EGO::max_ei_par(int lambda) 
 {
   vector<double> best;
-  if(lambda == 1) {
-    vector<double> *x = brute_search_swarm(num_points, 1);
-    if(x) {
-      best = *x;
-    } else {
-      if(!suppress) cout << "Locally ";
-      best = brute_search_local_swarm(best_particle, 1, 1, true);
-    }
-  } else {
+  //if(lambda == 1) {
+  //  vector<double> *x = brute_search_swarm(num_points, 1);
+  //  if(x) {
+  //    best = *x;
+  //  } else {
+  //    if(!suppress) cout << "Locally ";
+  //    best = brute_search_local_swarm(best_particle, 1, 1, true);
+  //  }
+  //} else {
     if(use_brute_search) {
       vector<double> *ptr = brute_search_swarm(num_points, lambda);
       if(ptr) { 
@@ -306,7 +310,11 @@ vector<double> EGO::max_ei_par(int lambda)
       }
 
       opt op(size, up, low, this, is_discrete);
-      best = op.swarm_optimise(x, pso_gen * size, lambda * population_size);
+      auto t1 = std::chrono::high_resolution_clock::now();
+      best = op.swarm_optimise(x, pso_gen * size, population_size);
+      auto t2 = std::chrono::high_resolution_clock::now();
+      auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+      cout << "PSO max_ei_par lambda=" << lambda << " took " << t3  << endl;
       double best_fitness = op.best_part->best_fitness;
 
       if(!suppress) {
@@ -320,7 +328,7 @@ vector<double> EGO::max_ei_par(int lambda)
         cout << "\b\b] = best = "  << best_fitness << endl;
       }
     }
-  }
+  //}
 
   iter++;
   return best;
@@ -357,8 +365,8 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
   double best = -0.1;
   int size = dimension * lambda;
   vector<double> *best_point = new vector<double>(size, 0);
-  int npts_plus[dimension + 1];
-  //int loop[lambda];
+  unsigned long long npts_plus[dimension + 1];
+  //unsigned long long loop[lambda];
   double steps[dimension];
   bool has_result = false;
   //for(int i = 0; i < lambda; i++) loop[i] = i;
@@ -374,7 +382,7 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
   npts_plus[dimension] = 1;
 
   if(lambda == 1) {
-    for(int i = 0; i < npts_plus[0]; i++) {
+    for(unsigned long long i = 0; i < npts_plus[0]; i++) {
       vector<double> x(size, 0.0);
       bool can_run = true;
       for(int j = 0; j < dimension; j++) {
@@ -395,6 +403,7 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
 
   } else {
     for(int i = 0; i < lambda; i++) {
+      auto t1 = std::chrono::high_resolution_clock::now();
       best = -0.01;
       vector<double> point((i+1)*dimension, 0.0);
       bool found = false;
@@ -403,7 +412,7 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
         point[j] = (*best_point)[j];
       }
 
-      for(int j = 0; j < npts_plus[0]; j++) {
+      for(unsigned long long j = 0; j < npts_plus[0]; j++) {
         bool can_run = true;
 	//for(int k = 0; k < i; k++) {
 	//  if(j == loop[k]) {
@@ -417,29 +426,32 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
           if(point[i * dimension + k] > upper[k] || point[i * dimension + k] < lower[k]) can_run = false;
         }
 
-        if(can_run) {
-	  double result = 0.0;
-	  if(i == 0) {
-	    pair<double, double> p = sg->predict(&point[0]);
-            result = -ei(p.first, p.second, best_fitness);
-	  } else {
-            result = fitness(point);
-	  }
-          if(result < best) {
-            for(int k = 0; k < dimension; k++) {
-              (*best_point)[i*dimension + k] = point[i*dimension + k];
-            }
-            best = result;
-	    //loop[i] = j;
-            if(i == lambda - 1) has_result = true;
-	    found = true;
-          }
-        }
+        //if(can_run) {
+	//  double result = 0.0;
+	//  if(i == 0) {
+	//    pair<double, double> p = sg->predict(&point[0]);
+        //    result = -ei(p.first, p.second, best_fitness);
+	//  } else {
+        //    result = fitness(point);
+	//  }
+        //  if(result < best) {
+        //    for(int k = 0; k < dimension; k++) {
+        //      (*best_point)[i*dimension + k] = point[i*dimension + k];
+        //    }
+        //    best = result;
+	//    //loop[i] = j;
+        //    if(i == lambda - 1) has_result = true;
+	//    found = true;
+        //  }
+        //}
       }
-      if(!found) {
-	delete best_point;
-        return NULL;
-      }
+      auto t2 = std::chrono::high_resolution_clock::now();
+      auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+      cout << "Lambda =  " << (i+1) << "/" << lambda << " time = " << t3 << endl;
+      //if(!found) {
+      //  delete best_point;
+      //  return NULL;
+      //}
     }
   }
 

@@ -82,7 +82,7 @@ void opt::generate(int pop)
       //part->speed.push_back((*speed_generator)[j](gen));
       part->speed.push_back(uni_dist(-speed_max[j], speed_max[j]));
     }
-    part->best_fitness = 100000000;
+    part->best_fitness = 100000000000L;
     particles.push_back(part);
   }
   best_part = new Particle();
@@ -90,7 +90,7 @@ void opt::generate(int pop)
     //best_part->p.push_back((*space_generator)[j](gen));
     best_part->p.push_back(uni_dist(-speed_max[j], speed_max[j]));
   }
-  best_part->best_fitness = -0.01;
+  best_part->best_fitness = 100000000000L;
   filter();
 }
 
@@ -130,6 +130,12 @@ vector<double> opt::swarm_main_optimise(int max_gen)
     }
     update_particles(g, max_gen);
     filter();
+    if(best_part->best_fitness > 0.5) { 
+      max_gen++;
+    } else {
+      cout << "Reached optimum at generation " << g << endl;
+      break;
+    }
   }
 
   return best_part->p;
