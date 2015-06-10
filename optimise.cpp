@@ -130,10 +130,10 @@ vector<double> opt::swarm_main_optimise(int max_gen)
     }
     update_particles(g, max_gen);
     filter();
-    if(best_part->best_fitness > 0.5) { 
+    if(best_part->best_fitness > 5 * dimension / ego->dimension ) { 
       max_gen++;
     } else {
-      cout << "Reached optimum at generation " << g << endl;
+      cout << "Close to optimum at generation " << (g+1) << " with " << (g+1) * particles.size() << " calculations, fitness=" << best_part->best_fitness << endl;
       break;
     }
   }

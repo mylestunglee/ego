@@ -21,7 +21,7 @@ EGO *reset_ego()
   //vector<double> upper = {13.0, 13.0, 13.0};
 
   double (*fitness)(double x[]) =  &sphere_20;
-  int dimension = 10;
+  int dimension = 6;
   vector<double> lower = {-5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0 };
   vector<double> upper = {5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0 };
 
@@ -104,45 +104,47 @@ int main(int argc, char * argv[])
   //  cout << "Fitness = " << ego->fitness(x) << endl;
   //}
 
-  for(int i = 1; i < 6; i++) {
-    ego = reset_ego();
-    ego->use_brute_search = true;
-    auto t1 = std::chrono::high_resolution_clock::now();
-    ego->max_ei_par(i);
-    auto t2 = std::chrono::high_resolution_clock::now();
-    auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
-    cout << "Brute swarm loop no calc dim=" << ego->dimension << " l=" << i << ", took " << t3 << endl;
-    delete ego;
-  }
-
-
   //for(int i = 1; i < 6; i++) {
-  //  //ego = reset_ego();
-  //  //ego->num_lambda = 3;
-  //  //ego->use_brute_search = true;
-  //  //ego->suppress = false;
-  //  //auto t1 = std::chrono::high_resolution_clock::now();
-  //  //ego->max_ei_par(i);
-  //  //auto t2 = std::chrono::high_resolution_clock::now();
-  //  //auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
-  //  //cout << "Brute search l=" << i << " took " << t3  << " iter=" << ego->iter << " / " << ego->num_iterations<< endl;
-  //  //delete ego;
-
- 
-  //  for(int k = 100; k <= 1000; k += 100) {
-  //    ego = reset_ego();
-  //    ego->num_lambda = i;
-  //    ego->use_brute_search = false;
-  //    ego->population_size = k;
-  //    ego->suppress = false;
-  //    auto t1 = std::chrono::high_resolution_clock::now();
-  //    ego->max_ei_par(i);
-  //    auto t2 = std::chrono::high_resolution_clock::now();
-  //    auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
-  //    cout << "PSO search dim "<< ego->dimension << " l=" << i << " pop=" << k << " took " << t3 << endl;
-  //    delete ego;
+  //  for(int j = 0; j < 2; j++) {
+  //  ego = reset_ego();
+  //  ego->use_brute_search = true;
+  //  auto t1 = std::chrono::high_resolution_clock::now();
+  //  ego->brute_search_swarm(10, i);
+  //  auto t2 = std::chrono::high_resolution_clock::now();
+  //  auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+  //  cout << "Brute swarm loop w/ calc dim=" << ego->dimension << " l=" << i << ", took " << t3 << endl;
+  //  delete ego;
   //  }
   //}
+
+
+  for(int i = 1; i < 6; i++) {
+    //ego = reset_ego();
+    //ego->num_lambda = 3;
+    //ego->use_brute_search = true;
+    //ego->suppress = false;
+    //auto t1 = std::chrono::high_resolution_clock::now();
+    //ego->max_ei_par(i);
+    //auto t2 = std::chrono::high_resolution_clock::now();
+    //auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+    //cout << "Brute search l=" << i << " took " << t3  << " iter=" << ego->iter << " / " << ego->num_iterations<< endl;
+    //delete ego;
+
+ 
+    for(int k = 1000; k > 100; k -= 100) {
+      ego = reset_ego();
+      ego->num_lambda = i;
+      ego->use_brute_search = false;
+      ego->population_size = k;
+      ego->suppress = true;
+      auto t1 = std::chrono::high_resolution_clock::now();
+      ego->max_ei_par(i);
+      auto t2 = std::chrono::high_resolution_clock::now();
+      auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+      cout << "PSO search find optimum "<< ego->dimension << " l=" << i << " pop=" << k << " took " << t3 << endl;
+      delete ego;
+    }
+  }
 
   //for(int i = 2; i < 6; i++) {
   //  for(int j = 0; j < 4; j++) {

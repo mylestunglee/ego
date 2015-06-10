@@ -252,7 +252,7 @@ double EGO::fitness(const vector<double> &x)
     }
   }
 
-  double result = -1 * ei_multi(lambda_vars, lambda_means, num, n_sims);
+  double result = -1. * ei_multi(lambda_vars, lambda_means, num, n_sims);
   //return result / n_sims;
   
   return sum;
@@ -310,11 +310,11 @@ vector<double> EGO::max_ei_par(int lambda)
       }
 
       opt op(size, up, low, this, is_discrete);
-      auto t1 = std::chrono::high_resolution_clock::now();
+      //auto t1 = std::chrono::high_resolution_clock::now();
       best = op.swarm_optimise(x, pso_gen * size, population_size);
-      auto t2 = std::chrono::high_resolution_clock::now();
-      auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
-      cout << "PSO max_ei_par lambda=" << lambda << " took " << t3  << endl;
+      //auto t2 = std::chrono::high_resolution_clock::now();
+      //auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+      //cout << "PSO max_ei_par lambda=" << lambda << " took " << t3  << endl;
       double best_fitness = op.best_part->best_fitness;
 
       if(!suppress) {
@@ -382,8 +382,9 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
   npts_plus[dimension] = 1;
 
   if(lambda == 1) {
+    vector<double> x(size, 0.0);
+    auto t1 = std::chrono::high_resolution_clock::now();
     for(unsigned long long i = 0; i < npts_plus[0]; i++) {
-      vector<double> x(size, 0.0);
       bool can_run = true;
       for(int j = 0; j < dimension; j++) {
         x[j] = lower[j] + floor((i % npts_plus[j]) / npts_plus[j+1]) * steps[j];
@@ -391,7 +392,7 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
       }
 
       if(can_run) {
-	pair<double, double> p = sg->predict(&x[0]);
+        pair<double, double> p = sg->predict(&x[0]);
         double result = -ei(p.first, p.second, best_fitness);
         if(result < best) {
           best_point->assign(x.begin(), x.end());
@@ -400,8 +401,13 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
         }
       }
     }
-
+   auto t2 = std::chrono::high_resolution_clock::now();
+   auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+   cout << "Lambda =  1 time = " << t3 << endl;
   } else {
+    double lambda_means[lambda];
+    double lambda_vars[lambda];
+    pair<double, double> best_mean_var;
     for(int i = 0; i < lambda; i++) {
       auto t1 = std::chrono::high_resolution_clock::now();
       best = -0.01;
@@ -426,32 +432,37 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
           if(point[i * dimension + k] > upper[k] || point[i * dimension + k] < lower[k]) can_run = false;
         }
 
-        //if(can_run) {
-	//  double result = 0.0;
-	//  if(i == 0) {
-	//    pair<double, double> p = sg->predict(&point[0]);
-        //    result = -ei(p.first, p.second, best_fitness);
-	//  } else {
-        //    result = fitness(point);
-	//  }
-        //  if(result < best) {
-        //    for(int k = 0; k < dimension; k++) {
-        //      (*best_point)[i*dimension + k] = point[i*dimension + k];
-        //    }
-        //    best = result;
-	//    //loop[i] = j;
-        //    if(i == lambda - 1) has_result = true;
-	//    found = true;
-        //  }
-        //}
+        if(can_run) {
+	  double result = 0.0;
+	  pair<double, double> p = sg->predict(&point[i*dimension]);
+	  if(i == 0) {
+            result = -ei(p.first, p.second, best_fitness);
+	  } else {
+	    lambda_means[i] = p.first;
+	    lambda_vars[i] = p.second;
+            result = -1. * ei_multi(lambda_vars, lambda_means, i + 1, n_sims);
+	  }
+          if(result < best) {
+            for(int k = 0; k < dimension; k++) {
+              (*best_point)[i*dimension + k] = point[i*dimension + k];
+            }
+	    best_mean_var = p;
+            best = result;
+	    //loop[i] = j;
+            if(i == lambda - 1) has_result = true;
+	    found = true;
+          }
+        }
       }
+      lambda_means[i] = best_mean_var.first;
+      lambda_vars[i] = best_mean_var.second;
       auto t2 = std::chrono::high_resolution_clock::now();
       auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
       cout << "Lambda =  " << (i+1) << "/" << lambda << " time = " << t3 << endl;
-      //if(!found) {
-      //  delete best_point;
-      //  return NULL;
-      //}
+      if(!found) {
+        delete best_point;
+        return NULL;
+      }
     }
   }
 
