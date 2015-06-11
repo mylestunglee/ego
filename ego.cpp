@@ -582,7 +582,7 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
         return brute_search_local_swarm(particle, radius + 1, lambda, has_to_run);
       }
     } else {
-      if(lambda == 1) {
+      if(lambda == 1 && radius < 3) {
 	max_points *= 2;
         return brute_search_local_swarm(particle, radius + 1, lambda, has_to_run);
       } else if(radius / lambda > upper[0] - lower[0]) {
