@@ -18,8 +18,8 @@ void opt::update_particles(int generation, int max_iter)
       double maxVel = (1 - pow(frac, 2.0)) * speed_max[j];
       //part->speed[j] += uni_dist(gen) * (best_part->p[j] - part->p[j]);
       //part->speed[j] += uni_dist(gen) * (part->best[j] - part->p[j]);
-      part->speed[j] += uni_dist(lower[j], upper[j]) * (best_part->p[j] - part->p[j]);
-      part->speed[j] += uni_dist(lower[j], upper[j]) * (part->best[j] - part->p[j]);
+      part->speed[j] += uni_dist(0, 2.0) * (best_part->p[j] - part->p[j]);
+      part->speed[j] += uni_dist(0, 2.0) * (part->best[j] - part->p[j]);
 
       if (part->speed[j] < -maxVel) part->speed[j] = -maxVel;
       if (part->speed[j] > maxVel) part->speed[j] = maxVel;
@@ -94,24 +94,24 @@ void opt::generate(int pop)
   filter();
 }
 
-vector<double> opt::swarm_optimise(vector<double> best, int max_gen, int pop)
+vector<double> opt::swarm_optimise(vector<double> best, int max_gen, int pop, int min_gen)
 {
   generate(pop);
   Particle *part = particles[0];
   for(int i = 0; i < dimension; i++) {
    part->p[i] = best[i];
   }
-  return swarm_main_optimise(max_gen);
+  return swarm_main_optimise(max_gen, min_gen);
   
 }
 
-vector<double> opt::swarm_optimise(int max_gen, int pop)
+vector<double> opt::swarm_optimise(int max_gen, int pop, int min_gen)
 {
   generate(pop);
-  return swarm_main_optimise(max_gen);
+  return swarm_main_optimise(max_gen, min_gen);
 }
 
-vector<double> opt::swarm_main_optimise(int max_gen)
+vector<double> opt::swarm_main_optimise(int max_gen, int min_gen)
 {
   for(int g = 0; g < max_gen; g++) {
     for(vector<Particle *>::iterator p = particles.begin(); p != particles.end(); p++) {
@@ -126,16 +126,18 @@ vector<double> opt::swarm_main_optimise(int max_gen)
       if(result < best_part->best_fitness) {
         best_part->best_fitness = result;
 	best_part->p = part->p;
+	last_gen = (g+1);
       }
     }
+    if(g > min_gen && g - last_gen == 400) break;
     update_particles(g, max_gen);
     filter();
-    if(best_part->best_fitness > 5 * dimension / ego->dimension ) { 
-      max_gen++;
-    } else {
-      cout << "Close to optimum at generation " << (g+1) << " with " << (g+1) * particles.size() << " calculations, fitness=" << best_part->best_fitness << endl;
-      break;
-    }
+    //if(best_part->best_fitness > 5 * dimension / ego->dimension ) { 
+    //  max_gen++;
+    //} else {
+    //  cout << "Fitness=" << best_part->best_fitness << " generation=" << (g+1) << " with " << (g+1) * particles.size() << " calculations"  << endl;
+    //  break;
+    //}
   }
 
   return best_part->p;

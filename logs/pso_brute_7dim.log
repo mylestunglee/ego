@@ -1,0 +1,76 @@
+Lambda =  1 time = 66799
+Brute swarm loop w/ calc dim=7 l=1, took 66799
+Lambda =  1 time = 66699
+Brute swarm loop w/ calc dim=7 l=1, took 66699
+Lambda =  1/2 time = 66838
+Lambda =  2/2 time = 119794
+Brute swarm loop w/ calc dim=7 l=2, took 186633
+Lambda =  1/2 time = 68135
+Lambda =  2/2 time = 119930
+Brute swarm loop w/ calc dim=7 l=2, took 188065
+Lambda =  1/3 time = 66998
+Lambda =  2/3 time = 119506
+Lambda =  3/3 time = 151444
+Brute swarm loop w/ calc dim=7 l=3, took 337950
+Lambda =  1/3 time = 68327
+Lambda =  2/3 time = 120618
+Lambda =  3/3 time = 154717
+Brute swarm loop w/ calc dim=7 l=3, took 343662
+Lambda =  1/4 time = 69127
+Lambda =  2/4 time = 119973
+Lambda =  3/4 time = 154070
+Lambda =  4/4 time = 178191
+Brute swarm loop w/ calc dim=7 l=4, took 521362
+Lambda =  1/4 time = 68242
+Lambda =  2/4 time = 121763
+Lambda =  3/4 time = 155143
+Lambda =  4/4 time = 180443
+Brute swarm loop w/ calc dim=7 l=4, took 525593
+Lambda =  1/5 time = 68607
+Lambda =  2/5 time = 122787
+Lambda =  3/5 time = 154630
+Lambda =  4/5 time = 179299
+Lambda =  5/5 time = 209213
+Brute swarm loop w/ calc dim=7 l=5, took 734538
+Lambda =  1/5 time = 69281
+Lambda =  2/5 time = 122893
+Lambda =  3/5 time = 155726
+Lambda =  4/5 time = 177913
+Lambda =  5/5 time = 208229
+Brute swarm loop w/ calc dim=7 l=5, took 734044
+Fitness=5 generation=5 with 5000 calculations
+PSO search find optimum 7 l=1 pop=1000 took 37
+Fitness=5 generation=2 with 1800 calculations
+PSO search find optimum 7 l=1 pop=900 took 17
+Fitness=4 generation=2 with 1600 calculations
+PSO search find optimum 7 l=1 pop=800 took 15
+Fitness=3 generation=2 with 1400 calculations
+PSO search find optimum 7 l=1 pop=700 took 13
+Fitness=5 generation=1 with 600 calculations
+PSO search find optimum 7 l=1 pop=600 took 7
+Fitness=5 generation=1 with 500 calculations
+PSO search find optimum 7 l=1 pop=500 took 6
+Fitness=5 generation=1 with 400 calculations
+PSO search find optimum 7 l=1 pop=400 took 5
+Fitness=5 generation=1 with 300 calculations
+PSO search find optimum 7 l=1 pop=300 took 4
+Fitness=5 generation=6 with 1200 calculations
+PSO search find optimum 7 l=1 pop=200 took 9
+Fitness=9 generation=4752 with 4752000 calculations
+PSO search find optimum 7 l=2 pop=1000 took 59335
+Fitness=10 generation=38278 with 34450200 calculations
+PSO search find optimum 7 l=2 pop=900 took 426195
+Fitness=10 generation=28380 with 22704000 calculations
+PSO search find optimum 7 l=2 pop=800 took 283708
+Fitness=10 generation=148726 with 104108200 calculations
+PSO search find optimum 7 l=2 pop=700 took 1255409
+Fitness=9 generation=178481 with 107088600 calculations
+PSO search find optimum 7 l=2 pop=600 took 1329557
+Fitness=9 generation=183267 with 91633500 calculations
+PSO search find optimum 7 l=2 pop=500 took 1117656
+Fitness=9 generation=256036 with 102414400 calculations
+PSO search find optimum 7 l=2 pop=400 took 1263633
+Fitness=10 generation=52425 with 15727500 calculations
+PSO search find optimum 7 l=2 pop=300 took 195100
+Fitness=10 generation=144787 with 28957400 calculations
+PSO search find optimum 7 l=2 pop=200 took 355880

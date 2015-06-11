@@ -231,18 +231,14 @@ double EGO::fitness(const vector<double> &x)
   double lambda_means[num];
   double lambda_vars[num];
 
-  double sum = 0;
   for(int i = 0; i < num; i++) {
     double y [dimension];
 
     for(int j = 0; j < dimension; j++) {
       y[j] = x[i * dimension + j];
     }
-    sum += proper_fitness(y);
 
     if(not_running(y)) {
-      //lambda_means[i] = sg->mean(y);
-      //lambda_vars[i] = sg->var(y);
       pair<double, double> p = sg->predict(y);
       lambda_means[i] = p.first;
       lambda_vars[i] = p.second;
@@ -253,9 +249,7 @@ double EGO::fitness(const vector<double> &x)
   }
 
   double result = -1. * ei_multi(lambda_vars, lambda_means, num, n_sims);
-  //return result / n_sims;
-  
-  return sum;
+  return result / n_sims;
 }
 
 void EGO::add_training(const vector<double> &x, double y)
@@ -309,13 +303,14 @@ vector<double> EGO::max_ei_par(int lambda)
         x[i] = best_particle[i % dimension];
       }
 
-      opt op(size, up, low, this, is_discrete);
+      opt *op = new opt(size, up, low, this, is_discrete);
       //auto t1 = std::chrono::high_resolution_clock::now();
-      best = op.swarm_optimise(x, pso_gen * size, population_size);
+      best = op->swarm_optimise(x, pso_gen * size, population_size, 200);
       //auto t2 = std::chrono::high_resolution_clock::now();
       //auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
       //cout << "PSO max_ei_par lambda=" << lambda << " took " << t3  << endl;
-      double best_fitness = op.best_part->best_fitness;
+      double best_fitness = op->best_part->best_fitness;
+      cout << "Optimum fitness= " << op->best_part->best_fitness << " gen= " << op->last_gen << "/" << min(pso_gen*size, op->last_gen+400) << endl;
 
       if(!suppress) {
         cout << "[";
@@ -327,6 +322,7 @@ vector<double> EGO::max_ei_par(int lambda)
         }
         cout << "\b\b] = best = "  << best_fitness << endl;
       }
+    delete op;
     }
   //}
 

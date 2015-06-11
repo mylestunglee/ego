@@ -1,0 +1,90 @@
+Optimum fitness= -149.012 gen= 257/657
+PSO search find optimum 20 l=1pop=1000 nsims=10 took 6741
+Optimum fitness= -148.641 gen= 51/451
+PSO search find optimum 20 l=1pop=900 nsims=10 took 4034
+Optimum fitness= -148.172 gen= 372/772
+PSO search find optimum 20 l=1pop=800 nsims=10 took 6286
+Optimum fitness= -148.84 gen= 776/1176
+PSO search find optimum 20 l=1pop=700 nsims=10 took 8475
+Optimum fitness= -149.173 gen= 500/900
+PSO search find optimum 20 l=1pop=600 nsims=10 took 5558
+Optimum fitness= -150.318 gen= 713/1113
+PSO search find optimum 20 l=1pop=500 nsims=10 took 5700
+Optimum fitness= -148.858 gen= 40/440
+PSO search find optimum 20 l=1pop=400 nsims=10 took 1825
+Optimum fitness= -148.531 gen= 10/410
+PSO search find optimum 20 l=1pop=300 nsims=10 took 1248
+Optimum fitness= -149.134 gen= 51/451
+PSO search find optimum 20 l=1pop=200 nsims=10 took 922
+Optimum fitness= -152.608 gen= 663/1063
+PSO search find optimum 20 l=2pop=1000 nsims=10 took 21112
+Optimum fitness= -151.603 gen= 489/889
+PSO search find optimum 20 l=2pop=900 nsims=10 took 15826
+Optimum fitness= -151.629 gen= 539/939
+PSO search find optimum 20 l=2pop=800 nsims=10 took 14723
+Optimum fitness= -151.344 gen= 39/439
+PSO search find optimum 20 l=2pop=700 nsims=10 took 6076
+Optimum fitness= -150.713 gen= 153/553
+PSO search find optimum 20 l=2pop=600 nsims=10 took 6513
+Optimum fitness= -151.806 gen= 27/427
+PSO search find optimum 20 l=2pop=500 nsims=10 took 4220
+Optimum fitness= -151.838 gen= 157/557
+PSO search find optimum 20 l=2pop=400 nsims=10 took 4384
+Optimum fitness= -150.864 gen= 716/1116
+PSO search find optimum 20 l=2pop=300 nsims=10 took 6583
+Optimum fitness= -153.53 gen= 680/1080
+PSO search find optimum 20 l=2pop=200 nsims=10 took 4250
+Optimum fitness= -152.649 gen= 224/624
+PSO search find optimum 20 l=3pop=1000 nsims=10 took 18494
+Optimum fitness= -153.26 gen= 196/596
+PSO search find optimum 20 l=3pop=900 nsims=10 took 16212
+Optimum fitness= -152.971 gen= 137/537
+PSO search find optimum 20 l=3pop=800 nsims=10 took 12724
+Optimum fitness= -152.908 gen= 139/539
+PSO search find optimum 20 l=3pop=700 nsims=10 took 11336
+Optimum fitness= -152.496 gen= 448/848
+PSO search find optimum 20 l=3pop=600 nsims=10 took 15231
+Optimum fitness= -152.338 gen= 383/783
+PSO search find optimum 20 l=3pop=500 nsims=10 took 11716
+Optimum fitness= -152.837 gen= 84/484
+PSO search find optimum 20 l=3pop=400 nsims=10 took 5767
+Optimum fitness= -152.307 gen= 988/1388
+PSO search find optimum 20 l=3pop=300 nsims=10 took 12238
+Optimum fitness= -152.956 gen= 293/693
+PSO search find optimum 20 l=3pop=200 nsims=10 took 4116
+Optimum fitness= -153.982 gen= 254/654
+PSO search find optimum 20 l=4pop=1000 nsims=10 took 25864
+Optimum fitness= -154.297 gen= 369/769
+PSO search find optimum 20 l=4pop=900 nsims=10 took 27424
+Optimum fitness= -153.724 gen= 103/503
+PSO search find optimum 20 l=4pop=800 nsims=10 took 15991
+Optimum fitness= -153.53 gen= 292/692
+PSO search find optimum 20 l=4pop=700 nsims=10 took 19212
+Optimum fitness= -153.489 gen= 213/613
+PSO search find optimum 20 l=4pop=600 nsims=10 took 14529
+Optimum fitness= -153.402 gen= 529/929
+PSO search find optimum 20 l=4pop=500 nsims=10 took 18602
+Optimum fitness= -153.191 gen= 480/880
+PSO search find optimum 20 l=4pop=400 nsims=10 took 13949
+Optimum fitness= -153.818 gen= 618/1018
+PSO search find optimum 20 l=4pop=300 nsims=10 took 11982
+Optimum fitness= -153.689 gen= 339/739
+PSO search find optimum 20 l=4pop=200 nsims=10 took 5838
+Optimum fitness= -154.672 gen= 67/467
+PSO search find optimum 20 l=5pop=1000 nsims=10 took 23079
+Optimum fitness= -155.275 gen= 429/829
+PSO search find optimum 20 l=5pop=900 nsims=10 took 37046
+Optimum fitness= -153.999 gen= 211/611
+PSO search find optimum 20 l=5pop=800 nsims=10 took 23950
+Optimum fitness= -154.044 gen= 280/680
+PSO search find optimum 20 l=5pop=700 nsims=10 took 23390
+Optimum fitness= -153.851 gen= 250/650
+PSO search find optimum 20 l=5pop=600 nsims=10 took 19079
+Optimum fitness= -154.146 gen= 374/774
+PSO search find optimum 20 l=5pop=500 nsims=10 took 19089
+Optimum fitness= -154.604 gen= 220/620
+PSO search find optimum 20 l=5pop=400 nsims=10 took 12138
+Optimum fitness= -154.136 gen= 921/1321
+PSO search find optimum 20 l=5pop=300 nsims=10 took 19290
+Optimum fitness= -154.787 gen= 342/742
+PSO search find optimum 20 l=5pop=200 nsims=10 took 7297

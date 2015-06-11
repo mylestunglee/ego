@@ -7,6 +7,8 @@
 using namespace std;
 EGO *reset_ego();
 
+int dimension;
+
 
 EGO *reset_ego()
 {
@@ -21,9 +23,11 @@ EGO *reset_ego()
   //vector<double> upper = {13.0, 13.0, 13.0};
 
   double (*fitness)(double x[]) =  &sphere_20;
-  int dimension = 6;
-  vector<double> lower = {-5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0, -5.0 };
-  vector<double> upper = {5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0 };
+  vector<double> lower, upper;
+  for(int i = 0; i < 25; i++) {
+    lower.push_back(-5.0);
+    upper.push_back(5.0);
+  }
 
   //double (*fitness)(double x[]) =  &easy_test2;
   //int dimension = 1;
@@ -36,13 +40,13 @@ EGO *reset_ego()
   //vector<double> upper = {5.0, 5.0, 5.0, 5.0};
   
   //cout << "Building" << endl;
-  Surrogate *sg(new Surrogate(dimension, SEiso, true));
+  Surrogate *sg = new Surrogate(dimension, SEiso, true);
   //sg->set_params(0.0, 0.0);
-  EGO *ego(new EGO(dimension, sg, lower, upper, fitness));
+  EGO *ego = new EGO(dimension, sg, lower, upper, fitness);
   //cout << "Built" << endl;
 
   ego->suppress = true;
-  ego->is_discrete = true;
+  ego->is_discrete = false;
   ego->n_sims = 10;
   ego->max_points = upper[0] - lower[0];
   ego->num_points = ego->max_points;
@@ -56,7 +60,11 @@ EGO *reset_ego()
 
 int main(int argc, char * argv[]) 
 {
+  dimension = 8;
   EGO* ego = NULL;
+  if(argc > 1) {
+    dimension = atoi(argv[1]);
+  }
 
   //ego = reset_ego();
   //ego->suppress = false;
@@ -131,9 +139,12 @@ int main(int argc, char * argv[])
     //delete ego;
 
  
+    //for(int j = 10; j < 500; j*=5){
     for(int k = 1000; k > 100; k -= 100) {
       ego = reset_ego();
+      //ego->sample_plan(ego->dimension, 5);
       ego->num_lambda = i;
+      //ego->n_sims = j;
       ego->use_brute_search = false;
       ego->population_size = k;
       ego->suppress = true;
@@ -141,8 +152,9 @@ int main(int argc, char * argv[])
       ego->max_ei_par(i);
       auto t2 = std::chrono::high_resolution_clock::now();
       auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
-      cout << "PSO search find optimum "<< ego->dimension << " l=" << i << " pop=" << k << " took " << t3 << endl;
+      cout << "PSO search find optimum "<< ego->dimension << " l=" << i << "pop=" << k << " nsims=" << 10 << " took " << t3 << endl;
       delete ego;
+    //}
     }
   }
 

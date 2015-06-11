@@ -43,7 +43,7 @@ double sphere_4(double x[])
 
 double sphere_20(double x[])
 {
-  return sphere(x, 6);
+  return sphere(x, 25);
 }
 
 double sphere_3(double x[])

@@ -19,6 +19,7 @@ class opt
 {
   public:
     int dimension;
+    int last_gen;
     vector<double> upper;
     vector<double> lower;
     bool is_discrete;
@@ -36,9 +37,9 @@ class opt
     void update_particles(int generation, int max_iter);
     void filter();
     void generate(int pop);
-    vector<double> swarm_optimise(int max_gen, int pop = 100);
-    vector<double> swarm_optimise(vector<double> best, int max_gen, int pop);
-    vector<double> swarm_main_optimise(int max_gen);
+    vector<double> swarm_optimise(int max_gen, int pop = 100, int min_gen=100);
+    vector<double> swarm_optimise(vector<double> best, int max_gen, int pop, int min_gen=100);
+    vector<double> swarm_main_optimise(int max_gen, int min_gen);
 };
 
 double uni_dist(double N, double M);
