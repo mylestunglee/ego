@@ -33,7 +33,7 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*f
   proper_fitness = fit;
   sg = s;
   n_sims = 50;
-  max_iterations = 1000;
+  max_iterations = 500;
   num_iterations = 0;
   num_lambda = 3;
   population_size = 100;
@@ -47,6 +47,7 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*f
   is_new_result = false;
   use_brute_search = true;
   suppress = false;
+  at_optimum = false;
 }
 
 void EGO::run()
@@ -57,7 +58,7 @@ void EGO::run()
     check_running_tasks();
     sg->train();
 
-    if(best_fitness <= max_fitness) {
+    if(at_optimum || best_fitness <= max_fitness) {
       if(!suppress) {
         cout << "Found best at [";
         for(int i = 0; i < dimension; i++) {
@@ -168,7 +169,7 @@ void EGO::worker_task(vector<double> node)
     if(i == dimension) {
       running_i->is_finished = true;
       running_i->fitness = result;
-      running_i->label = (int) (node[0] < 5);
+      running_i->label = 1; //(int) (result < 100 && result > -100);
       break;
     }
     running_i++;
@@ -205,7 +206,7 @@ void EGO::check_running_tasks()
       }
 
       //Add it to our training set
-      add_training(node->data, node->fitness);
+      add_training(node->data, node->fitness, node->label);
 
       //Delete estimations
       mu_means.erase(mu_means.begin() + node->pos);
@@ -252,13 +253,12 @@ double EGO::fitness(const vector<double> &x)
   return result / n_sims;
 }
 
-void EGO::add_training(const vector<double> &x, double y)
+void EGO::add_training(const vector<double> &x, double y, int label)
 {
   training.push_back(x);
   training_fitness.push_back(y);
-  int cl = 2 - (int) (x[0] < 5);
-  sg->add(x, y, cl);
-  if(cl == 1 && y < best_fitness) {
+  sg->add(x, y, label);
+  if(label == 1 && y < best_fitness) {
     best_fitness = y;
     best_particle = x;
   }
@@ -310,7 +310,7 @@ vector<double> EGO::max_ei_par(int lambda)
       //auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
       //cout << "PSO max_ei_par lambda=" << lambda << " took " << t3  << endl;
       double best_fitness = op->best_part->best_fitness;
-      cout << "Optimum fitness= " << op->best_part->best_fitness << " gen= " << op->last_gen << "/" << min(pso_gen*size, op->last_gen+400) << endl;
+      //cout << "Optimum fitness= " << op->best_part->best_fitness << " gen= " << op->last_gen << "/" << min(pso_gen*size, op->last_gen+400) << endl;
 
       if(!suppress) {
         cout << "[";
@@ -337,10 +337,11 @@ void EGO::sample_plan(size_t F, int D)
     cout << "Sample plan broke horribly, exiting" << endl;
     exit(-1);
   }
+  double frac = (upper[0] - lower[0]) / (F-1);
   for(size_t i = 0; i < F; i++) {
     vector<double> x(dimension, 0.0);
     for(int j = 0; j < dimension; j++) {
-      x[j] = lower[j] + latin[i*dimension+j];
+      x[j] = lower[j] + frac*(latin[i*dimension+j]-1);
     }
     while(running.size() == num_lambda) {
       std::this_thread::sleep_for(std::chrono::milliseconds(20));
@@ -358,7 +359,7 @@ void EGO::sample_plan(size_t F, int D)
 
 vector<double> *EGO::brute_search_swarm(int npts, int lambda)
 {
-  double best = -0.1;
+  double best = -0.0;
   int size = dimension * lambda;
   vector<double> *best_point = new vector<double>(size, 0);
   unsigned long long npts_plus[dimension + 1];
@@ -406,7 +407,7 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
     pair<double, double> best_mean_var;
     for(int i = 0; i < lambda; i++) {
       auto t1 = std::chrono::high_resolution_clock::now();
-      best = -0.01;
+      best = -0.001;
       vector<double> point((i+1)*dimension, 0.0);
       bool found = false;
 
@@ -482,27 +483,27 @@ vector<double> *EGO::brute_search_swarm(int npts, int lambda)
 
 vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, double radius, int lambda, bool has_to_run)
 {
-  double best = -0.001;
+  double best = -0.0;
   int size = dimension * lambda;
   vector<double> best_point(size, 0);
-  int loop[lambda];
+  unsigned long long loop[lambda];
   double steps[dimension];
-  int npts_plus[dimension + 1];
+  unsigned long long npts_plus[dimension + 1];
   bool has_result = false;
   for(int i = 0; i < lambda; i++) loop[i] = i;
   for(int i = 0; i < dimension; i++) {
     if(is_discrete) {
       steps[i] = 1;
-      npts_plus[i] = (int) pow(2*radius + 1, dimension - i);
+      npts_plus[i] = pow(2*radius + 1, dimension - i);
     } else {
       steps[i] = 2 * radius / max_points;
-      npts_plus[i] = (int) pow(max_points + 1, dimension - i);
+      npts_plus[i] = pow(max_points + 1, dimension - i);
     }
   }
   npts_plus[dimension] = 1;
 
   if(lambda == 1) {
-    for(int i = 0; i < npts_plus[0]; i++) {
+    for(unsigned long long i = 0; i < npts_plus[0]; i++) {
       vector<double> x(size, 0.0);
       bool can_run = true;
       for(int j = 0; j < dimension; j++) {
@@ -522,7 +523,7 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
     }
   } else {
     for(int i = 0; i < lambda; i++) {
-      best = -0.0001;
+      best = -0.0;
       vector<double> point((i+1)*dimension, 0.0);
       bool found = false;
 
@@ -530,7 +531,7 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
         point[j] = best_point[j];
       }
 
-      for(int j = 0; j < npts_plus[0]; j++) {
+      for(unsigned long long j = 0; j < npts_plus[0]; j++) {
         bool can_run = true;
 	for(int k = 0; k < i; k++) {
 	  if(j == loop[k]) {
@@ -571,19 +572,34 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
   if(has_result) {
     return best_point;
   } else {
-    if(radius / lambda > 3) {
-      cout << "Cannot find new points in direct vicinity of best" << endl;
-      return best_point;
+    if(is_discrete) {
+      if(radius / lambda > upper[0] - lower[0]) {
+        if(!suppress) cout << "Cannot find new points in direct vicinity of best" << endl;
+        at_optimum = true;
+        return best_point;
+      } else {
+        //cout << "Increasing radius" << endl;
+        return brute_search_local_swarm(particle, radius + 1, lambda, has_to_run);
+      }
     } else {
-      cout << "Increasing radius" << endl;
-      return brute_search_local_swarm(particle, radius + 1, lambda, has_to_run);
+      if(lambda == 1) {
+	max_points *= 2;
+        return brute_search_local_swarm(particle, radius + 1, lambda, has_to_run);
+      } else if(radius / lambda > upper[0] - lower[0]) {
+        if(!suppress) cout << "Cannot find new points in direct vicinity of best" << endl;
+        at_optimum = true;
+        return best_point;
+      } else {
+        //cout << "Increasing radius" << endl;
+        return brute_search_local_swarm(particle, radius + 1, lambda, has_to_run);
+      }
     }
   }
 }
 
 bool EGO::not_run(double x[])
 {
-  double eps = 0.0001;
+  static double eps = std::numeric_limits<double>::epsilon();
   vector<vector<double>>::iterator train = training.begin();
   while(train != training.end()) {
     int i = 0;
@@ -598,7 +614,7 @@ bool EGO::not_run(double x[])
 
 bool EGO::not_running(double x[])
 {
-  double eps = 0.0001;
+  static double eps = std::numeric_limits<double>::epsilon();
   vector<struct running_node>::iterator node = running.begin();
   while(node != running.end()) {
     int i = 0;

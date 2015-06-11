@@ -27,7 +27,7 @@ class EGO
     void evaluate(const vector<double> &x);
     void run();
     vector<double> best_result();
-    void add_training(const vector<double> &x, double y);
+    void add_training(const vector<double> &x, double y, int label);
     vector<double> brute_search_local_swarm(const vector<double> &particle, double radius=1.0, int lambda=1, bool has_to_run=false);
     vector<double>* brute_search_swarm(int npts=10, int lambda=1);
     double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n);
@@ -50,8 +50,9 @@ class EGO
     int pso_gen;
     int iter;
     vector<double> best_particle;
-    double best_fitness;
-    double max_fitness;
+    long double best_fitness;
+    long double max_fitness;
+    bool at_optimum;
     bool is_discrete;
     bool is_new_result;
     bool use_brute_search;
@@ -63,7 +64,7 @@ class EGO
     mutex running_mtx;
     vector<struct running_node> running;
     vector<vector<double>> training;
-    vector<double> training_fitness;
+    vector<long double> training_fitness;
     vector<double> mu_means;
     vector<double> mu_vars;
     vector<double> lower;

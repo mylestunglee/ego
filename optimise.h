@@ -12,7 +12,7 @@ class Particle
     vector<double> p;
     vector<double> speed;
     vector<double> best;
-    long double best_fitness;
+    double best_fitness;
 };
 
 class opt 

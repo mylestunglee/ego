@@ -11,6 +11,7 @@ void opt::update_particles(int generation, int max_iter)
   //std::uniform_real_distribution<double> uni_dist(0, 2.0);
   //random_device rd;
   //mt19937 gen(rd());
+  srand(time(NULL));
 
   for(vector<Particle *>::iterator p = particles.begin(); p != particles.end(); p++) {
     Particle *part = *p;
@@ -73,6 +74,7 @@ void opt::generate(int pop)
 {
   //random_device rd;
   //mt19937 gen(rd());
+  srand(time(NULL));
   for(int i = 0; i < pop; i++) {
     Particle *part = new Particle();
     for(int j = 0; j < dimension; j++) {
@@ -82,7 +84,7 @@ void opt::generate(int pop)
       //part->speed.push_back((*speed_generator)[j](gen));
       part->speed.push_back(uni_dist(-speed_max[j], speed_max[j]));
     }
-    part->best_fitness = 100000000000L;
+    part->best_fitness = -0.0;
     particles.push_back(part);
   }
   best_part = new Particle();
@@ -90,7 +92,7 @@ void opt::generate(int pop)
     //best_part->p.push_back((*space_generator)[j](gen));
     best_part->p.push_back(uni_dist(-speed_max[j], speed_max[j]));
   }
-  best_part->best_fitness = 100000000000L;
+  best_part->best_fitness = -0.0;
   filter();
 }
 

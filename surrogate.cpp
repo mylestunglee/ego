@@ -168,7 +168,7 @@ void Surrogate::train()
 pair<double, double> Surrogate::predict(double x[])
 {
   if(svm_label(x) != 1) {
-    return make_pair(100000000000, 0.0);
+    return make_pair(100000000000.0, 0.0);
   } else {
     return make_pair(gp->f(x), gp->var(x));
   }
