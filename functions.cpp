@@ -69,4 +69,11 @@ double prob09(double x[])
   return 100*pow(x[1] - pow(x[0], 2), 2) + pow(1 - x[0], 2);
 }
 
-
+double tang(double x[])
+{
+  double sum = 0;
+  for(int i = 0; i < 2; i++) {
+    sum += pow(x[i], 4) - 16 * pow(x[i], 2) + 5 * x[i];
+  }
+  return sum / 2;
+}
