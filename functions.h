@@ -10,3 +10,4 @@ double sphere_3(double x[]);
 double sphere_2(double x[]);
 double sphere_20(double x[]);
 double prob09(double x[]);
+double tang(double x[]);
