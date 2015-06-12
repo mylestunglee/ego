@@ -1,6 +1,4 @@
 #include <iostream>
-#include "surrogate.h"
-#include "gp.h"
 #include "ego.h"
 #include "optimise.h"
 #include "ihs.hpp"
@@ -9,7 +7,6 @@
 
 #include <thread>
 #include <chrono>
-#include <Eigen/Dense>
 
 
 using namespace std;
@@ -127,10 +124,10 @@ void EGO::python_eval(const vector<double> &x, bool add)
 
   struct running_node run; 
   PyObject *args, *index, *args2, *fitness_result, *results, *temp, *index_0;
-  PyObject *args = PyTuple_New(x.size());
+  args = PyTuple_New(x.size());
   //Set up arguments for call to fitness function
   for(int i = 0; i < x.size(); i++) {
-    pValue = PyFloat_FromLong(x[i]);
+    pValue = PyFloat_FromDouble(x[i]);
     if(!pValue) {
       cout << "Broken python code in eval, exiting" << endl;
       cout << "Broke on adding " << x[i] << " to arg list" << endl;
@@ -138,24 +135,18 @@ void EGO::python_eval(const vector<double> &x, bool add)
       Py_DECREF(args);
       exit(-1);
     }
-    index = PyInt_FromLong(i);
-    PyTuple_SetItem(args, index, value);
-    Py_DECREF(index);
+    PyTuple_SetItem(args, i, pValue);
     Py_DECREF(pValue);
   }
 
   //SO LONG URGH
   args2 = PyTuple_New(2);
-  index = PyInt_FromLong(0);
-  PyTuple_SetItem(args, index, args);
-  Py_DECREF(index);
-  index = PyInt_FromLong(1);
+  PyTuple_SetItem(args2, 0, args);
   if(pState) {
-    PyTuple_SetItem(args, index, pState);
+    PyTuple_SetItem(args, 1, pState);
   } else {
-    PyTuple_SetItem(args, index, Py_None);
+    PyTuple_SetItem(args, 1, Py_None);
   }
-  Py_DECREF(index);
 
   //Finally call python code
   fitness_result = PyObject_CallObject(pFunc, args);
@@ -167,7 +158,7 @@ void EGO::python_eval(const vector<double> &x, bool add)
   if(size < 2) {
     cout << "Broken python code in eval, exiting" << endl;
     cout << "Broke on reading returned fitness values" << endl;
-    py_exit();
+    exit(-1);
   }
   index = PyInt_FromLong(0);
   results = PyObject_GetItem(fitness_result, index);
@@ -211,7 +202,7 @@ void EGO::python_eval(const vector<double> &x, bool add)
   Py_DECREF(pValue);
   Py_DECREF(temp);
   Py_DECREF(index);
-  Py_DECREF(index0);
+  Py_DECREF(index_0);
   Py_DECREF(results);
   Py_DECREF(fitness_result);
   //FINALLY CLEAN
@@ -232,12 +223,12 @@ void EGO::python_eval(const vector<double> &x, bool add)
   }
 }
 
-void update_running(chrono::duration<int> time)
+void EGO::update_running(chrono::duration<int> t)
 {
-  if(time = -1) {
-    time = 1000000000000000;
-    for(vector<struct running_node>::iterator node = running.begin(); node !=
-    running.end();) time = min(time, node->cost);
+  long int time = t;
+  if(time == -1) {
+    time = 1000000000000000L;
+    for(vector<struct running_node>::iterator node = running.begin(); node != running.end();) time = min(time, node->cost);
   }
   for(vector<struct running_node>::iterator node = running.begin(); node != running.end();) {
     node->cost -= time;
@@ -252,7 +243,6 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string py
   dimension = dim;
   upper = up;
   lower = low;
-  proper_fitness = fit;
   sg = s;
   n_sims = 50;
   max_iterations = 500;
@@ -286,7 +276,7 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string py
   // pDict is a borrowed reference 
   //pDict = PyModule_GetDict(pModule);
 
-  pFunc = PyModule_GetAttrString(pModule, (char*)"fitnessFunc");
+  pFunc = PyObject_GetAttrString(pModule, (char*)"fitnessFunc");
 
   Py_DECREF(pName);
 }

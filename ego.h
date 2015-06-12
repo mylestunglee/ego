@@ -1,3 +1,4 @@
+#include "Python.h"
 #include <vector>
 #include "functions.h"
 #include <random>
@@ -19,9 +20,8 @@ class EGO
       int label;
       bool is_finished;
       int addReturn;
-      int cost
+      int cost;
       int pos;
-      ego_result result;
       vector<double> data;
     };
 
