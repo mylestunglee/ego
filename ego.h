@@ -1,4 +1,5 @@
 #include <vector>
+#include "functions.h"
 #include <random>
 #include "surrogate.h"
 #include <mutex>
@@ -17,7 +18,10 @@ class EGO
       double fitness;
       int label;
       bool is_finished;
+      int addReturn;
+      int cost
       int pos;
+      ego_result result;
       vector<double> data;
     };
 
@@ -44,6 +48,7 @@ class EGO
     int max_iterations;
     int num_iterations;
     size_t num_lambda;
+    int lambda;
     int population_size;
     int num_points;
     int max_points;
@@ -59,6 +64,13 @@ class EGO
     bool suppress;
     vector<double> discrete_steps;
 
+    PyObject *pName; 
+    PyObject *pModule; 
+    PyObject *pDict; 
+    PyObject *pFunc; 
+    PyObject *pValue; 
+    PyObject *pState; 
+
     double (* proper_fitness) (double x[]);
 
     mutex running_mtx;
@@ -71,6 +83,11 @@ class EGO
     vector<double> upper;
 
     Surrogate *sg;
+    Surrogate *sg_cost;
+
+  EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string python_file_name);
+  void python_eval(const vector<double> &x, bool add=false);
+  void run_quad();
 
 };
 

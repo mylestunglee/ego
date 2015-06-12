@@ -1,4 +1,5 @@
 #include "functions.h"
+#include "Python.h"
 #include <cmath>
 #include <iostream>
 #include <thread>

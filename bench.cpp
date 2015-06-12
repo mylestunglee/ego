@@ -25,13 +25,21 @@ EGO *reset_ego()
   //  upper.push_back(5.0);
   //}
 
-  double (*fitness)(double x[]) =  &prob09;
+  //double (*fitness)(double x[]) =  &prob09;
+  //vector<double> lower, upper;
+  //for(int i = 0; i < 2; i++) {
+  //  lower.push_back(-2.0);
+  //  upper.push_back(2.0);
+  //}
+  //max_f = 0.001;
+
+  double (*fitness)(double x[]) =  &tang;
   vector<double> lower, upper;
-  for(int i = 0; i < 2; i++) {
-    lower.push_back(-2.0);
-    upper.push_back(2.0);
+  for(int i = 0; i < dimension; i++) {
+    lower.push_back(-5.0);
+    upper.push_back(5.0);
   }
-  max_f = 0.001;
+  max_f = -39.166 * dimension;
 
   //double (*fitness)(double x[]) =  &easy_test2;
   //int dimension = 1;
@@ -54,14 +62,14 @@ EGO *reset_ego()
   ego->pso_gen = 100;
 
   //cout << "Sample"<<endl;
-  ego->sample_plan(20, 5);
+  ego->sample_plan(10*dimension, 5);
   //cout << "Sampled"<<endl;
   return ego;
 }
 
 int main(int argc, char * argv[]) 
 {
-  dimension = 8;
+  dimension = 2;
   EGO* ego = NULL;
   if(argc > 1) {
     dimension = atoi(argv[1]);
@@ -140,7 +148,7 @@ int main(int argc, char * argv[])
     //delete ego;
 
  
-    for(int j = 5; j < 50000; j*=10) {
+    for(int j = 5; j < 500; j*=10) {
     for(int k = 0; k <= 5; k++) {
     //for(int k = 100; k <= 700; k += 100) {
       ego = reset_ego();
@@ -155,6 +163,12 @@ int main(int argc, char * argv[])
       auto t2 = std::chrono::high_resolution_clock::now();
       auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
       cout << "PSO search fit="<< ego->best_fitness << ego->dimension << " l=" << i << " pop=" << 500 << " nsims=" << j << " iter=" << ego->iter << "/" << ego->num_iterations << " took " << t3 << endl;
+      cout << "Best part at [";
+      vector<double> x = ego->best_result();
+      for(int l = 0; l < dimension; l++) {
+        cout << x[l] << " ";
+      }
+      cout << "\b]" << endl;
       delete ego;
     }
     }

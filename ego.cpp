@@ -23,6 +23,272 @@ const double PI = std::atan(1.0)*4;
 EGO::~EGO()
 {
   delete sg;
+  if(pModule) {
+    // Clean up
+    Py_DECREF(pModule);
+
+    // Finish the Python Interpreter
+    Py_Finalize();
+    delete sg_cost;
+  }
+}
+
+void EGO::run_quad()
+{
+  if(!suppress) cout << "Started, dim=" << dimension << ", lambda=" << num_lambda << endl;
+  while(num_iterations < max_iterations) {
+    //Check to see if any workers have finished computing
+
+    auto t1 = std::chrono::high_resolution_clock::now();
+    sg->train();
+    auto t2 = std::chrono::high_resolution_clock::now();
+    auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+    update_running(t3);
+
+    if(at_optimum || best_fitness <= max_fitness) {
+      if(!suppress) {
+        cout << "Found best at [";
+        for(int i = 0; i < dimension; i++) {
+          cout << best_particle[i] << ", ";
+        }
+        cout << "\b\b] with fitness [" << best_fitness << "]" << endl;
+      }
+      while(running.size() > 0){
+	update_running(10000000);
+      }
+      break;
+    }
+
+    if(is_new_result && !suppress) {
+      cout << "Iter: " << num_iterations << " / " << max_iterations;
+      cout << ", RUNNING: " << running.size() << " Lambda: " << lambda;
+      cout << " best " << best_fitness << endl;
+      is_new_result = false;
+    }
+
+    if(lambda > 0) {
+      t1 = std::chrono::high_resolution_clock::now();
+      vector<double> best_xs = max_ei_par(lambda);
+      t2 = std::chrono::high_resolution_clock::now();
+      t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+      update_running(t3);
+
+      t1 = std::chrono::high_resolution_clock::now();
+      t2 = std::chrono::high_resolution_clock::now();
+      for(int l = 0; l < lambda; l++) {
+        vector<double> y(dimension, 0.0);
+        for(int j = 0; j < dimension; j++) {
+          y[j] = best_xs[l * dimension + j];
+        }
+
+        if(not_running(&y[0]) && not_run(&y[0])) {
+          python_eval(y);
+        } else {
+	  if(!suppress) {
+            cout << "Have run: ";
+            for(int j = 0; j < dimension; j++) {
+              cout << y[j] << " ";
+            }
+	  }
+          y = brute_search_local_swarm(best_particle, 1, 1, true);
+          python_eval(y);
+        }
+      }
+      t2 = std::chrono::high_resolution_clock::now();
+      t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+      update_running(t3);
+    }
+    update_running();
+  }
+}
+
+void EGO::python_eval(const vector<double> &x, bool add)
+{
+  double *data = (double *) &x[0];
+  if(!suppress) {
+    cout << "Evaluating: ";
+    for(int j = 0; j < dimension; j++) {
+      cout << x[j] << " ";
+    }
+    cout << endl;
+  }
+
+  double mean, var;
+  if(sg->is_trained){
+    pair<double, double> p = sg->predict(data);
+    mean = p.first;
+    var = p.second;
+  } else {
+    mean = sg->mean(data);
+    var = sg->var(data);
+  }
+  mu_means.push_back(mean);
+  mu_vars.push_back(var);
+
+  struct running_node run; 
+  PyObject *args, *index, *args2, *fitness_result, *results, *temp, *index_0;
+  PyObject *args = PyTuple_New(x.size());
+  //Set up arguments for call to fitness function
+  for(int i = 0; i < x.size(); i++) {
+    pValue = PyFloat_FromLong(x[i]);
+    if(!pValue) {
+      cout << "Broken python code in eval, exiting" << endl;
+      cout << "Broke on adding " << x[i] << " to arg list" << endl;
+      Py_DECREF(pValue);
+      Py_DECREF(args);
+      exit(-1);
+    }
+    index = PyInt_FromLong(i);
+    PyTuple_SetItem(args, index, value);
+    Py_DECREF(index);
+    Py_DECREF(pValue);
+  }
+
+  //SO LONG URGH
+  args2 = PyTuple_New(2);
+  index = PyInt_FromLong(0);
+  PyTuple_SetItem(args, index, args);
+  Py_DECREF(index);
+  index = PyInt_FromLong(1);
+  if(pState) {
+    PyTuple_SetItem(args, index, pState);
+  } else {
+    PyTuple_SetItem(args, index, Py_None);
+  }
+  Py_DECREF(index);
+
+  //Finally call python code
+  fitness_result = PyObject_CallObject(pFunc, args);
+
+  if(args) Py_DECREF(args);
+  if(pState) Py_DECREF(pState);
+  //Check dem errors
+  int size = PyObject_Size(fitness_result);
+  if(size < 2) {
+    cout << "Broken python code in eval, exiting" << endl;
+    cout << "Broke on reading returned fitness values" << endl;
+    py_exit();
+  }
+  index = PyInt_FromLong(0);
+  results = PyObject_GetItem(fitness_result, index);
+  Py_DECREF(index);
+
+  //Set all the python stuff back to C++ types
+  index = PyInt_FromLong(1);
+  if(pState) Py_DECREF(pState);
+  //Set our state object
+  pState = PyObject_GetItem(fitness_result, index);
+  Py_DECREF(index);
+
+  //Grab all those juicy results - now in longform
+  index_0 = PyInt_FromLong(0);
+  pValue = PyObject_GetItem(results, index);
+  temp = PyObject_GetItem(pValue, index_0);
+  run.fitness = PyFloat_AsDouble(temp);
+  Py_DECREF(pValue);
+  Py_DECREF(temp);
+
+  index = PyInt_FromLong(1);
+  pValue = PyObject_GetItem(results, index);
+  temp = PyObject_GetItem(pValue, index_0);
+  run.label = PyInt_AsLong(temp);
+  Py_DECREF(pValue);
+  Py_DECREF(temp);
+  Py_DECREF(index);
+
+  index = PyInt_FromLong(2);
+  pValue = PyObject_GetItem(results, index);
+  temp = PyObject_GetItem(pValue, index_0);
+  run.addReturn = PyInt_AsLong(temp);
+  Py_DECREF(pValue);
+  Py_DECREF(temp);
+  Py_DECREF(index);
+
+  index = PyInt_FromLong(3);
+  pValue = PyObject_GetItem(results, index);
+  temp = PyObject_GetItem(pValue, index_0);
+  run.cost = PyInt_AsLong(pValue);
+  Py_DECREF(pValue);
+  Py_DECREF(temp);
+  Py_DECREF(index);
+  Py_DECREF(index0);
+  Py_DECREF(results);
+  Py_DECREF(fitness_result);
+  //FINALLY CLEAN
+
+  if(add) {
+    num_iterations++;
+    string str(x.begin(), x.end());
+    cout << str << " fitness:" << run.fitness << " code:" << run.label << endl;
+    sg->add(x, run.fitness, run.label + 1, run.addReturn);
+    sg_cost->add(x, run.cost);
+  } else {
+    //Add to running set
+    run.is_finished = false;
+    run.data = x;
+    run.pos = mu_means.size() - 1;
+    running.push_back(run);
+    num_iterations++;
+  }
+}
+
+void update_running(chrono::duration<int> time)
+{
+  if(time = -1) {
+    time = 1000000000000000;
+    for(vector<struct running_node>::iterator node = running.begin(); node !=
+    running.end();) time = min(time, node->cost);
+  }
+  for(vector<struct running_node>::iterator node = running.begin(); node != running.end();) {
+    node->cost -= time;
+    if(node->cost <= 0) {
+      python_eval(node->data, true);
+    }
+  }
+}
+
+EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string python_file_name)
+{
+  dimension = dim;
+  upper = up;
+  lower = low;
+  proper_fitness = fit;
+  sg = s;
+  n_sims = 50;
+  max_iterations = 500;
+  num_iterations = 0;
+  num_lambda = 3;
+  lambda = num_lambda;
+  population_size = 100;
+  num_points = 10;
+  max_points = 10;
+  pso_gen = 1;
+  iter = 0;
+  best_fitness = 100000000;
+  max_fitness = 0;
+  is_discrete = false;
+  is_new_result = false;
+  use_brute_search = true;
+  suppress = false;
+  at_optimum = false;
+
+  sg_cost = new Surrogate(dim, SEiso);
+
+  // Initialize the Python Interpreter
+  Py_Initialize();
+
+  // Build the name object
+  pName = PyString_FromString(python_file_name);
+
+  // Load the module object
+  pModule = PyImport_Import(pName);
+
+  // pDict is a borrowed reference 
+  //pDict = PyModule_GetDict(pModule);
+
+  pFunc = PyModule_GetAttrString(pModule, (char*)"fitnessFunc");
+
+  Py_DECREF(pName);
 }
 
 EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*fit)(double x[]))
@@ -48,6 +314,7 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*f
   use_brute_search = true;
   suppress = false;
   at_optimum = false;
+  pName = NULL;
 }
 
 void EGO::run()

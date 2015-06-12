@@ -18,6 +18,7 @@ class Surrogate
     ~Surrogate();
     void add(vector<double> x, double y);
     void add(vector<double> x, double y, int cl);
+    void add(vector<double> x, double y, int cl, int add);
     double var(double x[]);
     double mean(double x[]);
     pair<double, double> predict(double x[]);

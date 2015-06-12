@@ -189,7 +189,7 @@ double Surrogate::mean(double x[])
 
 int Surrogate::svm_label(double x[])
 {
-  if(!is_svm) return 1.0;
+  if(!is_svm) return 1;
   if(!is_trained) {
     cout << "Haven't trained svm when calling, exiting" << endl;
     exit(-1);
