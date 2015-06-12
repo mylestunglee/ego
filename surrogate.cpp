@@ -12,6 +12,7 @@ using namespace libgp;
 Surrogate::Surrogate(int d, s_type type, bool svm)
 {
   dim = d;
+  amount_to_train = 0;
   is_svm = svm;
 
   switch(type) {
@@ -100,10 +101,9 @@ Surrogate::Surrogate(int d, s_type type, bool svm)
 
 void Surrogate::add(vector<double> x, double y)
 {
-  double *data = &x[0];
-  gp->add_pattern(data, y);
   training.push_back(x);
   training_f.push_back(y);
+  amount_to_train++;
 }
 
 void Surrogate::add(vector<double> x, double y, int cl)
@@ -120,6 +120,12 @@ void Surrogate::add(vector<double> x, double y, int cl)
 void Surrogate::train()
 {
   int amount = training.size();
+  for(int i = amount - amount_to_train; i < amount; i++) {
+    double *data = &training[i][0];
+    gp->add_pattern(data, training_f[i]);
+  }
+  amount_to_train = 0;
+
   if(is_svm && !is_trained && amount > 0) {
     if(s_model != NULL) {
       svm_free_and_destroy_model(&s_model);
@@ -161,8 +167,8 @@ void Surrogate::train()
     s_model = svm_train(&s_prob, &s_param);
 
     cout.rdbuf (old);              // <-- restore
-    is_trained = true;
   }
+  is_trained = true;
 }
 
 pair<double, double> Surrogate::predict(double x[])

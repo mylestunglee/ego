@@ -30,6 +30,7 @@ class Surrogate
 
   private:
     int dim;
+    int amount_to_train;
     mutex mtx;
     bool is_svm;
     vector<vector<double>> training;

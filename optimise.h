@@ -1,6 +1,6 @@
+#include "ego.h"
 #include <vector>
 #include <random>
-#include "ego.h"
 
 #pragma once
 

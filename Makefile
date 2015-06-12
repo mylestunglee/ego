@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -c -std=c++0x -Wall #-Werror #-Wmissing-prototypes
-INC = -Ieigen3 -Ilibgp/include -Ilibgp/src -I/usr/include/python2.7
+INC = -Ieigen3 -Ilibgp/include -Ilibgp/src -I/usr/include/python2.6
 LIBS = -Llibgp -lgp -lpthread
 
 SOURCES = surrogate.cpp functions.cpp bench.cpp optimise.cpp ego.cpp ihs.cpp libsvm-3.20/svm.cpp

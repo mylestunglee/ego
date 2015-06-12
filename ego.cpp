@@ -1,4 +1,3 @@
-#include <iostream>
 #include "ego.h"
 #include "optimise.h"
 #include "ihs.hpp"
@@ -51,7 +50,7 @@ void EGO::run_quad()
         cout << "\b\b] with fitness [" << best_fitness << "]" << endl;
       }
       while(running.size() > 0){
-	update_running(10000000);
+	update_running();
       }
       break;
     }
@@ -64,6 +63,7 @@ void EGO::run_quad()
     }
 
     if(lambda > 0) {
+      int temp_lambda = lambda;
       t1 = std::chrono::high_resolution_clock::now();
       vector<double> best_xs = max_ei_par(lambda);
       t2 = std::chrono::high_resolution_clock::now();
@@ -72,7 +72,7 @@ void EGO::run_quad()
 
       t1 = std::chrono::high_resolution_clock::now();
       t2 = std::chrono::high_resolution_clock::now();
-      for(int l = 0; l < lambda; l++) {
+      for(int l = 0; l < temp_lambda; l++) {
         vector<double> y(dimension, 0.0);
         for(int j = 0; j < dimension; j++) {
           y[j] = best_xs[l * dimension + j];
@@ -101,32 +101,34 @@ void EGO::run_quad()
 
 void EGO::python_eval(const vector<double> &x, bool add)
 {
-  double *data = (double *) &x[0];
-  if(!suppress) {
-    cout << "Evaluating: ";
-    for(int j = 0; j < dimension; j++) {
-      cout << x[j] << " ";
+  if(!add) {
+    double *data = (double *) &x[0];
+    if(!suppress) {
+      cout << "Evaluating: ";
+      for(int j = 0; j < dimension; j++) {
+        cout << x[j] << " ";
+      }
+      cout << endl;
     }
-    cout << endl;
-  }
 
-  double mean, var;
-  if(sg->is_trained){
-    pair<double, double> p = sg->predict(data);
-    mean = p.first;
-    var = p.second;
-  } else {
-    mean = sg->mean(data);
-    var = sg->var(data);
+    double mean, var;
+    if(sg->is_trained){
+      pair<double, double> p = sg->predict(data);
+      mean = p.first;
+      var = p.second;
+    } else {
+      mean = sg->mean(data);
+      var = sg->var(data);
+    }
+    mu_means.push_back(mean);
+    mu_vars.push_back(var);
   }
-  mu_means.push_back(mean);
-  mu_vars.push_back(var);
 
   struct running_node run; 
   PyObject *args, *index, *args2, *fitness_result, *results, *temp, *index_0;
-  args = PyTuple_New(x.size());
+  args = PyList_New(x.size());
   //Set up arguments for call to fitness function
-  for(int i = 0; i < x.size(); i++) {
+  for(unsigned int i = 0; i < x.size(); i++) {
     pValue = PyFloat_FromDouble(x[i]);
     if(!pValue) {
       cout << "Broken python code in eval, exiting" << endl;
@@ -135,7 +137,7 @@ void EGO::python_eval(const vector<double> &x, bool add)
       Py_DECREF(args);
       exit(-1);
     }
-    PyTuple_SetItem(args, i, pValue);
+    PyList_SetItem(args, i, pValue);
     Py_DECREF(pValue);
   }
 
@@ -151,8 +153,12 @@ void EGO::python_eval(const vector<double> &x, bool add)
   //Finally call python code
   fitness_result = PyObject_CallObject(pFunc, args);
 
-  if(args) Py_DECREF(args);
-  if(pState) Py_DECREF(pState);
+  if(args)  {
+    Py_DECREF(args);
+  }
+  if(pState) {
+    Py_DECREF(pState);
+  }
   //Check dem errors
   int size = PyObject_Size(fitness_result);
   if(size < 2) {
@@ -164,9 +170,12 @@ void EGO::python_eval(const vector<double> &x, bool add)
   results = PyObject_GetItem(fitness_result, index);
   Py_DECREF(index);
 
+  if(pState) {
+    Py_DECREF(pState);
+  }
+
   //Set all the python stuff back to C++ types
   index = PyInt_FromLong(1);
-  if(pState) Py_DECREF(pState);
   //Set our state object
   pState = PyObject_GetItem(fitness_result, index);
   Py_DECREF(index);
@@ -208,13 +217,14 @@ void EGO::python_eval(const vector<double> &x, bool add)
   //FINALLY CLEAN
 
   if(add) {
+    //We evaluated it, now add to all our surrogate models
     num_iterations++;
     string str(x.begin(), x.end());
     cout << str << " fitness:" << run.fitness << " code:" << run.label << endl;
     sg->add(x, run.fitness, run.label + 1, run.addReturn);
     sg_cost->add(x, run.cost);
   } else {
-    //Add to running set
+    //About to run, stick on running vector
     run.is_finished = false;
     run.data = x;
     run.pos = mu_means.size() - 1;
@@ -223,19 +233,36 @@ void EGO::python_eval(const vector<double> &x, bool add)
   }
 }
 
-void EGO::update_running(chrono::duration<int> t)
+void EGO::update_running(const long int &t)
 {
   long int time = t;
   if(time == -1) {
     time = 1000000000000000L;
-    for(vector<struct running_node>::iterator node = running.begin(); node != running.end();) time = min(time, node->cost);
+    for(vector<struct running_node>::iterator node = running.begin(); node !=
+    running.end();) time = min(time, (long) node->cost);
   }
-  for(vector<struct running_node>::iterator node = running.begin(); node != running.end();) {
-    node->cost -= time;
-    if(node->cost <= 0) {
-      python_eval(node->data, true);
+  if(time > 0) {
+    for(vector<struct running_node>::iterator node = running.begin(); node != running.end();) {
+      node->cost -= time;
+      if(node->cost <= 0) {
+        python_eval(node->data, true);
+
+        //Delete estimations
+        mu_means.erase(mu_means.begin() + node->pos);
+        mu_vars.erase(mu_vars.begin() + node->pos);
+        for(size_t i = 0; i < running.size(); i++) {
+          if(running[i].pos > node->pos) running[i].pos--;
+        }
+
+        //Delete node from running vector
+        node = running.erase(node);
+        is_new_result = true;
+      } else {
+        node++;
+      }
     }
   }
+  lambda = num_lambda - running.size();
 }
 
 EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string python_file_name)
@@ -268,7 +295,8 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string py
   Py_Initialize();
 
   // Build the name object
-  pName = PyString_FromString(python_file_name);
+  const char *file_name = python_file_name.c_str();
+  pName = PyString_FromString(file_name);
 
   // Load the module object
   pModule = PyImport_Import(pName);
@@ -601,8 +629,9 @@ void EGO::sample_plan(size_t F, int D)
       x[j] = lower[j] + frac*(latin[i*dimension+j]-1);
     }
     while(running.size() == num_lambda) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(20));
-      check_running_tasks();
+      //std::this_thread::sleep_for(std::chrono::milliseconds(20));
+      //check_running_tasks();
+      update_running();
     }
     evaluate(x);
   }

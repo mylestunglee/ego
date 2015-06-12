@@ -1,4 +1,4 @@
-#include "Python.h"
+#include <Python.h>
 #include <vector>
 #include "functions.h"
 #include <random>
@@ -88,6 +88,7 @@ class EGO
   EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string python_file_name);
   void python_eval(const vector<double> &x, bool add=false);
   void run_quad();
+  void update_running(const long int &t=-1l);
 
 };
 
