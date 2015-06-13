@@ -167,7 +167,8 @@ void Surrogate::choose_svm_param(int num_folds, bool local)
   for(int i = 0; i < 2; i++) s_param.weight_label[i] = i+1;
   s_param.weight[0] = amount - amount_correct_class;
   s_param.weight[1] = amount - s_param.weight[0];
-  if(s_param.weight[0] / (double) amount > 0.5) {
+  if(s_param.weight[0] / (double) amount < 0.5) {
+    cout << "Weighting is messed up" << endl;
     s_param.weight[0] = 1;
     s_param.weight[1] = 1;
   }
