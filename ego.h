@@ -16,7 +16,7 @@ class EGO
     ~EGO();
 
     struct running_node {
-      double fitness;
+      long double fitness;
       int label;
       bool is_finished;
       int addReturn;
@@ -26,14 +26,14 @@ class EGO
     };
 
     //Functions
-    vector<double> max_ei_par(int lambda);
+    vector<double> max_ei_par(int llambda);
     double fitness(const vector<double> &x);
     void evaluate(const vector<double> &x);
     void run();
     vector<double> best_result();
     void add_training(const vector<double> &x, double y, int label);
-    vector<double> brute_search_local_swarm(const vector<double> &particle, double radius=1.0, int lambda=1, bool has_to_run=false);
-    vector<double>* brute_search_swarm(int npts=10, int lambda=1);
+    vector<double> brute_search_local_swarm(const vector<double> &particle, double radius=1.0, int llambda=1, bool has_to_run=false, bool random=false);
+    vector<double>* brute_search_swarm(int npts=10, int llambda=1);
     double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n);
     double ei(double y, double S2, double y_min);
     void check_running_tasks();
@@ -54,6 +54,7 @@ class EGO
     int max_points;
     int pso_gen;
     int iter;
+    long int total_time;
     vector<double> best_particle;
     long double best_fitness;
     long double max_fitness;
@@ -62,6 +63,7 @@ class EGO
     bool is_new_result;
     bool use_brute_search;
     bool suppress;
+    bool exhaustive;
     vector<double> discrete_steps;
 
     PyObject *pName; 
@@ -76,7 +78,7 @@ class EGO
     mutex running_mtx;
     vector<struct running_node> running;
     vector<vector<double>> training;
-    vector<long double> training_fitness;
+    vector<vector<double>> valid_set;
     vector<double> mu_means;
     vector<double> mu_vars;
     vector<double> lower;
@@ -85,10 +87,12 @@ class EGO
     Surrogate *sg;
     Surrogate *sg_cost;
 
-  EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string python_file_name);
-  void python_eval(const vector<double> &x, bool add=false);
-  void run_quad();
-  void update_running(const long int &t=-1l);
+    EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string python_file_name);
+    void python_eval(const vector<double> &x, bool add=false);
+    void run_quad();
+    void update_running(const long int &t=-1l);
+    void update_time(const long int &t);
 
+  vector<double> local_random(const vector<double> &particle, double radius);
 };
 

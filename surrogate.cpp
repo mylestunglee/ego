@@ -1,5 +1,6 @@
 #include "surrogate.h"
 #include "gp.h"
+#include "cg.h"
 #include <thread>
 #include <iostream>
 #include <sstream>
@@ -13,23 +14,25 @@ Surrogate::Surrogate(int d, s_type type, bool svm)
 {
   dim = d;
   amount_to_train = 0;
+  amount_correct_class = 0;
   is_svm = svm;
 
   switch(type) {
     case SEiso:
-      gp = new GaussianProcess(dim, "CovSEiso");
+      gp = new GaussianProcess(dim, "CovSum(CovSEiso, CovNoise)");
       break;
 
     case SEard:
-      gp = new GaussianProcess(dim, "CovSEard");
+      gp = new GaussianProcess(dim, "CovSum(CovSEard, CovNoise)");
       break;
 
     default:
       gp = new GaussianProcess(dim, "CovSEard");
   }
   Eigen::VectorXd params(gp->covf().get_param_dim());
-  //params.setZero();
-  params << 1, 1;
+  for(size_t i = 0; i < gp->covf().get_param_dim(); i++) {
+    params(i) = -1;
+  }
   gp->covf().set_loghyper(params);
 
   s_node = NULL;
@@ -57,56 +60,160 @@ Surrogate::Surrogate(int d, s_type type, bool svm)
   }
 }
 
-//void Surrogate::choose_kernel(int num_folds)
+//double Surrogate::gp_mean_square(const vector<double> pam)
 //{
-//  if(training.size() == 0) return;
-//  int subset_size = ceil(training.size() / num_folds);
-//  double best_mse = 10000000000;
-//  Eigen::VectorXd best_params;
-//  string best_cov = covs[0];
-//  for(auto cov : covs) {
-//    gp = new GaussianProcess(dim, cov);
-//    Eigen::VectorXd params = Eigen::VectorXd(gp->covf().get_param_dim());
-//    params.setZero();
-//    gp->covf().set_loghyper(params);
-//
-//    double mse = 0;
-//    for(int i = 0; i < num_folds; i++) {
-//      int fold = min(subset_size, (int) training.size() - i * subset_size);
-//      for(int j = 0; j < i * subset_size; j++) {
-//        gp->add_pattern(&(training[j][0]), training_f[j]);
-//      }
-//      for(int j = (i+1)*subset_size; j < training.size(); j++) {
-//        gp->add_pattern(&(training[j][0]), training_f[j]);
-//      }
-//      for(int j = i*subset_size; j < i*subset_size + fold; j++) {
-//        double mean_err = gp->f(&training[j][0]) - training_f[j];
-//	mse += mean_err * mean_err;
-//      }
+//  int folds = 5;
+//  if(gp) delete gp;
+//  gp = new GaussianProcess(dim, "CovSum(CovSEard, CovNoise)");
+//  Eigen::VectorXd params(gp->covf().get_param_dim());
+//  for(size_t i = 0; i < pam.size(); i++) {
+//    params(i) = pam[i];
+//  }
+//  gp->covf().set_loghyper(params);
+//  int batch = ceil(training.size() / folds);
+//  double mse = 0.0;
+//  int size = training.size();
+//  for(int i = 0; i < folds; i++) {
+//    for(int j = 0; j < i * batch; j++) {
+//      gp->add_pattern(&training[j][0], training_f[j]);
 //    }
-//    if(mse < best_mse) {
-//      best_mse = mse;
-//      best_cov = cov;
-//      best_params = params;
+//    for(int j = (i+1)*batch; j < size; j++) {
+//      gp->add_pattern(&training[j][0], training_f[j]);
+//    }
+//    for(int j = i*batch; j < min((i+1)*batch, size); j++) {
+//      double pred = gp->f(&training[j][0]) - training_f[j];
+//      mse += pred * pred;
+//    }
+//  }
+//  delete gp;
+//  return mse;
+//}
+//
+//void Surrogate::choose_gp_params(int num_folds)
+//{
+//  vector<double> params(dim+2, 1.0);
+//  int loops = 0;
+//  int loop[dim+1];
+//  unsigned long long npts_plus[dimension + 2];
+//  npts_plus[dimension] = 1;
+//  double best_mse = 1000000000000;
+//  for(double i = 0.001; i < 10.0; i = min(i*10, i+1)) {
+//    for(double i = 0.001; i < 10.0; i = min(i*10, i+1)) {
+//      for(double i = 0.001; i < 10.0; i = min(i*10, i+1)) {
+//      }
 //    }
 //  }
 //}
 
-//void Surrogate::set_params(double x, double y)
-//{
-//  Eigen::VectorXd params(gp->covf().get_param_dim());
-//  params << x, y;
-//  gp->covf().set_loghyper(params);
-//}
+void Surrogate::choose_svm_param(int num_folds, bool local)
+{
+  vector<double> gamma, C;
+  if(local) {
+    for(double i = -10.; i < 31; i++) {
+      gamma.push_back(10 * pow(1.25, i));
+    }
+    for(double i = -30.; i < 31; i++) {
+      C.push_back(pow(1.5, i));
+    }
+  } else {
+    for(double i = -20.; i < 21; i++) {
+      gamma.push_back(pow(1.2, i));
+      C.push_back(10 * pow(1.25, i));
+    }
+  }
 
-void Surrogate::add(vector<double> x, double y)
+  if(s_model != NULL) {
+    svm_free_and_destroy_model(&s_model);
+    free(s_node);
+    free(s_prob.y);
+    free(s_prob.x);
+  }
+
+  int elements = 0;
+  int amount = training_svm.size();
+  for(int i = 0; i < amount; i++, elements++) {
+    for(int k = 0; k < dim; k++) {
+      if(training_svm[i][k] != 0) elements++;
+    }
+  }
+
+  s_prob.l = amount;
+  s_prob.y = Malloc(double, amount);
+  s_prob.x = Malloc(struct svm_node *, amount);
+  s_node = Malloc(struct svm_node, elements);
+
+  for(int i = 0, j = 0; i < amount; i++) {
+    s_prob.x[i] = &s_node[j];
+    s_prob.y[i] = training_cl[i];
+    for(int k = 0; k < dim; k++) {
+      if(training_svm[i][k] != 0) {
+        s_node[j].index = k;
+        s_node[j].value = training_svm[i][k];
+        j++;
+      }
+    }
+    s_node[j++].index = -1;
+  }
+
+
+  double *target = Malloc(double, amount);
+  int best = 0;
+  double best_gamma, best_C;
+  s_param.nr_weight = 2;
+  if(!s_param.weight) {
+    s_param.weight_label = Malloc(int, 2);
+    s_param.weight = Malloc(double, 2);
+  }
+  for(int i = 0; i < 2; i++) s_param.weight_label[i] = i+1;
+  s_param.weight[0] = amount - amount_correct_class;
+  s_param.weight[1] = amount - s_param.weight[0];
+  if(s_param.weight[0] / (double) amount > 0.5) {
+    s_param.weight[0] = 1;
+    s_param.weight[1] = 1;
+  }
+
+  if(amount_correct_class > 1) {
+    int folds = min(amount_correct_class, num_folds);
+    for(size_t i = 0; i < gamma.size(); i++) {
+      for(size_t j = 0; j < C.size(); j++) {
+        int curr = 0;
+        s_param.gamma = gamma[i];
+        s_param.C = C[j];
+        svm_check_parameter(&s_prob, &s_param);
+        svm_cross_validation(&s_prob, &s_param, folds, target);
+        for(int k = 0; k < amount; k++) {
+          curr += (int) (target[k] == training_cl[k]);
+        }
+        if(curr > best) {
+          best = curr;
+          best_gamma = gamma[i];
+          best_C = C[i];
+        }
+      }
+    }
+    s_param.gamma = best_gamma;
+    s_param.C = best_C;
+  } else {
+    s_param.gamma = 0.05;
+    s_param.C = 10.0;
+  }
+  free(target);
+
+  svm_check_parameter(&s_prob, &s_param);
+
+  //Best parameters
+  s_model = svm_train(&s_prob, &s_param);
+
+}
+
+void Surrogate::add(const vector<double> &x, double y)
 {
   training.push_back(x);
   training_f.push_back(y);
   amount_to_train++;
 }
 
-void Surrogate::add(vector<double> x, double y, int cl)
+void Surrogate::add(const vector<double> &x, double y, int cl)
 {
   if(!is_svm) {
     cout << "Surrogate::add svm when not in svm mode" << endl;
@@ -114,7 +221,21 @@ void Surrogate::add(vector<double> x, double y, int cl)
   }
   add(x, y);
   training_cl.push_back(cl);
-  is_trained = false;
+}
+
+void Surrogate::add(const vector<double> &x, double y, int cl, int addReturn)
+{
+  if(!is_svm) {
+    cout << "Surrogate::addReturn svm with addReturnReturn when not in svm mode" << endl;
+    exit(-1);
+  }
+  //Have to addReturn this in case no fitness result produced
+  if(addReturn == 0) {
+    add(x, y);
+  }
+  training_svm.push_back(x);
+  training_cl.push_back(cl);
+  if(cl == 1) amount_correct_class++;
 }
 
 void Surrogate::train()
@@ -125,49 +246,9 @@ void Surrogate::train()
     gp->add_pattern(data, training_f[i]);
   }
   amount_to_train = 0;
-
-  if(is_svm && !is_trained && amount > 0) {
-    if(s_model != NULL) {
-      svm_free_and_destroy_model(&s_model);
-      free(s_node);
-      free(s_prob.y);
-      free(s_prob.x);
-    }
-    int elements = 0;
-    for(int i = 0; i < amount; i++, elements++) {
-      for(int k = 0; k < dim; k++) {
-        if(training[i][k] != 0) elements++;
-      }
-    }
-    s_prob.l = amount;
-    s_prob.y = Malloc(double, amount);
-    s_prob.x = Malloc(struct svm_node *, amount);
-    s_node = Malloc(struct svm_node, elements);
-    int gam = 0;
-    for(int i = 0, j = 0; i < amount; i++) {
-      s_prob.x[i] = &s_node[j];
-      s_prob.y[i] = training_cl[i];
-      for(int k = 0; k < dim; k++) {
-	if(training[i][k] != 0) {
-          s_node[j].index = k;
-	  s_node[j].value = training[i][k];
-	  j++;
-	}
-      }
-      gam = max(gam, j);
-      s_node[j++].index = -1;
-    }
-    s_param.gamma = 1.0 / gam;
-    streambuf *old = cout.rdbuf(); // <-- save        
-    stringstream ss;
-
-    cout.rdbuf(ss.rdbuf());       // <-- redirect
-
-    svm_check_parameter(&s_prob, &s_param);
-    s_model = svm_train(&s_prob, &s_param);
-
-    cout.rdbuf (old);              // <-- restore
-  }
+  CG cg;
+  cg.maximize(gp, 50, 0);
+  if(is_svm) choose_svm_param(5);
   is_trained = true;
 }
 
@@ -183,22 +264,19 @@ pair<double, double> Surrogate::predict(double x[])
 
 double Surrogate::var(double x[])
 {
-  double result =  gp->var(x);
-  return result;
+  return gp->var(x);
 }
 
 double Surrogate::mean(double x[]) 
 {
-  double result =  gp->f(x);
-  return result;
+  return gp->f(x);
 }
 
 int Surrogate::svm_label(double x[])
 {
   if(!is_svm) return 1;
-  if(!is_trained) {
-    cout << "Haven't trained svm when calling, exiting" << endl;
-    exit(-1);
+  if(!s_model) {
+    return 1;
   }
   struct svm_node *node = Malloc(struct svm_node, dim+1);
   int j = 0;

@@ -16,25 +16,27 @@ class Surrogate
     //Functions
     Surrogate(int d, s_type t, bool svm=false);
     ~Surrogate();
-    void add(vector<double> x, double y);
-    void add(vector<double> x, double y, int cl);
-    void add(vector<double> x, double y, int cl, int add);
+    void add(const vector<double> &x, double y);
+    void add(const vector<double> &x, double y, int cl);
+    void add(const vector<double> &x, double y, int cl, int add);
     double var(double x[]);
     double mean(double x[]);
     pair<double, double> predict(double x[]);
     int svm_label(double x[]);
+    void choose_svm_param(int num_folds, bool local=false);
 
-    void choose_kernel(int folds);
     void train();
     bool is_trained;
 
   private:
     int dim;
     int amount_to_train;
+    int amount_correct_class;
     mutex mtx;
     bool is_svm;
     vector<vector<double>> training;
     vector<double> training_f;
+    vector<vector<double>> training_svm;
     vector<int> training_cl;
     struct svm_node *s_node;
     struct svm_model *s_model;
