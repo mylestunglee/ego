@@ -51,10 +51,29 @@ EGO *reset_ego()
   dimension = 3;
   max_f = 0.0390423230495;
 
+  vector<double> gamma, C;
+  //if(local) {
+  //  for(double i = -10.; i < 31; i++) {
+  //    gamma.push_back(10 * pow(1.25, i));
+  //  }
+  //  for(double i = -30.; i < 31; i++) {
+  //    C.push_back(pow(1.5, i));
+  //  }
+  //} else {
+    for(double i = -20.; i < 21; i++) {
+      gamma.push_back(pow(1.2, i));
+      C.push_back(10 * pow(1.25, i));
+    }
+  //}
+
+
   cout << "Building" << endl;
   Surrogate *sg = new Surrogate(dimension, SEard, true);
+  sg->gamma = gamma;
+  sg->C = C;
   //sg->set_params(0.0, 0.0);
   string python_name("/homes/wjn11/MLO/examples/quadrature_method_based_app");
+
   EGO *ego = new EGO(dimension, sg, lower, upper, python_name);
   cout << "Built" << endl;
 

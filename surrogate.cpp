@@ -13,8 +13,9 @@ using namespace libgp;
 Surrogate::Surrogate(int d, s_type type, bool svm)
 {
   dim = d;
-  amount_to_train = 0;
-  amount_correct_class = 0;
+  num_train = 0;
+  //num_train_svm = 0;
+  num_correct_class = 0;
   is_svm = svm;
 
   switch(type) {
@@ -38,7 +39,7 @@ Surrogate::Surrogate(int d, s_type type, bool svm)
   s_node = NULL;
   s_model = NULL;
   is_trained = false;
-  covs = {"CovSEiso", "CovSEard", "CovSum (CovSEiso, CovNoise)"};
+
   if(is_svm) {
     s_param.svm_type = C_SVC;
     s_param.kernel_type = RBF;
@@ -60,68 +61,8 @@ Surrogate::Surrogate(int d, s_type type, bool svm)
   }
 }
 
-//double Surrogate::gp_mean_square(const vector<double> pam)
-//{
-//  int folds = 5;
-//  if(gp) delete gp;
-//  gp = new GaussianProcess(dim, "CovSum(CovSEard, CovNoise)");
-//  Eigen::VectorXd params(gp->covf().get_param_dim());
-//  for(size_t i = 0; i < pam.size(); i++) {
-//    params(i) = pam[i];
-//  }
-//  gp->covf().set_loghyper(params);
-//  int batch = ceil(training.size() / folds);
-//  double mse = 0.0;
-//  int size = training.size();
-//  for(int i = 0; i < folds; i++) {
-//    for(int j = 0; j < i * batch; j++) {
-//      gp->add_pattern(&training[j][0], training_f[j]);
-//    }
-//    for(int j = (i+1)*batch; j < size; j++) {
-//      gp->add_pattern(&training[j][0], training_f[j]);
-//    }
-//    for(int j = i*batch; j < min((i+1)*batch, size); j++) {
-//      double pred = gp->f(&training[j][0]) - training_f[j];
-//      mse += pred * pred;
-//    }
-//  }
-//  delete gp;
-//  return mse;
-//}
-//
-//void Surrogate::choose_gp_params(int num_folds)
-//{
-//  vector<double> params(dim+2, 1.0);
-//  int loops = 0;
-//  int loop[dim+1];
-//  unsigned long long npts_plus[dimension + 2];
-//  npts_plus[dimension] = 1;
-//  double best_mse = 1000000000000;
-//  for(double i = 0.001; i < 10.0; i = min(i*10, i+1)) {
-//    for(double i = 0.001; i < 10.0; i = min(i*10, i+1)) {
-//      for(double i = 0.001; i < 10.0; i = min(i*10, i+1)) {
-//      }
-//    }
-//  }
-//}
-
 void Surrogate::choose_svm_param(int num_folds, bool local)
 {
-  vector<double> gamma, C;
-  if(local) {
-    for(double i = -10.; i < 31; i++) {
-      gamma.push_back(10 * pow(1.25, i));
-    }
-    for(double i = -30.; i < 31; i++) {
-      C.push_back(pow(1.5, i));
-    }
-  } else {
-    for(double i = -20.; i < 21; i++) {
-      gamma.push_back(pow(1.2, i));
-      C.push_back(10 * pow(1.25, i));
-    }
-  }
-
   //if(s_model != NULL) {
   //  svm_free_and_destroy_model(&s_model);
   //  free(s_node);
@@ -155,26 +96,30 @@ void Surrogate::choose_svm_param(int num_folds, bool local)
   //  s_node[j++].index = -1;
   //}
 
+  if(s_model != NULL) {
+    svm_free_and_destroy_model(&s_model);
+  }
 
-  double *target = Malloc(double, amount);
+  s_prob.l = (int) training_svm_sparse.size();
+  double *target = Malloc(double, s_prob.l);
   int best = 0;
   double best_gamma, best_C;
   s_param.nr_weight = 2;
-  if(!s_param.weight) {
+  if(s_param.weight == NULL) {
     s_param.weight_label = Malloc(int, 2);
     s_param.weight = Malloc(double, 2);
   }
   for(int i = 0; i < 2; i++) s_param.weight_label[i] = i+1;
-  s_param.weight[0] = amount - amount_correct_class;
-  s_param.weight[1] = amount - s_param.weight[0];
-  if(s_param.weight[0] / (double) amount < 0.5) {
-    cout << "Weighting is messed up" << endl;
+  s_param.weight[0] = s_prob.l - num_correct_class;
+  s_param.weight[1] = s_prob.l - s_param.weight[0];
+  //Weight so if we only have a couple okay points we don't want to misclassify them
+  if(s_param.weight[0] / (double) s_prob.l < 0.5) {
     s_param.weight[0] = 1;
     s_param.weight[1] = 1;
   }
 
-  if(amount_correct_class > 1) {
-    //int folds = min(amount_correct_class, num_folds);
+  cout << "Performing " << num_folds << " fold validation for SVM" << endl;
+  if(num_correct_class > 1) {
     for(size_t i = 0; i < gamma.size(); i++) {
       for(size_t j = 0; j < C.size(); j++) {
         int curr = 0;
@@ -182,7 +127,7 @@ void Surrogate::choose_svm_param(int num_folds, bool local)
         s_param.C = C[j];
         svm_check_parameter(&s_prob, &s_param);
         svm_cross_validation(&s_prob, &s_param, num_folds, target);
-        for(int k = 0; k < amount; k++) {
+        for(int k = 0; k < s_prob.l; k++) {
           curr += (int) (target[k] == training_cl[k]);
         }
         if(curr > best) {
@@ -213,7 +158,7 @@ void Surrogate::add(const vector<double> &x, double y)
 {
   training.push_back(x);
   training_f.push_back(y);
-  amount_to_train++;
+  num_train++;
 }
 
 void Surrogate::add(const vector<double> &x, double y, int cl)
@@ -224,6 +169,7 @@ void Surrogate::add(const vector<double> &x, double y, int cl)
   }
   add(x, y);
   training_cl.push_back(cl);
+  //num_train_svm++;
 }
 
 void Surrogate::add(const vector<double> &x, double y, int cl, int addReturn)
@@ -236,31 +182,50 @@ void Surrogate::add(const vector<double> &x, double y, int cl, int addReturn)
   if(addReturn == 0) {
     add(x, y);
   }
-  training_svm.push_back(x);
+  //Add to SVM problem
+  vector<svm_node> *node = new vector<svm_node>();
+  for(int k = 0; k < dim; k++) {
+    if(x[k] != 0) {
+      struct svm_node n;
+      n.index = k;
+      n.value = x[k];
+      node->push_back(n);
+    }
+  }
+  struct svm_node n;
+  n.index = -1;
+  node->push_back(n);
+  training_svm_sparse.push_back(node);
   training_cl.push_back(cl);
-  if(cl == 1) amount_correct_class++;
+  s_prob.x = (struct svm_node **) &training_svm_sparse[0];
+  s_prob.y = &training_cl[0];
+
+  //training_svm.push_back(x);
+  //training_cl.push_back(cl);
+  if(cl == 1) num_correct_class++;
+  //num_train_svm++;
 }
 
 void Surrogate::train()
 {
   int amount = training.size();
-  for(int i = amount - amount_to_train; i < amount; i++) {
+  for(int i = amount - num_train; i < amount; i++) {
     double *data = &training[i][0];
     gp->add_pattern(data, training_f[i]);
   }
-  amount_to_train = 0;
+  num_train = 0;
   CG cg;
   cg.maximize(gp, 50, 0);
-  if(is_svm) choose_svm_param(training_svm.size());
+  if(is_svm) choose_svm_param(training_svm_sparse.size());
   is_trained = true;
 }
 
 pair<double, double> Surrogate::predict(double x[])
 {
-  if(svm_label(x) != 1) {
-    return make_pair(100000000000.0, 0.0);
-  } else {
+  if(is_trained && svm_label(x) == 1) {
     return make_pair(gp->f(x), gp->var(x));
+  } else {
+    return make_pair(100000000000.0, 0.0);
   }
 }
 
@@ -300,9 +265,12 @@ Surrogate::~Surrogate()
 {
   if(s_model != NULL) {
     svm_free_and_destroy_model(&s_model);
-    free(s_node);
-    free(s_prob.y);
-    free(s_prob.x);
+    //free(s_node);
+    //free(s_prob.y);
+    //free(s_prob.x);
+    for(size_t i = 0; i < training_svm_sparse.size(); i++) {
+      delete(training_svm_sparse[i]);
+    }
   }
   delete gp;
 }
