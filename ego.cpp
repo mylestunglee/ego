@@ -792,7 +792,6 @@ void EGO::sample_plan(size_t F, int D)
 
   //}
   cout << "Adding extra permutations" << endl;
-  int radius = 2;
   for(size_t i = 0; i < F - size_latin; i++) {
     vector<double> point(dimension, 0.0);
     for(int j = 0; j < dimension; j++) {
@@ -801,12 +800,12 @@ void EGO::sample_plan(size_t F, int D)
       point[j] = max(point[j], lower[j]);
     }
     if(sg->svm_label(&point[0]) != 1) {
-      int choice = 0, valid_size = valid_set.size();
+      int choice = 0, valid_size = valid_set.size(), radius = 2;
       if(valid_size > 1) {
         choice = round(uni_dist(0, valid_size-1));
       }
       int loops = 0;
-      for(int j = 0; j < dimension && loops < 10000; j++, loops++) {
+      for(int j = 0; j < dimension; j++, loops++) {
 	//int dist = floor((upper[j] - lower[j]) / radius);
         //point[j] = valid_set[choice][j] + round(uni_dist(0, dist) - dist / 2);
         point[j] = valid_set[choice][j] + round(uni_dist(0, radius) - radius / 2);
@@ -818,9 +817,11 @@ void EGO::sample_plan(size_t F, int D)
             j = -1;
           }
         } 
+	if(loops > 1000) {
+	  radius++;
+	  cout << loops << endl;
+	}
       }
-      //radius++;
-      //radius = min(radius+1, 5);
     }
     if(running.size() == num_lambda) {
       update_running();
@@ -836,12 +837,11 @@ void EGO::sample_plan(size_t F, int D)
   x[2] = 32;
   for(int i = 1; i < 5; i++) {
     x[0] = i;
-    for(int j = 50; j < 54; j++) {
+    for(int j = 40; j < 54; j++) {
       x[1] = j;
       cout << i << " "<<j<< " label:" <<sg->svm_label(x) << endl;
     }
   }
-  //exit(-1);
 }
 
 vector<double> EGO::local_random(const vector<double> &particle, double radius)
@@ -916,6 +916,25 @@ vector<double> *EGO::brute_search_swarm(int npts, int llambda)
           best_point->assign(x.begin(), x.end());
           best = result;
           has_result = true;
+        }
+      }
+    }
+    if(!has_result) {
+      best = 100000;
+      for(unsigned long long i = 0; i < npts_plus[0]; i++) {
+        bool can_run = true;
+        for(int j = 0; j < dimension; j++) {
+          x[j] = lower[j] + floor((i % npts_plus[j]) / npts_plus[j+1]) * steps[j];
+          if(x[j] > upper[j] || x[j] < lower[j]) can_run = false;
+        }
+
+          if(can_run && not_run(&x[0]) && not_running(&x[0])) {
+          pair<double, double> p = sg->predict(&x[0]);
+          if(p.first < best) {
+            best_point->assign(x.begin(), x.end());
+            best = p.first;
+            has_result = true;
+          }
         }
       }
     }
@@ -1062,21 +1081,23 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
         }
 
         if(can_run && (!has_to_run || (not_run(&point[i*dimension]) && not_running(&point[i*dimension])))) {
-	  double result = 0.0;
-	  if(i == 0) {
-	    pair<double, double> p = sg->predict(&point[0]);
-            result = -ei(p.first, p.second, best_fitness);
-	  } else {
-            result = fitness(point);
-	  }
+	    if(random || sg->svm_label(&point[i*dimension]) == 1) {
+	    double result = 0.0;
+	    if(i == 0) {
+	      pair<double, double> p = sg->predict(&point[0]);
+              result = -ei(p.first, p.second, best_fitness);
+	    } else {
+              result = fitness(point);
+	    }
 
-          if(result < best) {
-            best_point = point;
-            best = result;
-	    loop[i] = j;
-            if(i == llambda - 1) has_result = true;
-	    found = true;
-          }
+            if(result < best) {
+              best_point = point;
+              best = result;
+	      loop[i] = j;
+              if(i == llambda - 1) has_result = true;
+	      found = true;
+            }
+	  }
         }
       }
       if(!found) {

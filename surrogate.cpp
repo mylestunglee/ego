@@ -122,38 +122,38 @@ void Surrogate::choose_svm_param(int num_folds, bool local)
     }
   }
 
-  if(s_model != NULL) {
-    svm_free_and_destroy_model(&s_model);
-    free(s_node);
-    free(s_prob.y);
-    free(s_prob.x);
-  }
+  //if(s_model != NULL) {
+  //  svm_free_and_destroy_model(&s_model);
+  //  free(s_node);
+  //  free(s_prob.y);
+  //  free(s_prob.x);
+  //}
 
-  int elements = 0;
-  int amount = training_svm.size();
-  for(int i = 0; i < amount; i++, elements++) {
-    for(int k = 0; k < dim; k++) {
-      if(training_svm[i][k] != 0) elements++;
-    }
-  }
+  //int elements = 0;
+  //int amount = training_svm.size();
+  //for(int i = 0; i < amount; i++, elements++) {
+  //  for(int k = 0; k < dim; k++) {
+  //    if(training_svm[i][k] != 0) elements++;
+  //  }
+  //}
 
-  s_prob.l = amount;
-  s_prob.y = Malloc(double, amount);
-  s_prob.x = Malloc(struct svm_node *, amount);
-  s_node = Malloc(struct svm_node, elements);
+  //s_prob.l = amount;
+  //s_prob.y = Malloc(double, amount);
+  //s_prob.x = Malloc(struct svm_node *, amount);
+  //s_node = Malloc(struct svm_node, elements);
 
-  for(int i = 0, j = 0; i < amount; i++) {
-    s_prob.x[i] = &s_node[j];
-    s_prob.y[i] = training_cl[i];
-    for(int k = 0; k < dim; k++) {
-      if(training_svm[i][k] != 0) {
-        s_node[j].index = k;
-        s_node[j].value = training_svm[i][k];
-        j++;
-      }
-    }
-    s_node[j++].index = -1;
-  }
+  //for(int i = 0, j = 0; i < amount; i++) {
+  //  s_prob.x[i] = &s_node[j];
+  //  s_prob.y[i] = training_cl[i];
+  //  for(int k = 0; k < dim; k++) {
+  //    if(training_svm[i][k] != 0) {
+  //      s_node[j].index = k;
+  //      s_node[j].value = training_svm[i][k];
+  //      j++;
+  //    }
+  //  }
+  //  s_node[j++].index = -1;
+  //}
 
 
   double *target = Malloc(double, amount);
@@ -174,14 +174,14 @@ void Surrogate::choose_svm_param(int num_folds, bool local)
   }
 
   if(amount_correct_class > 1) {
-    int folds = min(amount_correct_class, num_folds);
+    //int folds = min(amount_correct_class, num_folds);
     for(size_t i = 0; i < gamma.size(); i++) {
       for(size_t j = 0; j < C.size(); j++) {
         int curr = 0;
         s_param.gamma = gamma[i];
         s_param.C = C[j];
         svm_check_parameter(&s_prob, &s_param);
-        svm_cross_validation(&s_prob, &s_param, folds, target);
+        svm_cross_validation(&s_prob, &s_param, num_folds, target);
         for(int k = 0; k < amount; k++) {
           curr += (int) (target[k] == training_cl[k]);
         }
@@ -198,6 +198,8 @@ void Surrogate::choose_svm_param(int num_folds, bool local)
     s_param.gamma = 0.05;
     s_param.C = 10.0;
   }
+  cout << "Optimised SVM, gamma: " <<s_param.gamma<< " C: " << s_param.C << endl;
+
   free(target);
 
   svm_check_parameter(&s_prob, &s_param);
@@ -249,7 +251,7 @@ void Surrogate::train()
   amount_to_train = 0;
   CG cg;
   cg.maximize(gp, 50, 0);
-  if(is_svm) choose_svm_param(5);
+  if(is_svm) choose_svm_param(training_svm.size());
   is_trained = true;
 }
 

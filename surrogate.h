@@ -32,11 +32,13 @@ class Surrogate
     int dim;
     int amount_to_train;
     int amount_correct_class;
+    int elements;
     mutex mtx;
     bool is_svm;
     vector<vector<double>> training;
     vector<double> training_f;
     vector<vector<double>> training_svm;
+    vector<vector<double>> training_svm_sparse;
     vector<int> training_cl;
     struct svm_node *s_node;
     struct svm_model *s_model;
