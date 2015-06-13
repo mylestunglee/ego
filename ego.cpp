@@ -266,11 +266,10 @@ void EGO::python_eval(const vector<double> &x, bool add)
 
   if(add) {
     //We evaluated it, now add to all our surrogate models
-    run.fitness = run.fitness;
     num_iterations++;
     for(int i = 0; i < dimension; i++) cout << x[i] << " ";
     cout << "fitness: " << run.fitness << " code: " << run.label << endl;
-    sg->add(x, run.fitness, 2 - (run.label == 0), run.addReturn);
+    sg->add(x, run.fitness - 200, 2 - (run.label == 0), run.addReturn);
     if(run.label == 0 ) {
       valid_set.push_back(x);
       if(run.fitness < best_fitness) {
@@ -739,59 +738,106 @@ void EGO::sample_plan(size_t F, int D)
   //  check_running_tasks();
   //}
 
-  long long int random_count = 1;
-  while(training.size() < F) {
+  //long long int random_count = 1;
+  //while(training.size() < F) {
+  //  vector<double> point(dimension, 0.0);
+  //  for(int j = 0; j < dimension; j++) {
+  //    point[j] = round(uni_dist(lower[j], upper[j]));
+  //    point[j] = min(point[j], upper[j]);
+  //    point[j] = max(point[j], lower[j]);
+  //  }
+
+  //  if(sg->svm_label(&point[0]) != 1) {
+  //    if(random_count % 1000 == 0) {
+  //      cout << "Evaluating random permuation of valid" << endl;
+  //      int choice = 0, valid_size = valid_set.size(), dist = 2;
+  //      if(valid_size > 1) {
+  //        choice = round(uni_dist(0, valid_size-1));
+  //      }
+  //      int restarts = 0;
+  //      for(int j = 0; j < dimension; j++) {
+  //        point[j] = valid_set[choice][j] + round(uni_dist(0, dist) - dist / 2);
+  //        point[j] = min(point[j], upper[j]);
+  //        point[j] = max(point[j], lower[j]);
+  //        if(point[j] < lower[j] || point[j] > upper[j]) {
+  //          j = -1;
+  //        }
+  //        if(j == dimension - 1) {
+  //          if(!not_run(&point[0]) || !not_running(&point[0])) {
+  //            j = -1;
+  //            if(++restarts > 100) {
+  //      	restarts = 0;
+  //              dist++;
+  //            }
+  //          } else if(sg->svm_label(&point[0]) != 1) {
+  //            if(++restarts < 100) {
+  //              j = -1;
+  //            }
+  //          }
+  //        } 
+  //      }
+  //      //dist = max(dist+1, 4);
+  //      python_eval(point);
+  //      sg->choose_svm_param(5);
+  //    }
+  //  } else {
+  //    python_eval(point);
+  //    sg->choose_svm_param(5);
+  //  }
+  //  random_count++;
+
+  //  while(running.size() >= num_lambda) {
+  //    update_running();
+  //  }
+
+  //}
+  cout << "Adding extra permutations" << endl;
+  int radius = 2;
+  for(size_t i = 0; i < F - size_latin; i++) {
     vector<double> point(dimension, 0.0);
     for(int j = 0; j < dimension; j++) {
       point[j] = round(uni_dist(lower[j], upper[j]));
       point[j] = min(point[j], upper[j]);
       point[j] = max(point[j], lower[j]);
     }
-
     if(sg->svm_label(&point[0]) != 1) {
-      if(random_count % 1000 == 0) {
-        cout << "Evaluating random permuation of valid" << endl;
-        int choice = 0, valid_size = valid_set.size(), dist = 2;
-        if(valid_size > 1) {
-          choice = round(uni_dist(0, valid_size-1));
-        }
-	int restarts = 0;
-        for(int j = 0; j < dimension; j++) {
-          point[j] = valid_set[choice][j] + round(uni_dist(0, dist) - dist / 2);
-          point[j] = min(point[j], upper[j]);
-          point[j] = max(point[j], lower[j]);
-          if(j == dimension - 1) {
-            if(!not_run(&point[0]) || !not_running(&point[0])) {
-              j = -1;
-	      if(++restarts > 100) {
-		restarts = 0;
-	        dist++;
-	      }
-	    } else if(sg->svm_label(&point[0]) != 1) {
-	      if(++restarts < 100) {
-	        j = -1;
-	      }
-	    }
-          } 
-        }
-        //dist = max(dist+1, 4);
-        python_eval(point);
-        sg->choose_svm_param(5);
+      int choice = 0, valid_size = valid_set.size();
+      if(valid_size > 1) {
+        choice = round(uni_dist(0, valid_size-1));
       }
-    } else {
-      python_eval(point);
-      sg->choose_svm_param(5);
+      for(int j = 0; j < dimension; j++) {
+	//int dist = floor((upper[j] - lower[j]) / radius);
+        //point[j] = valid_set[choice][j] + round(uni_dist(0, dist) - dist / 2);
+        point[j] = valid_set[choice][j] + round(uni_dist(0, radius) - radius / 2);
+        if((point[j] > upper[j]) || (point[j] < lower[j])) {
+	  j = -1; // reset loop
+	}
+        if(j == dimension - 1) {
+          if(!not_run(&point[0]) || !not_running(&point[0])) {
+            j = -1;
+          }
+        } 
+      }
+      //radius++;
+      //radius = min(radius+1, 5);
     }
-    random_count++;
-
-    while(running.size() >= num_lambda) {
+    if(running.size() == num_lambda) {
       update_running();
     }
 
+    python_eval(point);
+    sg->choose_svm_param(5);
   }
   while(running.size() >= num_lambda) {
     update_running();
   }
+  for(int i = 1; i < 5; i++) {
+    for(int j = 1; j < 5; j++) {
+      for(int k = 1; k < 5; k++) {
+      }
+    }
+  }
+  exit(-1);
 }
 
 vector<double> EGO::local_random(const vector<double> &particle, double radius)
@@ -860,8 +906,8 @@ vector<double> *EGO::brute_search_swarm(int npts, int llambda)
         if(can_run && not_run(&x[0]) && not_running(&x[0])) {
         pair<double, double> p = sg->predict(&x[0]);
         double result = -ei(p.first, p.second, best_fitness);
-	double cost = sg_cost->mean(&x[0]);
-	if(cost > 0) result /= cost;
+	//double cost = sg_cost->mean(&x[0]);
+	//if(cost > 0) result /= cost;
         if(result < best) {
           best_point->assign(x.begin(), x.end());
           best = result;
@@ -1054,7 +1100,7 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
       } else if(radius / llambda > upper[0] - lower[0]) {
         if(!suppress) cout << "Cannot find new points in direct vicinity of best" << endl;
         at_optimum = true;
-        return local_random(particle, 1);
+        return brute_search_local_swarm(particle, radius + 1, llambda, has_to_run, true);
       } else {
         cout << "Increasing radius" << endl;
         return brute_search_local_swarm(particle, radius + 1, llambda, has_to_run);
@@ -1113,7 +1159,7 @@ double EGO::ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, 
     int max_mus = mu_means.size();
 
     for (int k=0; k < n; k++) {
-        double min = best_fitness;
+        double min = best_fitness - 200;
         for(int i=0; i < max_mus; i++){
             double mius = gaussrand1()*mu_vars[i] + mu_means[i];
             if (mius < min)
