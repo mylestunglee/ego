@@ -53,6 +53,7 @@ class EGO
     int num_points;
     int max_points;
     int pso_gen;
+    int search_type;
     int iter;
     long int total_time;
     vector<double> best_particle;
@@ -87,7 +88,7 @@ class EGO
     Surrogate *sg;
     Surrogate *sg_cost;
 
-    EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string python_file_name);
+    EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string python_file_name, int search_type);
     void python_eval(const vector<double> &x, bool add=false);
     void run_quad();
     void update_running(const long int &t=-1l);

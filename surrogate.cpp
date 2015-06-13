@@ -119,7 +119,7 @@ void Surrogate::choose_svm_param(int num_folds, bool local)
   }
 
   cout << "Performing " << num_folds << " fold validation for SVM" << endl;
-  if(num_correct_class > 1) {
+  if(gamma.size() > 0 && C.size() > 0 && num_correct_class > 1) {
     for(size_t i = 0; i < gamma.size(); i++) {
       for(size_t j = 0; j < C.size(); j++) {
         int curr = 0;

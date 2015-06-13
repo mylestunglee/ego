@@ -8,7 +8,9 @@ using namespace std;
 EGO *reset_ego();
 
 int dimension;
-
+example bench;
+int search_type;
+bool use_cost;
 
 EGO *reset_ego()
 {
@@ -46,37 +48,90 @@ EGO *reset_ego()
   //vector<double> lower = {-10.0, -13.0, -13.0};
   //vector<double> upper = {10.0, 13.0, 13.0};
 
-  vector<double> lower = {1.0, 11.0, 4.0};
-  vector<double> upper = {16.0, 53.0, 32.0};
-  dimension = 3;
-  max_f = 0.0390423230495;
-
+  vector<double> lower;
+  vector<double> upper;
   vector<double> gamma, C;
-  //if(local) {
-  //  for(double i = -10.; i < 31; i++) {
-  //    gamma.push_back(10 * pow(1.25, i));
-  //  }
-  //  for(double i = -30.; i < 31; i++) {
-  //    C.push_back(pow(1.5, i));
-  //  }
-  //} else {
-    for(double i = -20.; i < 21; i++) {
-      gamma.push_back(pow(1.2, i));
-      C.push_back(10 * pow(1.25, i));
-    }
-  //}
+  string python_name;
+  vector<double> always_valid;
+  bool exhaustive;
+  switch(search_type) {
+    case 1:
+      cout <<"Using Brute Search" << endl;
+      break;
 
+    case 2:
+      cout <<"Using PS0 Search" << endl;
+      break;
+
+    case 3:
+      cout <<"Using combined PSO and Brute Search" << endl;
+      break;
+
+    default:
+      cout << "Didn't set search type, defaulting to PSO" << endl;
+      search_type = 2;
+      break;
+  }
+
+  switch(bench) {
+    case quad:
+      python_name = "/homes/wjn11/MLO/examples/quadrature_method_based_app";
+      lower = {1.0, 11.0, 4.0};
+      upper = {16.0, 53.0, 32.0};
+      dimension = 3;
+      max_f = 0.0390423230495;
+
+      //if(local) {
+      //  for(double i = -10.; i < 31; i++) {
+      //    gamma.push_back(10 * pow(1.25, i));
+      //  }
+      //  for(double i = -30.; i < 31; i++) {
+      //    C.push_back(pow(1.5, i));
+      //  }
+      //} else {
+      for(double i = -20.; i < 21; i++) {
+        gamma.push_back(pow(1.2, i));
+        C.push_back(10 * pow(1.25, i));
+      }
+      //}
+      always_valid = {1., 53., 32.};
+      if(search_type == 1) {
+        exhaustive = true;
+      }
+      break;
+
+    case pq:
+      python_name = "/homes/wjn11/MLO/examples/pq";
+      lower = {1.0, 11.0, 4.0};
+      upper = {16.0, 53.0, 32.0};
+      dimension = 3;
+      max_f = 0.0390423230495;
+      for(double i = -20.; i < 21; i++) {
+        gamma.push_back(pow(1.2, i));
+        C.push_back(10 * pow(1.25, i));
+      }
+      break;
+
+    case rtm:
+      python_name = "/homes/wjn11/MLO/examples/xinyu_rtm";
+      lower = {1.0, 1.0, 4.0, 1.0, 1.0, 1.0, 1.0};
+      upper = {10.0, 10.0, 24.0, 3.0, 10.0, 10.0, 32.0};
+      always_valid = {1.0, 1.0, 4.0, 1.0, 1.0, 1.0, 1.0};
+      dimension = 7;
+      max_f = 0.07;
+      break;
+  }
 
   cout << "Building" << endl;
   Surrogate *sg = new Surrogate(dimension, SEard, true);
   sg->gamma = gamma;
   sg->C = C;
   //sg->set_params(0.0, 0.0);
-  string python_name("/homes/wjn11/MLO/examples/quadrature_method_based_app");
 
-  EGO *ego = new EGO(dimension, sg, lower, upper, python_name);
+  EGO *ego = new EGO(dimension, sg, lower, upper, python_name, search_type);
   cout << "Built" << endl;
 
+  ego->search_type = search_type;
   ego->max_fitness = max_f;
   ego->suppress = false;
   ego->is_discrete = true;
@@ -85,10 +140,9 @@ EGO *reset_ego()
   //ego->max_points = 100;
   ego->num_points = ego->max_points;
   ego->pso_gen = 100;
-  ego->use_brute_search = true;
-  ego->exhaustive = true;
+  //ego->use_brute_search = use_brute;
+  ego->exhaustive = exhaustive;
 
-  vector<double> always_valid = {1., 53., 32.};
   ego->python_eval(always_valid);
   cout << "Sample"<<endl;
   ego->sample_plan(10*dimension, 5);
@@ -100,8 +154,17 @@ int main(int argc, char * argv[])
 {
   dimension = 3;
   EGO* ego = NULL;
-  if(argc > 1) {
-    dimension = atoi(argv[1]);
+  if(argc < 4) {
+    cout<<"Usage: " << endl;
+    cout <<"./test example search_type use_cost" << endl;
+    cout << "examples: 1 = Quad, 2 = PQ, 3 = RTM" << endl;
+    cout << "search_type: 1 = Brute, 2 = PSO, 3 = PSO + Brute" << endl;
+    cout << "use_cost: 0 = Standard EI, 1 = EI / Cost" << endl;
+    exit(0);
+  } else {
+    bench = static_cast<example>(atoi(argv[1]));
+    search_type = atoi(argv[2]);
+    use_cost = atoi(argv[3]);
   }
 
   //ego = reset_ego();
@@ -177,6 +240,7 @@ int main(int argc, char * argv[])
     auto t2 = std::chrono::high_resolution_clock::now();
     auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
     cout << "Brute search l=" << i << " took " << t3  << " iter=" << ego->iter << " / " << ego->num_iterations<< endl;
+    cout << "In FPGA time took " << ego->total_time << endl;
     delete ego;
 
  

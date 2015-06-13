@@ -328,7 +328,7 @@ void EGO::update_time(const long int &t)
   total_time += t;
 }
 
-EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string python_file_name)
+EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string python_file_name, int search)
 {
   dimension = dim;
   upper = up;
@@ -352,14 +352,17 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string py
   use_brute_search = true;
   suppress = false;
   at_optimum = false;
-
-  sg_cost = new Surrogate(dim, SEiso);
+  sg_cost = new Surrogate(dim, SEard);
+  search_type = search;
 
   // Initialize the Python Interpreter
   Py_Initialize();
   cout << "Python initialised" << endl;
+  string sys_append = "sys.path.append(\"";
+  sys_append += python_file_name;
+  sys_append += "\")\n";
   PyRun_SimpleString("import sys\n");
-  PyRun_SimpleString("sys.path.append(\"/homes/wjn11/MLO/examples/quadrature_method_based_app\")\n");
+  PyRun_SimpleString(sys_append.c_str());
 
   // Build the name object
   const char *file_name = "fitness_script";
@@ -645,7 +648,7 @@ vector<double> EGO::max_ei_par(int llambda)
   //    best = brute_search_local_swarm(best_particle, 1, 1, true);
   //  }
   //} else {
-    if(use_brute_search) {
+    if(search_type == 1) {
       vector<double> *ptr = brute_search_swarm(num_points, llambda);
       if(ptr) { 
         best = *ptr;
@@ -664,7 +667,7 @@ vector<double> EGO::max_ei_par(int llambda)
           cout << " got around best" << endl;
         }
       }
-    } else { 
+    } else if(search_type == 2){ 
       int size = dimension * llambda;
       vector<double> low(size, 0.0), up(size, 0.0), x(size, 0.0);
       random_device rd;
@@ -677,13 +680,8 @@ vector<double> EGO::max_ei_par(int llambda)
       }
 
       opt *op = new opt(size, up, low, this, is_discrete);
-      //auto t1 = std::chrono::high_resolution_clock::now();
       best = op->swarm_optimise(x, pso_gen * size, population_size, 200);
-      //auto t2 = std::chrono::high_resolution_clock::now();
-      //auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
-      //cout << "PSO max_ei_par llambda=" << llambda << " took " << t3  << endl;
       double best_fitness = op->best_part->best_fitness;
-      //cout << "Optimum fitness= " << op->best_part->best_fitness << " gen= " << op->last_gen << "/" << min(pso_gen*size, op->last_gen+400) << endl;
 
       if(!suppress) {
         cout << "[";
@@ -695,7 +693,10 @@ vector<double> EGO::max_ei_par(int llambda)
         }
         cout << "\b\b] = best = "  << best_fitness << endl;
       }
-    delete op;
+      delete op;
+    } else if(search_type == 3) {
+      cout << "Not implemented" << endl;
+      exit(-1);
     }
   //}
 
