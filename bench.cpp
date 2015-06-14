@@ -125,6 +125,7 @@ EGO *reset_ego()
   cout << "Building" << endl;
   Surrogate *sg = new Surrogate(dimension, SEard, true);
   sg->gamma = gamma;
+  cout << sg->gamma.size() << " gamma size" << endl;
   sg->C = C;
   //sg->set_params(0.0, 0.0);
 

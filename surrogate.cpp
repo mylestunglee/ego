@@ -100,7 +100,30 @@ void Surrogate::choose_svm_param(int num_folds, bool local)
     svm_free_and_destroy_model(&s_model);
   }
 
+  //Add to SVM problem
+  for(size_t i = 0; i < add_training_svm.size(); i++) {
+    vector<struct svm_node> *node = new vector<svm_node>();
+    for(int k = 0; k < dim; k++) {
+      if(add_training_svm[i][k] != 0) {
+        struct svm_node n;
+        n.index = k;
+        n.value = add_training_svm[i][k];
+        node->push_back(n);
+      }
+    }
+    struct svm_node n;
+    n.index = -1;
+    node->push_back(n);
+    struct svm_node *p = &(*node)[0];
+    training_svm_sparse.push_back(p);
+    training_cl.push_back(add_training_cl[i]);
+  }
+  add_training_svm.clear();
+  add_training_cl.clear();
+  s_prob.x = (struct svm_node **) &training_svm_sparse[0];
+  s_prob.y = &training_cl[0];
   s_prob.l = (int) training_svm_sparse.size();
+
   double *target = Malloc(double, s_prob.l);
   int best = 0;
   double best_gamma, best_C;
@@ -120,13 +143,14 @@ void Surrogate::choose_svm_param(int num_folds, bool local)
 
   cout << "Performing " << num_folds << " fold validation for SVM" << endl;
   if(gamma.size() > 0 && C.size() > 0 && num_correct_class > 1) {
+    int fold = min(num_folds, num_correct_class);
     for(size_t i = 0; i < gamma.size(); i++) {
       for(size_t j = 0; j < C.size(); j++) {
         int curr = 0;
         s_param.gamma = gamma[i];
         s_param.C = C[j];
         svm_check_parameter(&s_prob, &s_param);
-        svm_cross_validation(&s_prob, &s_param, num_folds, target);
+        svm_cross_validation(&s_prob, &s_param, fold, target);
         for(int k = 0; k < s_prob.l; k++) {
           curr += (int) (target[k] == training_cl[k]);
         }
@@ -182,28 +206,10 @@ void Surrogate::add(const vector<double> &x, double y, int cl, int addReturn)
   if(addReturn == 0) {
     add(x, y);
   }
-  //Add to SVM problem
-  vector<svm_node> *node = new vector<svm_node>();
-  for(int k = 0; k < dim; k++) {
-    if(x[k] != 0) {
-      struct svm_node n;
-      n.index = k;
-      n.value = x[k];
-      node->push_back(n);
-    }
-  }
-  struct svm_node n;
-  n.index = -1;
-  node->push_back(n);
-  training_svm_sparse.push_back(node);
-  training_cl.push_back(cl);
-  s_prob.x = (struct svm_node **) &training_svm_sparse[0];
-  s_prob.y = &training_cl[0];
 
-  //training_svm.push_back(x);
-  //training_cl.push_back(cl);
+  add_training_svm.push_back(x);
+  add_training_cl.push_back(cl);
   if(cl == 1) num_correct_class++;
-  //num_train_svm++;
 }
 
 void Surrogate::train()
