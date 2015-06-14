@@ -1,6 +1,7 @@
 #include "ego.h"
 #include "optimise.h"
 #include "ihs.hpp"
+#include <ctime>
 
 #define _GLIBCXX_USE_NANOSLEEP //Need to send thread to sleep on old GCC
 
@@ -74,8 +75,6 @@ void EGO::run_quad()
       t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
       update_running(t3);
 
-      //t1 = std::chrono::high_resolution_clock::now();
-      //t2 = std::chrono::high_resolution_clock::now();
       t3 = std::clock();
       for(int l = 0; l < temp_lambda; l++) {
         vector<double> y(dimension, 0.0);
@@ -96,8 +95,6 @@ void EGO::run_quad()
           python_eval(y);
         }
       }
-      //t2 = std::chrono::high_resolution_clock::now();
-      //t3 = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
       t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
       update_running(t3);
     }
@@ -285,7 +282,8 @@ void EGO::python_eval(const vector<double> &x, bool add)
     num_iterations++;
     for(int i = 0; i < dimension; i++) cout << x[i] << " ";
     cout << "fitness: " << run.fitness << " code: " << run.label << endl;
-    sg->add(x, run.fitness - 200, 2 - (run.label == 0), run.addReturn);
+    int label = 2 - (int) (run.label == 0); //1 if run.label == 0
+    sg->add(x, run.fitness, label, run.addReturn);
     if(run.label == 0 ) {
       valid_set.push_back(x);
       if(run.fitness < best_fitness) {
@@ -339,9 +337,12 @@ void EGO::update_running(const long int &t)
   lambda = num_lambda - running.size();
 }
 
-void EGO::update_time(const long int &t)
+void EGO::update_time(const std::clock_t t)
 {
-  total_time += t;
+  int time = t / CLOCKS_PER_SEC;
+  cout << "Total time taken is " << total_time << endl;
+  total_time += time;
+  cout <<"Time taken " << time  << "  " << t << endl;
   cout << "Total time taken is " << total_time << endl;
 }
 
@@ -363,7 +364,7 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string py
   iter = 0;
   best_fitness = 10000000000;
   max_fitness = 0;
-  total_time = 0L;
+  total_time = 0;
   is_discrete = false;
   is_new_result = false;
   use_brute_search = true;
@@ -430,6 +431,7 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*f
   max_points = 10;
   pso_gen = 1;
   iter = 0;
+  total_time = 0;
   best_fitness = 100000000;
   max_fitness = 0;
   is_discrete = false;
@@ -438,6 +440,7 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*f
   suppress = false;
   at_optimum = false;
   pName = NULL;
+  pFunc = NULL;
 }
 
 void EGO::run()
@@ -445,8 +448,11 @@ void EGO::run()
   if(!suppress) cout << "Started, dim=" << dimension << ", lambda=" << num_lambda << endl;
   while(num_iterations < max_iterations) {
     //Check to see if any workers have finished computing
+    std::clock_t t3 = std::clock();
     check_running_tasks();
     sg->train();
+    t3 = std::clock() - t3;
+    update_time(t3);
 
     if(at_optimum || best_fitness <= max_fitness) {
       if(!suppress) {
@@ -473,6 +479,7 @@ void EGO::run()
       is_new_result = false;
     }
 
+    t3 = std::clock();
     if(lambda > 0) {
       vector<double> best_xs = max_ei_par(lambda);
       for(int l = 0; l < lambda; l++) {
@@ -495,6 +502,8 @@ void EGO::run()
         }
       }
     }
+    t3 = std::clock() - t3;
+    update_time(t3);
   }
   check_running_tasks();
 }
@@ -596,7 +605,16 @@ void EGO::check_running_tasks()
       }
 
       //Add it to our training set
-      add_training(node->data, node->fitness, node->label);
+      if(sg->is_svm) {
+        add_training(node->data, node->fitness, node->label);
+      } else {
+	training.push_back(node->data);
+        sg->add(node->data, node->fitness);
+	if(node->fitness < best_fitness) {
+	  best_particle = node->data;
+	  best_fitness = node->fitness;
+	}
+      }
 
       //Delete estimations
       mu_means.erase(mu_means.begin() + node->pos);
@@ -691,9 +709,13 @@ vector<double> EGO::max_ei_par(int llambda)
       mt19937 gen(rd());
 
       for(int i = 0; i < size; i++) {
+      cout << i << endl;
         low[i] = lower[i % dimension];
+      cout << i << endl;
         up[i] = upper[i % dimension];
+      cout << i << endl;
         x[i] = best_particle[i % dimension];
+      cout << i << endl;
       }
 
       opt *op = new opt(size, up, low, this, is_discrete);
@@ -722,6 +744,30 @@ vector<double> EGO::max_ei_par(int llambda)
 
   iter++;
   return best;
+}
+
+void EGO::latin_hypercube(size_t F, int D) 
+{
+  int* latin = ihs(dimension, F, D, D);
+  if(!latin) {
+    cout << "Sample plan broke horribly, exiting" << endl;
+    exit(-1);
+  }
+  for(size_t i = 0; i < F; i++) {
+    vector<double> x(dimension, 0.0);
+    for(int j = 0; j < dimension; j++) {
+      double frac = (upper[j] - lower[j]) / (F-1);
+      x[j] = lower[j] + frac*(latin[i*dimension+j]-1);
+      if(is_discrete) {
+        x[j] = floor(x[j]);
+      }
+    }
+    while(running.size() >= num_lambda) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(20));
+      check_running_tasks();
+    }
+    evaluate(x);
+  }
 }
 
 void EGO::sample_plan(size_t F, int D)
@@ -912,7 +958,7 @@ vector<double> *EGO::brute_search_swarm(int npts, int llambda)
   bool has_result = false;
   for(int i = 0; i < llambda; i++) loop[i] = i;
   npts_plus[dimension] = 1;
-  if(exhaustive) {
+  if(is_discrete && exhaustive) {
     for(int i = dimension - 1; i >= 0; i--) {
       steps[i] = 1.0;
       npts_plus[i] = (upper[i] - lower[i] + 1) * npts_plus[i+1];
@@ -1215,7 +1261,7 @@ double EGO::ei(double y, double S2, double y_min)
     return 0.0;
   } else {
     double s = sqrt(S2);
-    double y_diff = y_min - y - 200;
+    double y_diff = y_min - y;
     double y_diff_s = y_diff / s;
     return y_diff * phi(y_diff_s) + s * normal_pdf(y_diff_s);
   }
@@ -1227,7 +1273,7 @@ double EGO::ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, 
     int max_mus = mu_means.size();
 
     for (int k=0; k < n; k++) {
-        double min = best_fitness - 200;
+        double min = best_fitness;
         for(int i=0; i < max_mus; i++){
             double mius = gaussrand1()*mu_vars[i] + mu_means[i];
             if (mius < min)
