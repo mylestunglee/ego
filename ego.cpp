@@ -37,11 +37,13 @@ void EGO::run_quad()
   while(num_iterations < max_iterations) {
     //Check to see if any workers have finished computing
 
-    auto t1 = std::chrono::high_resolution_clock::now();
+    //auto t1 = std::chrono::high_resolution_clock::now();
+    std::clock_t t3 = std::clock();
     sg->train();
     sg_cost->train();
-    auto t2 = std::chrono::high_resolution_clock::now();
-    auto t3 = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
+    //auto t2 = std::chrono::high_resolution_clock::now();
+    //auto t3 = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
+    t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
     update_running(t3);
 
     if(at_optimum || best_fitness <= max_fitness) {
@@ -64,14 +66,17 @@ void EGO::run_quad()
 
     if(lambda > 0) {
       int temp_lambda = lambda;
-      t1 = std::chrono::high_resolution_clock::now();
+      //t1 = std::chrono::high_resolution_clock::now();
+      t3 = std::clock();
       vector<double> best_xs = max_ei_par(temp_lambda);
-      t2 = std::chrono::high_resolution_clock::now();
-      t3 = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
+      //t2 = std::chrono::high_resolution_clock::now();
+      //t3 = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
+      t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
       update_running(t3);
 
-      t1 = std::chrono::high_resolution_clock::now();
-      t2 = std::chrono::high_resolution_clock::now();
+      //t1 = std::chrono::high_resolution_clock::now();
+      //t2 = std::chrono::high_resolution_clock::now();
+      t3 = std::clock();
       for(int l = 0; l < temp_lambda; l++) {
         vector<double> y(dimension, 0.0);
         for(int j = 0; j < dimension; j++) {
@@ -91,8 +96,9 @@ void EGO::run_quad()
           python_eval(y);
         }
       }
-      t2 = std::chrono::high_resolution_clock::now();
-      t3 = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
+      //t2 = std::chrono::high_resolution_clock::now();
+      //t3 = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
+      t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
       update_running(t3);
     }
     update_running();

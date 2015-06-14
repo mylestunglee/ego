@@ -1,6 +1,6 @@
 #!/bin/bash
-NAME="_run_2"
-for j in `seq 1 6`
+NAME="_run_8"
+for j in `seq 2 6`
 do
   for f in `seq 1 2`
   do
@@ -22,7 +22,7 @@ do
   done
 done
 
-for j in `seq 1 6`
+for j in `seq 2 6`
 do
   for f in `seq 1 2`
   do
