@@ -92,8 +92,9 @@ class EGO
     void python_eval(const vector<double> &x, bool add=false);
     void run_quad();
     void update_running(const long int &t=-1l);
-    void update_time(const long int &t);
+    void update_time(const std::clock_t t);
     bool has_run(const vector<double> &point);
+    void latin_hypercube(size_t F, int D);
 
   vector<double> local_random(const vector<double> &particle, double radius);
 };

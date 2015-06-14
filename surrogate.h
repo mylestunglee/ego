@@ -27,6 +27,7 @@ class Surrogate
 
     void train();
     bool is_trained;
+    bool is_svm;
     vector<double> gamma;
     vector<double> C;
 
@@ -36,7 +37,6 @@ class Surrogate
     int num_correct_class;
     //int elements;
     mutex mtx;
-    bool is_svm;
     vector<vector<double>> training;
     vector<double> training_f;
     vector<vector<double>> add_training_svm;

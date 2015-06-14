@@ -19,3 +19,9 @@ $(EXECUTABLE) : $(OBJECTS)
 clean:
 	rm -rf *.o
 	rm -f test
+
+old_test: main.o $(OBJECTS)
+	$(CC) main.o surrogate.o functions.o optimise.o ego.o ihs.o libsvm-3.20/svm.o $(INC) $(LIBS) -o old_test
+
+main.o: main.cpp
+	$(CC) $(CFLAGS) $(INC) main.cpp -o $@
