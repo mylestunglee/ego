@@ -55,7 +55,7 @@ EGO *reset_ego()
   vector<double> gamma, C;
   string python_name;
   vector<double> always_valid;
-  bool exhaustive;
+  bool exhaustive = true;
   switch(search_type) {
     case 1:
       cout <<"Using Brute Search" << endl;
