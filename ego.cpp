@@ -426,7 +426,7 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*f
   max_iterations = 500;
   num_iterations = 0;
   num_lambda = 3;
-  population_size = 100;
+  population_size = 200;
   num_points = 10;
   max_points = 10;
   pso_gen = 1;
@@ -701,7 +701,7 @@ vector<double> EGO::max_ei_par(int llambda)
       best = op->swarm_optimise(x, pso_gen * size, population_size, 200);
       double best_fitness = op->best_part->best_fitness;
       if(best_fitness == 0) {
-        best = brute_search_local_swarm(best_particle, llambda, llambda, true);
+        best = brute_search_local_swarm(best_particle, llambda + 2, llambda, true);
       }
 
       if(!suppress) {

@@ -1,28 +1,54 @@
 #!/bin/bash
-
-for i in `seq 1 10`;
+NAME="_run_2"
+for j in `seq 1 6`
 do
-
-	VAR="PSO test RTM $i time"
-	FILE="logs/PSO_RTM_$i.txt"
-	echo $VAR > $FILE
-	echo `./test 3 2 0 $i 20 &>> $FILE`
+  for f in `seq 1 2`
+  do
+    for k in `seq 0 2`
+    do
+      N_SIMS=$((5 * 10**$k))
+      VAR="Search = $f test RTM $NAME lambda = $j n_sims = $N_SIMS"
+      FILE="logs/Search_$f" 
+      FILE+="_RTM_" 
+      FILE+="$NAME"
+      FILE+="_"
+      FILE+="$j"
+      FILE+="_"
+      FILE+="$N_SIMS"
+      FILE+=".txt"
+      echo $VAR > $FILE;
+      echo `./test 3 $f 0 $j $N_SIMS &>> $FILE`
+    done
+  done
 done
 
-for i in `seq 1 10`;
+for j in `seq 1 6`
 do
-
-	VAR="Brute force test QUAD $i exec time"
-	FILE="logs/BRUTE_QUAD_0001_$i.txt"
-	echo $VAR > $FILE
-	echo `./test 1 1 0 $i 20 &>> $FILE`
+  for f in `seq 1 2`
+  do
+    for k in `seq 0 2`
+    do
+      N_SIMS=$((5 * 10**$k))
+      VAR="Search = $f test QUAD $NAME lambda = $j n_sims = $N_SIMS"
+      FILE="logs/Search_$f" 
+      FILE+="_QUAD_" 
+      FILE+="$NAME"
+      FILE+="_"
+      FILE+="$j"
+      FILE+="_"
+      FILE+="$N_SIMS"
+      FILE+=".txt"
+      echo $VAR > $FILE
+      echo `./test 1 $f 0 $j $N_SIMS &>> $FILE`
+    done
+  done
 done
 
-for i in `seq 1 10`;
-do
-
-	VAR="PSO force test QUAD $i exec time"
-	FILE="logs/PSO_QUAD_0001_$i.txt"
-	echo $VAR > $FILE
-	echo `./test 1 2 0 $i 20 &>> $FILE`
-done
+#for i in `seq 1 10`;
+#do
+#
+#	VAR="PSO force test QUAD $i exec time"
+#	FILE="logs/PSO_QUAD_0001_$i.txt"
+#	echo $VAR > $FILE
+#	echo `./test 1 2 0 $i 20 &>> $FILE`
+#done
