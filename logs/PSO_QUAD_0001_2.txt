@@ -1,0 +1,225 @@
+PSO force test QUAD 2 exec time
+Using PS0 Search
+Building
+41 gamma size
+Python initialised
+Got pName: fitness_script
+Got pModule
+Got pFunc
+Got rid of pName
+Built
+Evaluating: 1 53 32 
+Sending Py_None
+Sample
+10size
+Latin eval
+Evaluating: 2 13 4 
+Evaluating: 4 24 4 
+2 13 4 fitness: 37.1395 code: 2
+Evaluating: 5 11 9 
+1 53 32 fitness: 0.0391451 code: 0
+Evaluating: 1 15 6 
+4 24 4 fitness: 73.5429 code: 2
+Evaluating: 4 12 5 
+1 15 6 fitness: 5.79912 code: 2
+Evaluating: 5 18 11 
+5 11 9 fitness: 8.6967 code: 2
+Evaluating: 3 16 8 
+4 12 5 fitness: 37.4802 code: 2
+Evaluating: 2 22 7 
+3 16 8 fitness: 7.12518 code: 2
+Evaluating: 3 21 12 
+5 18 11 fitness: 4.6499 code: 2
+Evaluating: 1 19 10 
+2 22 7 fitness: 7.22209 code: 2
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Adding extra permutations
+svm label: 1
+Evaluating: 1 53 31 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 53 31 fitness: 0.0425952 code: 2
+svm label: 1
+Evaluating: 2 52 32 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 52 32 fitness: 0.0782241 code: 0
+svm label: 2
+Evaluating: 1 52 31 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.334898 C: 2.62144
+1 19 10 fitness: 1.25609 code: 2
+svm label: 1
+Evaluating: 2 53 32 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.334898 C: 2.62144
+3 21 12 fitness: 2.21506 code: 2
+svm label: 2
+Evaluating: 2 53 31 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.279082 C: 2.09715
+2 53 31 fitness: 0.0851903 code: 2
+svm label: 1
+Evaluating: 2 51 32 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.334898 C: 2.62144
+1 52 31 fitness: 0.0425823 code: 2
+svm label: 1
+Evaluating: 1 52 32 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+1 52 32 fitness: 0.039112 code: 0
+svm label: 1
+Evaluating: 2 51 31 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+2 51 31 fitness: 0.0851475 code: 2
+svm label: 1
+Evaluating: 3 53 32 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+2 51 32 fitness: 0.0782178 code: 0
+svm label: 1
+Evaluating: 2 52 31 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+2 52 31 fitness: 0.0851647 code: 2
+1001
+1002
+1003
+1004
+1005
+1006
+1007
+1008
+1009
+svm label: 1
+Evaluating: 4 52 29 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+2 53 32 fitness: 0.0782902 code: 0
+svm label: 1
+Evaluating: 3 51 31 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+4 52 29 fitness: 0.209773 code: 2
+svm label: 1
+Evaluating: 1 51 31 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+3 51 31 fitness: 0.127721 code: 2
+svm label: 1
+Evaluating: 3 51 32 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+3 51 32 fitness: 0.117327 code: 0
+svm label: 1
+Evaluating: 3 52 32 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+3 53 32 fitness: 0.117435 code: 0
+svm label: 1
+Evaluating: 3 53 31 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+3 53 31 fitness: 0.127786 code: 2
+svm label: 1
+Evaluating: 1 51 32 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+1 51 32 fitness: 0.0391089 code: 0
+svm label: 1
+Evaluating: 3 52 31 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+3 52 31 fitness: 0.127747 code: 2
+svm label: 1
+Evaluating: 1 50 32 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+1 51 31 fitness: 0.0425737 code: 2
+1001
+1002
+1003
+1004
+1005
+1006
+1007
+1008
+1009
+1010
+1011
+1012
+1013
+1014
+1015
+svm label: 1
+Evaluating: 6 52 32 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+3 52 32 fitness: 0.117336 code: 0
+1 40 label:2
+1 41 label:2
+1 42 label:2
+1 43 label:2
+1 44 label:2
+1 45 label:2
+1 46 label:1
+1 47 label:1
+1 48 label:1
+1 49 label:1
+1 50 label:1
+1 51 label:1
+1 52 label:1
+1 53 label:1
+2 40 label:2
+2 41 label:2
+2 42 label:2
+2 43 label:2
+2 44 label:2
+2 45 label:2
+2 46 label:1
+2 47 label:1
+2 48 label:1
+2 49 label:1
+2 50 label:1
+2 51 label:1
+2 52 label:1
+2 53 label:1
+3 40 label:2
+3 41 label:2
+3 42 label:2
+3 43 label:2
+3 44 label:2
+3 45 label:2
+3 46 label:1
+3 47 label:1
+3 48 label:1
+3 49 label:1
+3 50 label:1
+3 51 label:1
+3 52 label:1
+3 53 label:1
+4 40 label:2
+4 41 label:2
+4 42 label:2
+4 43 label:2
+4 44 label:2
+4 45 label:2
+4 46 label:1
+4 47 label:1
+4 48 label:1
+4 49 label:1
+4 50 label:1
+4 51 label:1
+4 52 label:1
+4 53 label:1
+Sampled
+Checking max_ei
+Started, dim=3, lambda=6 max_f=0.0469
+Performing 28 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Found best at [1, 51, 32, ] with fitness [0.0391089]
+Brute search l=2 took 3056 iter=0 / 29
+In FPGA time took 37970

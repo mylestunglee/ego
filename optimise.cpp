@@ -43,6 +43,14 @@ void opt::filter()
       if(part->p[j] == 0.0) part->p[j] = 0.0;
     }
   }
+  for(int j = 0; j < dimension; j++) {
+    if(is_discrete) {
+      best_part->p[j] = round(best_part->p[j]);
+    }
+    best_part->p[j] = min(best_part->p[j], upper[j]);
+    best_part->p[j] = max(best_part->p[j], lower[j]);
+    if(best_part->p[j] == 0.0) best_part->p[j] = 0.0;
+  }
 }
 
 opt::opt(int d, vector<double> u, vector<double> l, EGO *e, bool disc)

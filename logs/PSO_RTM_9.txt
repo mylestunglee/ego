@@ -1,0 +1,74 @@
+PSO test RTM 9 time
+Using PS0 Search
+Building
+0 gamma size
+Python initialised
+Got pName: fitness_script
+Got pModule
+Got pFunc
+Got rid of pName
+Built
+Evaluating: 1 1 4 1 1 1 1 
+Sending Py_None
+Sample
+23size
+Latin eval
+Evaluating: 1 9 10 2 1 6 6 
+Evaluating: 9 8 4 1 2 9 26 
+Evaluating: 9 6 14 1 1 7 23 
+Evaluating: 5 10 20 1 2 8 3 
+Evaluating: 10 7 9 2 9 7 32 
+Evaluating: 4 3 21 2 5 8 1 
+Evaluating: 2 9 6 3 3 10 2 
+Evaluating: 3 4 17 1 9 5 5 
+10 7 9 2 9 7 32 fitness: 20 code: 2
+Total time taken is 1216
+Evaluating: 7 4 4 1 6 3 22 
+3 4 17 1 9 5 5 fitness: 20 code: 2
+Total time taken is 1248
+Evaluating: 3 7 7 2 6 7 15 
+5 10 20 1 2 8 3 fitness: 20 code: 2
+Total time taken is 1268
+Evaluating: 6 6 16 2 5 9 13 
+9 6 14 1 1 7 23 fitness: 20 code: 2
+Total time taken is 1328
+Evaluating: 7 8 5 2 3 4 29 
+9 8 4 1 2 9 26 fitness: 20 code: 2
+Total time taken is 1368
+Evaluating: 5 5 8 2 8 5 27 
+4 3 21 2 5 8 1 fitness: 20 code: 2
+Total time taken is 1371
+Evaluating: 6 5 12 2 4 4 17 
+2 9 6 3 3 10 2 fitness: 20 code: 2
+Total time taken is 1382
+Evaluating: 2 3 22 2 8 1 24 
+7 4 4 1 6 3 22 fitness: 20 code: 2
+Total time taken is 2495
+Evaluating: 7 5 23 1 1 6 10 
+3 7 7 2 6 7 15 fitness: 20 code: 2
+Total time taken is 2590
+Evaluating: 3 1 13 2 10 2 19 
+6 6 16 2 5 9 13 fitness: 20 code: 2
+Total time taken is 2633
+Evaluating: 8 1 11 2 3 2 30 
+6 5 12 2 4 4 17 fitness: 20 code: 2
+Total time taken is 2640
+Evaluating: 1 1 15 1 5 5 12 
+7 8 5 2 3 4 29 fitness: 20 code: 2
+Total time taken is 2700
+Evaluating: 8 2 14 1 7 3 20 
+5 5 8 2 8 5 27 fitness: 20 code: 2
+Total time taken is 2711
+Evaluating: 5 3 24 1 4 3 16 
+2 3 22 2 8 1 24 fitness: 20 code: 2
+Total time taken is 2729
+Evaluating: 4 2 18 1 7 1 9 
+7 5 23 1 1 6 10 fitness: 20 code: 2
+Total time taken is 3810
+Evaluating: 1 7 19 1 7 1 8 
+3 1 13 2 10 2 19 fitness: 20 code: 2
+Total time taken is 3912
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+WARNING: class label 1 specified in weight is not found
+Adding extra permutations

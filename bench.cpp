@@ -10,6 +10,8 @@ EGO *reset_ego();
 int dimension;
 example bench;
 int search_type;
+int lambda;
+int n_sims;
 bool use_cost;
 
 EGO *reset_ego()
@@ -80,6 +82,7 @@ EGO *reset_ego()
       upper = {16.0, 53.0, 32.0};
       dimension = 3;
       max_f = 0.0390423230495;
+      //max_f = 0.0469;
 
       //if(local) {
       //  for(double i = -10.; i < 31; i++) {
@@ -136,7 +139,8 @@ EGO *reset_ego()
   ego->max_fitness = max_f;
   ego->suppress = false;
   ego->is_discrete = true;
-  ego->n_sims = 10;
+  ego->n_sims = n_sims;
+  ego->num_lambda = lambda;
   ego->max_points = upper[1] - lower[1];
   //ego->max_points = 100;
   ego->num_points = ego->max_points;
@@ -155,9 +159,9 @@ int main(int argc, char * argv[])
 {
   dimension = 3;
   EGO* ego = NULL;
-  if(argc < 4) {
+  if(argc < 6) {
     cout<<"Usage: " << endl;
-    cout <<"./test example search_type use_cost" << endl;
+    cout <<"./test example search_type use_cost lambda n_sims" << endl;
     cout << "examples: 1 = Quad, 2 = PQ, 3 = RTM" << endl;
     cout << "search_type: 1 = Brute, 2 = PSO, 3 = PSO + Brute" << endl;
     cout << "use_cost: 0 = Standard EI, 1 = EI / Cost" << endl;
@@ -166,6 +170,8 @@ int main(int argc, char * argv[])
     bench = static_cast<example>(atoi(argv[1]));
     search_type = atoi(argv[2]);
     use_cost = atoi(argv[3]);
+    lambda = atoi(argv[4]);
+    n_sims = atoi(argv[5]);
   }
 
   //ego = reset_ego();
@@ -228,19 +234,19 @@ int main(int argc, char * argv[])
   //}
 
 
-  for(int i = 2; i < 3; i++) {
+  //for(int i = 2; i < 3; i++) {
     ego = reset_ego();
-    ego->num_lambda = 6;
-    ego->use_brute_search = true;
+    //ego->num_lambda = 6;
+    //ego->use_brute_search = true;
     ego->suppress = false;
-    cout << "Checking max_ei" << endl;
+    //cout << "Checking max_ei" << endl;
     //ego->sg->train();
     auto t1 = std::chrono::high_resolution_clock::now();
     //ego->max_ei_par(i);
     ego->run_quad();
     auto t2 = std::chrono::high_resolution_clock::now();
     auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
-    cout << "Brute search l=" << i << " took " << t3  << " iter=" << ego->iter << " / " << ego->num_iterations<< endl;
+    cout << "Search l=" << lambda << " took " << t3  << " iter=" << ego->iter << " / " << ego->num_iterations<< endl;
     cout << "In FPGA time took " << ego->total_time << endl;
     delete ego;
 
@@ -269,7 +275,7 @@ int main(int argc, char * argv[])
     //  delete ego;
     //}
     //}
-  }
+  //}
 
   //for(int i = 2; i < 6; i++) {
   //  for(int j = 0; j < 4; j++) {

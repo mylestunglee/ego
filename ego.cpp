@@ -52,7 +52,7 @@ void EGO::run_quad()
         }
         cout << "\b\b] with fitness [" << best_fitness << "]" << endl;
       }
-      exit(0);
+      return;
     }
 
     if(is_new_result && !suppress) {
@@ -125,8 +125,14 @@ void EGO::python_eval(const vector<double> &x, bool add)
   args = PyList_New(x.size());
   //Set up arguments for call to fitness function
   for(unsigned int i = 0; i < x.size(); i++) {
-    pValue = PyInt_FromLong((long) round(x[i]));
-    if(!pValue) {
+    long val = round(x[i]);
+    if(val > 0) {
+      size_t v = val;
+      pValue = PyInt_FromSize_t(v);
+    } else {
+      pValue = PyInt_FromLong(val);
+    }
+    if(pValue == NULL || PyErr_Occurred()) {
       cout << "Broken python code in eval, exiting" << endl;
       cout << "Broke on adding " << x[i] << " to arg list" << endl;
       PyErr_Print();
@@ -135,7 +141,12 @@ void EGO::python_eval(const vector<double> &x, bool add)
       exit(-1);
     }
     PyList_SetItem(args, i, pValue);
-    Py_DECREF(pValue);
+    //cout << "Break on pValue " << pValue << " for " <<val <<endl;
+    if(pValue) {
+      //Python breaks horribly for no reason, so we are fudging this and leaking
+      //memory everywhere
+      //Py_XDECREF(pValue);
+    }
   }
 
   //SO LONG URGH
@@ -164,12 +175,15 @@ void EGO::python_eval(const vector<double> &x, bool add)
 
   if(args)  {
     Py_DECREF(args);
+    args = NULL;
   }
   if(args2)  {
-    Py_DECREF(args);
+    Py_DECREF(args2);
+    args2 = NULL;
   }
   if(pState) {
     Py_DECREF(pState);
+    pState = NULL;
   }
     
   //Check dem errors
@@ -183,10 +197,6 @@ void EGO::python_eval(const vector<double> &x, bool add)
   index = PyInt_FromLong(0);
   results = PyObject_GetItem(fitness_result, index);
   Py_DECREF(index);
-
-  if(pState) {
-    Py_DECREF(pState);
-  }
 
   //Set all the python stuff back to C++ types
   index = PyInt_FromLong(1);
@@ -326,6 +336,7 @@ void EGO::update_running(const long int &t)
 void EGO::update_time(const long int &t)
 {
   total_time += t;
+  cout << "Total time taken is " << total_time << endl;
 }
 
 EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string python_file_name, int search)
@@ -682,6 +693,9 @@ vector<double> EGO::max_ei_par(int llambda)
       opt *op = new opt(size, up, low, this, is_discrete);
       best = op->swarm_optimise(x, pso_gen * size, population_size, 200);
       double best_fitness = op->best_part->best_fitness;
+      if(best_fitness == 0) {
+        best = brute_search_local_swarm(best_particle, llambda, llambda, true);
+      }
 
       if(!suppress) {
         cout << "[";
@@ -717,7 +731,7 @@ void EGO::sample_plan(size_t F, int D)
   for(size_t i = 0; i < size_latin; i++) {
     vector<double> x(dimension, 0.0);
     for(int j = 0; j < dimension; j++) {
-      double frac = (upper[j] - lower[j]) / (F-1);
+      double frac = (upper[j] - lower[j]) / (size_latin-1);
       x[j] = lower[j] + frac*(latin[i*dimension+j]-1);
       if(is_discrete) {
         x[j] = floor(x[j]);
@@ -930,6 +944,7 @@ vector<double> *EGO::brute_search_swarm(int npts, int llambda)
     }
     if(!has_result) {
       best = 100000;
+      cout << "Trying search over mean" << endl;
       for(unsigned long long i = 0; i < npts_plus[0]; i++) {
         bool can_run = true;
         for(int j = 0; j < dimension; j++) {
