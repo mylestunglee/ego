@@ -38,8 +38,8 @@ class EGO
     double ei(double y, double S2, double y_min);
     void check_running_tasks();
     void worker_task(vector<double> data);
-    bool not_run(double x[]);
-    bool not_running(double x[]);
+    bool not_run(const double x[]);
+    bool not_running(const double x[]);
     void sample_plan(size_t F, int D=5);
 
     //Variables
@@ -93,6 +93,7 @@ class EGO
     void run_quad();
     void update_running(const long int &t=-1l);
     void update_time(const long int &t);
+    bool has_run(const vector<double> &point);
 
   vector<double> local_random(const vector<double> &particle, double radius);
 };

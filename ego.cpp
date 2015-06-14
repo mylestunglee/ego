@@ -721,7 +721,7 @@ vector<double> EGO::max_ei_par(int llambda)
 void EGO::sample_plan(size_t F, int D)
 {
   size_t size_latin = floor(F/3);
-  cout << size_latin << "size" << endl;
+  cout << size_latin << " size" << endl;
   int* latin = ihs(dimension, size_latin, D, D);
   if(!latin) {
     cout << "Sample plan broke horribly, exiting" << endl;
@@ -745,7 +745,7 @@ void EGO::sample_plan(size_t F, int D)
     //evaluate(x);
     python_eval(x);
   }
-  while(running.size() >= num_lambda) {
+  while(valid_set.size() < 1 || running.size() >= num_lambda) {
     update_running();
   }
   sg->choose_svm_param(5, true);
@@ -812,12 +812,17 @@ void EGO::sample_plan(size_t F, int D)
   cout << "Adding extra permutations" << endl;
   for(size_t i = 0; i < F - size_latin; i++) {
     vector<double> point(dimension, 0.0);
-    for(int j = 0; j < dimension; j++) {
+    for(int j = 0, loops = 0; j < dimension; loops++, j++) {
       point[j] = round(uni_dist(lower[j], upper[j]));
       point[j] = min(point[j], upper[j]);
       point[j] = max(point[j], lower[j]);
+      if(j == dimension - 1) {
+        if(loops < 1000 && (sg->svm_label(&point[0]) != 1 || has_run(point))) {
+	  j = -1; // reset and try and find another random point
+	}
+      }
     }
-    if(sg->svm_label(&point[0]) != 1) {
+    if(sg->svm_label(&point[0]) != 1 || has_run(point)) {
       int choice = 0, valid_size = valid_set.size(), radius = 2;
       if(valid_size > 1) {
         choice = round(uni_dist(0, valid_size-1));
@@ -1161,7 +1166,12 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
   }
 }
 
-bool EGO::not_run(double x[])
+bool EGO::has_run(const vector<double> &point)
+{
+  return !(not_run(&point[0]) && not_running(&point[0]));
+}
+
+bool EGO::not_run(const double x[])
 {
   static double eps = std::numeric_limits<double>::epsilon();
   vector<vector<double>>::iterator train = training.begin();
@@ -1176,7 +1186,7 @@ bool EGO::not_run(double x[])
   return true;
 }
 
-bool EGO::not_running(double x[])
+bool EGO::not_running(const double x[])
 {
   static double eps = std::numeric_limits<double>::epsilon();
   vector<struct running_node>::iterator node = running.begin();
