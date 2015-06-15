@@ -148,13 +148,13 @@ EGO *reset_ego()
   //ego->max_points = 100;
   ego->num_points = ego->max_points;
   ego->pso_gen = 100;
-  ego->population_size = 100;
+  ego->population_size = 200;
   //ego->use_brute_search = use_brute;
   ego->exhaustive = exhaustive;
 
   if(bench == rtm) ego->python_eval(always_valid);
   cout << "Sample"<<endl;
-  ego->sample_plan(10*dimension, 5);
+  ego->sample_plan(10*dimension, 6);
   cout << "Sampled"<<endl;
   return ego;
 }

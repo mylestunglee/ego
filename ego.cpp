@@ -711,9 +711,9 @@ vector<double> EGO::max_ei_par(int llambda)
         //use_mean = true;
         if(!suppress) cout << "Couldn't find new particles, searching in region of best" << endl;
 	if(lambda == 1) {
-          best = brute_search_local_swarm(best_particle, 3, 1, true, true, use_mean);
+          best = brute_search_local_swarm(best_particle, 1, 1, true, true, use_mean);
 	} else {
-          best = brute_search_local_swarm(best_particle, max(llambda, 4), llambda, true, true, use_mean);
+          best = brute_search_local_swarm(best_particle, 1, llambda, true, true, use_mean);
 	}
         if(!suppress && !at_optimum) {
           for(int i = 0; i < llambda * dimension; i++) {
@@ -735,18 +735,20 @@ vector<double> EGO::max_ei_par(int llambda)
       }
 
       opt *op = new opt(size, up, low, this, is_discrete);
-      best = op->swarm_optimise(x, pso_gen * size, population_size * dimension);
+      best = op->swarm_optimise(x, pso_gen * size, population_size * size);
       double best_fitness = op->best_part->best_fitness;
 
       if(search_type == 2) {
         if(best_fitness == 0) {
           //use_mean = true;
-          best = brute_search_local_swarm(best_particle, max(llambda + 2, 8), llambda, true, true, use_mean);
+          best = brute_search_local_swarm(best_particle, 1, llambda, true, true, use_mean);
         } 
       } else {
         if(best_fitness == 0) {
           //use_mean = true;
-          best = brute_search_local_swarm(best_particle, max(llambda + 2, 8), llambda, true, true, use_mean);
+	  cout << "Didn't find anything with the particle swarm" << endl;
+          best = brute_search_local_swarm(best_particle, 1, llambda, true, true, use_mean);
+	  best_fitness = fitness(best);
         } else {
 	  vector<double> x(dimension, 0.0);
 	  int old_n_sims = n_sims;
@@ -761,6 +763,7 @@ vector<double> EGO::max_ei_par(int llambda)
 	    }
 	  }
 	  n_sims = old_n_sims;
+	  best_fitness = fitness(best);
 	}
       }
       if(!suppress) {
