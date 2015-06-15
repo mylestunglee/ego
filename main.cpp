@@ -7,8 +7,8 @@ using namespace std;
 
 int main(int argc, char * argv[]) {
 
-  double (*fitness)(double x[]) = &tang;
-  int dimension = 2;
+  double (*fitness)(double x[]) = &sphere_3;
+  int dimension = 3;
     
   vector<double> lower;
   vector<double> upper;
@@ -19,14 +19,15 @@ int main(int argc, char * argv[]) {
 
   cout << "Building" << endl;
   for(int i = 1; i < 5; i++) {
-    Surrogate *sg = new Surrogate(dimension, SEard);
+    Surrogate *sg = new Surrogate(dimension, SEiso);
 
     EGO *ego = new EGO(dimension, sg, lower, upper, fitness);
 
     ego->search_type = 1;
-    ego->max_fitness = -39 * dimension;
+    //ego->max_fitness = -39 * dimension;
+    ego->max_fitness = 0;
     ego->suppress = false;
-    ego->is_discrete = false;
+    ego->is_discrete = true;
     ego->n_sims = 50;
     ego->num_lambda = i;
     ego->max_points = 1000;
@@ -46,7 +47,7 @@ int main(int argc, char * argv[]) {
     ego->run();
     auto t2 = std::chrono::high_resolution_clock::now();
     auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
-    cout << "Brute search tang l=" << i << " took " << t3  << " iter=" << ego->iter << " / " << ego->num_iterations<< endl;
+    cout << "Optimise Sphere l=" << i << " took " << t3  << " iter=" << ego->iter << " / " << ego->num_iterations<< endl;
     //cout << "In FPGA time took " << ego->total_time << endl;
     delete ego;
   }

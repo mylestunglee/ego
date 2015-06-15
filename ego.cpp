@@ -337,12 +337,9 @@ void EGO::update_running(const long int &t)
   lambda = num_lambda - running.size();
 }
 
-void EGO::update_time(const std::clock_t t)
+void EGO::update_time(int t)
 {
-  int time = t / CLOCKS_PER_SEC;
-  cout << "Total time taken is " << total_time << endl;
-  total_time += time;
-  cout <<"Time taken " << time  << "  " << t << endl;
+  total_time += t;
   cout << "Total time taken is " << total_time << endl;
 }
 
@@ -451,8 +448,8 @@ void EGO::run()
     std::clock_t t3 = std::clock();
     check_running_tasks();
     sg->train();
-    t3 = std::clock() - t3;
-    update_time(t3);
+    //t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
+    //update_time(t3);
 
     if(at_optimum || best_fitness <= max_fitness) {
       if(!suppress) {
@@ -479,9 +476,11 @@ void EGO::run()
       is_new_result = false;
     }
 
-    t3 = std::clock();
+    //t3 = std::clock();
     if(lambda > 0) {
+      cout << " max " <<endl;
       vector<double> best_xs = max_ei_par(lambda);
+      cout << " max " <<endl;
       for(int l = 0; l < lambda; l++) {
         vector<double> y(dimension, 0.0);
         for(int j = 0; j < dimension; j++) {
@@ -502,7 +501,8 @@ void EGO::run()
         }
       }
     }
-    t3 = std::clock() - t3;
+    t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
+    cout << "Lambda" << lambda << endl;
     update_time(t3);
   }
   check_running_tasks();

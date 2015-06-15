@@ -38,7 +38,7 @@ double goldstein(double z[])
 
 double sphere_4(double x[])
 {
-  //std::this_thread::sleep_for(std::chrono::milliseconds(600));
+  std::this_thread::sleep_for(std::chrono::milliseconds(100));
   return sphere(x, 4);
 }
 

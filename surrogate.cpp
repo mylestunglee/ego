@@ -215,15 +215,9 @@ void Surrogate::add(const vector<double> &x, double y, int cl, int addReturn)
 
 void Surrogate::train()
 {
-  //int amount = training.size();
-  //for(int i = amount - num_train; i < amount; i++) {
-  //  double *data = &training[i][0];
-  //  gp->add_pattern(data, training_f[i]);
-  //}
-  //num_train = 0;
   CG cg;
   cg.maximize(gp, 50, 0);
-  if(is_svm) choose_svm_param(training_svm_sparse.size());
+  if(is_svm) choose_svm_param(10);
   is_trained = true;
 }
 
