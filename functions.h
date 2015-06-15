@@ -8,7 +8,12 @@ double sphere(double x[], int n);
 double sphere_4(double x[]);
 double sphere_3(double x[]);
 double sphere_2(double x[]);
+double sphere_5(double x[]);
+double sphere_10(double x[]);
+double sphere_15(double x[]);
 double sphere_20(double x[]);
+double sphere_25(double x[]);
+double sphere_30(double x[]);
 double prob09(double x[]);
 double tang(double x[]);
 

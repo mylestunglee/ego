@@ -35,16 +35,44 @@ double goldstein(double z[])
   double part2 = 30 + pow(2*x - 3*y, 2) * (18 - 32*x + 12*x*x + 48*y - 36*x*y + 27*y*y);
   return part1 * part2;
 }
-
-double sphere_4(double x[])
+double sphere_5(double x[])
 {
+  return sphere(x, 3);
+}
+
+double sphere_10(double x[])
+{
+<<<<<<< HEAD
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
   return sphere(x, 4);
+=======
+  return sphere(x, 6);
+}
+
+double sphere_15(double x[])
+{
+  return sphere(x, 9);
+>>>>>>> b9172270774a94d2542a0bc086f022a53ca497ce
 }
 
 double sphere_20(double x[])
 {
-  return sphere(x, 25);
+  return sphere(x, 12);
+}
+
+double sphere_25(double x[])
+{
+  return sphere(x, 15);
+}
+
+double sphere_30(double x[])
+{
+  return sphere(x, 30);
+}
+
+double sphere_4(double x[])
+{
+  return sphere(x, 4);
 }
 
 double sphere_3(double x[])
