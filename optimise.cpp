@@ -11,7 +11,6 @@ void opt::update_particles(int generation, int max_iter)
   //std::uniform_real_distribution<double> uni_dist(0, 2.0);
   //random_device rd;
   //mt19937 gen(rd());
-  srand(time(NULL));
 
   for(vector<Particle *>::iterator p = particles.begin(); p != particles.end(); p++) {
     Particle *part = *p;
@@ -142,12 +141,6 @@ vector<double> opt::swarm_main_optimise(int max_gen, int min_gen)
     if(g > min_gen && g - last_gen == 400) break;
     update_particles(g, max_gen);
     filter();
-    //if(best_part->best_fitness > 5 * dimension / ego->dimension ) { 
-    //  max_gen++;
-    //} else {
-    //  cout << "Fitness=" << best_part->best_fitness << " generation=" << (g+1) << " with " << (g+1) * particles.size() << " calculations"  << endl;
-    //  break;
-    //}
   }
 
   return best_part->p;
@@ -160,6 +153,4 @@ opt::~opt()
   }
   particles.clear();
   delete best_part;
-  //delete space_generator;
-  //delete speed_generator;
 }

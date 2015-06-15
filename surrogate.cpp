@@ -223,7 +223,7 @@ void Surrogate::train()
   //num_train = 0;
   CG cg;
   cg.maximize(gp, 50, 0);
-  if(is_svm) choose_svm_param(training_svm_sparse.size());
+  if(is_svm) choose_svm_param(10);
   is_trained = true;
 }
 

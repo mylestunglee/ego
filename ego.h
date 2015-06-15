@@ -32,8 +32,8 @@ class EGO
     void run();
     vector<double> best_result();
     void add_training(const vector<double> &x, double y, int label);
-    vector<double> brute_search_local_swarm(const vector<double> &particle, double radius=1.0, int llambda=1, bool has_to_run=false, bool random=false);
-    vector<double>* brute_search_swarm(int npts=10, int llambda=1);
+    vector<double> brute_search_local_swarm(const vector<double> &particle, double radius=1.0, int llambda=1, bool has_to_run=false, bool random=false, bool use_mean=false);
+    vector<double>* brute_search_swarm(int npts=10, int llambda=1, bool use_mean=false);
     double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n);
     double ei(double y, double S2, double y_min);
     void check_running_tasks();
@@ -63,6 +63,7 @@ class EGO
     bool is_discrete;
     bool is_new_result;
     bool use_brute_search;
+    bool use_cost;
     bool suppress;
     bool exhaustive;
     vector<double> discrete_steps;

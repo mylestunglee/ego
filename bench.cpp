@@ -81,7 +81,7 @@ EGO *reset_ego()
       lower = {1.0, 11.0, 4.0};
       upper = {16.0, 53.0, 32.0};
       dimension = 3;
-      max_f = 0.0390423230495;
+      max_f = exp(0.0390423230495);
       //max_f = 0.0469;
 
       //if(local) {
@@ -121,7 +121,7 @@ EGO *reset_ego()
       upper = {10.0, 10.0, 24.0, 3.0, 10.0, 10.0, 32.0};
       always_valid = {1.0, 1.0, 4.0, 1.0, 1.0, 1.0, 1.0};
       dimension = 7;
-      max_f = 0.07;
+      max_f = exp(0.07);
       break;
   }
 
@@ -137,9 +137,11 @@ EGO *reset_ego()
 
   ego->search_type = search_type;
   ego->max_fitness = max_f;
+  ego->max_iterations = 10*dimension + 90;
   ego->suppress = false;
   ego->is_discrete = true;
   ego->n_sims = n_sims;
+  ego->use_cost = use_cost;
   ego->num_lambda = lambda;
   ego->max_points = upper[1] - lower[1];
   //ego->max_points = 100;
@@ -148,7 +150,7 @@ EGO *reset_ego()
   //ego->use_brute_search = use_brute;
   ego->exhaustive = exhaustive;
 
-  ego->python_eval(always_valid);
+  if(bench == rtm) ego->python_eval(always_valid);
   cout << "Sample"<<endl;
   ego->sample_plan(10*dimension, 5);
   cout << "Sampled"<<endl;
@@ -172,6 +174,7 @@ int main(int argc, char * argv[])
     use_cost = atoi(argv[3]);
     lambda = atoi(argv[4]);
     n_sims = atoi(argv[5]);
+    cout << bench <<" "<<search_type<<use_cost<<lambda<<n_sims<<endl;
   }
 
   //ego = reset_ego();
