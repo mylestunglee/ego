@@ -14,7 +14,7 @@ class Surrogate
     libgp::GaussianProcess *gp;
     
     //Functions
-    Surrogate(int d, s_type t, bool svm=false);
+    Surrogate(int d, s_type t, bool svm=false, bool use_log=false);
     ~Surrogate();
     void add(const vector<double> &x, double y);
     void add(const vector<double> &x, double y, int cl);
@@ -35,6 +35,10 @@ class Surrogate
     int dim;
     int num_train;
     int num_correct_class;
+    bool use_log;
+    vector<double> mean_data;
+    double mean_fit;
+    vector<double> std_dev;
     //int elements;
     mutex mtx;
     vector<vector<double>> training;

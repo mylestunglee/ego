@@ -284,7 +284,7 @@ void EGO::python_eval(const vector<double> &x, bool add)
   if(add) {
     //We evaluated it, now add to all our surrogate models
     num_iterations++;
-    run.fitness = exp(run.fitness);
+    run.fitness = run.fitness;
     for(int i = 0; i < dimension; i++) cout << x[i] << " ";
     cout << "fitness: " << run.fitness << " code: " << run.label << endl;
     int label = 2 - (int) (run.label == 0); //1 if run.label == 0

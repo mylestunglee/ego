@@ -10,7 +10,7 @@
 using namespace std;
 using namespace libgp;
 
-Surrogate::Surrogate(int d, s_type type, bool svm)
+Surrogate::Surrogate(int d, s_type type, bool svm, bool log_b)
 {
   dim = d;
   num_train = 0;
@@ -35,6 +35,9 @@ Surrogate::Surrogate(int d, s_type type, bool svm)
     params(i) = -1;
   }
   gp->covf().set_loghyper(params);
+  mean_data.resize(dim, 0.0);
+  std_dev.resize(dim, 1.0);
+  use_log = log_b;
 
   s_node = NULL;
   s_model = NULL;
@@ -107,7 +110,10 @@ void Surrogate::choose_svm_param(int num_folds, bool local)
       if(add_training_svm[i][k] != 0) {
         struct svm_node n;
         n.index = k;
-        n.value = add_training_svm[i][k];
+        n.value = add_training_svm[i][k] - mean_data[k];
+	if(std_dev[k] != 0) {
+          n.value /= std_dev[k];
+	}
         node->push_back(n);
       }
     }
@@ -181,8 +187,11 @@ void Surrogate::choose_svm_param(int num_folds, bool local)
 void Surrogate::add(const vector<double> &x, double y)
 {
   training.push_back(x);
-  training_f.push_back(y);
-  gp->add_pattern(&x[0], y);
+  if(use_log) {
+    training_f.push_back(log(y));
+  } else {
+    training_f.push_back(y);
+  }
   num_train++;
 }
 
@@ -215,12 +224,47 @@ void Surrogate::add(const vector<double> &x, double y, int cl, int addReturn)
 
 void Surrogate::train()
 {
-  //int amount = training.size();
-  //for(int i = amount - num_train; i < amount; i++) {
-  //  double *data = &training[i][0];
-  //  gp->add_pattern(data, training_f[i]);
-  //}
-  //num_train = 0;
+  if(gp) delete gp;
+  gp = new GaussianProcess(dim, "CovSum(CovSEard, CovNoise)");
+  int amount = training.size();
+  for(int i = 0; i < dim; i++) {
+    mean_data[i] = 0;
+    std_dev[i] = 0;
+    mean_fit = 0;
+  }
+  for(int i = 0; i < amount; i++) {
+    for(int j = 0; j < dim; j++) {
+      mean_data[j] += training[i][j];
+    }
+    mean_fit += training_f[i];
+  }
+  mean_fit /= amount;
+  for(int i = 0; i < dim; i++) {
+    mean_data[i] /= amount;
+  }
+  for(int i = 0; i < amount; i++) {
+    for(int j = 0; j < dim; j++) {
+      std_dev[j] += pow(training[i][j] - mean_data[j], 2);
+    }
+  }
+  for(int i = 0; i < dim; i++) {
+    std_dev[i] = std_dev[i] / (amount - 1);
+    std_dev[i] = sqrt(std_dev[i]);
+  }
+  for(int i = amount - num_train; i < amount; i++) {
+    double data[dim];
+    for(int j = 0; j < dim; j++) {
+      data[j] = (training[i][j] - mean_data[j]);
+      if(std_dev[j] != 0) {
+        data[j] /= std_dev[j];
+      }
+    }
+    gp->add_pattern(data, training_f[i] - mean_fit);
+  }
+  Eigen::VectorXd params(gp->covf().get_param_dim());
+  params.setZero();
+  gp->covf().set_loghyper(params);
+  num_train = 0;
   CG cg;
   cg.maximize(gp, 50, 0);
   if(is_svm) choose_svm_param(10);
@@ -229,11 +273,23 @@ void Surrogate::train()
 
 pair<double, double> Surrogate::predict(double x[])
 {
-  if(is_trained && svm_label(x) == 1) {
-    return make_pair(gp->f(x), gp->var(x));
-  } else {
-    return make_pair(100000000000.0, 0.0);
+  if(is_trained) {
+    double data[dim];
+    for(int j = 0; j < dim; j++) {
+      data[j] = (x[j] - mean_data[j]);
+      if(std_dev[j] != 0) {
+        data[j] /= std_dev[j];
+      }
+    }
+    if(svm_label(data) == 1) {
+      if(use_log) {
+        return make_pair(exp(mean_fit + gp->f(data)), gp->var(data));
+      } else {
+        return make_pair(mean_fit + gp->f(data), gp->var(data));
+      }
+    }
   }
+  return make_pair(100000000000.0, 0.0);
 }
 
 
@@ -258,7 +314,10 @@ int Surrogate::svm_label(double x[])
   for(int i = 0; i < dim; i++) {
     if(x[i] != 0) {
       node[j].index = i;
-      node[j].value = x[i];
+      node[j].value = x[i] - mean_data[i];
+      if(std_dev[i] != 0) {
+        node[j].value /= std_dev[i];
+      }
       j++;
     }
   }

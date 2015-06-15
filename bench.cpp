@@ -13,6 +13,7 @@ int search_type;
 int lambda;
 int n_sims;
 bool use_cost;
+bool use_log;
 
 EGO *reset_ego()
 {
@@ -81,7 +82,7 @@ EGO *reset_ego()
       lower = {1.0, 11.0, 4.0};
       upper = {16.0, 53.0, 32.0};
       dimension = 3;
-      max_f = exp(0.0390423230495);
+      max_f = 0.0390423230495;
       //max_f = 0.0469;
 
       //if(local) {
@@ -121,12 +122,12 @@ EGO *reset_ego()
       upper = {10.0, 10.0, 24.0, 3.0, 10.0, 10.0, 32.0};
       always_valid = {1.0, 1.0, 4.0, 1.0, 1.0, 1.0, 1.0};
       dimension = 7;
-      max_f = exp(0.07);
+      max_f = 0.07;
       break;
   }
 
   cout << "Building" << endl;
-  Surrogate *sg = new Surrogate(dimension, SEard, true);
+  Surrogate *sg = new Surrogate(dimension, SEard, true, use_log);
   sg->gamma = gamma;
   cout << sg->gamma.size() << " gamma size" << endl;
   sg->C = C;
@@ -174,6 +175,7 @@ int main(int argc, char * argv[])
     use_cost = atoi(argv[3]);
     lambda = atoi(argv[4]);
     n_sims = atoi(argv[5]);
+    use_log = atoi(argv[6]);
     cout << bench <<" "<<search_type<<use_cost<<lambda<<n_sims<<endl;
   }
 
