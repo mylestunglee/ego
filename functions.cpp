@@ -42,17 +42,13 @@ double sphere_5(double x[])
 
 double sphere_10(double x[])
 {
-<<<<<<< HEAD
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
-  return sphere(x, 4);
-=======
   return sphere(x, 6);
 }
 
 double sphere_15(double x[])
 {
   return sphere(x, 9);
->>>>>>> b9172270774a94d2542a0bc086f022a53ca497ce
 }
 
 double sphere_20(double x[])
