@@ -21,6 +21,7 @@ class EGO
       bool is_finished;
       int addReturn;
       int cost;
+      int true_cost;
       int pos;
       vector<double> data;
     };

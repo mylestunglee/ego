@@ -272,6 +272,7 @@ void EGO::python_eval(const vector<double> &x, bool add)
   }
   temp = PyObject_GetItem(pValue, index_0);
   run.cost = PyInt_AsLong(pValue);
+  run.true_cost = run.cost;
 
   Py_DECREF(pValue);
   Py_DECREF(temp);
@@ -289,6 +290,9 @@ void EGO::python_eval(const vector<double> &x, bool add)
     cout << "fitness: " << run.fitness << " code: " << run.label << endl;
     int label = 2 - (int) (run.label == 0); //1 if run.label == 0
     sg->add(x, run.fitness, label, run.addReturn);
+    if(run.addReturn == 0) {
+      sg_cost->add(x, run.true_cost);
+    }
     if(run.label == 0 ) {
       valid_set.push_back(x);
       if(run.fitness < best_fitness) {
@@ -303,7 +307,6 @@ void EGO::python_eval(const vector<double> &x, bool add)
     run.data = x;
     run.pos = mu_means.size() - 1;
     running.push_back(run);
-    sg_cost->add(x, run.cost);
   }
 }
 
@@ -738,7 +741,7 @@ vector<double> EGO::max_ei_par(int llambda)
       if(search_type == 2) {
         if(best_fitness == 0) {
           //use_mean = true;
-          best = brute_search_local_swarm(best_particle, max(llambda + 2, 6), llambda, true, true, use_mean);
+          best = brute_search_local_swarm(best_particle, max(llambda + 2, 8), llambda, true, true, use_mean);
         } 
       } else {
         if(best_fitness == 0) {
@@ -752,7 +755,7 @@ vector<double> EGO::max_ei_par(int llambda)
 	    for(int j = 0; j < dimension; j++) {
 	      x[j] = best[i*dimension+j];
 	    }
-            x = brute_search_local_swarm(x, 2, 1, true, false, use_mean);
+            x = brute_search_local_swarm(x, 4, 1, true, false, use_mean);
 	    for(int j = 0; j < dimension; j++) {
 	      best[i*dimension+j] = x[j];
 	    }
