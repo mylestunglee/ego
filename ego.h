@@ -93,7 +93,7 @@ class EGO
     void python_eval(const vector<double> &x, bool add=false);
     void run_quad();
     void update_running(const long int &t=-1l);
-    void update_time(const std::clock_t t);
+    void update_time(long int t);
     bool has_run(const vector<double> &point);
     void latin_hypercube(size_t F, int D);
 
