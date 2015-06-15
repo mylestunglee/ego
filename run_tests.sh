@@ -1,44 +1,45 @@
 #!/bin/bash
 NAME="NORMALISE_LOG_COST"
 
-#for j in 6 
-#do
-#  for f in 1
-#  do
-#      N_SIMS=50
-#      VAR="Search = $f test QUAD $NAME lambda = $j n_sims = $N_SIMS"
-#      FILE="logs/"
-#      FILE+="$NAME"
-#      FILE+="_$f" 
-#      FILE+="_QUAD" 
-#      FILE+="_"
-#      FILE+="$j"
-#      FILE+="_"
-#      FILE+="$N_SIMS"
-#      FILE+=".txt"
-#      echo $VAR > $FILE
-#      echo `./test 1 $f 1 $j $N_SIMS 1 &>> $FILE`
-#  done
-#done
-
-for j in 2
+for j in 1 
 do
-  for f in 3
+  for f in 1
   do
-      VAR="Search = $f test RTM $NAME lambda = $j n_sims = $N_SIMS"
+      N_SIMS=50
+      VAR="Search = $f test QUAD $NAME lambda = $j n_sims = $N_SIMS"
       FILE="logs/"
       FILE+="$NAME"
       FILE+="_$f" 
-      FILE+="_RTM" 
+      FILE+="_QUAD" 
       FILE+="_"
       FILE+="$j"
       FILE+="_"
       FILE+="$N_SIMS"
       FILE+=".txt"
-      echo $VAR > $FILE;
-      echo `./test 3 $f 1 $j $N_SIMS 1 &>> $FILE`
+      echo $VAR > $FILE
+      echo `./test 1 $f 1 $j $N_SIMS 1 &>> $FILE`
   done
 done
+
+#for j in 6
+#do
+#  for f in 3
+#  do
+#      N_SIMS=50
+#      VAR="Search = $f test RTM $NAME lambda = $j n_sims = $N_SIMS"
+#      FILE="logs/"
+#      FILE+="$NAME"
+#      FILE+="_$f" 
+#      FILE+="_RTM" 
+#      FILE+="_"
+#      FILE+="$j"
+#      FILE+="_"
+#      FILE+="$N_SIMS"
+#      FILE+=".txt"
+#      echo $VAR > $FILE;
+#      echo `./test 3 $f 1 $j $N_SIMS 1 &>> $FILE`
+#  done
+#done
 
 
 #for i in `seq 1 10`;

@@ -82,7 +82,7 @@ void EGO::run_quad()
           y[j] = best_xs[l * dimension + j];
         }
 
-        if(not_running(&y[0]) && not_run(&y[0])) {
+        if(!at_optimum && not_running(&y[0]) && not_run(&y[0])) {
           python_eval(y);
         } else {
 	  if(!suppress) {
@@ -102,7 +102,7 @@ void EGO::run_quad()
       t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
       update_running(t3);
     }
-    update_running();
+    if(lambda == 0) update_running();
     if(running.size() >= num_lambda) {
       cout << "Couldn't update running, exiting" << endl;
       exit(-1);
@@ -646,6 +646,7 @@ double EGO::fitness(const vector<double> &x)
   int num = x.size() / dimension;
   double lambda_means[num];
   double lambda_vars[num];
+  double cost = 0;
 
   for(int i = 0; i < num; i++) {
     double y [dimension];
@@ -658,6 +659,10 @@ double EGO::fitness(const vector<double> &x)
       pair<double, double> p = sg->predict(y);
       lambda_means[i] = p.first;
       lambda_vars[i] = p.second;
+      if(use_cost) {
+        pair<double, double> p_cost = sg->predict(y);
+	cost += p_cost.first;
+      }
     } else {
       lambda_means[i] = 100000000000;
       lambda_vars[i] = 0;
@@ -665,6 +670,9 @@ double EGO::fitness(const vector<double> &x)
   }
 
   double result = -1. * ei_multi(lambda_vars, lambda_means, num, n_sims);
+  if(use_cost && cost > 0) {
+    result /= cost;
+  }
   return result / n_sims;
 }
 
@@ -724,7 +732,7 @@ vector<double> EGO::max_ei_par(int llambda)
       }
 
       opt *op = new opt(size, up, low, this, is_discrete);
-      best = op->swarm_optimise(x, pso_gen * size, population_size, 200);
+      best = op->swarm_optimise(x, pso_gen * size, population_size * dimension);
       double best_fitness = op->best_part->best_fitness;
 
       if(search_type == 2) {
@@ -735,11 +743,11 @@ vector<double> EGO::max_ei_par(int llambda)
       } else {
         if(best_fitness == 0) {
           //use_mean = true;
-          best = brute_search_local_swarm(best_particle, max(llambda + 2, 6), llambda, true, true, use_mean);
+          best = brute_search_local_swarm(best_particle, max(llambda + 2, 8), llambda, true, true, use_mean);
         } else {
 	  vector<double> x(dimension, 0.0);
 	  int old_n_sims = n_sims;
-	  n_sims *= 3;
+	  n_sims *= 4;
 	  for(int i = 0; i < llambda; i++) {
 	    for(int j = 0; j < dimension; j++) {
 	      x[j] = best[i*dimension+j];
@@ -1011,19 +1019,9 @@ vector<double> *EGO::brute_search_swarm(int npts, int llambda, bool use_mean)
         if(x[j] > upper[j] || x[j] < lower[j]) can_run = false;
       }
 
-        if(can_run && not_run(&x[0]) && not_running(&x[0])) {
-	  if(sg->svm_label(&x[0]) == 1) {
-            double result = 0.0;
-	    if(use_mean) {
-	      result = sg->mean(&x[0]);
-	    } else if(use_cost) {
-	      double cost = sg_cost->mean(&x[0]);
-	      if(cost > 0) {
-	        result = fitness(x) / cost;
-	      }
-	    } else {
-	      result = fitness(x);
-	    }
+      if(can_run && not_run(&x[0]) && not_running(&x[0])) {
+        if(sg->svm_label(&x[0]) == 1) {
+          double result = fitness(x);
           if(result < best) {
             best_point->assign(x.begin(), x.end());
             best = result;
@@ -1067,10 +1065,7 @@ vector<double> *EGO::brute_search_swarm(int npts, int llambda, bool use_mean)
 	    if(use_mean) {
 	      result = sg->mean(&point[i*dimension]);
 	    } else if(use_cost) {
-	      double cost = sg_cost->mean(&point[i*dimension]);
-	      if(cost > 0) {
-	        result = fitness(point) / cost;
-	      }
+	      result = fitness(point);
 	    } else {
 	      llambda_means[i] = p.first;
 	      llambda_vars[i] = p.second;
@@ -1149,17 +1144,7 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
 
         if(can_run && (!has_to_run || (not_run(&x[0]) && not_running(&x[0])))) {
 	  if(random || sg->svm_label(&x[0]) == 1) {
-            double result = 0.0;
-	    if(use_mean) {
-	      result = sg->mean(&x[0]);
-	    } else if(use_cost) {
-	      double cost = sg_cost->mean(&x[0]);
-	      if(cost > 0) {
-	        result = fitness(x) / cost;
-	      }
-	    } else {
-	      result = fitness(x);
-	    }
+            double result = fitness(x);
             if(result < best) {
               best_point = x;
               best = result;
@@ -1194,18 +1179,7 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
 
         if(can_run && (!has_to_run || (not_run(&point[i*dimension]) && not_running(&point[i*dimension])))) {
 	    if(random || sg->svm_label(&point[i*dimension]) == 1) {
-	    double result = 0.0;
-	    if(use_mean) {
-	      result = sg->mean(&point[0]);
-	    } else if(use_cost) {
-	      double cost = sg_cost->mean(&point[0]);
-	      if(cost > 0) {
-	        result = fitness(point) / cost;
-	      }
-	    } else {
-	      result = fitness(point);
-	    }
-
+	    double result = fitness(point);
             if(result < best) {
               best_point = point;
               best = result;

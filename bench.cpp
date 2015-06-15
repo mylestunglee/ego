@@ -138,7 +138,7 @@ EGO *reset_ego()
 
   ego->search_type = search_type;
   ego->max_fitness = max_f;
-  ego->max_iterations = 10*dimension + 90;
+  ego->max_iterations = 10*dimension + 120;
   ego->suppress = false;
   ego->is_discrete = true;
   ego->n_sims = n_sims;
@@ -148,6 +148,7 @@ EGO *reset_ego()
   //ego->max_points = 100;
   ego->num_points = ego->max_points;
   ego->pso_gen = 100;
+  ego->population_size = 100;
   //ego->use_brute_search = use_brute;
   ego->exhaustive = exhaustive;
 
