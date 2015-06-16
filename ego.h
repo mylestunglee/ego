@@ -35,7 +35,7 @@ class EGO
     void add_training(const vector<double> &x, double y, int label);
     vector<double> brute_search_local_swarm(const vector<double> &particle, double radius=1.0, int llambda=1, bool has_to_run=false, bool random=false, bool use_mean=false);
     vector<double>* brute_search_swarm(int npts=10, int llambda=1, bool use_mean=false);
-    double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n);
+    double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n, double y_best);
     double ei(double y, double S2, double y_min);
     void check_running_tasks();
     void worker_task(vector<double> data);
@@ -81,6 +81,7 @@ class EGO
     mutex running_mtx;
     vector<struct running_node> running;
     vector<vector<double>> training;
+    vector<double> training_f;
     vector<vector<double>> valid_set;
     vector<double> mu_means;
     vector<double> mu_vars;
@@ -97,7 +98,6 @@ class EGO
     void update_time(long int t);
     bool has_run(const vector<double> &point);
     void latin_hypercube(size_t F, int D);
-
-  vector<double> local_random(const vector<double> &particle, double radius);
+    vector<double> local_random(double radius=1.0, int llambda=1);
 };
 

@@ -3,7 +3,7 @@
 #include "ihs.hpp"
 #include <ctime>
 
-#define _GLIBCXX_USE_NANOSLEEP //Need to send thread to sleep on old GCC
+//#define _GLIBCXX_USE_NANOSLEEP //Need to send thread to sleep on old GCC
 
 #include <thread>
 #include <chrono>
@@ -35,6 +35,7 @@ void EGO::run_quad()
 {
   if(!suppress) cout << "Started, dim=" << dimension << ", lambda=" <<
   num_lambda << " max_f=" << max_fitness << endl;
+  sg->train_gp_first();
   while(num_iterations < max_iterations) {
     //Check to see if any workers have finished computing
 
@@ -122,7 +123,7 @@ void EGO::python_eval(const vector<double> &x, bool add)
       cout << endl;
     }
 
-    pair<double, double> p = sg->predict(data);
+    pair<double, double> p = sg->predict(data, true);
     mu_means.push_back(p.first);
     mu_vars.push_back(p.second);
   }
@@ -299,6 +300,7 @@ void EGO::python_eval(const vector<double> &x, bool add)
         best_fitness = run.fitness;
         best_particle = x;
       }
+      training_f.push_back(run.fitness);
     }
     training.push_back(x);
   } else {
@@ -453,6 +455,7 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*f
 void EGO::run()
 {
   if(!suppress) cout << "Started, dim=" << dimension << ", lambda=" << num_lambda << endl;
+  sg->train_gp_first();
   while(num_iterations < max_iterations) {
     //Check to see if any workers have finished computing
     std::clock_t t3 = std::clock();
@@ -536,7 +539,7 @@ void EGO::evaluate(const vector<double> &x)
 
   double mean, var;
   if(sg->is_trained){
-    pair<double, double> p = sg->predict(data);
+    pair<double, double> p = sg->predict(data, true);
     mean = p.first;
     var = p.second;
   } else {
@@ -659,7 +662,7 @@ double EGO::fitness(const vector<double> &x)
     }
 
     if(not_running(y)) {
-      pair<double, double> p = sg->predict(y);
+      pair<double, double> p = sg->predict(y, true);
       lambda_means[i] = p.first;
       lambda_vars[i] = p.second;
       if(use_cost) {
@@ -672,7 +675,7 @@ double EGO::fitness(const vector<double> &x)
     }
   }
 
-  double result = -1. * ei_multi(lambda_vars, lambda_means, num, n_sims);
+  double result = -1. * ei_multi(lambda_vars, lambda_means, num, n_sims, sg->best_raw());
   if(use_cost && cost > 0) {
     result /= cost;
   }
@@ -710,13 +713,14 @@ vector<double> EGO::max_ei_par(int llambda)
       } else {
         //use_mean = true;
         if(!suppress) cout << "Couldn't find new particles, searching in region of best" << endl;
-	if(lambda == 1) {
-          best = brute_search_local_swarm(best_particle, 1, 1, true, true, use_mean);
-	} else {
-          best = brute_search_local_swarm(best_particle, 1, llambda, true, true, use_mean);
-	}
+	//if(lambda == 1) {
+        //  best = brute_search_local_swarm(best_particle, 1, 1, true, true, use_mean);
+	//} else {
+        //  best = brute_search_local_swarm(best_particle, 1, llambda, true, true, use_mean);
+	//}
+	best = local_random(1.0, llambda);
         if(!suppress && !at_optimum) {
-          for(int i = 0; i < llambda * dimension; i++) {
+          for(size_t i = 0; i < best.size(); i++) {
             cout << best[i] << " ";
           }
           cout << " got around best" << endl;
@@ -725,8 +729,8 @@ vector<double> EGO::max_ei_par(int llambda)
     } else if(search_type >= 2){ 
       int size = dimension * llambda;
       vector<double> low(size, 0.0), up(size, 0.0), x(size, 0.0);
-      random_device rd;
-      mt19937 gen(rd());
+      //random_device rd;
+      //mt19937 gen(rd());
 
       for(int i = 0; i < size; i++) {
         low[i] = lower[i % dimension];
@@ -735,35 +739,37 @@ vector<double> EGO::max_ei_par(int llambda)
       }
 
       opt *op = new opt(size, up, low, this, is_discrete);
-      best = op->swarm_optimise(x, pso_gen * size, population_size * size);
+      best = op->swarm_optimise(x, pso_gen, population_size * size);
       double best_fitness = op->best_part->best_fitness;
 
       if(search_type == 2) {
-        if(best_fitness == 0) {
+        if(best_fitness >= -0.00000001) {
           //use_mean = true;
-          best = brute_search_local_swarm(best_particle, 1, llambda, true, true, use_mean);
+          //best = brute_search_local_swarm(best_particle, 1, llambda, true, true, use_mean);
+	  best = local_random(1.0, llambda);
         } 
       } else {
-        if(best_fitness == 0) {
+        if(best_fitness >= -0.000000001) {
           //use_mean = true;
-	  cout << "Didn't find anything with the particle swarm" << endl;
-          best = brute_search_local_swarm(best_particle, 1, llambda, true, true, use_mean);
+          //best = brute_search_local_swarm(best_particle, 1, llambda, true, true, use_mean);
+	  best = local_random(1.0, llambda);
 	  best_fitness = fitness(best);
         } else {
+	  cout << best_fitness << " looping over" << endl;
 	  vector<double> x(dimension, 0.0);
 	  int old_n_sims = n_sims;
-	  n_sims *= 4;
+	  n_sims *= 5;
 	  for(int i = 0; i < llambda; i++) {
 	    for(int j = 0; j < dimension; j++) {
 	      x[j] = best[i*dimension+j];
 	    }
-            x = brute_search_local_swarm(x, 4, 1, true, false, use_mean);
+            x = brute_search_local_swarm(x, 3, 1, true, false, use_mean);
 	    for(int j = 0; j < dimension; j++) {
 	      best[i*dimension+j] = x[j];
 	    }
 	  }
-	  n_sims = old_n_sims;
 	  best_fitness = fitness(best);
+	  n_sims = old_n_sims;
 	}
       }
       if(!suppress) {
@@ -962,35 +968,90 @@ void EGO::sample_plan(size_t F, int D)
   }
 }
 
-vector<double> EGO::local_random(const vector<double> &particle, double radius)
+vector<double> EGO::local_random(double radius, int llambda)
 {
-  int npts_plus[dimension + 1];
-  for(int i = 0; i < dimension; i++) {
-    if(is_discrete) {
-      npts_plus[i] = pow(2*radius + 1, dimension - i);
+  if(!suppress) {
+    cout << "Evaluating random pertubations of best results" << endl;
+  }
+  double noise = sg->error();
+  vector<int> index;
+  vector<vector<double>> points;
+  for(size_t i = 0; i < valid_set.size(); i++) {
+    if(abs(training_f[i] - best_fitness) < noise) {
+      index.push_back(i);
     }
   }
-  npts_plus[dimension] = 1;
+  vector<double> low_bounds(dimension, -10000000.0);
+  double up;
   vector<double> x(dimension, 0.0);
-  while(true) {
-    for(int k = 0; k < 100; k++) {
-      int i = round(uni_dist(0, npts_plus[0]));
-      bool can_run = true;
-      for(int j = 0; j < dimension; j++) {
-        x[j] = particle[j] + floor(((i % npts_plus[j]) / npts_plus[j+1]) - radius);
-        if(x[j] > upper[j] || x[j] < lower[j]) can_run = false;
+  int num[dimension+1];
+  for(size_t i = 0; i < index.size(); i++) {
+    num[0] = 1;
+    for(int j = 0; j < dimension; j++) {
+      double point = valid_set[index[i]][j];
+      low_bounds[j] = max(lower[j], point - radius);
+      up = min(upper[j], point + radius);
+      num[j+1] = num[j] * min(1, (int) (up - low_bounds[j] + 2));
+      //cout << j << " " <<num[j+1] << "possible" << endl;
+    }
+    for(int j = 0; j < num[dimension]; j++) {
+      for(int k = 0; k < dimension; k++) {
+        x[k] = low_bounds[k] + (j % num[k+1]) / num[k];
+	//cout << x[k] << " ";
       }
-      if(can_run && not_run(&x[0]) && not_running(&x[0])) {
-        return x;
+      //cout << endl;
+      if(!has_run(x)) {
+	bool can_run = true;
+        for(size_t z = 0; z < points.size(); z++) {
+	  for(int l = 0; l < dimension; l++) {
+	    if(x[l] != points[z][l]) {
+	      break;
+	    } else if(l == dimension - 1) {
+	      can_run = false;
+	      break;
+	    }
+	  }
+	  if(!can_run) {
+	    break;
+	  }
+        }
+	if(can_run) {
+	  points.push_back(x);
+	  //cout << "able" << endl;
+        }
       }
     }
-    radius++;
+  }
+  int size = points.size();
+  if(size > 0) {
+    vector<double> result(dimension * llambda, 0.0);
+    double choices[llambda];
+    for(int i = 0; i < llambda; i++) {
+      choices[i] = -1;
+      int ind = rand() % size;
+      if(size >= llambda) {
+        for(int j = 0; j < llambda; j++) {
+          if(ind == choices[j]) {
+            j = -1;
+            ind = rand() % size;
+          }
+        }
+      }
+      for(int j = 0; j < dimension; j++) {
+        result[i*dimension+j] = points[ind][j];
+      }
+    }
+    return result;
+  } else {
+   x.clear();
+   return x;
   }
 }
 
 vector<double> *EGO::brute_search_swarm(int npts, int llambda, bool use_mean)
 {
   double best = -0.0;
+  double y_best = sg->best_raw();
   int size = dimension * llambda;
   vector<double> *best_point = new vector<double>(size, 0);
   unsigned long long npts_plus[dimension + 1];
@@ -1066,7 +1127,7 @@ vector<double> *EGO::brute_search_swarm(int npts, int llambda, bool use_mean)
 
         if(can_run && not_run(&point[i*dimension]) && not_running(&point[i*dimension])) {
 	  if(sg->svm_label(&point[i*dimension]) == 1) {
-	    pair<double, double> p = sg->predict(&point[i*dimension]);
+	    pair<double, double> p = sg->predict(&point[i*dimension], true);
 	    double result = 0.0;
 	    if(use_mean) {
 	      result = sg->mean(&point[i*dimension]);
@@ -1075,7 +1136,7 @@ vector<double> *EGO::brute_search_swarm(int npts, int llambda, bool use_mean)
 	    } else {
 	      llambda_means[i] = p.first;
 	      llambda_vars[i] = p.second;
-              result = -1. * ei_multi(llambda_vars, llambda_means, i + 1, n_sims);
+              result = -1. * ei_multi(llambda_vars, llambda_means, i + 1, n_sims, y_best);
 	    }
             if(result < best) {
               for(int k = 0; k < dimension; k++) {
@@ -1151,6 +1212,10 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
         if(can_run && (!has_to_run || (not_run(&x[0]) && not_running(&x[0])))) {
 	  if(random || sg->svm_label(&x[0]) == 1) {
             double result = fitness(x);
+	    if(num_lambda == 1){
+	      pair<double, double> p = sg->predict(&x[0], true);
+	      result = -ei(p.first, p.second, sg->best_raw());
+	    }
             if(result < best) {
               best_point = x;
               best = result;
@@ -1291,13 +1356,13 @@ double EGO::ei(double y, double S2, double y_min)
   }
 }
 
-double EGO::ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n)
+double EGO::ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n, double y_best)
 {
     double sum_ei=0.0, e_i=0.0;
     int max_mus = mu_means.size();
 
     for (int k=0; k < n; k++) {
-        double min = best_fitness;
+        double min = y_best;
         for(int i=0; i < max_mus; i++){
             double mius = gaussrand1()*mu_vars[i] + mu_means[i];
             if (mius < min)

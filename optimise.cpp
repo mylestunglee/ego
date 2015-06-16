@@ -138,7 +138,7 @@ vector<double> opt::swarm_main_optimise(int max_gen, int min_gen)
 	last_gen = (g+1);
       }
     }
-    if(g > min_gen && g - last_gen == 400) break;
+    //if(g > min_gen && g - last_gen == 400) break;
     update_particles(g, max_gen);
     filter();
   }

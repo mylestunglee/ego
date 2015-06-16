@@ -187,11 +187,7 @@ void Surrogate::choose_svm_param(int num_folds, bool local)
 void Surrogate::add(const vector<double> &x, double y)
 {
   training.push_back(x);
-  if(use_log) {
-    training_f.push_back(log(y));
-  } else {
-    training_f.push_back(y);
-  }
+  training_f.push_back(y);
   num_train++;
 }
 
@@ -222,10 +218,10 @@ void Surrogate::add(const vector<double> &x, double y, int cl, int addReturn)
   if(cl == 1) num_correct_class++;
 }
 
-void Surrogate::train()
+void Surrogate::train_gp(libgp::GaussianProcess *gp_, bool log_fit)
 {
-  if(gp) delete gp;
-  gp = new GaussianProcess(dim, "CovSum(CovSEard, CovNoise)");
+  if(num_train == 0) return;
+  best_raw_fit = 1000000.0;
   int amount = training.size();
   for(int i = 0; i < dim; i++) {
     mean_data[i] = 0;
@@ -236,7 +232,11 @@ void Surrogate::train()
     for(int j = 0; j < dim; j++) {
       mean_data[j] += training[i][j];
     }
-    mean_fit += training_f[i];
+    if(log_fit) {
+      mean_fit += log(training_f[i]);
+    } else {
+      mean_fit += training_f[i];
+    }
   }
   mean_fit /= amount;
   for(int i = 0; i < dim; i++) {
@@ -259,19 +259,58 @@ void Surrogate::train()
         data[j] /= std_dev[j];
       }
     }
-    gp->add_pattern(data, training_f[i] - mean_fit);
+    double fit = training_f[i] - mean_fit;
+    if(log_fit) {
+      fit = log(training_f[i]) - mean_fit;
+    }
+    if(fit < best_raw_fit) {
+      best_raw_fit = fit;
+    }
+    gp_->add_pattern(data, fit);
   }
   Eigen::VectorXd params(gp->covf().get_param_dim());
   params.setZero();
-  gp->covf().set_loghyper(params);
-  num_train = 0;
+  gp_->covf().set_loghyper(params);
   CG cg;
-  cg.maximize(gp, 50, 0);
+  cg.maximize(gp_, 50, 0);
+  num_train = 0;
+  gp_is_trained = true;
+}
+
+void Surrogate::train_gp_first()
+{
+  if(gp) delete gp;
+  num_train = training.size();
+  gp = new GaussianProcess(dim, "CovSum(CovSEard, CovNoise)");
+  train_gp(gp, false);
+  long double ll = gp->log_likelihood();
+
+  num_train = training.size();
+  libgp::GaussianProcess* gp_log = new GaussianProcess(dim, "CovSum(CovSEard, CovNoise)");
+  train_gp(gp_log, true);
+  long double log_ll = gp_log->log_likelihood();
+  //if(log_ll > ll) {
+  if(true) {
+    cout << "Defaulted to using log on GP";
+    cout << " log like: " << log_ll;
+    cout << " normal like: " << ll << endl;
+    use_log = true;
+    delete gp;
+    gp = gp_log;
+  } else {
+    use_log = false;
+    delete gp_log;
+  }
+}
+
+void Surrogate::train()
+{
+  train_gp(gp, use_log);
   if(is_svm) choose_svm_param(10);
   is_trained = true;
 }
 
-pair<double, double> Surrogate::predict(double x[])
+pair<double, double> Surrogate::predict(double x[], bool raw)
 {
   if(is_trained) {
     double data[dim];
@@ -282,16 +321,32 @@ pair<double, double> Surrogate::predict(double x[])
       }
     }
     if(svm_label(data) == 1) {
-      if(use_log) {
-        return make_pair(exp(mean_fit + gp->f(data)), gp->var(data));
+      if(raw) {
+          return make_pair(gp->f(data), gp->var(data));
       } else {
-        return make_pair(mean_fit + gp->f(data), gp->var(data));
+        if(use_log) {
+          return make_pair(exp(mean_fit + gp->f(data)), gp->var(data));
+        } else {
+          return make_pair(mean_fit + gp->f(data), gp->var(data));
+        }
       }
     }
   }
   return make_pair(100000000000.0, 0.0);
 }
 
+double Surrogate::best_raw()
+{
+  return best_raw_fit;
+}
+
+double Surrogate::error()
+{
+  Eigen::VectorXd params = gp->covf().get_loghyper();
+  double noise = params(gp->covf().get_param_dim() - 1);
+  noise = exp(noise);
+  return noise;
+}
 
 double Surrogate::var(double x[])
 {

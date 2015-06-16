@@ -21,12 +21,17 @@ class Surrogate
     void add(const vector<double> &x, double y, int cl, int add);
     double var(double x[]);
     double mean(double x[]);
-    pair<double, double> predict(double x[]);
+    pair<double, double> predict(double x[], bool raw=false);
     int svm_label(double x[]);
     void choose_svm_param(int num_folds, bool local=false);
+    void train_gp(libgp::GaussianProcess *gp_, bool log_fit);
+    void train_gp_first();
+    double best_raw();
+    double error();
 
     void train();
     bool is_trained;
+    bool gp_is_trained;
     bool is_svm;
     vector<double> gamma;
     vector<double> C;
@@ -40,6 +45,7 @@ class Surrogate
     double mean_fit;
     vector<double> std_dev;
     //int elements;
+    double best_raw_fit;
     mutex mtx;
     vector<vector<double>> training;
     vector<double> training_f;

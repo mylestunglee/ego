@@ -2,13 +2,13 @@
 
 
 
-#for j in 1
+#for j in 6
 #do
 #  for f in 1
 #  do
-#      N_SIMS=50
+#      N_SIMS=100
 #      VAR="Search = $f test QUAD $NAME lambda = $j n_sims = $N_SIMS"
-#      NAME="log_cost_"
+#      NAME="random_raw_log_"
 #      FILE="quad_logs/"
 #      FILE+="$NAME"
 #      FILE+="$f" 
@@ -16,18 +16,18 @@
 #      FILE+="$j"
 #      FILE+="_"
 #      FILE+="$N_SIMS"
-#      FILE+="_run2.txt"
+#      FILE+="_run3.txt"
 #      echo $VAR > $FILE
-#      echo `./test 1 $f 1 $j $N_SIMS 1 &>> $FILE`
+#      echo `./test 1 $f 0 $j $N_SIMS 1 &>> $FILE`
 #  done
 #done
 
-for j in 2
+for j in 6
 do
   for f in 3
   do
-      N_SIMS=50
-      NAME="cost_"
+      N_SIMS=100
+      NAME="random_raw_log_"
       VAR="Search = $f test RTM $NAME lambda = $j n_sims = $N_SIMS"
       FILE="rtm_logs/"
       FILE+="$NAME"
@@ -36,9 +36,9 @@ do
       FILE+="$j"
       FILE+="_"
       FILE+="$N_SIMS"
-      FILE+=".txt"
+      FILE+="_run2.txt"
       echo $VAR > $FILE;
-      echo `./test 3 $f 1 $j $N_SIMS 0 &>> $FILE`
+      echo `./test 3 $f 0 $j $N_SIMS 1 &>> $FILE`
   done
 done
 
