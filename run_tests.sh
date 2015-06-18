@@ -4,7 +4,7 @@
 
 #for j in 4
 #do
-#  for f in 3
+#  for f in 1
 #  do
 #      N_SIMS=100
 #      VAR="Search = $f test QUAD $NAME lambda = $j n_sims = $N_SIMS"
@@ -16,7 +16,7 @@
 #      FILE+="$j"
 #      FILE+="_"
 #      FILE+="$N_SIMS"
-#      FILE+="_final.txt"
+#      FILE+="_final_cost.txt"
 #      echo $VAR > $FILE
 #      echo `./pq_optimisation 1 $f 1 $j $N_SIMS 1 &>> $FILE`
 #  done
@@ -27,7 +27,7 @@ do
   for f in 3
   do
       N_SIMS=100
-      NAME="log_"
+      NAME="log_cost_"
       VAR="Search = $f test PQ $NAME lambda = $j n_sims = $N_SIMS"
       FILE="pq_logs/"
       FILE+="$NAME"
@@ -36,9 +36,9 @@ do
       FILE+="$j"
       FILE+="_"
       FILE+="$N_SIMS"
-      FILE+="_final.txt"
+      FILE+="_final2.txt"
       echo $VAR > $FILE;
-      echo `./pq_optimisation 2 $f 0 $j $N_SIMS 1 &>> $FILE`
+      echo `./pq_optimisation 2 $f 1 $j $N_SIMS 1 &>> $FILE`
   done
 done
 
@@ -56,7 +56,7 @@ done
 #      FILE+="$j"
 #      FILE+="_"
 #      FILE+="$N_SIMS"
-#      FILE+="_final2.txt"
+#      FILE+="_final.txt"
 #      echo $VAR > $FILE;
 #      echo `./pq_optimisation 3 $f 1 $j $N_SIMS 1 &>> $FILE`
 #  done

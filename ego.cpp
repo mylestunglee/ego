@@ -307,15 +307,19 @@ void EGO::python_eval(const vector<double> &x, bool add)
   if(add) {
     //We evaluated it, now add to all our surrogate models
     num_iterations++;
-    for(int i = 0; i < dimension; i++) cout << x[i] << " ";
-    cout << "fitness: " << run.fitness << " code: " << run.label << endl;
+
+    if(!suppress) {
+      for(int i = 0; i < dimension; i++) cout << x[i] << " ";
+      cout << "fitness: " << run.fitness << " code: " << run.label << endl;
+    }
+
     int label = 2 - (int) (run.label == 0); //1 if run.label == 0
     sg->add(x, run.fitness, label, run.addReturn);
     if(run.addReturn == 0) {
       if(run.true_cost < 0) {
 	train_cost_soft = true;
         sg_cost_soft->add(x, -run.true_cost);
-	cout << "Software cost " << -run.true_cost << endl;
+	if(!suppress) cout << "Software cost " << -run.true_cost << endl;
       } else {
         sg_cost->add(x, run.true_cost);
       }
@@ -332,6 +336,8 @@ void EGO::python_eval(const vector<double> &x, bool add)
           best_fitness = run.fitness;
           best_particle = x;
         }
+        for(int i = 0; i < dimension; i++) cout << x[i] << " ";
+        cout << run.fitness << endl;
       }
       training_f.push_back(run.fitness);
     }
@@ -383,7 +389,7 @@ void EGO::update_running(const long int &t)
 void EGO::update_time(long int t)
 {
   total_time += t;
-  cout << "Total time taken is " << total_time << endl;
+  if(!suppress) cout << "Total time taken is " << total_time << endl;
 }
 
 EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string python_file_name, int search)
@@ -696,7 +702,7 @@ double EGO::fitness(const vector<double> &x)
   int num = x.size() / dimension;
   double lambda_means[num];
   double lambda_vars[num];
-  double cost = 0;
+  double cost = 1.0, mean_cost=1.0;
 
   for(int i = 0; i < num; i++) {
     double y [dimension];
@@ -717,6 +723,7 @@ double EGO::fitness(const vector<double> &x)
         pair<double, double> p_cost = sg_cost->predict(y);
         pair<double, double> s_cost = sg_cost_soft->predict(y);
 	cost += p_cost.first + s_cost.first;
+	mean_cost = sg_cost->mean_fit + sg_cost_soft->mean_fit;
       }
     } else {
       lambda_means[i] = 100000000000;
@@ -724,10 +731,9 @@ double EGO::fitness(const vector<double> &x)
     }
   }
 
-  double result = -1. * ei_multi(lambda_vars, lambda_means, num, n_sims, sg->best_raw());
+  double result = ei_multi(lambda_vars, lambda_means, num, n_sims, sg->best_raw());
   if(use_cost && cost > 0) {
-    result *= 10;
-    result /= cost;
+    result = result * mean_cost / cost;
   }
   result = exp(abs(result/n_sims) - 1) * 100;
   return result;
@@ -807,9 +813,9 @@ vector<double> EGO::max_ei_par(int llambda)
       best = local_random(1.0, llambda);
     } else {
       for(size_t i = 0; i < swarms[llambda].size(); i++) {
-        best_f = min(best_f, swarms[lambda][i]);
+        best_f = max(best_f, swarms[lambda][i]);
       }
-      if(best_f < 0.001) {
+      if(best_f < 0.0001) {
         best = local_random(1.0, llambda);
         best_f = fitness(best);
       } else {

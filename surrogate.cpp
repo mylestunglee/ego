@@ -44,6 +44,12 @@ Surrogate::Surrogate(int d, s_type type, bool svm, bool log_b)
   is_trained = false;
   gp_is_trained = false;
 
+  for(int i = 0; i < dim; i++) {
+    mean_data[i] = 0;
+    std_dev[i] = 0;
+    mean_fit = 0;
+  }
+
   if(is_svm) {
     s_param.svm_type = C_SVC;
     s_param.kernel_type = RBF;

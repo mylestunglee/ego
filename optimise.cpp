@@ -129,7 +129,7 @@ vector<vector<double>> opt::combined_optimise(vector<double> best, int max_gen, 
    part->p[i] = best[i];
   }
 
-  vector<double> groups(num_groups, 1.0);
+  vector<double> groups(num_groups, 0.0);
   vector<vector<double>> group_best(num_groups, vector<double>(dimension));
 
   for(int g = 0; g < max_gen; g++) {

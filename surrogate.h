@@ -35,6 +35,9 @@ class Surrogate
     bool is_svm;
     vector<double> gamma;
     vector<double> C;
+    double mean_fit;
+    vector<vector<double>> training;
+    vector<double> training_f;
 
   private:
     int dim;
@@ -42,13 +45,10 @@ class Surrogate
     int num_correct_class;
     bool use_log;
     vector<double> mean_data;
-    double mean_fit;
     vector<double> std_dev;
     //int elements;
     double best_raw_fit;
     mutex mtx;
-    vector<vector<double>> training;
-    vector<double> training_f;
     vector<vector<double>> add_training_svm;
     vector<double> add_training_cl;
     vector<struct svm_node *> training_svm_sparse;
