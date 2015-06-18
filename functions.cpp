@@ -37,7 +37,7 @@ double goldstein(double z[])
 }
 double sphere_5(double x[])
 {
-  return sphere(x, 3);
+  return sphere(x, 2);
 }
 
 double sphere_10(double x[])

@@ -11095,3 +11095,25 @@ Evaluating: 15 113 4
 15 112 1 fitness: 50 code: 2
 Total time taken is 136538
 Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.334898 C: 30.5176
+Total time taken is 137237
+Iter: 416 / 1000, RUNNING: 1 Lambda: 1 best 153.99
+Couldn't find new particles, searching in region of best
+Evaluating random pertubations of best results
+Evaluating random pertubations of best results
+14 114 4  got around best
+Evaluating: 14 114 4 
+15 113 4 fitness: 50 code: 2
+Total time taken is 137759
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.334898 C: 30.5176
+Total time taken is 138465
+Iter: 417 / 1000, RUNNING: 1 Lambda: 1 best 153.99
+Couldn't find new particles, searching in region of best
+Evaluating random pertubations of best results
+Evaluating random pertubations of best results
+11 113 4  got around best
+Evaluating: 11 113 4 
+11 113 4 fitness: 50 code: 5
+Total time taken is 138621
+Performing 10 fold validation for SVM

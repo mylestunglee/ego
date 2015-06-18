@@ -91,7 +91,7 @@ void opt::generate(int pop, int groups)
       //part->speed.push_back((*speed_generator)[j](gen));
       part->speed.push_back(uni_dist(-speed_max[j], speed_max[j]));
     }
-    part->best_fitness = -0.0;
+    part->best_fitness = 0.0;
     part->group = rand() % groups;
     particles.push_back(part);
   }
@@ -100,7 +100,7 @@ void opt::generate(int pop, int groups)
     //best_part->p.push_back((*space_generator)[j](gen));
     best_part->p.push_back(uni_dist(-speed_max[j], speed_max[j]));
   }
-  best_part->best_fitness = -0.0;
+  best_part->best_fitness = 0.0;
   filter();
 }
 
@@ -137,15 +137,16 @@ vector<vector<double>> opt::combined_optimise(vector<double> best, int max_gen, 
       Particle *part = *p;
       double result = ego->fitness(part->p);
 
-      if(result < part->best_fitness) {
+      if(result > part->best_fitness) {
         part->best_fitness = result;
         part->best = part->p;
       }
 
-      if(result < groups[part->group]) {
+      if(result > groups[part->group]) {
         group_best[part->group] = part->p;
 	groups[part->group] = result;
       }
+
     }
     update_particles(g, max_gen);
     filter();
@@ -161,12 +162,12 @@ vector<double> opt::swarm_main_optimise(int max_gen, int min_gen)
       Particle *part = *p;
       double result = ego->fitness(part->p);
 
-      if(result < part->best_fitness) {
+      if(result > part->best_fitness) {
         part->best_fitness = result;
 	part->best = part->p;
       }
 
-      if(result < best_part->best_fitness) {
+      if(result > best_part->best_fitness) {
         best_part->best_fitness = result;
 	best_part->p = part->p;
 	last_gen = (g+1);

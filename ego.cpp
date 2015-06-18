@@ -729,7 +729,8 @@ double EGO::fitness(const vector<double> &x)
     result *= 10;
     result /= cost;
   }
-  return result / n_sims;
+  result = exp(abs(result/n_sims) - 1) * 100;
+  return result;
 }
 
 void EGO::add_training(const vector<double> &x, double y, int label)
@@ -775,7 +776,7 @@ vector<double> EGO::max_ei_par(int llambda)
     best = op->swarm_optimise(x, pso_gen, population_size * size);
     double best_f = op->best_part->best_fitness;
 
-    if(best_f >= -0.00000001) {
+    if(best_f < 0.001) {
       best = local_random(1.0, llambda);
     } 
     if(!suppress) {
@@ -808,7 +809,7 @@ vector<double> EGO::max_ei_par(int llambda)
       for(size_t i = 0; i < swarms[llambda].size(); i++) {
         best_f = min(best_f, swarms[lambda][i]);
       }
-      if(best_f >= -0.000000001) {
+      if(best_f < 0.001) {
         best = local_random(1.0, llambda);
         best_f = fitness(best);
       } else {
@@ -1003,7 +1004,6 @@ void EGO::sample_plan(size_t F, int D)
 	}
       }
     }
-    cout << "svm label: " << sg->svm_label(&point[0]) << endl;
     python_eval(point);
     sg->choose_svm_param(5);
 
@@ -1102,7 +1102,7 @@ vector<double> EGO::local_random(double radius, int llambda)
 
 vector<double> *EGO::brute_search_swarm(int npts, int llambda, bool use_mean)
 {
-  double best = -0.0;
+  double best = 0.001;
   double y_best = sg->best_raw();
   int size = dimension * llambda;
   vector<double> *best_point = new vector<double>(size, 0);
@@ -1141,7 +1141,7 @@ vector<double> *EGO::brute_search_swarm(int npts, int llambda, bool use_mean)
       if(can_run && not_run(&x[0]) && not_running(&x[0])) {
         if(sg->svm_label(&x[0]) == 1) {
           double result = fitness(x);
-          if(result < best) {
+          if(result > best) {
             best_point->assign(x.begin(), x.end());
             best = result;
             has_result = true;
@@ -1154,8 +1154,7 @@ vector<double> *EGO::brute_search_swarm(int npts, int llambda, bool use_mean)
     double llambda_vars[llambda];
     pair<double, double> best_mean_var;
     for(int i = 0; i < llambda; i++) {
-      best = -0.0;
-      if(use_mean) best = 1000000;
+      best = 0.001;
       vector<double> point((i+1)*dimension, 0.0);
       bool found = false;
 
@@ -1188,9 +1187,10 @@ vector<double> *EGO::brute_search_swarm(int npts, int llambda, bool use_mean)
 	    } else {
 	      llambda_means[i] = p.first;
 	      llambda_vars[i] = p.second;
-              result = -1. * ei_multi(llambda_vars, llambda_means, i + 1, n_sims, y_best);
+              result = ei_multi(llambda_vars, llambda_means, i + 1, n_sims, y_best);
+	      result = exp(abs(result) - 1) * 100;
 	    }
-            if(result < best) {
+            if(result > best) {
               for(int k = 0; k < dimension; k++) {
                 (*best_point)[i*dimension + k] = point[i*dimension + k];
               }
@@ -1233,7 +1233,7 @@ vector<double> *EGO::brute_search_swarm(int npts, int llambda, bool use_mean)
 
 vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, double radius, int llambda, bool has_to_run, bool random, bool use_mean)
 {
-  double best = 1.0;
+  double best = 0.001;
   int size = dimension * llambda;
   vector<double> best_point(size, 0);
   unsigned long long loop[llambda];
@@ -1266,9 +1266,9 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
             double result = fitness(x);
 	    if(num_lambda == 1){
 	      pair<double, double> p = sg->predict(&x[0], true);
-	      result = -ei(p.first, p.second, sg->best_raw());
+	      result = ei(p.first, p.second, sg->best_raw());
 	    }
-            if(result < best) {
+            if(result > best) {
               best_point = x;
               best = result;
               has_result = true;
@@ -1278,7 +1278,7 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
       }
   } else {
     for(int i = 0; i < llambda; i++) {
-      best = 1.0;
+      best = 0.001;
       vector<double> point((i+1)*dimension, 0.0);
       bool found = false;
 
@@ -1303,7 +1303,7 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
         if(can_run && (!has_to_run || (not_run(&point[i*dimension]) && not_running(&point[i*dimension])))) {
 	    if(random || sg->svm_label(&point[i*dimension]) == 1) {
 	    double result = fitness(point);
-            if(result < best) {
+            if(result > best) {
               best_point = point;
               best = result;
 	      loop[i] = j;

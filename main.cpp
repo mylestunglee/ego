@@ -1,14 +1,15 @@
 #include "ego.h"
 #include "surrogate.h"
 #include "functions.h"
+#include "optimise.h"
 #include <vector>
 
 using namespace std;
 
 int main(int argc, char * argv[]) {
 
-  double (*fitness)(double x[]) = &sphere_20;
-  int dimension = 12;
+  double (*fitness)(double x[]) = &sphere_5;
+  int dimension = 2;
     
   vector<double> lower;
   vector<double> upper;
@@ -17,9 +18,9 @@ int main(int argc, char * argv[]) {
     upper.push_back(5.0);
   }
 
-  cout << "Building" << endl;
-  for(int i = 3; i < 8; i++) {
-    dimension = i;
+  //cout << "Building" << endl;
+  //for(int i = 3; i < 8; i++) {
+    //dimension = i;
     Surrogate *sg = new Surrogate(dimension, SEiso);
 
     EGO *ego = new EGO(dimension, sg, lower, upper, fitness);
@@ -43,18 +44,27 @@ int main(int argc, char * argv[]) {
     ego->sg->train();
     //cout << "Sampled"<<endl;
     ego->suppress = true;
-
-
-    for(int j = 1; j < 4; j++) {
-      ego->search_type = j;
-      //cout <<"Run dimension "<<dimension << endl;
-      auto t1 = std::chrono::high_resolution_clock::now();
-      ego->max_ei_par(1);
-      auto t2 = std::chrono::high_resolution_clock::now();
-      auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
-      cout << "Dimension " << dimension << " search " << j << " took " << t3  << " iter=" << ego->iter << " / " << ego->num_iterations<< endl;
-      //cout << "In FPGA time took " << ego->total_time << endl;
+    opt *op = new opt(2, upper, lower, ego, false);
+    vector<vector<double>> best = op->combined_optimise(vector<double>(2,3.0), 3, 6, 2);
+    cout << endl << endl << endl << endl;
+    for(int k = 0; k < best.size(); k++) {
+      for(int j = 0; j < dimension; j++) {
+        cout << best[k][j] << ", ";
+      }
+      cout << endl;
     }
+
+
+    //for(int j = 1; j < 4; j++) {
+    //  ego->search_type = j;
+    //  //cout <<"Run dimension "<<dimension << endl;
+    //  auto t1 = std::chrono::high_resolution_clock::now();
+    //  ego->max_ei_par(1);
+    //  auto t2 = std::chrono::high_resolution_clock::now();
+    //  auto t3 = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+    //  cout << "Dimension " << dimension << " search " << j << " took " << t3  << " iter=" << ego->iter << " / " << ego->num_iterations<< endl;
+    //  //cout << "In FPGA time took " << ego->total_time << endl;
+    //}
     delete ego;
-  }
+  //}
 }
