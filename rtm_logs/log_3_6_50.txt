@@ -1,0 +1,454 @@
+Search = 3 test RTM log_ lambda = 6 n_sims = 50
+3 30650
+Using combined PSO and Brute Search
+Building
+0 gamma size
+Python initialised
+Got pName: fitness_script
+Got pModule
+Got pFunc
+Got rid of pName
+Built
+Evaluating: 1 1 4 1 1 1 1 
+Sending Py_None
+Sample
+23 size
+Latin eval
+Evaluating: 1 9 10 2 1 6 6 
+Evaluating: 9 8 4 1 2 9 26 
+Evaluating: 9 6 14 1 1 7 23 
+Evaluating: 5 10 20 1 2 8 3 
+Evaluating: 10 7 9 2 9 7 32 
+5 10 20 1 2 8 3 fitness: 20 code: 2
+Total time taken is 1217
+Evaluating: 4 3 21 2 5 8 1 
+9 8 4 1 2 9 26 fitness: 20 code: 2
+Total time taken is 1302
+Evaluating: 2 9 6 3 3 10 2 
+10 7 9 2 9 7 32 fitness: 20 code: 2
+Total time taken is 1387
+Evaluating: 3 4 17 1 9 5 5 
+9 6 14 1 1 7 23 fitness: 20 code: 2
+Total time taken is 1392
+Evaluating: 7 4 4 1 6 3 22 
+4 3 21 2 5 8 1 fitness: 20 code: 2
+Total time taken is 2442
+Evaluating: 3 7 7 2 6 7 15 
+7 4 4 1 6 3 22 fitness: 20 code: 2
+Total time taken is 2603
+Evaluating: 6 6 16 2 5 9 13 
+2 9 6 3 3 10 2 fitness: 20 code: 2
+Total time taken is 2642
+Evaluating: 7 8 5 2 3 4 29 
+3 4 17 1 9 5 5 fitness: 20 code: 2
+Total time taken is 2775
+Evaluating: 5 5 8 2 8 5 27 
+3 7 7 2 6 7 15 fitness: 20 code: 2
+Total time taken is 3783
+Evaluating: 6 5 12 2 4 4 17 
+7 8 5 2 3 4 29 fitness: 20 code: 2
+Total time taken is 3906
+Evaluating: 2 3 22 2 8 1 24 
+6 6 16 2 5 9 13 fitness: 20 code: 2
+Total time taken is 3967
+Evaluating: 7 5 23 1 1 6 10 
+5 5 8 2 8 5 27 fitness: 20 code: 2
+Total time taken is 4150
+Evaluating: 3 1 13 2 10 2 19 
+6 5 12 2 4 4 17 fitness: 20 code: 2
+Total time taken is 5074
+Evaluating: 8 1 11 2 3 2 30 
+7 5 23 1 1 6 10 fitness: 20 code: 2
+Total time taken is 5207
+Evaluating: 1 1 15 1 5 5 12 
+2 3 22 2 8 1 24 fitness: 20 code: 2
+Total time taken is 5248
+Evaluating: 8 2 14 1 7 3 20 
+3 1 13 2 10 2 19 fitness: 20 code: 2
+Total time taken is 5448
+Evaluating: 5 3 24 1 4 3 16 
+8 1 11 2 3 2 30 fitness: 20 code: 2
+Total time taken is 6308
+Evaluating: 4 2 18 1 7 1 9 
+1 1 15 1 5 5 12 fitness: 20 code: 2
+Total time taken is 6416
+Evaluating: 1 7 19 1 7 1 8 
+8 2 14 1 7 3 20 fitness: 20 code: 2
+Total time taken is 6449
+1 1 4 1 1 1 1 fitness: 10 code: 0
+Total time taken is 6527
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Adding extra permutations
+svm label: 1
+Evaluating: 1 2 5 1 1 1 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+svm label: 1
+Evaluating: 1 2 4 2 2 1 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+5 3 24 1 4 3 16 fitness: 20 code: 2
+Total time taken is 6761
+svm label: 1
+Evaluating: 1 1 5 1 1 2 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+4 2 18 1 7 1 9 fitness: 20 code: 2
+Total time taken is 7579
+svm label: 1
+Evaluating: 1 2 4 1 1 1 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 7 19 1 7 1 8 fitness: 20 code: 2
+Total time taken is 7684
+svm label: 1
+Evaluating: 2 2 5 2 1 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 2 5 1 1 1 1 fitness: 10.3125 code: 0
+Total time taken is 13219
+svm label: 1
+Evaluating: 2 2 4 1 2 2 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 5 1 1 2 1 fitness: 5 code: 0
+Total time taken is 13560
+svm label: 1
+Evaluating: 1 2 5 1 2 3 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 2 4 1 1 1 1 fitness: 10.3125 code: 0
+Total time taken is 14106
+svm label: 1
+Evaluating: 1 1 4 1 2 2 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 2 5 2 1 1 2 fitness: 5.31738 code: 0
+Total time taken is 16431
+svm label: 1
+Evaluating: 2 2 6 2 2 1 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 2 4 2 2 1 1 fitness: 5.15625 code: 0
+Total time taken is 19439
+svm label: 1
+Evaluating: 2 1 4 1 2 2 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 9 10 2 1 6 6 fitness: 0.853136 code: 0
+Total time taken is 22598
+svm label: 1
+Evaluating: 2 1 4 3 2 2 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 2 5 1 2 3 1 fitness: 2.04753 code: 0
+Total time taken is 28327
+svm label: 1
+Evaluating: 1 3 4 2 3 1 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 3 4 2 3 1 3 fitness: 20 code: 2
+Total time taken is 29615
+svm label: 1
+Evaluating: 2 2 4 1 2 1 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 2 6 2 2 1 1 fitness: 5.31738 code: 0
+Total time taken is 30506
+svm label: 1
+Evaluating: 2 9 7 2 2 5 7 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 9 7 2 2 5 7 fitness: 20 code: 2
+Total time taken is 31871
+svm label: 1
+Evaluating: 2 3 5 2 3 4 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 2 4 1 2 2 2 fitness: 1.49536 code: 0
+Total time taken is 37435
+svm label: 1
+Evaluating: 2 2 5 1 2 3 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 4 1 2 2 2 fitness: 1.25 code: 0
+Total time taken is 38322
+svm label: 1
+Evaluating: 2 3 5 2 1 2 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 1 4 1 2 2 2 fitness: 1.40991 code: 0
+Total time taken is 43655
+svm label: 1
+Evaluating: 1 7 10 2 1 9 4 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 2 4 1 2 1 1 fitness: 5.31738 code: 0
+Total time taken is 43723
+svm label: 1
+Evaluating: 1 1 7 3 1 2 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 3 5 2 1 2 2 fitness: 3.16162 code: 0
+Total time taken is 47069
+svm label: 1
+Evaluating: 1 1 4 2 1 1 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 1 4 3 2 2 3 fitness: 0.939941 code: 0
+Total time taken is 49747
+svm label: 1
+Evaluating: 3 2 5 1 2 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 7 3 1 2 1 fitness: 5 code: 0
+Total time taken is 50952
+svm label: 1
+Evaluating: 2 7 12 1 2 8 4 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 2 5 1 2 3 1 fitness: 2.22819 code: 0
+Total time taken is 52202
+svm label: 1
+Evaluating: 4 2 6 3 1 4 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 7 12 1 2 8 4 fitness: 20 code: 2
+Total time taken is 52229
+svm label: 1
+Evaluating: 1 3 4 2 1 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 4 2 1 1 1 fitness: 10 code: 0
+Total time taken is 53297
+svm label: 1
+Evaluating: 1 8 11 1 2 6 6 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 8 11 1 2 6 6 fitness: 20 code: 2
+Total time taken is 54616
+svm label: 1
+Evaluating: 1 2 5 2 2 1 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 3 5 2 3 4 1 fitness: 1.36475 code: 0
+Total time taken is 57231
+svm label: 1
+Evaluating: 2 1 8 2 1 2 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 7 10 2 1 9 4 fitness: 1.01997 code: 0
+Total time taken is 60054
+svm label: 1
+Evaluating: 2 8 11 2 1 6 6 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 3 4 2 1 1 2 fitness: 5.3125 code: 0
+Total time taken is 60685
+svm label: 1
+Evaluating: 2 2 4 3 1 3 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+4 2 6 3 1 4 3 fitness: 1.4917 code: 0
+Total time taken is 62744
+svm label: 1
+Evaluating: 1 1 4 1 2 1 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 1 8 2 1 2 1 fitness: 5.63965 code: 0
+Total time taken is 64041
+svm label: 1
+Evaluating: 1 5 7 3 1 6 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 2 4 3 1 3 2 fitness: 2.22819 code: 0
+Total time taken is 68544
+svm label: 1
+Evaluating: 1 2 6 1 2 2 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 5 7 3 1 6 3 fitness: 1.2245 code: 0
+Total time taken is 74961
+svm label: 1
+Evaluating: 1 4 4 2 1 3 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+3 2 5 1 2 1 2 fitness: 2.73926 code: 0
+Total time taken is 75281
+svm label: 1
+Evaluating: 1 1 4 1 3 2 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 4 1 3 2 2 fitness: 20 code: 2
+Total time taken is 76601
+svm label: 1
+Evaluating: 3 2 5 2 3 2 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 4 1 2 1 1 fitness: 5 code: 0
+Total time taken is 76852
+svm label: 1
+Evaluating: 2 2 6 1 1 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+3 2 5 2 3 2 3 fitness: 20 code: 2
+Total time taken is 77983
+svm label: 1
+Evaluating: 3 4 5 2 2 1 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 8 11 2 1 6 6 fitness: 0.921495 code: 0
+Total time taken is 83524
+svm label: 2
+Evaluating: 1 1 7 1 3 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 2 6 1 2 2 1 fitness: 2.81982 code: 0
+Total time taken is 83970
+svm label: 2
+Evaluating: 1 8 11 1 1 5 6 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 7 1 3 1 2 fitness: 20 code: 2
+Total time taken is 84904
+svm label: 1
+Evaluating: 3 6 4 2 1 2 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 4 4 2 1 3 3 fitness: 1.58637 code: 0
+Total time taken is 85645
+svm label: 1
+Evaluating: 2 5 8 2 4 6 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 2 6 1 1 1 2 fitness: 5.31738 code: 0
+Total time taken is 86565
+svm label: 1
+Evaluating: 1 5 6 2 2 7 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 5 8 2 4 6 1 fitness: 20 code: 2
+Total time taken is 87015
+svm label: 1
+Evaluating: 1 6 9 2 2 9 5 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 2 5 2 2 1 3 fitness: 1.71875 code: 0
+Total time taken is 87095
+svm label: 1
+Evaluating: 1 5 9 3 1 10 4 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 6 9 2 2 9 5 fitness: 20 code: 2
+Total time taken is 88394
+svm label: 1
+Evaluating: 2 10 9 3 2 9 7 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 10 9 3 2 9 7 fitness: 20 code: 2
+Total time taken is 89693
+svm label: 1
+Evaluating: 2 1 6 2 2 2 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 1 6 2 2 2 3 fitness: 20 code: 2
+Total time taken is 90930
+svm label: 1
+Evaluating: 1 2 5 2 2 2 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+3 4 5 2 2 1 1 fitness: 5.81055 code: 0
+Total time taken is 91476
+1 40 label:1
+1 41 label:1
+1 42 label:1
+1 43 label:1
+1 44 label:1
+1 45 label:1
+1 46 label:1
+1 47 label:1
+1 48 label:1
+1 49 label:1
+1 50 label:1
+1 51 label:1
+1 52 label:1
+1 53 label:1
+2 40 label:1
+2 41 label:1
+2 42 label:1
+2 43 label:1
+2 44 label:1
+2 45 label:1
+2 46 label:1
+2 47 label:1
+2 48 label:1
+2 49 label:1
+2 50 label:1
+2 51 label:1
+2 52 label:1
+2 53 label:1
+3 40 label:1
+3 41 label:1
+3 42 label:1
+3 43 label:1
+3 44 label:1
+3 45 label:1
+3 46 label:1
+3 47 label:1
+3 48 label:1
+3 49 label:1
+3 50 label:1
+3 51 label:1
+3 52 label:1
+3 53 label:1
+4 40 label:1
+4 41 label:1
+4 42 label:1
+4 43 label:1
+4 44 label:1
+4 45 label:1
+4 46 label:1
+4 47 label:1
+4 48 label:1
+4 49 label:1
+4 50 label:1
+4 51 label:1
+4 52 label:1
+4 53 label:1
+Sampled
+Started, dim=7, lambda=6 max_f=0.07
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 66 / 270, RUNNING: 5 Lambda: 1 best 0.853136
+[3 7 18 3 3 5 4 ; ] = best = -0.173324
+Total time taken is 91515
+Evaluating: 3 7 18 3 3 5 4 
+3 7 18 3 3 5 4 fitness: 20 code: 2
+Total time taken is 92817
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 67 / 270, RUNNING: 5 Lambda: 1 best 0.853136
+[1 1 4 1 1 1 2 ; ] = best = -0
+3 6 4 2 1 2 2 fitness: 3.88428 code: 0
+Total time taken is 93463
+Evaluating: 1 1 4 1 1 1 2 
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 68 / 270, RUNNING: 5 Lambda: 1 best 0.853136
+[1 1 4 1 1 1 3 ; ] = best = -0
+Total time taken is 94106
+Evaluating: 1 1 4 1 1 1 3 
+1 5 9 3 1 10 4 fitness: 0.810791 code: 0
+Total time taken is 101327
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 69 / 270, RUNNING: 5 Lambda: 1 best 0.810791
+Cannot find new points in direct vicinity of best
+[0 0 0 0 0 0 0 ; ] = best = -0.0490613
+Total time taken is 101365
+Have run: 0 0 0 0 0 0 0 Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Found best at [1, 5, 9, 3, 1, 10, 4, ] with fitness [0.810791]
+Search l=6 took 2745887 iter=4 / 69
+In FPGA time took 101365

@@ -1,0 +1,936 @@
+Search = 3 test RTM log_ lambda = 2 n_sims = 50
+3 30250
+Using combined PSO and Brute Search
+Building
+0 gamma size
+Python initialised
+Got pName: fitness_script
+Got pModule
+Got pFunc
+Got rid of pName
+Built
+Evaluating: 1 1 4 1 1 1 1 
+Sending Py_None
+Sample
+23 size
+Latin eval
+Evaluating: 8 1 15 1 4 7 20 
+8 1 15 1 4 7 20 fitness: 20 code: 2
+Total time taken is 1303
+Evaluating: 2 5 24 2 1 4 32 
+2 5 24 2 1 4 32 fitness: 20 code: 2
+Total time taken is 2519
+Evaluating: 4 6 4 2 8 3 29 
+4 6 4 2 8 3 29 fitness: 20 code: 2
+Total time taken is 3809
+Evaluating: 10 10 7 1 3 9 22 
+10 10 7 1 3 9 22 fitness: 20 code: 2
+Total time taken is 5137
+Evaluating: 1 9 22 1 2 7 23 
+1 1 4 1 1 1 1 fitness: 10 code: 0
+1 9 22 1 2 7 23 fitness: 20 code: 2
+Total time taken is 6526
+Evaluating: 9 1 13 2 1 5 19 
+Evaluating: 6 3 6 2 3 3 26 
+9 1 13 2 1 5 19 fitness: 20 code: 2
+Total time taken is 7756
+Evaluating: 9 1 11 2 6 10 27 
+6 3 6 2 3 3 26 fitness: 20 code: 2
+Total time taken is 7875
+Evaluating: 5 8 16 2 8 1 30 
+9 1 11 2 6 10 27 fitness: 20 code: 2
+Total time taken is 8958
+Evaluating: 7 7 14 1 1 9 16 
+5 8 16 2 8 1 30 fitness: 20 code: 2
+Total time taken is 9257
+Evaluating: 5 2 5 3 7 3 12 
+7 7 14 1 1 9 16 fitness: 20 code: 2
+Total time taken is 10260
+Evaluating: 5 4 8 2 5 8 15 
+5 2 5 3 7 3 12 fitness: 20 code: 2
+Total time taken is 10624
+Evaluating: 1 4 21 1 4 7 24 
+5 4 8 2 5 8 15 fitness: 20 code: 2
+Total time taken is 11514
+Evaluating: 7 5 10 2 5 1 3 
+1 4 21 1 4 7 24 fitness: 20 code: 2
+Total time taken is 11866
+Evaluating: 8 3 12 2 7 6 5 
+7 5 10 2 5 1 3 fitness: 20 code: 2
+Total time taken is 12839
+Evaluating: 6 3 14 1 2 6 8 
+8 3 12 2 7 6 5 fitness: 20 code: 2
+Total time taken is 13104
+Evaluating: 4 7 19 2 9 4 2 
+6 3 14 1 2 6 8 fitness: 20 code: 2
+Total time taken is 14170
+Evaluating: 7 5 20 1 3 2 1 
+4 7 19 2 9 4 2 fitness: 20 code: 2
+Total time taken is 14420
+Evaluating: 3 2 23 1 5 2 9 
+7 5 20 1 3 2 1 fitness: 20 code: 2
+Total time taken is 15555
+Evaluating: 3 8 4 2 9 8 6 
+3 2 23 1 5 2 9 fitness: 20 code: 2
+Total time taken is 15699
+Evaluating: 2 7 17 1 10 1 17 
+3 8 4 2 9 8 6 fitness: 20 code: 2
+Total time taken is 16759
+Evaluating: 3 6 18 1 6 5 13 
+2 7 17 1 10 1 17 fitness: 20 code: 2
+Total time taken is 16957
+Evaluating: 1 9 9 1 7 5 10 
+3 6 18 1 6 5 13 fitness: 20 code: 2
+Total time taken is 18051
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Adding extra permutations
+svm label: 1
+Evaluating: 1 1 4 2 1 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 9 9 1 7 5 10 fitness: 20 code: 2
+Total time taken is 18323
+svm label: 1
+Evaluating: 2 1 4 2 2 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 4 2 1 1 2 fitness: 5 code: 0
+Total time taken is 26507
+svm label: 1
+Evaluating: 2 1 5 2 1 2 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 1 5 2 1 2 3 fitness: 1.87988 code: 0
+Total time taken is 37627
+svm label: 1
+Evaluating: 1 1 5 3 1 2 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 1 4 2 2 1 2 fitness: 2.57812 code: 0
+Total time taken is 40147
+svm label: 1
+Evaluating: 2 1 5 3 1 2 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 5 3 1 2 1 fitness: 5 code: 0
+Total time taken is 44426
+svm label: 1
+Evaluating: 1 2 4 2 2 2 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 1 5 3 1 2 3 fitness: 1.87988 code: 0
+Total time taken is 50312
+svm label: 1
+Evaluating: 2 1 5 3 1 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 1 5 3 1 1 2 fitness: 5.15625 code: 0
+Total time taken is 58422
+svm label: 1
+Evaluating: 2 1 4 3 1 3 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 2 4 2 2 2 2 fitness: 1.40991 code: 0
+Total time taken is 66250
+svm label: 1
+Evaluating: 2 4 5 1 3 3 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 4 5 1 3 3 2 fitness: 20 code: 2
+Total time taken is 67507
+svm label: 1
+Evaluating: 1 2 4 2 1 2 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 1 4 3 1 3 3 fitness: 1.36502 code: 0
+Total time taken is 68210
+svm label: 1
+Evaluating: 2 1 6 3 2 1 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 2 4 2 1 2 2 fitness: 2.81982 code: 0
+Total time taken is 75963
+svm label: 1
+Evaluating: 1 3 4 3 3 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 3 4 3 3 1 2 fitness: 20 code: 2
+Total time taken is 77282
+svm label: 1
+Evaluating: 1 2 5 2 1 2 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 1 6 3 2 1 1 fitness: 5.15625 code: 0
+Total time taken is 80933
+svm label: 1
+Evaluating: 2 2 6 3 1 2 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 2 5 2 1 2 3 fitness: 1.87988 code: 0
+Total time taken is 88402
+svm label: 1
+Evaluating: 2 2 5 2 1 2 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 2 6 3 1 2 2 fitness: 2.99072 code: 0
+Total time taken is 89295
+svm label: 1
+Evaluating: 1 2 4 2 1 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 2 5 2 1 2 1 fitness: 5.98145 code: 0
+Total time taken is 94776
+svm label: 1
+Evaluating: 1 1 5 2 2 2 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 2 4 2 1 1 2 fitness: 5.15625 code: 0
+Total time taken is 97751
+svm label: 1
+Evaluating: 2 2 4 3 1 2 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 2 4 3 1 2 2 fitness: 2.99072 code: 0
+Total time taken is 105610
+svm label: 1
+Evaluating: 1 2 6 2 1 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 2 6 2 1 1 2 fitness: 5.15625 code: 0
+Total time taken is 114648
+svm label: 1
+Evaluating: 2 2 5 3 1 4 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 5 2 2 2 2 fitness: 1.25 code: 0
+Total time taken is 117762
+svm label: 1
+Evaluating: 1 2 4 3 1 3 4 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 2 5 3 1 4 3 fitness: 1.23779 code: 0
+Total time taken is 124813
+svm label: 1
+Evaluating: 2 1 6 3 1 1 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 2 4 3 1 3 4 fitness: 1.02376 code: 0
+Total time taken is 129479
+svm label: 1
+Evaluating: 1 1 4 2 1 2 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 1 6 3 1 1 1 fitness: 10.3125 code: 0
+Total time taken is 130994
+svm label: 1
+Evaluating: 1 1 6 2 1 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 4 2 1 2 2 fitness: 2.5 code: 0
+Total time taken is 137935
+svm label: 1
+Evaluating: 1 1 4 3 2 3 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 6 2 1 1 2 fitness: 5 code: 0
+Total time taken is 140032
+svm label: 1
+Evaluating: 1 1 4 1 2 1 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 4 1 2 1 3 fitness: 20 code: 2
+Total time taken is 141307
+svm label: 1
+Evaluating: 3 3 6 3 1 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+3 3 6 3 1 1 2 fitness: 5.64453 code: 0
+Total time taken is 149669
+svm label: 1
+Evaluating: 2 3 5 2 2 2 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 4 3 2 3 2 fitness: 0.833333 code: 0
+Total time taken is 157368
+svm label: 2
+Evaluating: 2 3 5 2 2 3 5 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 3 5 2 2 3 5 fitness: 20 code: 2
+Total time taken is 158756
+svm label: 1
+Evaluating: 2 1 5 1 2 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 3 5 2 2 2 2 fitness: 1.58081 code: 0
+Total time taken is 172655
+svm label: 1
+Evaluating: 1 1 4 3 1 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 4 3 1 1 2 fitness: 5 code: 0
+Total time taken is 180514
+svm label: 1
+Evaluating: 1 2 5 3 1 3 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 1 5 1 2 1 2 fitness: 2.57812 code: 0
+Total time taken is 184290
+svm label: 1
+Evaluating: 3 3 6 3 1 2 4 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 2 5 3 1 3 2 fitness: 2.04753 code: 0
+Total time taken is 188624
+svm label: 1
+Evaluating: 2 1 5 3 2 2 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+3 3 6 3 1 2 4 fitness: 1.67114 code: 0
+Total time taken is 197013
+svm label: 2
+Evaluating: 1 1 4 3 3 1 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 4 3 3 1 3 fitness: 20 code: 2
+Total time taken is 198259
+svm label: 1
+Evaluating: 3 1 7 1 2 4 4 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+3 1 7 1 2 4 4 fitness: 20 code: 2
+Total time taken is 199583
+svm label: 1
+Evaluating: 1 1 5 2 1 4 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 1 5 3 2 2 1 fitness: 2.81982 code: 0
+Total time taken is 200844
+svm label: 1
+Evaluating: 2 2 5 1 1 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 2 5 1 1 1 2 fitness: 5.31738 code: 0
+Total time taken is 210228
+svm label: 2
+Evaluating: 2 4 5 2 2 1 3 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 5 2 1 4 3 fitness: 0.833333 code: 0
+Total time taken is 210703
+svm label: 1
+Evaluating: 1 2 6 3 2 4 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 2 6 3 2 4 2 fitness: 0.83313 code: 0
+Total time taken is 232148
+svm label: 1
+Evaluating: 1 1 4 3 2 2 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 4 5 2 2 1 3 fitness: 1.87988 code: 0
+Total time taken is 242707
+svm label: 1
+Evaluating: 2 3 6 2 1 3 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 3 6 2 1 3 1 fitness: 4.81771 code: 0
+Total time taken is 249226
+svm label: 1
+Evaluating: 2 1 5 2 3 1 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 1 5 2 3 1 2 fitness: 20 code: 2
+Total time taken is 250430
+svm label: 1
+Evaluating: 2 2 6 2 3 2 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 4 3 2 2 2 fitness: 1.25 code: 0
+Total time taken is 251581
+svm label: 1
+Evaluating: 1 1 6 3 1 3 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+2 2 6 2 3 2 2 fitness: 20 code: 2
+Total time taken is 251811
+svm label: 1
+Evaluating: 2 1 6 3 3 4 1 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+1 1 6 3 1 3 2 fitness: 1.66667 code: 0
+Total time taken is 260310
+svm label: 1
+Evaluating: 3 1 6 3 1 3 2 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+3 1 6 3 1 3 2 fitness: 2.21354 code: 0
+Total time taken is 268672
+1 40 label:1
+1 41 label:1
+1 42 label:1
+1 43 label:1
+1 44 label:1
+1 45 label:1
+1 46 label:1
+1 47 label:1
+1 48 label:1
+1 49 label:1
+1 50 label:1
+1 51 label:1
+1 52 label:1
+1 53 label:1
+2 40 label:1
+2 41 label:1
+2 42 label:1
+2 43 label:1
+2 44 label:1
+2 45 label:1
+2 46 label:1
+2 47 label:1
+2 48 label:1
+2 49 label:1
+2 50 label:1
+2 51 label:1
+2 52 label:1
+2 53 label:1
+3 40 label:1
+3 41 label:1
+3 42 label:1
+3 43 label:1
+3 44 label:1
+3 45 label:1
+3 46 label:1
+3 47 label:1
+3 48 label:1
+3 49 label:1
+3 50 label:1
+3 51 label:1
+3 52 label:1
+3 53 label:1
+4 40 label:1
+4 41 label:1
+4 42 label:1
+4 43 label:1
+4 44 label:1
+4 45 label:1
+4 46 label:1
+4 47 label:1
+4 48 label:1
+4 49 label:1
+4 50 label:1
+4 51 label:1
+4 52 label:1
+4 53 label:1
+Sampled
+Started, dim=7, lambda=2 max_f=0.07
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 70 / 270, RUNNING: 1 Lambda: 1 best 0.83313
+[3 3 11 3 2 7 3 ; ] = best = -1.91945
+Total time taken is 268703
+Evaluating: 3 3 11 3 2 7 3 
+3 3 11 3 2 7 3 fitness: 20 code: 2
+Total time taken is 270029
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 71 / 270, RUNNING: 1 Lambda: 1 best 0.83313
+Didn't find anything with the particle swarm
+[1 1 5 2 1 3 1 ; ] = best = -0
+Total time taken is 270047
+Evaluating: 1 1 5 2 1 3 1 
+2 1 6 3 3 4 1 fitness: 1.11084 code: 0
+Total time taken is 275437
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 72 / 270, RUNNING: 1 Lambda: 1 best 0.83313
+Didn't find anything with the particle swarm
+[1 1 5 2 1 3 2 ; ] = best = -0
+Total time taken is 275456
+Evaluating: 1 1 5 2 1 3 2 
+1 1 5 2 1 3 1 fitness: 3.33333 code: 0
+Total time taken is 278439
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 73 / 270, RUNNING: 1 Lambda: 1 best 0.83313
+Didn't find anything with the particle swarm
+[1 1 5 2 1 3 3 ; ] = best = -0
+Total time taken is 278457
+Evaluating: 1 1 5 2 1 3 3 
+1 1 5 2 1 3 2 fitness: 1.66667 code: 0
+Total time taken is 284203
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 74 / 270, RUNNING: 1 Lambda: 1 best 0.83313
+Didn't find anything with the particle swarm
+[1 1 5 2 1 4 1 ; ] = best = -0
+Total time taken is 284222
+Evaluating: 1 1 5 2 1 4 1 
+1 1 5 2 1 3 3 fitness: 1.11111 code: 0
+Total time taken is 289577
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 75 / 270, RUNNING: 1 Lambda: 1 best 0.83313
+Didn't find anything with the particle swarm
+[1 1 5 2 1 4 2 ; ] = best = -0
+Total time taken is 289596
+Evaluating: 1 1 5 2 1 4 2 
+1 1 5 2 1 4 1 fitness: 2.5 code: 0
+Total time taken is 294341
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 76 / 270, RUNNING: 1 Lambda: 1 best 0.83313
+Didn't find anything with the particle swarm
+[1 1 5 2 1 5 1 ; ] = best = -0
+Total time taken is 294360
+Evaluating: 1 1 5 2 1 5 1 
+1 1 5 2 1 4 2 fitness: 1.25 code: 0
+Total time taken is 299715
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 77 / 270, RUNNING: 1 Lambda: 1 best 0.83313
+Didn't find anything with the particle swarm
+[1 1 5 2 1 5 2 ; ] = best = -0
+Total time taken is 299733
+Evaluating: 1 1 5 2 1 5 2 
+1 1 5 2 1 5 1 fitness: 2 code: 0
+Total time taken is 306345
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 78 / 270, RUNNING: 1 Lambda: 1 best 0.83313
+Didn't find anything with the particle swarm
+[1 1 5 2 1 5 3 ; ] = best = -0
+Total time taken is 306364
+Evaluating: 1 1 5 2 1 5 3 
+1 1 5 2 1 5 2 fitness: 1 code: 0
+Total time taken is 311718
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 79 / 270, RUNNING: 1 Lambda: 1 best 0.83313
+Didn't find anything with the particle swarm
+[1 1 5 2 2 3 1 ; ] = best = -0
+Total time taken is 311737
+Evaluating: 1 1 5 2 2 3 1 
+1 1 5 2 1 5 3 fitness: 0.666667 code: 0
+Total time taken is 318349
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 80 / 270, RUNNING: 1 Lambda: 1 best 0.666667
+[2 2 9 3 2 6 3 ; ] = best = -0.000802571
+Total time taken is 318389
+Evaluating: 2 2 9 3 2 6 3 
+2 2 9 3 2 6 3 fitness: 20 code: 2
+Total time taken is 319636
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 81 / 270, RUNNING: 1 Lambda: 1 best 0.666667
+Didn't find anything with the particle swarm
+[1 1 4 1 1 4 2 ; ] = best = -0
+Total time taken is 319655
+Evaluating: 1 1 4 1 1 4 2 
+1 1 5 2 2 3 1 fitness: 1.66667 code: 0
+Total time taken is 325230
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 82 / 270, RUNNING: 1 Lambda: 1 best 0.666667
+Didn't find anything with the particle swarm
+[1 1 4 1 1 4 3 ; ] = best = -0
+Total time taken is 325249
+Evaluating: 1 1 4 1 1 4 3 
+1 1 4 1 1 4 2 fitness: 1.25 code: 0
+Total time taken is 329303
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 83 / 270, RUNNING: 1 Lambda: 1 best 0.666667
+Didn't find anything with the particle swarm
+[1 1 4 1 1 4 4 ; ] = best = -0
+Total time taken is 329322
+Evaluating: 1 1 4 1 1 4 4 
+1 1 4 1 1 4 3 fitness: 0.833333 code: 0
+Total time taken is 336830
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 84 / 270, RUNNING: 1 Lambda: 1 best 0.666667
+[3 4 11 3 2 5 4 ; ] = best = -0
+Total time taken is 336867
+Evaluating: 3 4 11 3 2 5 4 
+3 4 11 3 2 5 4 fitness: 20 code: 2
+Total time taken is 338088
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 85 / 270, RUNNING: 1 Lambda: 1 best 0.666667
+Didn't find anything with the particle swarm
+[1 1 4 1 1 5 2 ; ] = best = -0
+Total time taken is 338107
+Evaluating: 1 1 4 1 1 5 2 
+1 1 4 1 1 4 4 fitness: 0.625 code: 0
+Total time taken is 343430
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 86 / 270, RUNNING: 1 Lambda: 1 best 0.625
+[2 3 7 3 2 7 3 ; ] = best = -0.00148692
+Total time taken is 343464
+Evaluating: 2 3 7 3 2 7 3 
+1 1 4 1 1 5 2 fitness: 1 code: 0
+Total time taken is 349477
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 87 / 270, RUNNING: 1 Lambda: 1 best 0.625
+Didn't find anything with the particle swarm
+[1 1 4 1 1 3 3 ; ] = best = -0
+Total time taken is 349496
+Evaluating: 1 1 4 1 1 3 3 
+1 1 4 1 1 3 3 fitness: 1.11111 code: 0
+Total time taken is 361077
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 88 / 270, RUNNING: 1 Lambda: 1 best 0.625
+Didn't find anything with the particle swarm
+[1 1 4 1 1 3 4 ; ] = best = -0
+Total time taken is 361096
+Evaluating: 1 1 4 1 1 3 4 
+2 3 7 3 2 7 3 fitness: 0.544085 code: 0
+Total time taken is 375141
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 89 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+[2 3 7 3 2 7 4 ; ] = best = -0.00959637
+Total time taken is 375179
+Evaluating: 2 3 7 3 2 7 4 
+1 1 4 1 1 3 4 fitness: 0.833333 code: 0
+Total time taken is 375204
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 90 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+[3 3 9 3 2 3 5 ; ] = best = -0
+Total time taken is 375240
+Evaluating: 3 3 9 3 2 3 5 
+2 3 7 3 2 7 4 fitness: 20 code: 2
+Total time taken is 376439
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 91 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+Didn't find anything with the particle swarm
+[1 2 6 2 1 6 2 ; ] = best = -0
+Total time taken is 376458
+Evaluating: 1 2 6 2 1 6 2 
+3 3 9 3 2 3 5 fitness: 20 code: 2
+Total time taken is 376497
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 92 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+Didn't find anything with the particle swarm
+[1 2 6 2 1 6 3 ; ] = best = -0
+Total time taken is 376516
+Evaluating: 1 2 6 2 1 6 3 
+1 2 6 2 1 6 2 fitness: 1.29476 code: 0
+Total time taken is 386384
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 93 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+Didn't find anything with the particle swarm
+[1 2 6 2 1 6 4 ; ] = best = -0
+Total time taken is 386403
+Evaluating: 1 2 6 2 1 6 4 
+1 2 6 2 1 6 3 fitness: 0.863173 code: 0
+Total time taken is 388072
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 94 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+Didn't find anything with the particle swarm
+[1 2 6 2 1 7 2 ; ] = best = -0
+Total time taken is 388091
+Evaluating: 1 2 6 2 1 7 2 
+1 2 6 2 1 7 2 fitness: 1.1928 code: 0
+Total time taken is 399379
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 95 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+Didn't find anything with the particle swarm
+[1 2 6 2 1 7 3 ; ] = best = -0
+Total time taken is 399398
+Evaluating: 1 2 6 2 1 7 3 
+1 2 6 2 1 6 4 fitness: 0.64738 code: 0
+Total time taken is 400478
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 96 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+[2 2 9 3 2 9 2 ; ] = best = -0
+Total time taken is 400514
+Evaluating: 2 2 9 3 2 9 2 
+1 2 6 2 1 7 3 fitness: 0.795201 code: 0
+Total time taken is 410954
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 97 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+[2 3 5 3 1 6 4 ; ] = best = -0
+Total time taken is 410993
+Evaluating: 2 3 5 3 1 6 4 
+2 3 5 3 1 6 4 fitness: 0.85734 code: 0
+Total time taken is 423213
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 98 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+Didn't find anything with the particle swarm
+[1 2 6 2 1 7 4 ; ] = best = -0
+Total time taken is 423233
+Evaluating: 1 2 6 2 1 7 4 
+2 2 9 3 2 9 2 fitness: 0.651313 code: 0
+Total time taken is 424978
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 99 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+[2 2 9 3 2 10 3 ; ] = best = -0.00331802
+Total time taken is 425019
+Evaluating: 2 2 9 3 2 10 3 
+2 2 9 3 2 10 3 fitness: 20 code: 2
+Total time taken is 426344
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 100 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+Didn't find anything with the particle swarm
+[1 2 6 2 1 8 2 ; ] = best = -0
+Total time taken is 426364
+Evaluating: 1 2 6 2 1 8 2 
+1 2 6 2 1 7 4 fitness: 0.596401 code: 0
+Total time taken is 437308
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 101 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+[2 3 9 3 2 6 4 ; ] = best = -4.98506e-06
+Total time taken is 437346
+Evaluating: 2 3 9 3 2 6 4 
+2 3 9 3 2 6 4 fitness: 20 code: 2
+Total time taken is 438553
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 102 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+Didn't find anything with the particle swarm
+[1 2 6 2 1 8 3 ; ] = best = -0
+Total time taken is 438573
+Evaluating: 1 2 6 2 1 8 3 
+1 2 6 2 1 8 2 fitness: 1.11877 code: 0
+Total time taken is 439131
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 103 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+Didn't find anything with the particle swarm
+[1 2 6 2 1 8 4 ; ] = best = -0
+Total time taken is 439151
+Evaluating: 1 2 6 2 1 8 4 
+1 2 6 2 1 8 3 fitness: 0.74585 code: 0
+Total time taken is 451340
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 104 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+[3 4 10 3 2 6 4 ; ] = best = -0
+Total time taken is 451383
+Evaluating: 3 4 10 3 2 6 4 
+3 4 10 3 2 6 4 fitness: 20 code: 2
+Total time taken is 452740
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 105 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+Didn't find anything with the particle swarm
+[1 2 6 2 2 6 2 ; ] = best = -0
+Total time taken is 452760
+Evaluating: 1 2 6 2 2 6 2 
+1 2 6 2 1 8 4 fitness: 0.559387 code: 0
+Total time taken is 453226
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 106 / 270, RUNNING: 1 Lambda: 1 best 0.544085
+[2 2 9 3 1 7 6 ; ] = best = -0.00643313
+Total time taken is 453269
+Evaluating: 2 2 9 3 1 7 6 
+2 2 9 3 1 7 6 fitness: 0.470843 code: 0
+Total time taken is 472617
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 107 / 270, RUNNING: 1 Lambda: 1 best 0.470843
+[2 2 10 3 1 6 7 ; ] = best = -0.0421385
+Total time taken is 472646
+Evaluating: 2 2 10 3 1 6 7 
+1 2 6 2 2 6 2 fitness: 0.64738 code: 0
+Total time taken is 476909
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 108 / 270, RUNNING: 1 Lambda: 1 best 0.470843
+[3 3 9 3 2 7 5 ; ] = best = -0
+Total time taken is 476941
+Evaluating: 3 3 9 3 2 7 5 
+3 3 9 3 2 7 5 fitness: 20 code: 2
+Total time taken is 478203
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 109 / 270, RUNNING: 1 Lambda: 1 best 0.470843
+Didn't find anything with the particle swarm
+[1 1 8 2 1 6 5 ; ] = best = -0
+Total time taken is 478222
+Evaluating: 1 1 8 2 1 6 5 
+2 2 10 3 1 6 7 fitness: 0.42992 code: 0
+Total time taken is 495433
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 110 / 270, RUNNING: 1 Lambda: 1 best 0.42992
+[2 2 10 3 1 8 8 ; ] = best = -0.115587
+Total time taken is 495476
+Evaluating: 2 2 10 3 1 8 8 
+1 1 8 2 1 6 5 fitness: 0.333333 code: 0
+Total time taken is 496268
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 111 / 270, RUNNING: 1 Lambda: 1 best 0.333333
+[2 2 12 3 1 10 8 ; ] = best = -0.0751604
+Total time taken is 496309
+Evaluating: 2 2 12 3 1 10 8 
+2 2 10 3 1 8 8 fitness: 0.337067 code: 0
+Total time taken is 520946
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 112 / 270, RUNNING: 1 Lambda: 1 best 0.333333
+[3 2 14 3 2 7 4 ; ] = best = -0.161844
+Total time taken is 520984
+Evaluating: 3 2 14 3 2 7 4 
+3 2 14 3 2 7 4 fitness: 20 code: 2
+Total time taken is 522344
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 113 / 270, RUNNING: 1 Lambda: 1 best 0.333333
+Didn't find anything with the particle swarm
+[1 1 7 1 1 5 4 ; ] = best = -0
+Total time taken is 522363
+Evaluating: 1 1 7 1 1 5 4 
+2 2 12 3 1 10 8 fitness: 0.317505 code: 0
+Total time taken is 523792
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 114 / 270, RUNNING: 1 Lambda: 1 best 0.317505
+[2 2 13 3 1 9 9 ; ] = best = -0.0889018
+Total time taken is 523829
+Evaluating: 2 2 13 3 1 9 9 
+1 1 7 1 1 5 4 fitness: 0.5 code: 0
+Total time taken is 538448
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 115 / 270, RUNNING: 1 Lambda: 1 best 0.317505
+[2 2 14 3 1 10 6 ; ] = best = -0.013828
+Total time taken is 538487
+Evaluating: 2 2 14 3 1 10 6 
+2 2 13 3 1 9 9 fitness: 0.289472 code: 0
+Total time taken is 555379
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 116 / 270, RUNNING: 1 Lambda: 1 best 0.289472
+[2 2 15 3 1 9 11 ; ] = best = -0.207343
+Total time taken is 555411
+Evaluating: 2 2 15 3 1 9 11 
+2 2 15 3 1 9 11 fitness: 20 code: 2
+Total time taken is 556642
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 117 / 270, RUNNING: 1 Lambda: 1 best 0.289472
+Didn't find anything with the particle swarm
+[1 1 12 2 1 8 8 ; ] = best = -0
+Total time taken is 556660
+Evaluating: 1 1 12 2 1 8 8 
+2 2 14 3 1 10 6 fitness: 0.42334 code: 0
+Total time taken is 561609
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 118 / 270, RUNNING: 1 Lambda: 1 best 0.289472
+[2 3 16 3 1 9 10 ; ] = best = -0.0373495
+Total time taken is 561641
+Evaluating: 2 3 16 3 1 9 10 
+2 3 16 3 1 9 10 fitness: 20 code: 2
+Total time taken is 562926
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 119 / 270, RUNNING: 1 Lambda: 1 best 0.289472
+Didn't find anything with the particle swarm
+[1 1 12 2 1 8 9 ; ] = best = -0
+Total time taken is 562944
+Evaluating: 1 1 12 2 1 8 9 
+1 1 12 2 1 8 9 fitness: 20 code: 2
+Total time taken is 564230
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 120 / 270, RUNNING: 1 Lambda: 1 best 0.289472
+Didn't find anything with the particle swarm
+[1 1 12 2 1 8 10 ; ] = best = -0
+Total time taken is 564249
+Evaluating: 1 1 12 2 1 8 10 
+1 1 12 2 1 8 10 fitness: 20 code: 2
+Total time taken is 565582
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 121 / 270, RUNNING: 1 Lambda: 1 best 0.289472
+Didn't find anything with the particle swarm
+[1 1 12 2 1 9 8 ; ] = best = -0
+Total time taken is 565600
+Evaluating: 1 1 12 2 1 9 8 
+1 1 12 2 1 8 8 fitness: 0.15625 code: 0
+Total time taken is 587782
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 122 / 270, RUNNING: 1 Lambda: 1 best 0.15625
+[2 2 11 3 2 10 5 ; ] = best = -0.412306
+Total time taken is 587812
+Evaluating: 2 2 11 3 2 10 5 
+2 2 11 3 2 10 5 fitness: 20 code: 2
+Total time taken is 589157
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 123 / 270, RUNNING: 1 Lambda: 1 best 0.15625
+Didn't find anything with the particle swarm
+[1 1 11 1 1 7 7 ; ] = best = -0
+Total time taken is 589175
+Evaluating: 1 1 11 1 1 7 7 
+1 1 12 2 1 9 8 fitness: 0.138889 code: 0
+Total time taken is 596722
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 124 / 270, RUNNING: 1 Lambda: 1 best 0.138889
+[2 2 19 3 1 6 10 ; ] = best = -0.600947
+Total time taken is 596755
+Evaluating: 2 2 19 3 1 6 10 
+2 2 19 3 1 6 10 fitness: 20 code: 2
+Total time taken is 598129
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 125 / 270, RUNNING: 1 Lambda: 1 best 0.138889
+Didn't find anything with the particle swarm
+[1 1 11 1 1 8 7 ; ] = best = -0
+Total time taken is 598148
+Evaluating: 1 1 11 1 1 8 7 
+1 1 11 1 1 7 7 fitness: 0.204082 code: 0
+Total time taken is 618937
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 126 / 270, RUNNING: 1 Lambda: 1 best 0.138889
+[2 2 17 3 1 7 10 ; ] = best = -0.274802
+Total time taken is 618975
+Evaluating: 2 2 17 3 1 7 10 
+2 2 17 3 1 7 10 fitness: 20 code: 2
+Total time taken is 620239
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 127 / 270, RUNNING: 1 Lambda: 1 best 0.138889
+Didn't find anything with the particle swarm
+[1 1 11 1 1 8 8 ; ] = best = -0
+Total time taken is 620257
+Evaluating: 1 1 11 1 1 8 8 
+1 1 11 1 1 8 7 fitness: 0.178571 code: 0
+Total time taken is 627910
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 128 / 270, RUNNING: 1 Lambda: 1 best 0.138889
+Cannot find new points in direct vicinity of best
+[0 0 0 0 0 0 0 ; ] = best = -0
+Total time taken is 627936
+Have run: 0 0 0 0 0 0 0 Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Found best at [1, 1, 12, 2, 1, 9, 8, ] with fitness [0.138889]
+Search l=2 took 3490461 iter=59 / 128
+In FPGA time took 627936

@@ -1,0 +1,387 @@
+Search = 3 test RTM rtm_log_cost_ lambda = 1 n_sims = 100
+3 311100
+Using combined PSO and Brute Search
+Building
+0 gamma size
+Python initialised
+/homes/wjn11/MLO/examples/xinyu_rtm
+Got pName: fitness_script
+Got pModule
+Got pFunc
+Got rid of pName
+Built
+MAX = 0
+Evaluating: 1 1 4 1 1 1 1 
+Sending Py_None
+Sample
+23 size
+Latin eval
+1 1 4 1 1 1 1 fitness: 10 code: 0
+Total time taken is 6527
+Evaluating: 1 10 4 3 10 10 29 
+1 10 4 3 10 10 29 fitness: 20 code: 2
+Total time taken is 7742
+Evaluating: 9 9 21 2 6 7 22 
+9 9 21 2 6 7 22 fitness: 20 code: 2
+Total time taken is 9098
+Evaluating: 5 7 24 2 1 1 30 
+5 7 24 2 1 1 30 fitness: 20 code: 2
+Total time taken is 10323
+Evaluating: 3 1 5 2 5 4 20 
+3 1 5 2 5 4 20 fitness: 20 code: 2
+Total time taken is 11613
+Evaluating: 3 2 14 2 5 8 32 
+3 2 14 2 5 8 32 fitness: 20 code: 2
+Total time taken is 12997
+Evaluating: 10 3 19 1 7 1 24 
+10 3 19 1 7 1 24 fitness: 20 code: 2
+Total time taken is 14312
+Evaluating: 7 8 18 2 4 9 6 
+7 8 18 2 4 9 6 fitness: 20 code: 2
+Total time taken is 15598
+Evaluating: 6 5 22 2 3 3 12 
+6 5 22 2 3 3 12 fitness: 20 code: 2
+Total time taken is 16872
+Evaluating: 9 6 7 2 4 7 1 
+9 6 7 2 4 7 1 fitness: 20 code: 2
+Total time taken is 18180
+Evaluating: 8 9 15 1 3 5 19 
+8 9 15 1 3 5 19 fitness: 20 code: 2
+Total time taken is 19395
+Evaluating: 7 8 6 2 8 5 8 
+7 8 6 2 8 5 8 fitness: 20 code: 2
+Total time taken is 20625
+Evaluating: 1 3 16 2 1 8 2 
+1 3 16 2 1 8 2 fitness: 1.3092 code: 0
+Total time taken is 35772
+Evaluating: 8 5 17 1 7 9 23 
+8 5 17 1 7 9 23 fitness: 20 code: 2
+Total time taken is 37090
+Evaluating: 5 1 10 1 2 6 27 
+5 1 10 1 2 6 27 fitness: 20 code: 2
+Total time taken is 38386
+Evaluating: 6 7 23 1 5 1 10 
+6 7 23 1 5 1 10 fitness: 20 code: 2
+Total time taken is 39645
+Evaluating: 2 6 4 1 1 3 13 
+2 6 4 1 1 3 13 fitness: 20 code: 2
+Total time taken is 40988
+Evaluating: 5 7 12 1 7 6 26 
+5 7 12 1 7 6 26 fitness: 20 code: 2
+Total time taken is 42388
+Evaluating: 4 5 8 2 9 5 3 
+4 5 8 2 9 5 3 fitness: 20 code: 2
+Total time taken is 43716
+Evaluating: 3 4 20 1 8 2 5 
+3 4 20 1 8 2 5 fitness: 20 code: 2
+Total time taken is 45000
+Evaluating: 7 4 11 1 9 3 17 
+7 4 11 1 9 3 17 fitness: 20 code: 2
+Total time taken is 46364
+Evaluating: 4 1 13 1 6 4 9 
+4 1 13 1 6 4 9 fitness: 20 code: 2
+Total time taken is 47602
+Evaluating: 2 2 9 1 2 7 16 
+2 2 9 1 2 7 16 fitness: 20 code: 2
+Total time taken is 48891
+Evaluating: 1 3 14 2 3 2 15 
+1 3 14 2 3 2 15 fitness: 20 code: 2
+Total time taken is 50163
+Optimised SVM, gamma: 0.05 C: 10
+Adding extra permutations
+svm label: 1
+Evaluating: 1 3 17 2 2 7 1 
+Optimised SVM, gamma: 0.05 C: 10
+1 3 17 2 2 7 1 fitness: 1.37835 code: 0
+Total time taken is 73294
+svm label: 1
+Evaluating: 2 4 16 1 1 8 2 
+Optimised SVM, gamma: 0.05 C: 10
+2 4 16 1 1 8 2 fitness: 1.80725 code: 0
+Total time taken is 86303
+svm label: 1
+Evaluating: 2 2 18 3 1 6 1 
+Optimised SVM, gamma: 0.05 C: 10
+2 2 18 3 1 6 1 fitness: 3.00944 code: 0
+Total time taken is 96699
+svm label: 1
+Evaluating: 1 4 17 2 2 8 2 
+Optimised SVM, gamma: 0.05 C: 10
+1 4 17 2 2 8 2 fitness: 20 code: 2
+Total time taken is 97919
+svm label: 1
+Evaluating: 1 3 17 3 1 5 2 
+Optimised SVM, gamma: 0.05 C: 10
+1 3 17 3 1 5 2 fitness: 1.61719 code: 0
+Total time taken is 109048
+svm label: 2
+Evaluating: 2 3 19 2 2 7 2 
+Optimised SVM, gamma: 0.05 C: 10
+2 3 19 2 2 7 2 fitness: 20 code: 2
+Total time taken is 110339
+svm label: 1
+Evaluating: 3 3 18 2 1 5 2 
+Optimised SVM, gamma: 0.05 C: 10
+3 3 18 2 1 5 2 fitness: 2.06641 code: 0
+Total time taken is 122863
+svm label: 1
+Evaluating: 1 3 16 1 2 9 1 
+Optimised SVM, gamma: 0.05 C: 10
+1 3 16 1 2 9 1 fitness: 1.25868 code: 0
+Total time taken is 153453
+svm label: 1
+Evaluating: 2 4 18 2 1 5 2 
+Optimised SVM, gamma: 0.05 C: 10
+2 4 18 2 1 5 2 fitness: 2.04199 code: 0
+Total time taken is 165977
+svm label: 1
+Evaluating: 2 3 18 3 1 6 1 
+Optimised SVM, gamma: 0.05 C: 10
+2 3 18 3 1 6 1 fitness: 3.42936 code: 0
+Total time taken is 174634
+svm label: 1
+Evaluating: 1 1 5 1 1 1 2 
+Optimised SVM, gamma: 0.05 C: 10
+1 1 5 1 1 1 2 fitness: 5 code: 0
+Total time taken is 184018
+svm label: 1
+Evaluating: 4 3 19 1 1 1 1 
+Optimised SVM, gamma: 0.05 C: 10
+4 3 19 1 1 1 1 fitness: 11.6211 code: 0
+Total time taken is 193017
+svm label: 2
+Evaluating: 1 4 17 1 2 9 1 
+Optimised SVM, gamma: 0.05 C: 10
+1 4 17 1 2 9 1 fitness: 1.45399 code: 0
+Total time taken is 220048
+svm label: 2
+Evaluating: 3 2 19 3 2 7 1 
+Optimised SVM, gamma: 0.05 C: 10
+3 2 19 3 2 7 1 fitness: 1.63225 code: 0
+Total time taken is 239312
+svm label: 1
+Evaluating: 4 1 18 2 1 1 4 
+Optimised SVM, gamma: 0.05 C: 10
+4 1 18 2 1 1 4 fitness: 2.73438 code: 0
+Total time taken is 260360
+svm label: 1
+Evaluating: 2 1 5 1 2 1 2 
+Optimised SVM, gamma: 0.05 C: 10
+2 1 5 1 2 1 2 fitness: 2.57812 code: 0
+Total time taken is 285894
+svm label: 1
+Evaluating: 2 1 4 2 1 2 1 
+Optimised SVM, gamma: 0.05 C: 10
+2 1 4 2 1 2 1 fitness: 5.63965 code: 0
+Total time taken is 292122
+svm label: 1
+Evaluating: 2 2 5 2 1 1 2 
+Optimised SVM, gamma: 0.05 C: 10
+2 2 5 2 1 1 2 fitness: 5.31738 code: 0
+Total time taken is 300869
+svm label: 1
+Evaluating: 1 1 5 3 2 3 2 
+Optimised SVM, gamma: 0.05 C: 10
+1 1 5 3 2 3 2 fitness: 0.833333 code: 0
+Total time taken is 321308
+svm label: 1
+Evaluating: 2 1 5 1 1 1 2 
+Optimised SVM, gamma: 0.05 C: 10
+2 1 5 1 1 1 2 fitness: 5.15625 code: 0
+Total time taken is 330692
+svm label: 1
+Evaluating: 1 3 14 3 3 3 1 
+Optimised SVM, gamma: 0.05 C: 10
+1 3 14 3 3 3 1 fitness: 1.47569 code: 0
+Total time taken is 363374
+svm label: 1
+Evaluating: 4 1 15 1 2 10 3 
+Optimised SVM, gamma: 0.05 C: 10
+4 1 15 1 2 10 3 fitness: 20 code: 2
+Total time taken is 364734
+svm label: 1
+Evaluating: 3 2 17 2 2 7 2 
+Optimised SVM, gamma: 0.05 C: 10
+3 2 17 2 2 7 2 fitness: 20 code: 2
+Total time taken is 366121
+svm label: 1
+Evaluating: 4 1 17 1 5 1 3 
+Optimised SVM, gamma: 0.05 C: 10
+4 1 17 1 5 1 3 fitness: 20 code: 2
+Total time taken is 367429
+svm label: 1
+Evaluating: 4 1 22 1 4 5 1 
+Optimised SVM, gamma: 0.05 C: 10
+4 1 22 1 4 5 1 fitness: 20 code: 2
+Total time taken is 368782
+svm label: 1
+Evaluating: 1 2 4 3 2 3 2 
+Optimised SVM, gamma: 0.05 C: 10
+1 2 4 3 2 3 2 fitness: 1.02376 code: 0
+Total time taken is 388215
+svm label: 1
+Evaluating: 2 4 19 3 1 4 1 
+Optimised SVM, gamma: 0.05 C: 10
+2 4 19 3 1 4 1 fitness: 4.4751 code: 0
+Total time taken is 396031
+svm label: 2
+Evaluating: 3 2 20 2 1 8 2 
+Optimised SVM, gamma: 0.05 C: 10
+3 2 20 2 1 8 2 fitness: 1.57776 code: 0
+Total time taken is 409136
+svm label: 2
+Evaluating: 4 2 19 2 1 9 2 
+Optimised SVM, gamma: 0.05 C: 10
+4 2 19 2 1 9 2 fitness: 1.78114 code: 0
+Total time taken is 421951
+svm label: 1
+Evaluating: 3 5 5 1 2 1 2 
+Optimised SVM, gamma: 0.05 C: 10
+3 5 5 1 2 1 2 fitness: 2.98828 code: 0
+Total time taken is 447485
+svm label: 1
+Evaluating: 5 2 21 2 1 9 3 
+Optimised SVM, gamma: 0.05 C: 10
+5 2 21 2 1 9 3 fitness: 1.34693 code: 0
+Total time taken is 465579
+svm label: 1
+Evaluating: 2 2 4 3 1 4 1 
+Optimised SVM, gamma: 0.05 C: 10
+2 2 4 3 1 4 1 fitness: 3.71338 code: 0
+Total time taken is 471509
+svm label: 1
+Evaluating: 1 4 5 1 5 1 3 
+Optimised SVM, gamma: 0.05 C: 10
+1 4 5 1 5 1 3 fitness: 20 code: 2
+Total time taken is 472764
+svm label: 1
+Evaluating: 2 8 4 3 1 2 2 
+Optimised SVM, gamma: 0.05 C: 10
+2 8 4 3 1 2 2 fitness: 4.01611 code: 0
+Total time taken is 480623
+svm label: 1
+Evaluating: 4 2 7 2 2 1 3 
+Optimised SVM, gamma: 0.05 C: 10
+4 2 7 2 2 1 3 fitness: 20 code: 2
+Total time taken is 482022
+svm label: 1
+Evaluating: 7 3 21 3 1 2 4 
+Optimised SVM, gamma: 0.05 C: 10
+7 3 21 3 1 2 4 fitness: 2.03247 code: 0
+Total time taken is 502292
+svm label: 1
+Evaluating: 1 4 17 1 2 7 1 
+Optimised SVM, gamma: 0.05 C: 10
+1 4 17 1 2 7 1 fitness: 1.5639 code: 0
+Total time taken is 524968
+svm label: 1
+Evaluating: 4 3 18 3 1 4 1 
+Optimised SVM, gamma: 0.05 C: 10
+4 3 18 3 1 4 1 fitness: 4.93408 code: 0
+Total time taken is 532659
+svm label: 1
+Evaluating: 5 5 18 2 2 1 2 
+Optimised SVM, gamma: 0.05 C: 10
+5 5 18 2 2 1 2 fitness: 20 code: 2
+Total time taken is 533977
+svm label: 1
+Evaluating: 7 1 21 3 2 1 2 
+Optimised SVM, gamma: 0.05 C: 10
+7 1 21 3 2 1 2 fitness: 20 code: 2
+Total time taken is 535213
+svm label: 1
+Evaluating: 2 3 13 2 2 4 1 
+Optimised SVM, gamma: 0.05 C: 10
+2 3 13 2 2 4 1 fitness: 2.04712 code: 0
+Total time taken is 553355
+svm label: 1
+Evaluating: 2 3 16 1 3 8 1 
+Optimised SVM, gamma: 0.05 C: 10
+2 3 16 1 3 8 1 fitness: 20 code: 2
+Total time taken is 554638
+svm label: 1
+Evaluating: 1 4 13 2 4 4 1 
+Optimised SVM, gamma: 0.05 C: 10
+1 4 13 2 4 4 1 fitness: 20 code: 2
+Total time taken is 555851
+svm label: 1
+Evaluating: 7 4 21 3 1 2 4 
+Optimised SVM, gamma: 0.05 C: 10
+7 4 21 3 1 2 4 fitness: 2.14233 code: 0
+Total time taken is 576121
+svm label: 1
+Evaluating: 1 3 6 1 2 2 1 
+Optimised SVM, gamma: 0.05 C: 10
+1 3 6 1 2 2 1 fitness: 2.98096 code: 0
+Total time taken is 591547
+svm label: 1
+Evaluating: 4 3 18 3 2 3 1 
+Optimised SVM, gamma: 0.05 C: 10
+4 3 18 3 2 3 1 fitness: 2.79948 code: 0
+Total time taken is 610308
+svm label: 1
+Evaluating: 4 2 16 2 2 3 2 
+Optimised SVM, gamma: 0.05 C: 10
+4 2 16 2 2 3 2 fitness: 20 code: 2
+Total time taken is 611517
+Sampled
+Started, dim=7, lambda=1 max_f=0.07
+Defaulted to using log on GP log like: 10.1272 normal like: -47.6966
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 71 / 500, RUNNING: 0 Lambda: 1 best 0.833333
+Evaluating random pertubations of best results
+[1 1 5 3 2 3 1 ; ] = best = -0
+Total time taken is 611537
+Evaluating: 1 1 5 3 2 3 1 
+1 1 5 3 2 3 1 fitness: 1.66667 code: 0
+Total time taken is 624320
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 72 / 500, RUNNING: 0 Lambda: 1 best 0.833333
+-0.000106385 looping over
+[1 1 4 3 2 6 3 ; ] = best = -8.88341e-05
+Total time taken is 624342
+Evaluating: 1 1 4 3 2 6 3 
+1 1 4 3 2 6 3 fitness: 0.277778 code: 0
+Total time taken is 651491
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 73 / 500, RUNNING: 0 Lambda: 1 best 0.277778
+-6.48084e-05 looping over
+[1 1 22 3 3 7 5 ; ] = best = -6.03126e-05
+Total time taken is 651513
+Evaluating: 1 1 22 3 3 7 5 
+1 1 22 3 3 7 5 fitness: 20 code: 2
+Total time taken is 652761
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 74 / 500, RUNNING: 0 Lambda: 1 best 0.277778
+-6.3011e-05 looping over
+[1 1 12 3 3 7 3 ; ] = best = -2.6454e-05
+Total time taken is 652783
+Evaluating: 1 1 12 3 3 7 3 
+1 1 12 3 3 7 3 fitness: 20 code: 2
+Total time taken is 654056
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 75 / 500, RUNNING: 0 Lambda: 1 best 0.277778
+-5.15201e-05 looping over
+[1 1 12 3 2 7 5 ; ] = best = -3.55644e-05
+Total time taken is 654079
+Evaluating: 1 1 12 3 2 7 5 
+1 1 12 3 2 7 5 fitness: 20 code: 2
+Total time taken is 655348
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 76 / 500, RUNNING: 0 Lambda: 1 best 0.277778
+-5.3103e-05 looping over
+[1 1 13 3 2 7 3 ; ] = best = -2.37302e-06
+Total time taken is 655370
+Evaluating: 1 1 13 3 2 7 3 
+1 1 13 3 2 7 3 fitness: 20 code: 2
+Total time taken is 656697
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 77 / 500, RUNNING: 0 Lambda: 1 best 0.277778
+-6.45484e-05 looping over
+Cannot find new points in direct vicinity of best
+[0 0 0 0 0 0 0 ; ] = best = -0
+Total time taken is 656720
+Have run: 0 0 0 0 0 0 0 Optimised SVM, gamma: 0.05 C: 10
+Found best at [1, 1, 4, 3, 2, 6, 3, ] with fitness [0.277778]
+Search l=1 took 159512 iter=7 / 77
+In FPGA time took 656720

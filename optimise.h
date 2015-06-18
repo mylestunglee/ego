@@ -13,6 +13,7 @@ class Particle
     vector<double> speed;
     vector<double> best;
     double best_fitness;
+    int group;
 };
 
 class opt 
@@ -36,10 +37,11 @@ class opt
     ~opt();
     void update_particles(int generation, int max_iter);
     void filter();
-    void generate(int pop);
+    void generate(int pop, int groups=1);
     vector<double> swarm_optimise(int max_gen, int pop = 100, int min_gen=100);
     vector<double> swarm_optimise(vector<double> best, int max_gen, int pop, int min_gen=100);
     vector<double> swarm_main_optimise(int max_gen, int min_gen);
+    vector<vector<double>> combined_optimise(vector<double> best, int max_gen, int pop, int num_groups);
 };
 
 double uni_dist(double N, double M);

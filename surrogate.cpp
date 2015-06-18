@@ -42,6 +42,7 @@ Surrogate::Surrogate(int d, s_type type, bool svm, bool log_b)
   s_node = NULL;
   s_model = NULL;
   is_trained = false;
+  gp_is_trained = false;
 
   if(is_svm) {
     s_param.svm_type = C_SVC;
@@ -147,8 +148,8 @@ void Surrogate::choose_svm_param(int num_folds, bool local)
     s_param.weight[1] = 1;
   }
 
-  cout << "Performing " << num_folds << " fold validation for SVM" << endl;
   if(gamma.size() > 0 && C.size() > 0 && num_correct_class > 1) {
+    cout << "Performing " << num_folds << " fold validation for SVM" << endl;
     int fold = min(num_folds, num_correct_class);
     for(size_t i = 0; i < gamma.size(); i++) {
       for(size_t j = 0; j < C.size(); j++) {
@@ -289,8 +290,7 @@ void Surrogate::train_gp_first()
   libgp::GaussianProcess* gp_log = new GaussianProcess(dim, "CovSum(CovSEard, CovNoise)");
   train_gp(gp_log, true);
   long double log_ll = gp_log->log_likelihood();
-  //if(log_ll > ll) {
-  if(true) {
+  if(log_ll > ll) {
     cout << "Defaulted to using log on GP";
     cout << " log like: " << log_ll;
     cout << " normal like: " << ll << endl;
@@ -298,6 +298,9 @@ void Surrogate::train_gp_first()
     delete gp;
     gp = gp_log;
   } else {
+    cout << "Defaulted to not using log on GP";
+    cout << " log like: " << log_ll;
+    cout << " normal like: " << ll << endl;
     use_log = false;
     delete gp_log;
   }
@@ -320,6 +323,8 @@ pair<double, double> Surrogate::predict(double x[], bool raw)
         data[j] /= std_dev[j];
       }
     }
+    //cout << "Normalised" << endl;
+    //cout << "label =" << svm_label(data) << endl;
     if(svm_label(data) == 1) {
       if(raw) {
           return make_pair(gp->f(data), gp->var(data));

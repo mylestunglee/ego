@@ -1,0 +1,1902 @@
+Search = 3 test RTM rtm_log_cost_ lambda = 1 n_sims = 100
+3 311100
+Using combined PSO and Brute Search
+Building
+0 gamma size
+Python initialised
+/homes/wjn11/MLO/examples/xinyu_rtm
+Got pName: fitness_script
+Got pModule
+Got pFunc
+Got rid of pName
+Built
+Evaluating: 1 1 4 1 1 1 1 
+Sending Py_None
+Sample
+23 size
+Latin eval
+1 1 4 1 1 1 1 fitness: 10 code: 0
+Total time taken is 6527
+Evaluating: 1 1 17 1 6 1 30 
+1 1 17 1 6 1 30 fitness: 20 code: 2
+Total time taken is 7897
+Evaluating: 5 1 4 1 8 7 3 
+5 1 4 1 8 7 3 fitness: 20 code: 2
+Total time taken is 9152
+Evaluating: 5 4 24 1 8 3 9 
+5 4 24 1 8 3 9 fitness: 20 code: 2
+Total time taken is 10366
+Evaluating: 3 3 16 2 1 3 1 
+3 3 16 2 1 3 1 fitness: 5.20833 code: 0
+Total time taken is 18338
+Evaluating: 10 3 9 2 3 8 13 
+10 3 9 2 3 8 13 fitness: 20 code: 2
+Total time taken is 19556
+Evaluating: 8 3 15 2 10 1 27 
+8 3 15 2 10 1 27 fitness: 20 code: 2
+Total time taken is 20789
+Evaluating: 3 4 4 1 2 4 23 
+3 4 4 1 2 4 23 fitness: 20 code: 2
+Total time taken is 22053
+Evaluating: 9 5 19 1 7 5 17 
+9 5 19 1 7 5 17 fitness: 20 code: 2
+Total time taken is 23316
+Evaluating: 6 2 23 2 2 1 10 
+6 2 23 2 2 1 10 fitness: 20 code: 2
+Total time taken is 24524
+Evaluating: 2 6 12 1 1 6 12 
+2 6 12 1 1 6 12 fitness: 20 code: 2
+Total time taken is 25906
+Evaluating: 5 5 21 1 5 7 6 
+5 5 21 1 5 7 6 fitness: 20 code: 2
+Total time taken is 27281
+Evaluating: 3 7 14 2 1 10 5 
+3 7 14 2 1 10 5 fitness: 1.20332 code: 0
+Total time taken is 49685
+Evaluating: 7 1 7 1 7 3 16 
+7 1 7 1 7 3 16 fitness: 20 code: 2
+Total time taken is 50886
+Evaluating: 7 6 6 2 9 2 32 
+7 6 6 2 9 2 32 fitness: 20 code: 2
+Total time taken is 52199
+Evaluating: 9 2 8 1 4 2 2 
+9 2 8 1 4 2 2 fitness: 20 code: 2
+Total time taken is 53591
+Evaluating: 7 5 14 2 3 4 8 
+7 5 14 2 3 4 8 fitness: 20 code: 2
+Total time taken is 54954
+Evaluating: 4 9 22 2 3 6 15 
+4 9 22 2 3 6 15 fitness: 20 code: 2
+Total time taken is 56177
+Evaluating: 8 7 13 2 6 5 22 
+8 7 13 2 6 5 22 fitness: 20 code: 2
+Total time taken is 57550
+Evaluating: 6 8 5 2 7 9 24 
+6 8 5 2 7 9 24 fitness: 20 code: 2
+Total time taken is 58811
+Evaluating: 4 9 11 1 5 9 19 
+4 9 11 1 5 9 19 fitness: 20 code: 2
+Total time taken is 60175
+Evaluating: 2 10 10 1 5 5 26 
+2 10 10 1 5 5 26 fitness: 20 code: 2
+Total time taken is 61510
+Evaluating: 1 8 18 2 4 7 29 
+1 8 18 2 4 7 29 fitness: 20 code: 2
+Total time taken is 62858
+Evaluating: 1 7 20 3 9 8 20 
+1 7 20 3 9 8 20 fitness: 20 code: 2
+Total time taken is 64111
+Optimised SVM, gamma: 0.05 C: 10
+Adding extra permutations
+svm label: 1
+Evaluating: 2 2 4 1 1 1 2 
+Optimised SVM, gamma: 0.05 C: 10
+2 2 4 1 1 1 2 fitness: 5.31738 code: 0
+Total time taken is 73165
+svm label: 1
+Evaluating: 4 7 13 3 1 10 6 
+Optimised SVM, gamma: 0.05 C: 10
+4 7 13 3 1 10 6 fitness: 1.16715 code: 0
+Total time taken is 95532
+svm label: 1
+Evaluating: 1 9 12 1 1 8 5 
+Optimised SVM, gamma: 0.05 C: 10
+1 9 12 1 1 8 5 fitness: 0.980713 code: 0
+Total time taken is 118758
+svm label: 1
+Evaluating: 2 2 5 1 1 1 5 
+Optimised SVM, gamma: 0.05 C: 10
+2 2 5 1 1 1 5 fitness: 2.12695 code: 0
+Total time taken is 136217
+svm label: 2
+Evaluating: 3 1 6 1 2 2 5 
+Optimised SVM, gamma: 0.05 C: 10
+3 1 6 1 2 2 5 fitness: 20 code: 2
+Total time taken is 137594
+svm label: 1
+Evaluating: 4 5 15 3 2 9 4 
+Optimised SVM, gamma: 0.05 C: 10
+4 5 15 3 2 9 4 fitness: 20 code: 2
+Total time taken is 138965
+svm label: 1
+Evaluating: 2 6 15 2 1 9 5 
+Optimised SVM, gamma: 0.05 C: 10
+2 6 15 2 1 9 5 fitness: 0.903863 code: 0
+Total time taken is 162096
+svm label: 1
+Evaluating: 2 5 13 1 2 8 6 
+Optimised SVM, gamma: 0.05 C: 10
+2 5 13 1 2 8 6 fitness: 20 code: 2
+Total time taken is 163427
+svm label: 1
+Evaluating: 3 4 4 2 1 1 4 
+Optimised SVM, gamma: 0.05 C: 10
+3 4 4 2 1 1 4 fitness: 2.90527 code: 0
+Total time taken is 176339
+svm label: 1
+Evaluating: 2 9 12 1 2 8 7 
+Optimised SVM, gamma: 0.05 C: 10
+2 9 12 1 2 8 7 fitness: 20 code: 2
+Total time taken is 177571
+svm label: 1
+Evaluating: 4 10 12 3 1 8 7 
+Optimised SVM, gamma: 0.05 C: 10
+4 10 12 3 1 8 7 fitness: 1.21948 code: 0
+Total time taken is 202119
+svm label: 2
+Evaluating: 5 10 11 2 1 7 6 
+Optimised SVM, gamma: 0.05 C: 10
+5 10 11 2 1 7 6 fitness: 1.54994 code: 0
+Total time taken is 225589
+svm label: 1
+Evaluating: 1 1 4 2 2 1 2 
+Optimised SVM, gamma: 0.05 C: 10
+1 1 4 2 2 1 2 fitness: 2.5 code: 0
+Total time taken is 247413
+svm label: 1
+Evaluating: 5 9 10 2 1 8 1 
+Optimised SVM, gamma: 0.05 C: 10
+5 9 10 2 1 8 1 fitness: 8.927 code: 0
+Total time taken is 254513
+svm label: 1
+Evaluating: 4 4 17 1 2 3 2 
+Optimised SVM, gamma: 0.05 C: 10
+4 4 17 1 2 3 2 fitness: 20 code: 2
+Total time taken is 255745
+svm label: 1
+Evaluating: 3 5 16 2 1 1 4 
+Optimised SVM, gamma: 0.05 C: 10
+3 5 16 2 1 1 4 fitness: 2.98828 code: 0
+Total time taken is 275631
+svm label: 1
+Evaluating: 6 10 11 2 1 6 7 
+Optimised SVM, gamma: 0.05 C: 10
+6 10 11 2 1 6 7 fitness: 1.41764 code: 0
+Total time taken is 302346
+svm label: 1
+Evaluating: 1 9 13 1 3 7 4 
+Optimised SVM, gamma: 0.05 C: 10
+1 9 13 1 3 7 4 fitness: 20 code: 2
+Total time taken is 303645
+svm label: 1
+Evaluating: 4 6 13 1 1 1 4 
+Optimised SVM, gamma: 0.05 C: 10
+4 6 13 1 1 1 4 fitness: 3.16162 code: 0
+Total time taken is 323685
+svm label: 1
+Evaluating: 3 1 5 2 1 2 3 
+Optimised SVM, gamma: 0.05 C: 10
+3 1 5 2 1 2 3 fitness: 1.9873 code: 0
+Total time taken is 334805
+svm label: 1
+Evaluating: 6 10 10 3 2 4 8 
+Optimised SVM, gamma: 0.05 C: 10
+6 10 10 3 2 4 8 fitness: 20 code: 2
+Total time taken is 336114
+svm label: 1
+Evaluating: 3 6 10 1 2 1 2 
+Optimised SVM, gamma: 0.05 C: 10
+3 6 10 1 2 1 2 fitness: 3.07129 code: 0
+Total time taken is 368239
+svm label: 1
+Evaluating: 4 8 12 3 1 4 4 
+Optimised SVM, gamma: 0.05 C: 10
+4 8 12 3 1 4 4 fitness: 1.80725 code: 0
+Total time taken is 383981
+svm label: 1
+Evaluating: 2 3 5 1 1 1 2 
+Optimised SVM, gamma: 0.05 C: 10
+2 3 5 1 1 1 2 fitness: 5.47852 code: 0
+Total time taken is 393365
+svm label: 1
+Evaluating: 6 7 9 3 3 6 3 
+Optimised SVM, gamma: 0.05 C: 10
+6 7 9 3 3 6 3 fitness: 20 code: 2
+Total time taken is 394612
+svm label: 1
+Evaluating: 6 10 11 2 1 7 7 
+Optimised SVM, gamma: 0.05 C: 10
+6 10 11 2 1 7 7 fitness: 1.46943 code: 0
+Total time taken is 421327
+svm label: 1
+Evaluating: 7 9 10 2 2 6 6 
+Optimised SVM, gamma: 0.05 C: 10
+7 9 10 2 2 6 6 fitness: 20 code: 2
+Total time taken is 422555
+svm label: 1
+Evaluating: 6 9 9 1 2 9 2 
+Optimised SVM, gamma: 0.05 C: 10
+6 9 9 1 2 9 2 fitness: 2.58247 code: 0
+Total time taken is 453361
+svm label: 1
+Evaluating: 3 8 14 3 2 9 5 
+Optimised SVM, gamma: 0.05 C: 10
+3 8 14 3 2 9 5 fitness: 20 code: 2
+Total time taken is 454659
+svm label: 1
+Evaluating: 3 3 12 3 1 2 1 
+Optimised SVM, gamma: 0.05 C: 10
+3 3 12 3 1 2 1 fitness: 6.68457 code: 0
+Total time taken is 461595
+svm label: 1
+Evaluating: 4 10 13 3 3 1 4 
+Optimised SVM, gamma: 0.05 C: 10
+4 10 13 3 3 1 4 fitness: 20 code: 2
+Total time taken is 462847
+svm label: 1
+Evaluating: 3 4 11 3 4 3 2 
+Optimised SVM, gamma: 0.05 C: 10
+3 4 11 3 4 3 2 fitness: 20 code: 2
+Total time taken is 464145
+svm label: 1
+Evaluating: 2 9 13 2 1 10 1 
+Optimised SVM, gamma: 0.05 C: 10
+2 9 13 2 1 10 1 fitness: 6.02637 code: 0
+Total time taken is 472952
+svm label: 1
+Evaluating: 4 7 12 3 1 8 4 
+Optimised SVM, gamma: 0.05 C: 10
+4 7 12 3 1 8 4 fitness: 1.67267 code: 0
+Total time taken is 488694
+svm label: 2
+Evaluating: 4 4 17 2 2 2 2 
+Optimised SVM, gamma: 0.05 C: 10
+4 4 17 2 2 2 2 fitness: 20 code: 2
+Total time taken is 489957
+svm label: 1
+Evaluating: 4 3 11 3 1 2 2 
+Optimised SVM, gamma: 0.05 C: 10
+4 3 11 3 1 2 2 fitness: 3.52295 code: 0
+Total time taken is 499577
+svm label: 1
+Evaluating: 5 7 13 2 1 1 3 
+Optimised SVM, gamma: 0.05 C: 10
+5 7 13 2 1 1 3 fitness: 4.45312 code: 0
+Total time taken is 514184
+svm label: 1
+Evaluating: 5 8 8 2 3 8 2 
+Optimised SVM, gamma: 0.05 C: 10
+5 8 8 2 3 8 2 fitness: 20 code: 2
+Total time taken is 515553
+svm label: 1
+Evaluating: 1 6 18 3 1 10 6 
+Optimised SVM, gamma: 0.05 C: 10
+1 6 18 3 1 10 6 fitness: 0.607259 code: 0
+Total time taken is 541694
+svm label: 1
+Evaluating: 4 9 15 1 1 1 6 
+Optimised SVM, gamma: 0.05 C: 10
+4 9 15 1 1 1 6 fitness: 2.27865 code: 0
+Total time taken is 571731
+svm label: 1
+Evaluating: 5 4 10 3 2 3 1 
+Optimised SVM, gamma: 0.05 C: 10
+5 4 10 3 2 3 1 fitness: 3.2194 code: 0
+Total time taken is 586466
+svm label: 1
+Evaluating: 2 9 12 1 2 9 5 
+Optimised SVM, gamma: 0.05 C: 10
+2 9 12 1 2 9 5 fitness: 20 code: 2
+Total time taken is 587711
+svm label: 1
+Evaluating: 3 5 14 2 1 9 5 
+Optimised SVM, gamma: 0.05 C: 10
+3 5 14 2 1 9 5 fitness: 0.956597 code: 0
+Total time taken is 610115
+svm label: 1
+Evaluating: 4 1 9 2 2 1 1 
+Optimised SVM, gamma: 0.05 C: 10
+4 1 9 2 2 1 1 fitness: 5.46875 code: 0
+Total time taken is 625933
+svm label: 1
+Evaluating: 5 2 14 3 1 2 2 
+Optimised SVM, gamma: 0.05 C: 10
+5 2 14 3 1 2 2 fitness: 3.50342 code: 0
+Total time taken is 636307
+svm label: 1
+Evaluating: 1 10 10 1 1 9 3 
+Optimised SVM, gamma: 0.05 C: 10
+1 10 10 1 1 9 3 fitness: 1.75058 code: 0
+Total time taken is 650854
+svm label: 1
+Evaluating: 2 9 10 3 1 2 5 
+Optimised SVM, gamma: 0.05 C: 10
+2 9 10 3 1 2 5 fitness: 1.6748 code: 0
+Total time taken is 668273
+Sampled
+Started, dim=7, lambda=1 max_f=0.07
+Defaulted to using log on GP log like: -0.257219 normal like: -48.7664
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 71 / 1000, RUNNING: 0 Lambda: 1 best 0.607259
+0 -0
+Evaluating random pertubations of best results
+[1 5 18 2 2 10 6 ; ] = best = -0
+Total time taken is 668293
+Evaluating: 1 5 18 2 2 10 6 
+1 5 18 2 2 10 6 fitness: 20 code: 2
+Total time taken is 669508
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 72 / 1000, RUNNING: 0 Lambda: 1 best 0.607259
+0 -0
+Evaluating random pertubations of best results
+[1 7 19 2 2 9 6 ; ] = best = -0
+Total time taken is 669528
+Evaluating: 1 7 19 2 2 9 6 
+1 7 19 2 2 9 6 fitness: 20 code: 2
+Total time taken is 670801
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 73 / 1000, RUNNING: 0 Lambda: 1 best 0.607259
+0 -0
+Evaluating random pertubations of best results
+[1 7 17 2 2 9 7 ; ] = best = -0
+Total time taken is 670821
+Evaluating: 1 7 17 2 2 9 7 
+1 7 17 2 2 9 7 fitness: 20 code: 2
+Total time taken is 672070
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 74 / 1000, RUNNING: 0 Lambda: 1 best 0.607259
+0 -0
+Evaluating random pertubations of best results
+[1 6 18 3 1 10 7 ; ] = best = -0
+Total time taken is 672090
+Evaluating: 1 6 18 3 1 10 7 
+1 6 18 3 1 10 7 fitness: 0.520508 code: 0
+Total time taken is 701921
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 75 / 1000, RUNNING: 0 Lambda: 1 best 0.520508
+0 -0
+Evaluating random pertubations of best results
+[2 5 19 2 2 9 7 ; ] = best = -0
+Total time taken is 701942
+Evaluating: 2 5 19 2 2 9 7 
+2 5 19 2 2 9 7 fitness: 20 code: 2
+Total time taken is 703317
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 76 / 1000, RUNNING: 0 Lambda: 1 best 0.520508
+0 -0
+Evaluating random pertubations of best results
+[2 7 19 3 2 10 7 ; ] = best = -0
+Total time taken is 703338
+Evaluating: 2 7 19 3 2 10 7 
+2 7 19 3 2 10 7 fitness: 20 code: 2
+Total time taken is 704728
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 77 / 1000, RUNNING: 0 Lambda: 1 best 0.520508
+0 -0
+Evaluating random pertubations of best results
+[1 7 18 3 2 9 7 ; ] = best = -0
+Total time taken is 704748
+Evaluating: 1 7 18 3 2 9 7 
+1 7 18 3 2 9 7 fitness: 20 code: 2
+Total time taken is 706120
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 78 / 1000, RUNNING: 0 Lambda: 1 best 0.520508
+0 -0
+Evaluating random pertubations of best results
+[1 7 18 3 1 9 7 ; ] = best = -0
+Total time taken is 706141
+Evaluating: 1 7 18 3 1 9 7 
+1 7 18 3 1 9 7 fitness: 0.582837 code: 0
+Total time taken is 735972
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 79 / 1000, RUNNING: 0 Lambda: 1 best 0.520508
+0 -0
+Evaluating random pertubations of best results
+[1 6 17 2 1 10 6 ; ] = best = -0
+Total time taken is 735993
+Evaluating: 1 6 17 2 1 10 6 
+1 6 17 2 1 10 6 fitness: 0.607259 code: 0
+Total time taken is 764693
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 80 / 1000, RUNNING: 0 Lambda: 1 best 0.520508
+0 -0
+Evaluating random pertubations of best results
+[2 7 19 2 2 9 8 ; ] = best = -0
+Total time taken is 764714
+Evaluating: 2 7 19 2 2 9 8 
+2 7 19 2 2 9 8 fitness: 20 code: 2
+Total time taken is 766064
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 81 / 1000, RUNNING: 0 Lambda: 1 best 0.520508
+0 -0
+Evaluating random pertubations of best results
+[1 7 18 3 2 9 6 ; ] = best = -0
+Total time taken is 766085
+Evaluating: 1 7 18 3 2 9 6 
+1 7 18 3 2 9 6 fitness: 20 code: 2
+Total time taken is 767388
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 82 / 1000, RUNNING: 0 Lambda: 1 best 0.520508
+0 -0
+Evaluating random pertubations of best results
+[1 7 18 2 2 10 6 ; ] = best = -0
+Total time taken is 767409
+Evaluating: 1 7 18 2 2 10 6 
+1 7 18 2 2 10 6 fitness: 20 code: 2
+Total time taken is 768762
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 83 / 1000, RUNNING: 0 Lambda: 1 best 0.520508
+0 -0
+Evaluating random pertubations of best results
+[2 5 19 2 2 9 6 ; ] = best = -0
+Total time taken is 768783
+Evaluating: 2 5 19 2 2 9 6 
+2 5 19 2 2 9 6 fitness: 20 code: 2
+Total time taken is 770009
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 84 / 1000, RUNNING: 0 Lambda: 1 best 0.520508
+0 -0
+Evaluating random pertubations of best results
+[2 6 18 2 1 9 6 ; ] = best = -0
+Total time taken is 770030
+Evaluating: 2 6 18 2 1 9 6 
+2 6 18 2 1 9 6 fitness: 0.753219 code: 0
+Total time taken is 799602
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 85 / 1000, RUNNING: 0 Lambda: 1 best 0.520508
+0 -0
+Evaluating random pertubations of best results
+[2 7 17 3 2 10 7 ; ] = best = -0
+Total time taken is 799623
+Evaluating: 2 7 17 3 2 10 7 
+2 7 17 3 2 10 7 fitness: 20 code: 2
+Total time taken is 800906
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 86 / 1000, RUNNING: 0 Lambda: 1 best 0.520508
+0 -0
+Evaluating random pertubations of best results
+[2 6 17 3 2 9 8 ; ] = best = -0
+Total time taken is 800927
+Evaluating: 2 6 17 3 2 9 8 
+2 6 17 3 2 9 8 fitness: 20 code: 2
+Total time taken is 802216
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 87 / 1000, RUNNING: 0 Lambda: 1 best 0.520508
+0 -0
+Evaluating random pertubations of best results
+[2 5 17 2 1 10 8 ; ] = best = -0
+Total time taken is 802237
+Evaluating: 2 5 17 2 1 10 8 
+2 5 17 2 1 10 8 fitness: 20 code: 2
+Total time taken is 803601
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 88 / 1000, RUNNING: 0 Lambda: 1 best 0.520508
+0 -0
+Evaluating random pertubations of best results
+[1 5 18 2 2 9 6 ; ] = best = -0
+Total time taken is 803622
+Evaluating: 1 5 18 2 2 9 6 
+1 5 18 2 2 9 6 fitness: 20 code: 2
+Total time taken is 805001
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 89 / 1000, RUNNING: 0 Lambda: 1 best 0.520508
+0 -0
+Evaluating random pertubations of best results
+[1 6 17 2 1 9 6 ; ] = best = -0
+Total time taken is 805022
+Evaluating: 1 6 17 2 1 9 6 
+1 6 17 2 1 9 6 fitness: 0.614873 code: 0
+Total time taken is 833722
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 90 / 1000, RUNNING: 0 Lambda: 1 best 0.520508
+0 -0
+Evaluating random pertubations of best results
+[1 5 18 3 1 10 8 ; ] = best = -0
+Total time taken is 833743
+Evaluating: 1 5 18 3 1 10 8 
+1 5 18 3 1 10 8 fitness: 0.405396 code: 0
+Total time taken is 867264
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 91 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 6 17 2 1 9 8 ; ] = best = -0
+Total time taken is 867286
+Evaluating: 2 6 17 2 1 9 8 
+2 6 17 2 1 9 8 fitness: 20 code: 2
+Total time taken is 868660
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 92 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 4 19 3 1 9 9 ; ] = best = -0
+Total time taken is 868682
+Evaluating: 1 4 19 3 1 9 9 
+1 4 19 3 1 9 9 fitness: 20 code: 2
+Total time taken is 870046
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 93 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 6 18 2 2 10 7 ; ] = best = -0
+Total time taken is 870068
+Evaluating: 2 6 18 2 2 10 7 
+2 6 18 2 2 10 7 fitness: 20 code: 2
+Total time taken is 871370
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 94 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 6 19 2 1 9 9 ; ] = best = -0
+Total time taken is 871392
+Evaluating: 2 6 19 2 1 9 9 
+2 6 19 2 1 9 9 fitness: 20 code: 2
+Total time taken is 872665
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 95 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 4 17 3 2 9 8 ; ] = best = -0
+Total time taken is 872687
+Evaluating: 1 4 17 3 2 9 8 
+1 4 17 3 2 9 8 fitness: 20 code: 2
+Total time taken is 873950
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 96 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 6 19 3 2 10 7 ; ] = best = -0
+Total time taken is 873972
+Evaluating: 2 6 19 3 2 10 7 
+2 6 19 3 2 10 7 fitness: 20 code: 2
+Total time taken is 875311
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 97 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 6 19 2 1 9 8 ; ] = best = -0
+Total time taken is 875333
+Evaluating: 1 6 19 2 1 9 8 
+1 6 19 2 1 9 8 fitness: 20 code: 2
+Total time taken is 876670
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 98 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 6 18 2 2 9 7 ; ] = best = -0
+Total time taken is 876692
+Evaluating: 1 6 18 2 2 9 7 
+1 6 18 2 2 9 7 fitness: 20 code: 2
+Total time taken is 878001
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 99 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 6 18 3 1 9 7 ; ] = best = -0
+Total time taken is 878023
+Evaluating: 2 6 18 3 1 9 7 
+2 6 18 3 1 9 7 fitness: 0.645616 code: 0
+Total time taken is 907854
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 100 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 5 19 2 1 9 7 ; ] = best = -0
+Total time taken is 907876
+Evaluating: 1 5 19 2 1 9 7 
+1 5 19 2 1 9 7 fitness: 20 code: 2
+Total time taken is 909175
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 101 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 4 18 2 2 9 9 ; ] = best = -0
+Total time taken is 909197
+Evaluating: 2 4 18 2 2 9 9 
+2 4 18 2 2 9 9 fitness: 20 code: 2
+Total time taken is 910540
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 102 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 4 17 2 2 10 7 ; ] = best = -0
+Total time taken is 910562
+Evaluating: 1 4 17 2 2 10 7 
+1 4 17 2 2 10 7 fitness: 20 code: 2
+Total time taken is 911842
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 103 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 6 17 2 2 10 8 ; ] = best = -0
+Total time taken is 911864
+Evaluating: 1 6 17 2 2 10 8 
+1 6 17 2 2 10 8 fitness: 20 code: 2
+Total time taken is 913225
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 104 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 5 19 2 2 10 8 ; ] = best = -0
+Total time taken is 913247
+Evaluating: 2 5 19 2 2 10 8 
+2 5 19 2 2 10 8 fitness: 20 code: 2
+Total time taken is 914501
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 105 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 6 18 3 1 9 8 ; ] = best = -0
+Total time taken is 914523
+Evaluating: 2 6 18 3 1 9 8 
+2 6 18 3 1 9 8 fitness: 0.564914 code: 0
+Total time taken is 948044
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 106 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 5 19 2 1 10 9 ; ] = best = -0
+Total time taken is 948066
+Evaluating: 2 5 19 2 1 10 9 
+2 5 19 2 1 10 9 fitness: 20 code: 2
+Total time taken is 949363
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 107 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 6 17 3 2 10 9 ; ] = best = -0
+Total time taken is 949385
+Evaluating: 1 6 17 3 2 10 9 
+1 6 17 3 2 10 9 fitness: 20 code: 2
+Total time taken is 950613
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 108 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 4 19 3 1 9 7 ; ] = best = -0
+Total time taken is 950635
+Evaluating: 1 4 19 3 1 9 7 
+1 4 19 3 1 9 7 fitness: 0.415427 code: 0
+Total time taken is 981346
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 109 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 5 17 3 2 10 8 ; ] = best = -0
+Total time taken is 981368
+Evaluating: 1 5 17 3 2 10 8 
+1 5 17 3 2 10 8 fitness: 20 code: 2
+Total time taken is 982654
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 110 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 5 17 3 2 10 7 ; ] = best = -0
+Total time taken is 982676
+Evaluating: 1 5 17 3 2 10 7 
+1 5 17 3 2 10 7 fitness: 20 code: 2
+Total time taken is 983962
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 111 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 4 17 2 1 9 8 ; ] = best = -0
+Total time taken is 983984
+Evaluating: 2 4 17 2 1 9 8 
+2 4 17 2 1 9 8 fitness: 20 code: 2
+Total time taken is 985365
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 112 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 6 17 2 2 10 9 ; ] = best = -0
+Total time taken is 985387
+Evaluating: 1 6 17 2 2 10 9 
+1 6 17 2 2 10 9 fitness: 20 code: 2
+Total time taken is 986599
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 113 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 5 18 3 1 10 9 ; ] = best = -0
+Total time taken is 986621
+Evaluating: 2 5 18 3 1 10 9 
+2 5 18 3 1 10 9 fitness: 20 code: 2
+Total time taken is 987896
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 114 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 6 17 3 1 10 8 ; ] = best = -0
+Total time taken is 987918
+Evaluating: 1 6 17 3 1 10 8 
+1 6 17 3 1 10 8 fitness: 0.455444 code: 0
+Total time taken is 1020432
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 115 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 6 19 2 2 10 7 ; ] = best = -0
+Total time taken is 1020454
+Evaluating: 2 6 19 2 2 10 7 
+2 6 19 2 2 10 7 fitness: 20 code: 2
+Total time taken is 1021667
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 116 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 4 19 2 1 10 9 ; ] = best = -0
+Total time taken is 1021689
+Evaluating: 2 4 19 2 1 10 9 
+2 4 19 2 1 10 9 fitness: 20 code: 2
+Total time taken is 1022905
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 117 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 5 18 2 1 10 9 ; ] = best = -0
+Total time taken is 1022927
+Evaluating: 2 5 18 2 1 10 9 
+2 5 18 2 1 10 9 fitness: 20 code: 2
+Total time taken is 1024158
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 118 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 6 17 3 1 9 8 ; ] = best = -0
+Total time taken is 1024180
+Evaluating: 1 6 17 3 1 9 8 
+1 6 17 3 1 9 8 fitness: 0.461155 code: 0
+Total time taken is 1056694
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 119 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 6 18 3 1 10 9 ; ] = best = -0
+Total time taken is 1056716
+Evaluating: 2 6 18 3 1 10 9 
+2 6 18 3 1 10 9 fitness: 20 code: 2
+Total time taken is 1057958
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 120 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 5 17 3 2 10 9 ; ] = best = -0
+Total time taken is 1057980
+Evaluating: 2 5 17 3 2 10 9 
+2 5 17 3 2 10 9 fitness: 20 code: 2
+Total time taken is 1059252
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 121 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 5 17 3 2 10 8 ; ] = best = -0
+Total time taken is 1059274
+Evaluating: 2 5 17 3 2 10 8 
+2 5 17 3 2 10 8 fitness: 20 code: 2
+Total time taken is 1060646
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 122 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 4 18 2 2 9 8 ; ] = best = -0
+Total time taken is 1060668
+Evaluating: 1 4 18 2 2 9 8 
+1 4 18 2 2 9 8 fitness: 20 code: 2
+Total time taken is 1061978
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 123 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 6 19 3 1 10 7 ; ] = best = -0
+Total time taken is 1062000
+Evaluating: 1 6 19 3 1 10 7 
+1 6 19 3 1 10 7 fitness: 0.520508 code: 0
+Total time taken is 1092711
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 124 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 6 19 3 1 9 7 ; ] = best = -0
+Total time taken is 1092733
+Evaluating: 2 6 19 3 1 9 7 
+2 6 19 3 1 9 7 fitness: 0.645616 code: 0
+Total time taken is 1123444
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 125 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 6 19 2 2 9 9 ; ] = best = -0
+Total time taken is 1123467
+Evaluating: 2 6 19 2 2 9 9 
+2 6 19 2 2 9 9 fitness: 20 code: 2
+Total time taken is 1124737
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 126 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 4 18 2 1 9 9 ; ] = best = -0
+Total time taken is 1124760
+Evaluating: 2 4 18 2 1 9 9 
+2 4 18 2 1 9 9 fitness: 20 code: 2
+Total time taken is 1126038
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 127 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 4 17 3 2 9 9 ; ] = best = -0
+Total time taken is 1126061
+Evaluating: 1 4 17 3 2 9 9 
+1 4 17 3 2 9 9 fitness: 20 code: 2
+Total time taken is 1127372
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 128 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 5 18 3 1 9 9 ; ] = best = -0
+Total time taken is 1127395
+Evaluating: 1 5 18 3 1 9 9 
+1 5 18 3 1 9 9 fitness: 20 code: 2
+Total time taken is 1128795
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 129 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 4 19 3 1 10 8 ; ] = best = -0
+Total time taken is 1128818
+Evaluating: 2 4 19 3 1 10 8 
+2 4 19 3 1 10 8 fitness: 20 code: 2
+Total time taken is 1130206
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 130 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 4 17 3 2 9 8 ; ] = best = -0
+Total time taken is 1130229
+Evaluating: 2 4 17 3 2 9 8 
+2 4 17 3 2 9 8 fitness: 20 code: 2
+Total time taken is 1131533
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 131 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 4 18 2 2 10 8 ; ] = best = -0
+Total time taken is 1131556
+Evaluating: 1 4 18 2 2 10 8 
+1 4 18 2 2 10 8 fitness: 20 code: 2
+Total time taken is 1132855
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 132 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 5 19 3 1 9 9 ; ] = best = -0
+Total time taken is 1132878
+Evaluating: 2 5 19 3 1 9 9 
+2 5 19 3 1 9 9 fitness: 20 code: 2
+Total time taken is 1134218
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 133 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 5 17 2 2 9 7 ; ] = best = -0
+Total time taken is 1134241
+Evaluating: 2 5 17 2 2 9 7 
+2 5 17 2 2 9 7 fitness: 20 code: 2
+Total time taken is 1135570
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 134 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 4 17 3 1 9 9 ; ] = best = -0
+Total time taken is 1135593
+Evaluating: 2 4 17 3 1 9 9 
+2 4 17 3 1 9 9 fitness: 20 code: 2
+Total time taken is 1136988
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 135 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 5 19 2 2 9 8 ; ] = best = -0
+Total time taken is 1137011
+Evaluating: 2 5 19 2 2 9 8 
+2 5 19 2 2 9 8 fitness: 20 code: 2
+Total time taken is 1138357
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 136 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 4 18 3 2 9 7 ; ] = best = -0
+Total time taken is 1138380
+Evaluating: 2 4 18 3 2 9 7 
+2 4 18 3 2 9 7 fitness: 20 code: 2
+Total time taken is 1139673
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 137 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 5 19 2 1 10 9 ; ] = best = -0
+Total time taken is 1139696
+Evaluating: 1 5 19 2 1 10 9 
+1 5 19 2 1 10 9 fitness: 20 code: 2
+Total time taken is 1140921
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 138 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 6 19 3 1 9 9 ; ] = best = -0
+Total time taken is 1140944
+Evaluating: 2 6 19 3 1 9 9 
+2 6 19 3 1 9 9 fitness: 20 code: 2
+Total time taken is 1142307
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 139 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 6 19 2 1 10 8 ; ] = best = -0
+Total time taken is 1142330
+Evaluating: 2 6 19 2 1 10 8 
+2 6 19 2 1 10 8 fitness: 20 code: 2
+Total time taken is 1143675
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 140 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[1 6 18 3 2 9 8 ; ] = best = -0
+Total time taken is 1143698
+Evaluating: 1 6 18 3 2 9 8 
+1 6 18 3 2 9 8 fitness: 20 code: 2
+Total time taken is 1145009
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 141 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0
+Evaluating random pertubations of best results
+[2 5 18 2 1 10 7 ; ] = best = -0
+Total time taken is 1145031
+Evaluating: 2 5 18 2 1 10 7 
+2 5 18 2 1 10 7 fitness: 0.576311 code: 0
+Total time taken is 1178864
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 142 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000105654
+0 -0.000385366
+0 -0.000505375
+0 -0.000629244
+0 -0.000643773
+0 -0.000670876
+0 -0.000736232
+0 -0.000842017
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 6 19 3 1 9 8 ; ] = best = -7.71167e-06
+Total time taken is 1178892
+Evaluating: 2 6 19 3 1 9 8 
+2 6 19 3 1 9 8 fitness: 20 code: 2
+Total time taken is 1180125
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 143 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.00010565
+0 -0.000451023
+0 -0.000612579
+0 -0.000716877
+0 -0.00071965
+0 -0.000721812
+0 -0.000761645
+0 -0.000781754
+0 -0.000802564
+0 -0.000858961
+0 -0.000868629
+0 -0.000930227
+0 -0.000968558
+0 -0.000986472
+0 -0.000987423
+0 -0.00100043
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 6 19 3 2 9 7 ; ] = best = -0
+Total time taken is 1180154
+Evaluating: 2 6 19 3 2 9 7 
+2 6 19 3 2 9 7 fitness: 20 code: 2
+Total time taken is 1181489
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 144 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000105656
+0 -0.000660295
+0 -0.000816608
+0 -0.000817783
+0 -0.000824466
+0 -0.000931716
+0 -0.000962466
+0 -0.000992247
+0 -0.00107107
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 6 17 3 1 9 7 ; ] = best = -0
+Total time taken is 1181518
+Evaluating: 2 6 17 3 1 9 7 
+2 6 17 3 1 9 7 fitness: 0.645616 code: 0
+Total time taken is 1210468
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 145 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000142876
+0 -0.000246358
+0 -0.000253647
+0 -0.000287964
+0 -0.000309352
+0 -0.000366266
+0 -0.000405699
+0 -0.000406499
+0 -0.000457754
+0 -0.000461937
+0 -0.000468136
+0 -0.000470228
+0 -0.000470393
+0 -0.000513159
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 6 19 2 2 10 9 ; ] = best = -0
+Total time taken is 1210495
+Evaluating: 2 6 19 2 2 10 9 
+2 6 19 2 2 10 9 fitness: 20 code: 2
+Total time taken is 1211876
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 146 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000142891
+0 -0.000236938
+0 -0.000310796
+0 -0.000355857
+0 -0.000392856
+0 -0.000406257
+0 -0.000406823
+0 -0.000416984
+0 -0.000417277
+0 -0.00043392
+0 -0.000439052
+0 -0.000440906
+0 -0.00045353
+0 -0.000463258
+0 -0.000531329
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 5 19 3 1 9 8 ; ] = best = -0.0001371
+Total time taken is 1211905
+Evaluating: 1 5 19 3 1 9 8 
+1 5 19 3 1 9 8 fitness: 20 code: 2
+Total time taken is 1213187
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 147 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000142885
+0 -0.000237356
+0 -0.00026797
+0 -0.000333903
+0 -0.000334895
+0 -0.000348044
+0 -0.000370838
+0 -0.000387993
+0 -0.000432684
+0 -0.000450284
+0 -0.000493416
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 6 18 2 1 10 8 ; ] = best = -3.09734e-05
+Total time taken is 1213217
+Evaluating: 2 6 18 2 1 10 8 
+2 6 18 2 1 10 8 fitness: 20 code: 2
+Total time taken is 1214564
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 148 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000142884
+0 -0.000319951
+0 -0.000325248
+0 -0.000357006
+0 -0.000359954
+0 -0.000398973
+0 -0.000407493
+0 -0.000418481
+0 -0.000421073
+0 -0.000426986
+0 -0.000443307
+0 -0.000465495
+0 -0.000487188
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 4 19 3 1 10 9 ; ] = best = -0.00012271
+Total time taken is 1214594
+Evaluating: 2 4 19 3 1 10 9 
+2 4 19 3 1 10 9 fitness: 20 code: 2
+Total time taken is 1215930
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 149 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000142888
+0 -0.000205653
+0 -0.000258372
+0 -0.00038075
+0 -0.000385345
+0 -0.000388695
+0 -0.000400984
+0 -0.00040387
+0 -0.000407446
+0 -0.000441213
+0 -0.000471845
+0 -0.000497241
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 6 19 3 2 9 8 ; ] = best = -0
+Total time taken is 1215960
+Evaluating: 1 6 19 3 2 9 8 
+1 6 19 3 2 9 8 fitness: 20 code: 2
+Total time taken is 1217334
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 150 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000142888
+0 -0.000323089
+0 -0.000364223
+0 -0.000375212
+0 -0.000401483
+0 -0.00040944
+0 -0.000436743
+0 -0.0004483
+0 -0.000449877
+0 -0.000456911
+0 -0.000456983
+0 -0.000464781
+0 -0.000471042
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 6 18 3 2 10 8 ; ] = best = -0
+Total time taken is 1217364
+Evaluating: 2 6 18 3 2 10 8 
+2 6 18 3 2 10 8 fitness: 20 code: 2
+Total time taken is 1218587
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 151 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000142884
+0 -0.000167955
+0 -0.000248587
+0 -0.000281489
+0 -0.000304894
+0 -0.000380583
+0 -0.000382182
+0 -0.000385623
+0 -0.000409143
+0 -0.000469073
+0 -0.000508916
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 4 19 2 2 9 7 ; ] = best = -0.000187356
+Total time taken is 1218617
+Evaluating: 2 4 19 2 2 9 7 
+2 4 19 2 2 9 7 fitness: 20 code: 2
+Total time taken is 1219982
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 152 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000142885
+0 -0.000272159
+0 -0.000287088
+0 -0.000313995
+0 -0.000330141
+0 -0.000361635
+0 -0.000373081
+0 -0.000375059
+0 -0.000391098
+0 -0.000400356
+0 -0.000408169
+0 -0.000423948
+0 -0.000455428
+0 -0.000459122
+0 -0.000469324
+0 -0.000475969
+0 -0.000487541
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 6 19 2 2 10 8 ; ] = best = -0.000204817
+Total time taken is 1220010
+Evaluating: 2 6 19 2 2 10 8 
+2 6 19 2 2 10 8 fitness: 20 code: 2
+Total time taken is 1221395
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 153 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000142889
+0 -0.000250777
+0 -0.000311547
+0 -0.000320402
+0 -0.00035044
+0 -0.000355423
+0 -0.000374556
+0 -0.000381151
+0 -0.000403663
+0 -0.000404144
+0 -0.000407443
+0 -0.000443804
+0 -0.000446214
+0 -0.000448384
+0 -0.000455392
+0 -0.000457306
+0 -0.000464889
+0 -0.000511789
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 5 18 2 1 9 9 ; ] = best = -8.12168e-05
+Total time taken is 1221425
+Evaluating: 2 5 18 2 1 9 9 
+2 5 18 2 1 9 9 fitness: 20 code: 2
+Total time taken is 1222746
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 154 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000142897
+0 -0.000191729
+0 -0.00019634
+0 -0.000275807
+0 -0.000279857
+0 -0.000310545
+0 -0.000335931
+0 -0.000341775
+0 -0.00035669
+0 -0.00039487
+0 -0.000398554
+0 -0.000407536
+0 -0.000432592
+0 -0.000433853
+0 -0.000442417
+0 -0.000451028
+0 -0.000454593
+0 -0.000472982
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 6 17 3 2 10 7 ; ] = best = -0
+Total time taken is 1222773
+Evaluating: 1 6 17 3 2 10 7 
+1 6 17 3 2 10 7 fitness: 20 code: 2
+Total time taken is 1223991
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 155 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000142896
+0 -0.000201182
+0 -0.000252058
+0 -0.000269738
+0 -0.000275579
+0 -0.000294407
+0 -0.00036692
+0 -0.000379712
+0 -0.000400368
+0 -0.000405017
+0 -0.000407665
+0 -0.00042517
+0 -0.000433315
+0 -0.000434791
+0 -0.000436976
+0 -0.000450732
+0 -0.00045186
+0 -0.000456018
+0 -0.000479278
+0 -0.000502167
+0 -0.000518232
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 5 17 2 2 10 8 ; ] = best = -0
+Total time taken is 1224021
+Evaluating: 2 5 17 2 2 10 8 
+2 5 17 2 2 10 8 fitness: 20 code: 2
+Total time taken is 1225342
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 156 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000142877
+0 -0.000249587
+0 -0.000292291
+0 -0.000396878
+0 -0.000398629
+0 -0.000401205
+0 -0.000419941
+0 -0.000428954
+0 -0.000445756
+0 -0.00049346
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 6 18 3 2 10 9 ; ] = best = -0
+Total time taken is 1225371
+Evaluating: 1 6 18 3 2 10 9 
+1 6 18 3 2 10 9 fitness: 20 code: 2
+Total time taken is 1226610
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 157 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000142893
+0 -0.000297736
+0 -0.000310734
+0 -0.000361586
+0 -0.000365721
+0 -0.000399432
+0 -0.000435759
+0 -0.000438309
+0 -0.000447903
+0 -0.000467707
+0 -0.000503481
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 5 19 3 2 9 9 ; ] = best = -0
+Total time taken is 1226640
+Evaluating: 1 5 19 3 2 9 9 
+1 5 19 3 2 9 9 fitness: 20 code: 2
+Total time taken is 1227961
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 158 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000142886
+0 -0.000211152
+0 -0.000256067
+0 -0.000280235
+0 -0.000386579
+0 -0.000419706
+0 -0.000423041
+0 -0.000451551
+0 -0.000455194
+0 -0.000491922
+0 -0.000512817
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 4 17 2 1 9 9 ; ] = best = -0.000103589
+Total time taken is 1227990
+Evaluating: 2 4 17 2 1 9 9 
+2 4 17 2 1 9 9 fitness: 20 code: 2
+Total time taken is 1229285
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 159 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000142879
+0 -0.000263707
+0 -0.000300231
+0 -0.000349453
+0 -0.00035544
+0 -0.000368834
+0 -0.000369983
+0 -0.000393009
+0 -0.000397996
+0 -0.000408744
+0 -0.000413897
+0 -0.000414427
+0 -0.000440631
+0 -0.000466847
+0 -0.000467081
+0 -0.000486768
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 6 19 2 2 10 7 ; ] = best = -0
+Total time taken is 1229315
+Evaluating: 1 6 19 2 2 10 7 
+1 6 19 2 2 10 7 fitness: 20 code: 2
+Total time taken is 1230626
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 160 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000142888
+0 -0.000186039
+0 -0.000272383
+0 -0.000284283
+0 -0.000292145
+0 -0.000325217
+0 -0.00032637
+0 -0.000331142
+0 -0.00037232
+0 -0.000388605
+0 -0.000396653
+0 -0.000403302
+0 -0.000412861
+0 -0.000421243
+0 -0.000450728
+0 -0.000456203
+0 -0.000476143
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 6 18 2 1 9 7 ; ] = best = -0
+Total time taken is 1230655
+Evaluating: 2 6 18 2 1 9 7 
+2 6 18 2 1 9 7 fitness: 0.645616 code: 0
+Total time taken is 1264488
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 161 / 1000, RUNNING: 0 Lambda: 1 best 0.405396
+0 -0.000144202
+0 -0.000149958
+0 -0.000184188
+0 -0.000203547
+0 -0.000224669
+0 -0.000242252
+0 -0.000261411
+0 -0.000266221
+0 -0.000291713
+0 -0.000292121
+0 -0.000315419
+0 -0.000323507
+0 -0.000357706
+0 -0.000358421
+0 -0.000358444
+0 -0.000358515
+[1 2 5 2 1 10 7 ; ] = best = -0.000276076
+Total time taken is 1264517
+Evaluating: 1 2 5 2 1 10 7 
+1 2 5 2 1 10 7 fitness: 0.291713 code: 0
+Total time taken is 1285130
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 162 / 1000, RUNNING: 0 Lambda: 1 best 0.291713
+0 -0
+0 -3.36746e-05
+0 -5.49196e-05
+0 -7.37941e-05
+0 -0.000102481
+0 -0.000120979
+0 -0.000125327
+0 -0.000132914
+0 -0.000135219
+0 -0.000144599
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 2 5 2 2 9 8 ; ] = best = -0
+Total time taken is 1285160
+Evaluating: 2 2 5 2 2 9 8 
+2 2 5 2 2 9 8 fitness: 20 code: 2
+Total time taken is 1286444
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 163 / 1000, RUNNING: 0 Lambda: 1 best 0.291713
+0 -0
+0 -5.64626e-05
+0 -7.13428e-05
+0 -0.000102087
+0 -0.000119444
+0 -0.000123932
+0 -0.000130158
+0 -0.000132445
+0 -0.000133509
+0 -0.000140208
+0 -0.000148156
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 1 5 3 1 9 7 ; ] = best = -5.3047e-05
+Total time taken is 1286473
+Evaluating: 1 1 5 3 1 9 7 
+1 1 5 3 1 9 7 fitness: 0.15873 code: 0
+Total time taken is 1307381
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 164 / 1000, RUNNING: 0 Lambda: 1 best 0.15873
+0 -0
+0 -3.17459e-05
+0 -4.01658e-05
+0 -4.7279e-05
+0 -4.7722e-05
+0 -5.39387e-05
+0 -6.9852e-05
+0 -7.06077e-05
+0 -8.318e-05
+0 -8.32395e-05
+0 -8.42118e-05
+0 -9.51566e-05
+0 -9.89858e-05
+0 -0.000110482
+0 -0.000113915
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 1 4 3 2 8 6 ; ] = best = -7.37848e-06
+Total time taken is 1307411
+Evaluating: 1 1 4 3 2 8 6 
+1 1 4 3 2 8 6 fitness: 20 code: 2
+Total time taken is 1308638
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 165 / 1000, RUNNING: 0 Lambda: 1 best 0.15873
+0 -0
+0 -8.57439e-07
+0 -2.91622e-05
+0 -5.02832e-05
+0 -6.76348e-05
+0 -7.05563e-05
+0 -7.12466e-05
+0 -7.35805e-05
+0 -7.45063e-05
+0 -7.91874e-05
+0 -8.4269e-05
+0 -0.000117812
+0 -0.000128605
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 2 5 2 2 8 6 ; ] = best = -6.08922e-06
+Total time taken is 1308668
+Evaluating: 1 2 5 2 2 8 6 
+1 2 5 2 2 8 6 fitness: 20 code: 2
+Total time taken is 1309874
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 166 / 1000, RUNNING: 0 Lambda: 1 best 0.15873
+0 -0
+0 -3.93367e-06
+0 -3.57928e-05
+0 -3.79594e-05
+0 -4.59682e-05
+0 -5.98709e-05
+0 -6.14954e-05
+0 -7.41703e-05
+0 -7.62476e-05
+0 -8.65646e-05
+0 -8.87603e-05
+0 -9.21669e-05
+0 -9.30439e-05
+0 -9.48556e-05
+0 -9.93082e-05
+0 -0.00010011
+0 -0.000100699
+0 -0.000117561
+0 -0.000118299
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 2 4 3 2 10 7 ; ] = best = -0
+Total time taken is 1309905
+Evaluating: 1 2 4 3 2 10 7 
+1 2 4 3 2 10 7 fitness: 20 code: 2
+Total time taken is 1311167
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 167 / 1000, RUNNING: 0 Lambda: 1 best 0.15873
+0 -0
+0 -2.6489e-06
+0 -2.13441e-05
+0 -2.8261e-05
+0 -3.77384e-05
+0 -5.0347e-05
+0 -5.90749e-05
+0 -7.19877e-05
+0 -7.39593e-05
+0 -9.46095e-05
+0 -9.63146e-05
+0 -0.000101925
+0 -0.000103657
+0 -0.000119428
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 2 6 2 1 10 7 ; ] = best = -0
+Total time taken is 1311198
+Evaluating: 2 2 6 2 1 10 7 
+2 2 6 2 1 10 7 fitness: 0.362863 code: 0
+Total time taken is 1332828
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 168 / 1000, RUNNING: 0 Lambda: 1 best 0.15873
+0 -0.000386133
+0 -0.000421183
+0 -0.000421263
+[1 1 4 3 1 10 8 ; ] = best = -0.000399395
+Total time taken is 1332858
+Evaluating: 1 1 4 3 1 10 8 
+1 1 4 3 1 10 8 fitness: 0.125 code: 0
+Total time taken is 1354880
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 169 / 1000, RUNNING: 0 Lambda: 1 best 0.125
+0 -0
+0 -1.60207e-05
+0 -4.54368e-05
+0 -6.58271e-05
+0 -7.31047e-05
+0 -8.43203e-05
+0 -8.44896e-05
+0 -8.8743e-05
+0 -0.000107727
+0 -0.000109114
+0 -0.00011872
+0 -0.000129474
+0 -0.000129882
+0 -0.000130293
+0 -0.000132984
+0 -0.000134494
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 1 5 2 2 10 8 ; ] = best = -1.98077e-05
+Total time taken is 1354911
+Evaluating: 2 1 5 2 2 10 8 
+2 1 5 2 2 10 8 fitness: 20 code: 2
+Total time taken is 1356197
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 170 / 1000, RUNNING: 0 Lambda: 1 best 0.125
+0 -0
+0 -3.59137e-07
+0 -1.87611e-05
+0 -6.68314e-05
+0 -6.85561e-05
+0 -8.7784e-05
+0 -9.9228e-05
+0 -0.000101083
+0 -0.000108222
+0 -0.000114917
+0 -0.000130411
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 2 5 3 2 9 7 ; ] = best = -0
+Total time taken is 1356228
+Evaluating: 2 2 5 3 2 9 7 
+2 2 5 3 2 9 7 fitness: 20 code: 2
+Total time taken is 1357519
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 171 / 1000, RUNNING: 0 Lambda: 1 best 0.125
+0 -0
+0 -2.64374e-05
+0 -5.95421e-05
+0 -6.50594e-05
+0 -7.03928e-05
+0 -7.72905e-05
+0 -9.93749e-05
+0 -0.000102499
+0 -0.000113342
+0 -0.000117625
+0 -0.000122462
+0 -0.000137894
+0 -0.000139403
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 1 4 2 1 10 9 ; ] = best = -0
+Total time taken is 1357550
+Evaluating: 2 1 4 2 1 10 9 
+2 1 4 2 1 10 9 fitness: 0.226888 code: 0
+Total time taken is 1381602
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 172 / 1000, RUNNING: 0 Lambda: 1 best 0.125
+0 -0.000249612
+0 -0.000270904
+0 -0.000287257
+0 -0.000295483
+0 -0.000295975
+0 -0.000296495
+0 -0.000304373
+0 -0.000309233
+0 -0.000323011
+0 -0.000341844
+0 -0.000342997
+[1 1 4 3 1 10 9 ; ] = best = -0.000312881
+Total time taken is 1381634
+Evaluating: 1 1 4 3 1 10 9 
+1 1 4 3 1 10 9 fitness: 0.111111 code: 0
+Total time taken is 1403656
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 173 / 1000, RUNNING: 0 Lambda: 1 best 0.111111
+0 -0
+0 -5.57124e-06
+0 -7.53697e-05
+0 -7.86733e-05
+0 -0.000116809
+0 -0.000125311
+0 -0.000130572
+0 -0.000144703
+0 -0.000169022
+0 -0.000170817
+0 -0.000173729
+0 -0.000174234
+0 -0.000181292
+0 -0.000190831
+0 -0.000223367
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 1 4 2 2 10 8 ; ] = best = -0
+Total time taken is 1403687
+Evaluating: 1 1 4 2 2 10 8 
+1 1 4 2 2 10 8 fitness: 20 code: 2
+Total time taken is 1404910
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 174 / 1000, RUNNING: 0 Lambda: 1 best 0.111111
+0 -0
+0 -6.73567e-05
+0 -7.47195e-05
+0 -7.76614e-05
+0 -8.09782e-05
+0 -8.66227e-05
+0 -9.27966e-05
+0 -0.000117191
+0 -0.000123837
+0 -0.000132715
+0 -0.000140583
+0 -0.000150506
+0 -0.000182782
+0 -0.000183244
+0 -0.000196376
+0 -0.000202329
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 2 4 2 1 10 10 ; ] = best = -0
+Total time taken is 1404941
+Evaluating: 1 2 4 2 1 10 10 
+1 2 4 2 1 10 10 fitness: 0.204199 code: 0
+Total time taken is 1431221
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 175 / 1000, RUNNING: 0 Lambda: 1 best 0.111111
+0 -0.000256718
+0 -0.000367345
+0 -0.000373466
+0 -0.000390158
+0 -0.000423522
+0 -0.000430669
+0 -0.000439712
+0 -0.000441928
+0 -0.000443078
+0 -0.000444569
+0 -0.00044518
+[1 1 4 3 1 10 10 ; ] = best = -0.000343736
+Total time taken is 1431252
+Evaluating: 1 1 4 3 1 10 10 
+1 1 4 3 1 10 10 fitness: 0.1 code: 0
+Total time taken is 1454543
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 176 / 1000, RUNNING: 0 Lambda: 1 best 0.1
+0 -0
+0 -9.61456e-05
+0 -0.000145119
+0 -0.000190744
+0 -0.000221725
+0 -0.000235757
+0 -0.000258175
+0 -0.000280688
+0 -0.000291856
+0 -0.000310536
+0 -0.000334556
+0 -0.000345809
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 2 5 3 1 10 10 ; ] = best = -0
+Total time taken is 1454576
+Evaluating: 2 2 5 3 1 10 10 
+2 2 5 3 1 10 10 fitness: 0.254004 code: 0
+Total time taken is 1479125
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 177 / 1000, RUNNING: 0 Lambda: 1 best 0.1
+0 -0.000386556
+0 -0.000420165
+0 -0.000473877
+0 -0.000475365
+0 -0.000476141
+0 -0.000484503
+0 -0.000492316
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 2 4 2 2 9 11 ; ] = best = -0
+Total time taken is 1479159
+Evaluating: 2 2 4 2 2 9 11 
+2 2 4 2 2 9 11 fitness: 20 code: 2
+Total time taken is 1480457
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 178 / 1000, RUNNING: 0 Lambda: 1 best 0.1
+0 -0.000386557
+0 -0.00047114
+0 -0.000471648
+0 -0.000476955
+0 -0.000485462
+0 -0.000486744
+0 -0.000493682
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 1 4 3 2 9 11 ; ] = best = -0
+Total time taken is 1480491
+Evaluating: 1 1 4 3 2 9 11 
+1 1 4 3 2 9 11 fitness: 20 code: 2
+Total time taken is 1481837
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 179 / 1000, RUNNING: 0 Lambda: 1 best 0.1
+0 -0.000386553
+0 -0.000449234
+0 -0.000471726
+0 -0.000474571
+0 -0.000477129
+0 -0.000485574
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 1 5 2 2 9 10 ; ] = best = -0
+Total time taken is 1481870
+Evaluating: 1 1 5 2 2 9 10 
+1 1 5 2 2 9 10 fitness: 20 code: 2
+Total time taken is 1483080
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 180 / 1000, RUNNING: 0 Lambda: 1 best 0.1
+0 -0.000386559
+0 -0.000403385
+0 -0.00043973
+0 -0.000451522
+0 -0.000452636
+0 -0.000455598
+0 -0.000457438
+0 -0.000468871
+0 -0.000471569
+0 -0.000474371
+0 -0.000474419
+0 -0.000480083
+0 -0.00048231
+0 -0.000487332
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 2 5 3 1 9 11 ; ] = best = -0.000234557
+Total time taken is 1483114
+Evaluating: 1 2 5 3 1 9 11 
+1 2 5 3 1 9 11 fitness: 0.19334 code: 0
+Total time taken is 1509717
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 181 / 1000, RUNNING: 0 Lambda: 1 best 0.1
+0 -0.000237552
+0 -0.000270653
+0 -0.00030178
+0 -0.000303836
+0 -0.00030576
+[1 1 5 3 1 10 12 ; ] = best = -0.000303281
+Total time taken is 1509750
+Evaluating: 1 1 5 3 1 10 12 
+1 1 5 3 1 10 12 fitness: 0.0833333 code: 0
+Total time taken is 1538408
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 182 / 1000, RUNNING: 0 Lambda: 1 best 0.0833333
+0 -0
+0 -1.96451e-05
+0 -2.08521e-05
+0 -2.83515e-05
+0 -2.9203e-05
+0 -3.6774e-05
+0 -4.3315e-05
+0 -8.52147e-05
+[4 1 7 1 4 7 17 ; ] = best = -5.307e-06
+Total time taken is 1538457
+Evaluating: 4 1 7 1 4 7 17 
+4 1 7 1 4 7 17 fitness: 20 code: 2
+Total time taken is 1539810
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 183 / 1000, RUNNING: 0 Lambda: 1 best 0.0833333
+0 -0
+0 -6.2143e-07
+0 -1.43432e-05
+0 -1.46214e-05
+0 -1.5996e-05
+0 -1.82362e-05
+0 -2.00374e-05
+0 -2.57129e-05
+0 -2.66626e-05
+0 -2.88918e-05
+0 -3.16828e-05
+0 -3.34011e-05
+0 -3.381e-05
+0 -4.72429e-05
+0 -8.14677e-05
+[1 1 4 3 1 10 14 ; ] = best = -8.01272e-05
+Total time taken is 1539857
+Evaluating: 1 1 4 3 1 10 14 
+1 1 4 3 1 10 14 fitness: 0.0714286 code: 0
+Total time taken is 1570864
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 184 / 1000, RUNNING: 0 Lambda: 1 best 0.0714286
+0 -8.29065e-09
+0 -2.53844e-07
+0 -5.7396e-07
+0 -6.56526e-07
+0 -1.41345e-06
+0 -2.22105e-06
+0 -3.72343e-06
+0 -5.25596e-06
+0 -5.621e-06
+0 -6.07504e-06
+0 -7.36767e-06
+0 -8.02258e-06
+0 -9.54409e-06
+0 -1.07514e-05
+0 -1.4658e-05
+0 -1.5216e-05
+0 -1.52755e-05
+[1 3 6 1 2 4 1 ; ] = best = -0
+Total time taken is 1570897
+Evaluating: 1 3 6 1 2 4 1 
+1 3 6 1 2 4 1 fitness: 1.83716 code: 0
+Total time taken is 1586323
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 185 / 1000, RUNNING: 0 Lambda: 1 best 0.0714286
+0 -0.00104736
+0 -0.00105085
+0 -0.00105091
+0 -0.00105129
+0 -0.00105197
+0 -0.00110161
+0 -0.0012197
+[1 1 4 3 1 10 15 ; ] = best = -0.00115205
+Total time taken is 1586357
+Evaluating: 1 1 4 3 1 10 15 
+1 1 4 3 1 10 15 fitness: 0.0666667 code: 0
+Total time taken is 1619293
+Optimised SVM, gamma: 0.05 C: 10
+Found best at [1, 1, 4, 3, 1, 10, 15, ] with fitness [0.0666667]
+Search l=1 took 2991125 iter=115 / 186
+In FPGA time took 1619293

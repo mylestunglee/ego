@@ -1,0 +1,3333 @@
+Search = 2 test RTM rtm_log_ lambda = 1 n_sims = 100
+3 201100
+Using PS0 Search
+Building
+0 gamma size
+Python initialised
+/homes/wjn11/MLO/examples/xinyu_rtm
+Got pName: fitness_script
+Got pModule
+Got pFunc
+Got rid of pName
+Built
+Evaluating: 1 1 4 1 1 1 1 
+Sending Py_None
+Sample
+23 size
+Latin eval
+1 1 4 1 1 1 1 fitness: 10 code: 0
+Total time taken is 6527
+Evaluating: 7 1 20 1 9 10 30 
+7 1 20 1 9 10 30 fitness: 20 code: 2
+Total time taken is 7907
+Evaluating: 4 9 8 1 2 2 29 
+4 9 8 1 2 2 29 fitness: 20 code: 2
+Total time taken is 9211
+Evaluating: 9 8 4 1 8 9 32 
+9 8 4 1 8 9 32 fitness: 20 code: 2
+Total time taken is 10451
+Evaluating: 6 8 22 2 10 8 8 
+6 8 22 2 10 8 8 fitness: 20 code: 2
+Total time taken is 11698
+Evaluating: 5 1 9 2 6 3 20 
+5 1 9 2 6 3 20 fitness: 20 code: 2
+Total time taken is 12935
+Evaluating: 5 3 18 2 3 1 26 
+5 3 18 2 3 1 26 fitness: 20 code: 2
+Total time taken is 14141
+Evaluating: 5 3 11 3 7 8 9 
+5 3 11 3 7 8 9 fitness: 20 code: 2
+Total time taken is 15469
+Evaluating: 6 7 17 2 5 7 1 
+6 7 17 2 5 7 1 fitness: 20 code: 2
+Total time taken is 16750
+Evaluating: 9 7 19 2 7 5 27 
+9 7 19 2 7 5 27 fitness: 20 code: 2
+Total time taken is 18107
+Evaluating: 7 1 24 2 1 5 3 
+7 1 24 2 1 5 3 fitness: 1.54688 code: 0
+Total time taken is 37508
+Evaluating: 3 9 23 2 3 3 2 
+3 9 23 2 3 3 2 fitness: 20 code: 2
+Total time taken is 38717
+Evaluating: 8 4 15 2 2 4 13 
+8 4 15 2 2 4 13 fitness: 20 code: 2
+Total time taken is 39993
+Evaluating: 2 5 14 2 5 5 12 
+2 5 14 2 5 5 12 fitness: 20 code: 2
+Total time taken is 41256
+Evaluating: 10 6 16 1 4 9 24 
+10 6 16 1 4 9 24 fitness: 20 code: 2
+Total time taken is 42508
+Evaluating: 7 2 14 2 5 7 19 
+7 2 14 2 5 7 19 fitness: 20 code: 2
+Total time taken is 43805
+Evaluating: 4 10 12 1 4 2 6 
+4 10 12 1 4 2 6 fitness: 20 code: 2
+Total time taken is 45049
+Evaluating: 8 3 7 1 9 6 22 
+8 3 7 1 9 6 22 fitness: 20 code: 2
+Total time taken is 46408
+Evaluating: 3 4 4 2 7 6 15 
+3 4 4 2 7 6 15 fitness: 20 code: 2
+Total time taken is 47663
+Evaluating: 1 7 21 1 1 7 23 
+1 7 21 1 1 7 23 fitness: 20 code: 2
+Total time taken is 48978
+Evaluating: 1 6 13 1 3 3 17 
+1 6 13 1 3 3 17 fitness: 20 code: 2
+Total time taken is 50335
+Evaluating: 2 2 5 1 1 1 10 
+2 2 5 1 1 1 10 fitness: 1.06348 code: 0
+Total time taken is 81252
+Evaluating: 3 5 6 1 6 1 5 
+3 5 6 1 6 1 5 fitness: 20 code: 2
+Total time taken is 82499
+Evaluating: 1 5 10 1 8 4 16 
+1 5 10 1 8 4 16 fitness: 20 code: 2
+Total time taken is 83700
+Optimised SVM, gamma: 0.05 C: 10
+Adding extra permutations
+svm label: 1
+Evaluating: 3 1 6 1 1 1 9 
+Optimised SVM, gamma: 0.05 C: 10
+3 1 6 1 1 1 9 fitness: 1.18056 code: 0
+Total time taken is 113408
+svm label: 1
+Evaluating: 3 2 6 2 2 1 9 
+Optimised SVM, gamma: 0.05 C: 10
+3 2 6 2 2 1 9 fitness: 20 code: 2
+Total time taken is 114630
+svm label: 1
+Evaluating: 5 3 7 2 1 3 10 
+Optimised SVM, gamma: 0.05 C: 10
+5 3 7 2 1 3 10 fitness: 0.598958 code: 0
+Total time taken is 145268
+svm label: 1
+Evaluating: 1 1 4 2 2 1 2 
+Optimised SVM, gamma: 0.05 C: 10
+1 1 4 2 2 1 2 fitness: 2.5 code: 0
+Total time taken is 167092
+svm label: 1
+Evaluating: 5 4 6 1 2 2 10 
+Optimised SVM, gamma: 0.05 C: 10
+5 4 6 1 2 2 10 fitness: 20 code: 2
+Total time taken is 168424
+svm label: 1
+Evaluating: 2 2 5 2 1 2 1 
+Optimised SVM, gamma: 0.05 C: 10
+2 2 5 2 1 2 1 fitness: 5.98145 code: 0
+Total time taken is 174798
+svm label: 1
+Evaluating: 8 3 23 1 1 4 1 
+Optimised SVM, gamma: 0.05 C: 10
+8 3 23 1 1 4 1 fitness: 6.61377 code: 0
+Total time taken is 184456
+svm label: 1
+Evaluating: 4 2 5 2 2 3 2 
+Optimised SVM, gamma: 0.05 C: 10
+4 2 5 2 2 3 2 fitness: 1.29476 code: 0
+Total time taken is 207442
+svm label: 1
+Evaluating: 6 1 11 2 1 3 8 
+Optimised SVM, gamma: 0.05 C: 10
+6 1 11 2 1 3 8 fitness: 0.677897 code: 0
+Total time taken is 237402
+svm label: 1
+Evaluating: 9 4 8 1 1 4 10 
+Optimised SVM, gamma: 0.05 C: 10
+9 4 8 1 1 4 10 fitness: 20 code: 2
+Total time taken is 238678
+svm label: 1
+Evaluating: 3 1 5 1 2 2 2 
+Optimised SVM, gamma: 0.05 C: 10
+3 1 5 1 2 2 2 fitness: 1.49048 code: 0
+Total time taken is 264212
+svm label: 1
+Evaluating: 2 1 8 3 1 3 14 
+Optimised SVM, gamma: 0.05 C: 10
+2 1 8 3 1 3 14 fitness: 20 code: 2
+Total time taken is 265421
+svm label: 1
+Evaluating: 4 3 7 1 2 6 12 
+Optimised SVM, gamma: 0.05 C: 10
+4 3 7 1 2 6 12 fitness: 20 code: 2
+Total time taken is 266816
+svm label: 1
+Evaluating: 7 2 11 3 2 4 8 
+Optimised SVM, gamma: 0.05 C: 10
+7 2 11 3 2 4 8 fitness: 20 code: 2
+Total time taken is 268159
+svm label: 2
+Evaluating: 1 1 6 2 2 1 10 
+Optimised SVM, gamma: 0.05 C: 10
+1 1 6 2 2 1 10 fitness: 20 code: 2
+Total time taken is 269400
+svm label: 1
+Evaluating: 3 1 5 1 2 4 2 
+Optimised SVM, gamma: 0.05 C: 10
+3 1 5 1 2 4 2 fitness: 0.918579 code: 0
+Total time taken is 294934
+svm label: 2
+Evaluating: 1 2 5 1 2 1 9 
+Optimised SVM, gamma: 0.05 C: 10
+1 2 5 1 2 1 9 fitness: 20 code: 2
+Total time taken is 296263
+svm label: 1
+Evaluating: 5 3 6 1 3 4 3 
+Optimised SVM, gamma: 0.05 C: 10
+5 3 6 1 3 4 3 fitness: 20 code: 2
+Total time taken is 297608
+svm label: 1
+Evaluating: 4 1 5 1 3 4 3 
+Optimised SVM, gamma: 0.05 C: 10
+4 1 5 1 3 4 3 fitness: 20 code: 2
+Total time taken is 298891
+svm label: 1
+Evaluating: 6 1 22 2 4 6 3 
+Optimised SVM, gamma: 0.05 C: 10
+6 1 22 2 4 6 3 fitness: 20 code: 2
+Total time taken is 300193
+svm label: 1
+Evaluating: 1 3 4 1 1 4 10 
+Optimised SVM, gamma: 0.05 C: 10
+1 3 4 1 1 4 10 fitness: 0.367432 code: 0
+Total time taken is 329462
+svm label: 1
+Evaluating: 1 2 5 3 3 1 1 
+Optimised SVM, gamma: 0.05 C: 10
+1 2 5 3 3 1 1 fitness: 3.4375 code: 0
+Total time taken is 351956
+svm label: 1
+Evaluating: 4 5 6 3 2 2 1 
+Optimised SVM, gamma: 0.05 C: 10
+4 5 6 3 2 2 1 fitness: 3.90381 code: 0
+Total time taken is 364679
+svm label: 2
+Evaluating: 2 2 7 2 2 2 10 
+Optimised SVM, gamma: 0.05 C: 10
+2 2 7 2 2 2 10 fitness: 20 code: 2
+Total time taken is 365938
+svm label: 1
+Evaluating: 10 2 22 3 1 4 1 
+Optimised SVM, gamma: 0.05 C: 10
+10 2 22 3 1 4 1 fitness: 6.76025 code: 0
+Total time taken is 374132
+svm label: 1
+Evaluating: 9 4 24 2 2 3 1 
+Optimised SVM, gamma: 0.05 C: 10
+9 4 24 2 2 3 1 fitness: 4.05924 code: 0
+Total time taken is 398667
+svm label: 2
+Evaluating: 4 3 7 1 2 4 11 
+Optimised SVM, gamma: 0.05 C: 10
+4 3 7 1 2 4 11 fitness: 20 code: 2
+Total time taken is 399908
+svm label: 1
+Evaluating: 2 2 5 2 1 1 1 
+Optimised SVM, gamma: 0.05 C: 10
+2 2 5 2 1 1 1 fitness: 10.6348 code: 0
+Total time taken is 406282
+svm label: 1
+Evaluating: 1 2 6 2 4 1 1 
+Optimised SVM, gamma: 0.05 C: 10
+1 2 6 2 4 1 1 fitness: 20 code: 2
+Total time taken is 407536
+svm label: 1
+Evaluating: 8 3 24 1 3 4 3 
+Optimised SVM, gamma: 0.05 C: 10
+8 3 24 1 3 4 3 fitness: 20 code: 2
+Total time taken is 408779
+svm label: 1
+Evaluating: 2 2 5 1 1 1 1 
+Optimised SVM, gamma: 0.05 C: 10
+2 2 5 1 1 1 1 fitness: 10.6348 code: 0
+Total time taken is 415471
+svm label: 1
+Evaluating: 2 1 4 2 1 5 2 
+Optimised SVM, gamma: 0.05 C: 10
+2 1 4 2 1 5 2 fitness: 1.44141 code: 0
+Total time taken is 423927
+svm label: 1
+Evaluating: 2 3 4 1 1 5 9 
+Optimised SVM, gamma: 0.05 C: 10
+2 3 4 1 1 5 9 fitness: 0.409288 code: 0
+Total time taken is 450669
+svm label: 1
+Evaluating: 7 2 23 1 2 5 2 
+Optimised SVM, gamma: 0.05 C: 10
+7 2 23 1 2 5 2 fitness: 20 code: 2
+Total time taken is 451911
+svm label: 1
+Evaluating: 5 2 10 2 1 3 6 
+Optimised SVM, gamma: 0.05 C: 10
+5 2 10 2 1 3 6 fitness: 0.923394 code: 0
+Total time taken is 474509
+svm label: 1
+Evaluating: 1 2 5 3 1 2 3 
+Optimised SVM, gamma: 0.05 C: 10
+1 2 5 3 1 2 3 fitness: 1.87988 code: 0
+Total time taken is 484674
+svm label: 1
+Evaluating: 2 3 4 2 2 1 2 
+Optimised SVM, gamma: 0.05 C: 10
+2 3 4 2 2 1 2 fitness: 2.73926 code: 0
+Total time taken is 506498
+svm label: 1
+Evaluating: 2 1 4 3 1 1 1 
+Optimised SVM, gamma: 0.05 C: 10
+2 1 4 3 1 1 1 fitness: 10.3125 code: 0
+Total time taken is 512428
+svm label: 1
+Evaluating: 9 4 22 1 1 1 1 
+Optimised SVM, gamma: 0.05 C: 10
+9 4 22 1 1 1 1 fitness: 13.6719 code: 0
+Total time taken is 521921
+svm label: 1
+Evaluating: 4 2 11 2 1 3 5 
+Optimised SVM, gamma: 0.05 C: 10
+4 2 11 2 1 3 5 fitness: 1.03581 code: 0
+Total time taken is 542146
+svm label: 1
+Evaluating: 1 4 5 1 1 4 10 
+Optimised SVM, gamma: 0.05 C: 10
+1 4 5 1 1 4 10 fitness: 0.401611 code: 0
+Total time taken is 573063
+svm label: 1
+Evaluating: 2 2 9 3 1 4 2 
+Optimised SVM, gamma: 0.05 C: 10
+2 2 9 3 1 4 2 fitness: 1.85669 code: 0
+Total time taken is 582179
+svm label: 1
+Evaluating: 2 1 12 1 1 5 5 
+Optimised SVM, gamma: 0.05 C: 10
+2 1 12 1 1 5 5 fitness: 0.576562 code: 0
+Total time taken is 605405
+svm label: 1
+Evaluating: 4 1 7 1 2 2 10 
+Optimised SVM, gamma: 0.05 C: 10
+4 1 7 1 2 2 10 fitness: 20 code: 2
+Total time taken is 606710
+svm label: 2
+Evaluating: 2 4 5 2 2 4 8 
+Optimised SVM, gamma: 0.05 C: 10
+2 4 5 2 2 4 8 fitness: 20 code: 2
+Total time taken is 607936
+svm label: 1
+Evaluating: 2 4 6 1 1 6 9 
+Optimised SVM, gamma: 0.05 C: 10
+2 4 6 1 1 6 9 fitness: 0.427698 code: 0
+Total time taken is 637644
+svm label: 1
+Evaluating: 2 3 7 2 1 7 9 
+Optimised SVM, gamma: 0.05 C: 10
+2 3 7 2 1 7 9 fitness: 0.362723 code: 0
+Total time taken is 665619
+Sampled
+Started, dim=7, lambda=1 max_f=0.07
+Defaulted to using log on GP log like: 3.55135 normal like: -43.7828
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 71 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 4 18 3 2 5 22 ; ] = best = -0.902523
+Total time taken is 665633
+Evaluating: 5 4 18 3 2 5 22 
+5 4 18 3 2 5 22 fitness: 20 code: 2
+Total time taken is 667024
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 72 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 7 8 2 2 10 18 ; ] = best = -0.956092
+Total time taken is 667040
+Evaluating: 5 7 8 2 2 10 18 
+5 7 8 2 2 10 18 fitness: 20 code: 2
+Total time taken is 668278
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 73 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 6 6 2 2 10 20 ; ] = best = -0.955554
+Total time taken is 668294
+Evaluating: 4 6 6 2 2 10 20 
+4 6 6 2 2 10 20 fitness: 20 code: 2
+Total time taken is 669569
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 74 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 7 15 3 2 9 18 ; ] = best = -1.01069
+Total time taken is 669585
+Evaluating: 2 7 15 3 2 9 18 
+2 7 15 3 2 9 18 fitness: 20 code: 2
+Total time taken is 670815
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 75 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[9 6 8 2 2 8 20 ; ] = best = -0.910225
+Total time taken is 670831
+Evaluating: 9 6 8 2 2 8 20 
+9 6 8 2 2 8 20 fitness: 20 code: 2
+Total time taken is 672162
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 76 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 4 19 2 2 7 19 ; ] = best = -0.938931
+Total time taken is 672178
+Evaluating: 4 4 19 2 2 7 19 
+4 4 19 2 2 7 19 fitness: 20 code: 2
+Total time taken is 673398
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 77 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 8 3 2 4 19 ; ] = best = -0.944695
+Total time taken is 673413
+Evaluating: 1 5 8 3 2 4 19 
+1 5 8 3 2 4 19 fitness: 20 code: 2
+Total time taken is 674770
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 78 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 6 20 3 1 8 20 ; ] = best = -0.946196
+Total time taken is 674786
+Evaluating: 4 6 20 3 1 8 20 
+4 6 20 3 1 8 20 fitness: 20 code: 2
+Total time taken is 676077
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 79 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 4 9 2 2 6 20 ; ] = best = -0.965437
+Total time taken is 676093
+Evaluating: 7 4 9 2 2 6 20 
+7 4 9 2 2 6 20 fitness: 20 code: 2
+Total time taken is 677488
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 80 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[10 5 12 2 2 8 18 ; ] = best = -0.940415
+Total time taken is 677504
+Evaluating: 10 5 12 2 2 8 18 
+10 5 12 2 2 8 18 fitness: 20 code: 2
+Total time taken is 678783
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 81 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 6 14 3 2 8 20 ; ] = best = -0.980112
+Total time taken is 678800
+Evaluating: 5 6 14 3 2 8 20 
+5 6 14 3 2 8 20 fitness: 20 code: 2
+Total time taken is 680090
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 82 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 3 24 3 2 8 19 ; ] = best = -0.955975
+Total time taken is 680106
+Evaluating: 6 3 24 3 2 8 19 
+6 3 24 3 2 8 19 fitness: 20 code: 2
+Total time taken is 681438
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 83 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 3 10 3 2 6 20 ; ] = best = -0.93419
+Total time taken is 681454
+Evaluating: 7 3 10 3 2 6 20 
+7 3 10 3 2 6 20 fitness: 20 code: 2
+Total time taken is 682700
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 84 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 5 24 2 2 6 21 ; ] = best = -0.946909
+Total time taken is 682716
+Evaluating: 6 5 24 2 2 6 21 
+6 5 24 2 2 6 21 fitness: 20 code: 2
+Total time taken is 683958
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 85 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 7 10 3 1 8 23 ; ] = best = -0.976395
+Total time taken is 683975
+Evaluating: 7 7 10 3 1 8 23 
+7 7 10 3 1 8 23 fitness: 20 code: 2
+Total time taken is 685366
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 86 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 5 3 2 10 18 ; ] = best = -0.974532
+Total time taken is 685383
+Evaluating: 1 7 5 3 2 10 18 
+1 7 5 3 2 10 18 fitness: 20 code: 2
+Total time taken is 686699
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 87 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 5 16 2 2 8 18 ; ] = best = -1.0235
+Total time taken is 686716
+Evaluating: 6 5 16 2 2 8 18 
+6 5 16 2 2 8 18 fitness: 20 code: 2
+Total time taken is 688092
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 88 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 5 9 2 2 7 20 ; ] = best = -0.97817
+Total time taken is 688108
+Evaluating: 2 5 9 2 2 7 20 
+2 5 9 2 2 7 20 fitness: 20 code: 2
+Total time taken is 689325
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 89 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 4 12 3 2 4 23 ; ] = best = -1.01319
+Total time taken is 689341
+Evaluating: 7 4 12 3 2 4 23 
+7 4 12 3 2 4 23 fitness: 20 code: 2
+Total time taken is 690658
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 90 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 5 18 3 2 8 20 ; ] = best = -0.976871
+Total time taken is 690675
+Evaluating: 4 5 18 3 2 8 20 
+4 5 18 3 2 8 20 fitness: 20 code: 2
+Total time taken is 692007
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 91 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 8 7 2 2 7 19 ; ] = best = -0.947173
+Total time taken is 692023
+Evaluating: 4 8 7 2 2 7 19 
+4 8 7 2 2 7 19 fitness: 20 code: 2
+Total time taken is 693336
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 92 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 6 23 2 2 8 20 ; ] = best = -1.04511
+Total time taken is 693353
+Evaluating: 4 6 23 2 2 8 20 
+4 6 23 2 2 8 20 fitness: 20 code: 2
+Total time taken is 694632
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 93 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 6 7 2 2 8 18 ; ] = best = -0.998424
+Total time taken is 694649
+Evaluating: 1 6 7 2 2 8 18 
+1 6 7 2 2 8 18 fitness: 20 code: 2
+Total time taken is 695904
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 94 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 14 2 2 7 18 ; ] = best = -0.984213
+Total time taken is 695921
+Evaluating: 1 5 14 2 2 7 18 
+1 5 14 2 2 7 18 fitness: 20 code: 2
+Total time taken is 697287
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 95 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 5 13 3 1 8 18 ; ] = best = -0.956323
+Total time taken is 697304
+Evaluating: 5 5 13 3 1 8 18 
+5 5 13 3 1 8 18 fitness: 20 code: 2
+Total time taken is 698543
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 96 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 5 20 2 1 8 20 ; ] = best = -0.954665
+Total time taken is 698561
+Evaluating: 5 5 20 2 1 8 20 
+5 5 20 2 1 8 20 fitness: 20 code: 2
+Total time taken is 699782
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 97 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 5 10 3 1 8 22 ; ] = best = -0.91046
+Total time taken is 699798
+Evaluating: 8 5 10 3 1 8 22 
+8 5 10 3 1 8 22 fitness: 20 code: 2
+Total time taken is 701173
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 98 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 4 13 3 1 7 23 ; ] = best = -1.01318
+Total time taken is 701190
+Evaluating: 2 4 13 3 1 7 23 
+2 4 13 3 1 7 23 fitness: 20 code: 2
+Total time taken is 702446
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 99 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 5 11 3 2 6 19 ; ] = best = -0.95015
+Total time taken is 702462
+Evaluating: 7 5 11 3 2 6 19 
+7 5 11 3 2 6 19 fitness: 20 code: 2
+Total time taken is 703712
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 100 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 9 16 3 2 7 19 ; ] = best = -0.956322
+Total time taken is 703729
+Evaluating: 3 9 16 3 2 7 19 
+3 9 16 3 2 7 19 fitness: 20 code: 2
+Total time taken is 705094
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 101 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 18 2 2 8 18 ; ] = best = -0.950649
+Total time taken is 705110
+Evaluating: 1 5 18 2 2 8 18 
+1 5 18 2 2 8 18 fitness: 20 code: 2
+Total time taken is 706480
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 102 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 2 18 3 2 9 19 ; ] = best = -0.966921
+Total time taken is 706496
+Evaluating: 2 2 18 3 2 9 19 
+2 2 18 3 2 9 19 fitness: 20 code: 2
+Total time taken is 707779
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 103 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[10 4 15 2 1 9 18 ; ] = best = -1.03413
+Total time taken is 707796
+Evaluating: 10 4 15 2 1 9 18 
+10 4 15 2 1 9 18 fitness: 20 code: 2
+Total time taken is 709124
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 104 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 6 15 3 1 9 22 ; ] = best = -1.00905
+Total time taken is 709142
+Evaluating: 7 6 15 3 1 9 22 
+7 6 15 3 1 9 22 fitness: 20 code: 2
+Total time taken is 710510
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 105 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 5 17 2 2 8 18 ; ] = best = -1.04378
+Total time taken is 710527
+Evaluating: 2 5 17 2 2 8 18 
+2 5 17 2 2 8 18 fitness: 20 code: 2
+Total time taken is 711784
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 106 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 4 21 3 1 6 23 ; ] = best = -0.959338
+Total time taken is 711800
+Evaluating: 6 4 21 3 1 6 23 
+6 4 21 3 1 6 23 fitness: 20 code: 2
+Total time taken is 713037
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 107 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 3 23 2 1 10 19 ; ] = best = -0.967294
+Total time taken is 713055
+Evaluating: 7 3 23 2 1 10 19 
+7 3 23 2 1 10 19 fitness: 20 code: 2
+Total time taken is 714426
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 108 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 6 16 3 1 8 18 ; ] = best = -0.978563
+Total time taken is 714443
+Evaluating: 3 6 16 3 1 8 18 
+3 6 16 3 1 8 18 fitness: 20 code: 2
+Total time taken is 715838
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 109 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 6 20 2 1 8 18 ; ] = best = -0.979123
+Total time taken is 715856
+Evaluating: 7 6 20 2 1 8 18 
+7 6 20 2 1 8 18 fitness: 20 code: 2
+Total time taken is 717186
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 110 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 4 7 3 1 6 20 ; ] = best = -0.97124
+Total time taken is 717202
+Evaluating: 5 4 7 3 1 6 20 
+5 4 7 3 1 6 20 fitness: 20 code: 2
+Total time taken is 718584
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 111 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 5 4 2 2 10 19 ; ] = best = -0.95134
+Total time taken is 718602
+Evaluating: 7 5 4 2 2 10 19 
+7 5 4 2 2 10 19 fitness: 20 code: 2
+Total time taken is 719912
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 112 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 6 13 2 1 9 19 ; ] = best = -0.980862
+Total time taken is 719930
+Evaluating: 5 6 13 2 1 9 19 
+5 6 13 2 1 9 19 fitness: 20 code: 2
+Total time taken is 721168
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 113 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 7 16 3 1 7 17 ; ] = best = -0.956095
+Total time taken is 721185
+Evaluating: 5 7 16 3 1 7 17 
+5 7 16 3 1 7 17 fitness: 20 code: 2
+Total time taken is 722528
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 114 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[9 7 4 3 2 5 25 ; ] = best = -0.993228
+Total time taken is 722544
+Evaluating: 9 7 4 3 2 5 25 
+9 7 4 3 2 5 25 fitness: 20 code: 2
+Total time taken is 723835
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 115 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 7 11 2 2 6 18 ; ] = best = -0.943233
+Total time taken is 723851
+Evaluating: 6 7 11 2 2 6 18 
+6 7 11 2 2 6 18 fitness: 20 code: 2
+Total time taken is 725221
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 116 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 8 10 2 2 10 23 ; ] = best = -0.96607
+Total time taken is 725239
+Evaluating: 4 8 10 2 2 10 23 
+4 8 10 2 2 10 23 fitness: 20 code: 2
+Total time taken is 726463
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 117 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 5 7 3 2 8 19 ; ] = best = -0.990368
+Total time taken is 726480
+Evaluating: 5 5 7 3 2 8 19 
+5 5 7 3 2 8 19 fitness: 20 code: 2
+Total time taken is 727754
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 118 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 6 11 3 1 6 20 ; ] = best = -1.00127
+Total time taken is 727771
+Evaluating: 1 6 11 3 1 6 20 
+1 6 11 3 1 6 20 fitness: 20 code: 2
+Total time taken is 729084
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 119 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[10 5 9 2 1 10 18 ; ] = best = -0.936573
+Total time taken is 729102
+Evaluating: 10 5 9 2 1 10 18 
+10 5 9 2 1 10 18 fitness: 20 code: 2
+Total time taken is 730502
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 120 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 6 16 3 1 7 21 ; ] = best = -0.922137
+Total time taken is 730519
+Evaluating: 8 6 16 3 1 7 21 
+8 6 16 3 1 7 21 fitness: 20 code: 2
+Total time taken is 731814
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 121 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 5 17 3 1 7 22 ; ] = best = -0.985369
+Total time taken is 731831
+Evaluating: 3 5 17 3 1 7 22 
+3 5 17 3 1 7 22 fitness: 20 code: 2
+Total time taken is 733082
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 122 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 5 19 3 1 10 19 ; ] = best = -1.0172
+Total time taken is 733099
+Evaluating: 7 5 19 3 1 10 19 
+7 5 19 3 1 10 19 fitness: 20 code: 2
+Total time taken is 734314
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 123 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 5 14 2 1 10 18 ; ] = best = -0.924551
+Total time taken is 734332
+Evaluating: 5 5 14 2 1 10 18 
+5 5 14 2 1 10 18 fitness: 20 code: 2
+Total time taken is 735600
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 124 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 5 20 2 1 10 21 ; ] = best = -0.93633
+Total time taken is 735617
+Evaluating: 4 5 20 2 1 10 21 
+4 5 20 2 1 10 21 fitness: 20 code: 2
+Total time taken is 736820
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 125 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 6 17 2 1 10 18 ; ] = best = -1.07042
+Total time taken is 736837
+Evaluating: 1 6 17 2 1 10 18 
+1 6 17 2 1 10 18 fitness: 20 code: 2
+Total time taken is 738172
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 126 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 7 17 2 1 10 19 ; ] = best = -1.03898
+Total time taken is 738190
+Evaluating: 5 7 17 2 1 10 19 
+5 7 17 2 1 10 19 fitness: 20 code: 2
+Total time taken is 739554
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 127 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 15 2 2 6 18 ; ] = best = -1.05993
+Total time taken is 739570
+Evaluating: 1 7 15 2 2 6 18 
+1 7 15 2 2 6 18 fitness: 20 code: 2
+Total time taken is 740817
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 128 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 8 20 2 2 9 16 ; ] = best = -0.954917
+Total time taken is 740834
+Evaluating: 6 8 20 2 2 9 16 
+6 8 20 2 2 9 16 fitness: 20 code: 2
+Total time taken is 742225
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 129 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 7 15 2 2 6 19 ; ] = best = -0.958261
+Total time taken is 742241
+Evaluating: 4 7 15 2 2 6 19 
+4 7 15 2 2 6 19 fitness: 20 code: 2
+Total time taken is 743605
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 130 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 6 20 3 2 5 19 ; ] = best = -0.971275
+Total time taken is 743621
+Evaluating: 1 6 20 3 2 5 19 
+1 6 20 3 2 5 19 fitness: 20 code: 2
+Total time taken is 744967
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 131 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 6 4 2 2 6 20 ; ] = best = -0.987168
+Total time taken is 744984
+Evaluating: 2 6 4 2 2 6 20 
+2 6 4 2 2 6 20 fitness: 20 code: 2
+Total time taken is 746337
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 132 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 18 2 1 10 17 ; ] = best = -0.961021
+Total time taken is 746355
+Evaluating: 1 7 18 2 1 10 17 
+1 7 18 2 1 10 17 fitness: 20 code: 2
+Total time taken is 747675
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 133 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 6 23 3 1 8 18 ; ] = best = -0.948335
+Total time taken is 747693
+Evaluating: 3 6 23 3 1 8 18 
+3 6 23 3 1 8 18 fitness: 20 code: 2
+Total time taken is 749014
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 134 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 4 14 2 1 10 21 ; ] = best = -1.00358
+Total time taken is 749032
+Evaluating: 1 4 14 2 1 10 21 
+1 4 14 2 1 10 21 fitness: 20 code: 2
+Total time taken is 750333
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 135 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 5 17 2 1 10 20 ; ] = best = -0.935832
+Total time taken is 750351
+Evaluating: 7 5 17 2 1 10 20 
+7 5 17 2 1 10 20 fitness: 20 code: 2
+Total time taken is 751732
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 136 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 7 17 3 1 10 19 ; ] = best = -0.953427
+Total time taken is 751749
+Evaluating: 8 7 17 3 1 10 19 
+8 7 17 3 1 10 19 fitness: 20 code: 2
+Total time taken is 753007
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 137 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 3 12 3 2 6 19 ; ] = best = -1.11128
+Total time taken is 753024
+Evaluating: 1 3 12 3 2 6 19 
+1 3 12 3 2 6 19 fitness: 20 code: 2
+Total time taken is 754307
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 138 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 8 21 2 2 7 19 ; ] = best = -0.965742
+Total time taken is 754324
+Evaluating: 2 8 21 2 2 7 19 
+2 8 21 2 2 7 19 fitness: 20 code: 2
+Total time taken is 755559
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 139 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 6 14 2 1 10 20 ; ] = best = -0.99437
+Total time taken is 755578
+Evaluating: 5 6 14 2 1 10 20 
+5 6 14 2 1 10 20 fitness: 20 code: 2
+Total time taken is 756846
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 140 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 6 15 2 2 7 18 ; ] = best = -0.957569
+Total time taken is 756863
+Evaluating: 1 6 15 2 2 7 18 
+1 6 15 2 2 7 18 fitness: 20 code: 2
+Total time taken is 758162
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 141 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 7 16 2 1 10 20 ; ] = best = -0.970115
+Total time taken is 758180
+Evaluating: 7 7 16 2 1 10 20 
+7 7 16 2 1 10 20 fitness: 20 code: 2
+Total time taken is 759490
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 142 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 6 12 2 2 8 19 ; ] = best = -0.96441
+Total time taken is 759507
+Evaluating: 7 6 12 2 2 8 19 
+7 6 12 2 2 8 19 fitness: 20 code: 2
+Total time taken is 760861
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 143 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 8 5 2 2 8 16 ; ] = best = -1.01832
+Total time taken is 760878
+Evaluating: 3 8 5 2 2 8 16 
+3 8 5 2 2 8 16 fitness: 20 code: 2
+Total time taken is 762142
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 144 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 4 16 2 2 9 20 ; ] = best = -0.966651
+Total time taken is 762159
+Evaluating: 3 4 16 2 2 9 20 
+3 4 16 2 2 9 20 fitness: 20 code: 2
+Total time taken is 763467
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 145 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 3 24 3 2 8 19 ; ] = best = -1.03677
+Total time taken is 763484
+Have run: 6 3 24 3 2 8 19 Evaluating: 1 2 8 3 2 7 10 
+1 2 8 3 2 7 10 fitness: 20 code: 2
+Total time taken is 764873
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 146 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 8 15 2 1 10 19 ; ] = best = -0.987628
+Total time taken is 764892
+Evaluating: 2 8 15 2 1 10 19 
+2 8 15 2 1 10 19 fitness: 20 code: 2
+Total time taken is 766290
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 147 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 4 18 2 1 7 19 ; ] = best = -1.00889
+Total time taken is 766309
+Evaluating: 5 4 18 2 1 7 19 
+5 4 18 2 1 7 19 fitness: 20 code: 2
+Total time taken is 767700
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 148 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 8 6 3 1 7 20 ; ] = best = -0.996299
+Total time taken is 767719
+Evaluating: 2 8 6 3 1 7 20 
+2 8 6 3 1 7 20 fitness: 20 code: 2
+Total time taken is 768924
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 149 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 20 2 2 6 20 ; ] = best = -1.04537
+Total time taken is 768942
+Evaluating: 1 7 20 2 2 6 20 
+1 7 20 2 2 6 20 fitness: 20 code: 2
+Total time taken is 770268
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 150 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 7 18 2 1 7 19 ; ] = best = -0.932533
+Total time taken is 770287
+Evaluating: 6 7 18 2 1 7 19 
+6 7 18 2 1 7 19 fitness: 20 code: 2
+Total time taken is 771647
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 151 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 7 19 2 1 8 21 ; ] = best = -0.980622
+Total time taken is 771666
+Evaluating: 3 7 19 2 1 8 21 
+3 7 19 2 1 8 21 fitness: 20 code: 2
+Total time taken is 773047
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 152 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[10 6 10 3 1 10 19 ; ] = best = -1.04273
+Total time taken is 773066
+Evaluating: 10 6 10 3 1 10 19 
+10 6 10 3 1 10 19 fitness: 20 code: 2
+Total time taken is 774318
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 153 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 24 2 1 10 17 ; ] = best = -0.989184
+Total time taken is 774337
+Evaluating: 1 5 24 2 1 10 17 
+1 5 24 2 1 10 17 fitness: 20 code: 2
+Total time taken is 775551
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 154 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 4 7 2 1 5 24 ; ] = best = -0.993805
+Total time taken is 775570
+Evaluating: 5 4 7 2 1 5 24 
+5 4 7 2 1 5 24 fitness: 20 code: 2
+Total time taken is 776928
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 155 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 4 10 2 1 5 21 ; ] = best = -0.992865
+Total time taken is 776946
+Evaluating: 4 4 10 2 1 5 21 
+4 4 10 2 1 5 21 fitness: 20 code: 2
+Total time taken is 778212
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 156 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 3 8 2 1 8 21 ; ] = best = -1.0064
+Total time taken is 778231
+Evaluating: 8 3 8 2 1 8 21 
+8 3 8 2 1 8 21 fitness: 20 code: 2
+Total time taken is 779457
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 157 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 9 1 1 10 16 ; ] = best = -0.979827
+Total time taken is 779476
+Evaluating: 1 7 9 1 1 10 16 
+1 7 9 1 1 10 16 fitness: 20 code: 2
+Total time taken is 780857
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 158 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 5 19 2 1 7 18 ; ] = best = -0.951571
+Total time taken is 780876
+Evaluating: 7 5 19 2 1 7 18 
+7 5 19 2 1 7 18 fitness: 20 code: 2
+Total time taken is 782111
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 159 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 5 21 3 1 9 17 ; ] = best = -0.972149
+Total time taken is 782130
+Evaluating: 8 5 21 3 1 9 17 
+8 5 21 3 1 9 17 fitness: 20 code: 2
+Total time taken is 783435
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 160 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 8 21 3 2 10 20 ; ] = best = -0.999201
+Total time taken is 783454
+Evaluating: 3 8 21 3 2 10 20 
+3 8 21 3 2 10 20 fitness: 20 code: 2
+Total time taken is 784714
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 161 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 6 16 1 1 8 19 ; ] = best = -0.99074
+Total time taken is 784733
+Evaluating: 4 6 16 1 1 8 19 
+4 6 16 1 1 8 19 fitness: 20 code: 2
+Total time taken is 785972
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 162 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 7 8 1 1 10 17 ; ] = best = -0.987615
+Total time taken is 785991
+Evaluating: 2 7 8 1 1 10 17 
+2 7 8 1 1 10 17 fitness: 20 code: 2
+Total time taken is 787223
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 163 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 2 20 3 1 6 19 ; ] = best = -0.973668
+Total time taken is 787241
+Evaluating: 1 2 20 3 1 6 19 
+1 2 20 3 1 6 19 fitness: 20 code: 2
+Total time taken is 788599
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 164 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 6 18 2 1 8 18 ; ] = best = -1.09387
+Total time taken is 788618
+Evaluating: 5 6 18 2 1 8 18 
+5 6 18 2 1 8 18 fitness: 20 code: 2
+Total time taken is 789823
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 165 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 20 3 1 5 21 ; ] = best = -0.952686
+Total time taken is 789842
+Evaluating: 1 7 20 3 1 5 21 
+1 7 20 3 1 5 21 fitness: 20 code: 2
+Total time taken is 791060
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 166 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 7 18 2 2 7 17 ; ] = best = -1.00749
+Total time taken is 791079
+Evaluating: 5 7 18 2 2 7 17 
+5 7 18 2 2 7 17 fitness: 20 code: 2
+Total time taken is 792379
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 167 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 2 6 2 1 8 21 ; ] = best = -0.988937
+Total time taken is 792397
+Evaluating: 3 2 6 2 1 8 21 
+3 2 6 2 1 8 21 fitness: 20 code: 2
+Total time taken is 793696
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 168 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 8 14 2 1 7 21 ; ] = best = -1.05229
+Total time taken is 793715
+Evaluating: 4 8 14 2 1 7 21 
+4 8 14 2 1 7 21 fitness: 20 code: 2
+Total time taken is 795063
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 169 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 6 12 2 1 9 18 ; ] = best = -1.01903
+Total time taken is 795082
+Evaluating: 6 6 12 2 1 9 18 
+6 6 12 2 1 9 18 fitness: 20 code: 2
+Total time taken is 796441
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 170 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 17 2 1 7 21 ; ] = best = -1.03021
+Total time taken is 796460
+Evaluating: 1 5 17 2 1 7 21 
+1 5 17 2 1 7 21 fitness: 20 code: 2
+Total time taken is 797696
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 171 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 8 8 2 1 8 19 ; ] = best = -1.02868
+Total time taken is 797715
+Evaluating: 2 8 8 2 1 8 19 
+2 8 8 2 1 8 19 fitness: 20 code: 2
+Total time taken is 799044
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 172 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[9 9 16 3 1 8 18 ; ] = best = -0.975864
+Total time taken is 799062
+Evaluating: 9 9 16 3 1 8 18 
+9 9 16 3 1 8 18 fitness: 20 code: 2
+Total time taken is 800386
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 173 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 8 10 2 1 6 20 ; ] = best = -0.998129
+Total time taken is 800404
+Evaluating: 2 8 10 2 1 6 20 
+2 8 10 2 1 6 20 fitness: 20 code: 2
+Total time taken is 801720
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 174 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 3 16 3 1 9 19 ; ] = best = -1.01177
+Total time taken is 801739
+Evaluating: 1 3 16 3 1 9 19 
+1 3 16 3 1 9 19 fitness: 20 code: 2
+Total time taken is 803135
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 175 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 20 2 1 8 19 ; ] = best = -1.01886
+Total time taken is 803154
+Evaluating: 1 7 20 2 1 8 19 
+1 7 20 2 1 8 19 fitness: 20 code: 2
+Total time taken is 804411
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 176 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 4 4 2 1 7 18 ; ] = best = -0.978734
+Total time taken is 804429
+Evaluating: 1 4 4 2 1 7 18 
+1 4 4 2 1 7 18 fitness: 20 code: 2
+Total time taken is 805779
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 177 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 6 11 2 1 9 17 ; ] = best = -0.962952
+Total time taken is 805798
+Evaluating: 6 6 11 2 1 9 17 
+6 6 11 2 1 9 17 fitness: 20 code: 2
+Total time taken is 807021
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 178 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 7 17 2 1 6 19 ; ] = best = -0.954661
+Total time taken is 807040
+Evaluating: 5 7 17 2 1 6 19 
+5 7 17 2 1 6 19 fitness: 20 code: 2
+Total time taken is 808408
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 179 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 3 13 2 1 7 20 ; ] = best = -1.01269
+Total time taken is 808426
+Evaluating: 1 3 13 2 1 7 20 
+1 3 13 2 1 7 20 fitness: 20 code: 2
+Total time taken is 809738
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 180 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 7 21 3 1 8 21 ; ] = best = -1.01892
+Total time taken is 809757
+Evaluating: 7 7 21 3 1 8 21 
+7 7 21 3 1 8 21 fitness: 20 code: 2
+Total time taken is 810958
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 181 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 8 24 3 1 10 19 ; ] = best = -0.964691
+Total time taken is 810977
+Evaluating: 3 8 24 3 1 10 19 
+3 8 24 3 1 10 19 fitness: 20 code: 2
+Total time taken is 812288
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 182 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 3 19 2 1 9 18 ; ] = best = -0.99092
+Total time taken is 812307
+Evaluating: 5 3 19 2 1 9 18 
+5 3 19 2 1 9 18 fitness: 20 code: 2
+Total time taken is 813518
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 183 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 3 18 3 1 8 17 ; ] = best = -0.948549
+Total time taken is 813537
+Evaluating: 1 3 18 3 1 8 17 
+1 3 18 3 1 8 17 fitness: 20 code: 2
+Total time taken is 814888
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 184 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 2 16 2 1 7 19 ; ] = best = -1.03969
+Total time taken is 814906
+Evaluating: 1 2 16 2 1 7 19 
+1 2 16 2 1 7 19 fitness: 20 code: 2
+Total time taken is 816279
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 185 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 6 7 2 1 7 19 ; ] = best = -0.966033
+Total time taken is 816298
+Evaluating: 7 6 7 2 1 7 19 
+7 6 7 2 1 7 19 fitness: 20 code: 2
+Total time taken is 817691
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 186 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 7 9 1 2 8 19 ; ] = best = -0.96187
+Total time taken is 817710
+Evaluating: 4 7 9 1 2 8 19 
+4 7 9 1 2 8 19 fitness: 20 code: 2
+Total time taken is 818976
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 187 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 7 12 2 1 8 20 ; ] = best = -0.969156
+Total time taken is 818995
+Evaluating: 8 7 12 2 1 8 20 
+8 7 12 2 1 8 20 fitness: 20 code: 2
+Total time taken is 820315
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 188 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 4 14 3 1 8 19 ; ] = best = -1.00432
+Total time taken is 820334
+Evaluating: 6 4 14 3 1 8 19 
+6 4 14 3 1 8 19 fitness: 20 code: 2
+Total time taken is 821643
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 189 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 5 16 3 2 7 19 ; ] = best = -1.01501
+Total time taken is 821662
+Evaluating: 4 5 16 3 2 7 19 
+4 5 16 3 2 7 19 fitness: 20 code: 2
+Total time taken is 822896
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 190 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 5 13 2 1 9 20 ; ] = best = -0.966505
+Total time taken is 822915
+Evaluating: 6 5 13 2 1 9 20 
+6 5 13 2 1 9 20 fitness: 20 code: 2
+Total time taken is 824143
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 191 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 6 24 2 1 6 19 ; ] = best = -0.994265
+Total time taken is 824162
+Evaluating: 5 6 24 2 1 6 19 
+5 6 24 2 1 6 19 fitness: 20 code: 2
+Total time taken is 825422
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 192 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 4 16 3 1 8 21 ; ] = best = -0.961054
+Total time taken is 825441
+Evaluating: 2 4 16 3 1 8 21 
+2 4 16 3 1 8 21 fitness: 20 code: 2
+Total time taken is 826652
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 193 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 8 15 2 1 5 19 ; ] = best = -1.01478
+Total time taken is 826671
+Evaluating: 1 8 15 2 1 5 19 
+1 8 15 2 1 5 19 fitness: 20 code: 2
+Total time taken is 827981
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 194 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 7 15 2 1 6 19 ; ] = best = -0.978017
+Total time taken is 827999
+Evaluating: 4 7 15 2 1 6 19 
+4 7 15 2 1 6 19 fitness: 20 code: 2
+Total time taken is 829231
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 195 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 8 20 2 1 9 21 ; ] = best = -0.986247
+Total time taken is 829250
+Evaluating: 4 8 20 2 1 9 21 
+4 8 20 2 1 9 21 fitness: 20 code: 2
+Total time taken is 830539
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 196 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 7 7 3 1 5 20 ; ] = best = -0.996994
+Total time taken is 830557
+Evaluating: 2 7 7 3 1 5 20 
+2 7 7 3 1 5 20 fitness: 20 code: 2
+Total time taken is 831932
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 197 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 15 1 1 9 20 ; ] = best = -0.990971
+Total time taken is 831951
+Evaluating: 1 7 15 1 1 9 20 
+1 7 15 1 1 9 20 fitness: 20 code: 2
+Total time taken is 833227
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 198 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 7 24 2 1 7 18 ; ] = best = -1.0472
+Total time taken is 833246
+Evaluating: 2 7 24 2 1 7 18 
+2 7 24 2 1 7 18 fitness: 20 code: 2
+Total time taken is 834565
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 199 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 9 24 2 1 7 21 ; ] = best = -1.0082
+Total time taken is 834583
+Evaluating: 2 9 24 2 1 7 21 
+2 9 24 2 1 7 21 fitness: 20 code: 2
+Total time taken is 835850
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 200 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 7 17 3 1 6 20 ; ] = best = -1.00956
+Total time taken is 835868
+Evaluating: 7 7 17 3 1 6 20 
+7 7 17 3 1 6 20 fitness: 20 code: 2
+Total time taken is 837237
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 201 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[9 3 19 3 1 10 17 ; ] = best = -0.993229
+Total time taken is 837256
+Evaluating: 9 3 19 3 1 10 17 
+9 3 19 3 1 10 17 fitness: 20 code: 2
+Total time taken is 838466
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 202 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 8 24 3 1 5 21 ; ] = best = -0.968327
+Total time taken is 838485
+Evaluating: 5 8 24 3 1 5 21 
+5 8 24 3 1 5 21 fitness: 20 code: 2
+Total time taken is 839769
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 203 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[10 7 16 2 1 10 19 ; ] = best = -0.955413
+Total time taken is 839788
+Evaluating: 10 7 16 2 1 10 19 
+10 7 16 2 1 10 19 fitness: 20 code: 2
+Total time taken is 841063
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 204 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 5 14 3 1 7 24 ; ] = best = -1.02678
+Total time taken is 841082
+Evaluating: 5 5 14 3 1 7 24 
+5 5 14 3 1 7 24 fitness: 20 code: 2
+Total time taken is 842414
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 205 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 8 21 3 1 4 21 ; ] = best = -1.04736
+Total time taken is 842432
+Evaluating: 1 8 21 3 1 4 21 
+1 8 21 3 1 4 21 fitness: 20 code: 2
+Total time taken is 843788
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 206 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 5 14 2 1 7 19 ; ] = best = -0.986072
+Total time taken is 843807
+Evaluating: 6 5 14 2 1 7 19 
+6 5 14 2 1 7 19 fitness: 20 code: 2
+Total time taken is 845081
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 207 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 2 18 2 1 8 20 ; ] = best = -0.995288
+Total time taken is 845100
+Evaluating: 1 2 18 2 1 8 20 
+1 2 18 2 1 8 20 fitness: 20 code: 2
+Total time taken is 846312
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 208 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 5 23 2 1 10 18 ; ] = best = -1.05611
+Total time taken is 846331
+Evaluating: 3 5 23 2 1 10 18 
+3 5 23 2 1 10 18 fitness: 20 code: 2
+Total time taken is 847702
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 209 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 3 22 3 1 9 20 ; ] = best = -0.991103
+Total time taken is 847721
+Evaluating: 1 3 22 3 1 9 20 
+1 3 22 3 1 9 20 fitness: 20 code: 2
+Total time taken is 848979
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 210 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 4 20 3 1 8 22 ; ] = best = -1.01194
+Total time taken is 848997
+Evaluating: 2 4 20 3 1 8 22 
+2 4 20 3 1 8 22 fitness: 20 code: 2
+Total time taken is 850208
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 211 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 4 3 1 8 19 ; ] = best = -1.05708
+Total time taken is 850227
+Evaluating: 1 7 4 3 1 8 19 
+1 7 4 3 1 8 19 fitness: 20 code: 2
+Total time taken is 851539
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 212 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 5 16 2 1 7 19 ; ] = best = -1.05669
+Total time taken is 851558
+Evaluating: 3 5 16 2 1 7 19 
+3 5 16 2 1 7 19 fitness: 20 code: 2
+Total time taken is 852785
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 213 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 7 14 2 1 7 19 ; ] = best = -0.993578
+Total time taken is 852804
+Evaluating: 6 7 14 2 1 7 19 
+6 7 14 2 1 7 19 fitness: 20 code: 2
+Total time taken is 854101
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 214 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 4 16 1 1 9 21 ; ] = best = -0.973372
+Total time taken is 854120
+Evaluating: 5 4 16 1 1 9 21 
+5 4 16 1 1 9 21 fitness: 20 code: 2
+Total time taken is 855419
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 215 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 13 2 1 5 18 ; ] = best = -1.0018
+Total time taken is 855438
+Evaluating: 1 5 13 2 1 5 18 
+1 5 13 2 1 5 18 fitness: 20 code: 2
+Total time taken is 856715
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 216 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 7 9 2 1 8 18 ; ] = best = -0.996379
+Total time taken is 856734
+Evaluating: 2 7 9 2 1 8 18 
+2 7 9 2 1 8 18 fitness: 20 code: 2
+Total time taken is 857942
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 217 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 3 19 2 1 5 22 ; ] = best = -1.03308
+Total time taken is 857961
+Evaluating: 2 3 19 2 1 5 22 
+2 3 19 2 1 5 22 fitness: 20 code: 2
+Total time taken is 859357
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 218 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 3 15 3 1 6 20 ; ] = best = -0.996798
+Total time taken is 859376
+Evaluating: 1 3 15 3 1 6 20 
+1 3 15 3 1 6 20 fitness: 20 code: 2
+Total time taken is 860586
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 219 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 5 6 3 1 8 18 ; ] = best = -1.03557
+Total time taken is 860605
+Evaluating: 3 5 6 3 1 8 18 
+3 5 6 3 1 8 18 fitness: 20 code: 2
+Total time taken is 861806
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 220 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 4 15 2 1 7 20 ; ] = best = -0.988855
+Total time taken is 861825
+Evaluating: 2 4 15 2 1 7 20 
+2 4 15 2 1 7 20 fitness: 20 code: 2
+Total time taken is 863214
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 221 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 7 20 2 1 8 18 ; ] = best = -1.01179
+Total time taken is 863233
+Evaluating: 4 7 20 2 1 8 18 
+4 7 20 2 1 8 18 fitness: 20 code: 2
+Total time taken is 864492
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 222 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 6 15 2 1 5 21 ; ] = best = -1.02157
+Total time taken is 864511
+Evaluating: 5 6 15 2 1 5 21 
+5 6 15 2 1 5 21 fitness: 20 code: 2
+Total time taken is 865745
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 223 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 4 12 3 1 7 20 ; ] = best = -0.954886
+Total time taken is 865764
+Evaluating: 3 4 12 3 1 7 20 
+3 4 12 3 1 7 20 fitness: 20 code: 2
+Total time taken is 867033
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 224 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 16 2 1 7 21 ; ] = best = -1.00916
+Total time taken is 867052
+Evaluating: 1 5 16 2 1 7 21 
+1 5 16 2 1 7 21 fitness: 20 code: 2
+Total time taken is 868282
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 225 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 6 16 2 2 7 18 ; ] = best = -0.972633
+Total time taken is 868301
+Evaluating: 2 6 16 2 2 7 18 
+2 6 16 2 2 7 18 fitness: 20 code: 2
+Total time taken is 869660
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 226 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 9 4 2 1 7 21 ; ] = best = -0.974986
+Total time taken is 869678
+Evaluating: 4 9 4 2 1 7 21 
+4 9 4 2 1 7 21 fitness: 20 code: 2
+Total time taken is 870992
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 227 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 4 11 2 1 8 18 ; ] = best = -0.98543
+Total time taken is 871011
+Evaluating: 1 4 11 2 1 8 18 
+1 4 11 2 1 8 18 fitness: 20 code: 2
+Total time taken is 872221
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 228 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 8 12 3 1 6 21 ; ] = best = -0.951063
+Total time taken is 872240
+Evaluating: 3 8 12 3 1 6 21 
+3 8 12 3 1 6 21 fitness: 20 code: 2
+Total time taken is 873470
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 229 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 11 2 1 8 17 ; ] = best = -0.988813
+Total time taken is 873489
+Evaluating: 1 7 11 2 1 8 17 
+1 7 11 2 1 8 17 fitness: 20 code: 2
+Total time taken is 874846
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 230 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 4 12 2 1 7 18 ; ] = best = -1.00206
+Total time taken is 874865
+Evaluating: 1 4 12 2 1 7 18 
+1 4 12 2 1 7 18 fitness: 20 code: 2
+Total time taken is 876099
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 231 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 6 20 1 2 8 19 ; ] = best = -0.984205
+Total time taken is 876118
+Evaluating: 4 6 20 1 2 8 19 
+4 6 20 1 2 8 19 fitness: 20 code: 2
+Total time taken is 877480
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 232 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 7 11 2 1 8 19 ; ] = best = -1.02803
+Total time taken is 877499
+Evaluating: 3 7 11 2 1 8 19 
+3 7 11 2 1 8 19 fitness: 20 code: 2
+Total time taken is 878716
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 233 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 3 24 3 1 7 20 ; ] = best = -0.945756
+Total time taken is 878735
+Evaluating: 2 3 24 3 1 7 20 
+2 3 24 3 1 7 20 fitness: 20 code: 2
+Total time taken is 879936
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 234 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 4 17 2 1 9 21 ; ] = best = -0.949667
+Total time taken is 879955
+Evaluating: 6 4 17 2 1 9 21 
+6 4 17 2 1 9 21 fitness: 20 code: 2
+Total time taken is 881332
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 235 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 3 8 3 1 10 21 ; ] = best = -1.09125
+Total time taken is 881351
+Evaluating: 4 3 8 3 1 10 21 
+4 3 8 3 1 10 21 fitness: 20 code: 2
+Total time taken is 882676
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 236 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 3 18 2 1 7 19 ; ] = best = -1.01716
+Total time taken is 882695
+Evaluating: 7 3 18 2 1 7 19 
+7 3 18 2 1 7 19 fitness: 20 code: 2
+Total time taken is 884060
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 237 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 6 10 3 1 10 19 ; ] = best = -0.966304
+Total time taken is 884079
+Evaluating: 3 6 10 3 1 10 19 
+3 6 10 3 1 10 19 fitness: 20 code: 2
+Total time taken is 885386
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 238 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 6 21 3 1 6 22 ; ] = best = -0.989115
+Total time taken is 885405
+Evaluating: 1 6 21 3 1 6 22 
+1 6 21 3 1 6 22 fitness: 20 code: 2
+Total time taken is 886663
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 239 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 6 21 1 2 7 20 ; ] = best = -1.02895
+Total time taken is 886682
+Evaluating: 1 6 21 1 2 7 20 
+1 6 21 1 2 7 20 fitness: 20 code: 2
+Total time taken is 887974
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 240 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 4 11 2 2 8 20 ; ] = best = -1.01779
+Total time taken is 887993
+Evaluating: 4 4 11 2 2 8 20 
+4 4 11 2 2 8 20 fitness: 20 code: 2
+Total time taken is 889350
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 241 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[9 6 20 1 1 9 21 ; ] = best = -0.966223
+Total time taken is 889369
+Evaluating: 9 6 20 1 1 9 21 
+9 6 20 1 1 9 21 fitness: 20 code: 2
+Total time taken is 890694
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 242 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 8 11 2 1 10 17 ; ] = best = -0.979892
+Total time taken is 890713
+Evaluating: 2 8 11 2 1 10 17 
+2 8 11 2 1 10 17 fitness: 20 code: 2
+Total time taken is 892058
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 243 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 4 18 2 1 6 22 ; ] = best = -1.02375
+Total time taken is 892077
+Evaluating: 4 4 18 2 1 6 22 
+4 4 18 2 1 6 22 fitness: 20 code: 2
+Total time taken is 893418
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 244 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[9 3 13 1 1 10 20 ; ] = best = -0.973159
+Total time taken is 893437
+Evaluating: 9 3 13 1 1 10 20 
+9 3 13 1 1 10 20 fitness: 20 code: 2
+Total time taken is 894669
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 245 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 7 13 2 1 8 20 ; ] = best = -1.0205
+Total time taken is 894688
+Evaluating: 7 7 13 2 1 8 20 
+7 7 13 2 1 8 20 fitness: 20 code: 2
+Total time taken is 895963
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 246 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 5 11 2 1 8 19 ; ] = best = -0.99615
+Total time taken is 895982
+Evaluating: 4 5 11 2 1 8 19 
+4 5 11 2 1 8 19 fitness: 20 code: 2
+Total time taken is 897289
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 247 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 3 15 2 1 7 19 ; ] = best = -1.11367
+Total time taken is 897308
+Evaluating: 1 3 15 2 1 7 19 
+1 3 15 2 1 7 19 fitness: 20 code: 2
+Total time taken is 898542
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 248 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 4 24 2 1 6 20 ; ] = best = -1.00054
+Total time taken is 898561
+Evaluating: 8 4 24 2 1 6 20 
+8 4 24 2 1 6 20 fitness: 20 code: 2
+Total time taken is 899949
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 249 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 3 15 3 1 4 20 ; ] = best = -0.977689
+Total time taken is 899967
+Evaluating: 3 3 15 3 1 4 20 
+3 3 15 3 1 4 20 fitness: 20 code: 2
+Total time taken is 901250
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 250 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 2 15 2 1 10 19 ; ] = best = -0.995311
+Total time taken is 901269
+Evaluating: 7 2 15 2 1 10 19 
+7 2 15 2 1 10 19 fitness: 20 code: 2
+Total time taken is 902602
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 251 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 5 20 2 1 7 20 ; ] = best = -0.962841
+Total time taken is 902621
+Evaluating: 4 5 20 2 1 7 20 
+4 5 20 2 1 7 20 fitness: 20 code: 2
+Total time taken is 903860
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 252 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 5 21 1 1 8 19 ; ] = best = -0.986505
+Total time taken is 903879
+Evaluating: 4 5 21 1 1 8 19 
+4 5 21 1 1 8 19 fitness: 20 code: 2
+Total time taken is 905190
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 253 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 7 9 2 1 10 19 ; ] = best = -0.984888
+Total time taken is 905209
+Evaluating: 4 7 9 2 1 10 19 
+4 7 9 2 1 10 19 fitness: 20 code: 2
+Total time taken is 906483
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 254 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 3 15 2 1 7 21 ; ] = best = -1.00203
+Total time taken is 906502
+Evaluating: 3 3 15 2 1 7 21 
+3 3 15 2 1 7 21 fitness: 20 code: 2
+Total time taken is 907806
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 255 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 4 16 2 1 5 21 ; ] = best = -1.04742
+Total time taken is 907824
+Evaluating: 4 4 16 2 1 5 21 
+4 4 16 2 1 5 21 fitness: 20 code: 2
+Total time taken is 909148
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 256 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 4 17 1 1 9 20 ; ] = best = -1.01962
+Total time taken is 909167
+Evaluating: 6 4 17 1 1 9 20 
+6 4 17 1 1 9 20 fitness: 20 code: 2
+Total time taken is 910386
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 257 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 5 20 1 1 8 19 ; ] = best = -1.02706
+Total time taken is 910405
+Evaluating: 4 5 20 1 1 8 19 
+4 5 20 1 1 8 19 fitness: 20 code: 2
+Total time taken is 911753
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 258 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 6 21 2 1 7 18 ; ] = best = -1.04799
+Total time taken is 911772
+Evaluating: 1 6 21 2 1 7 18 
+1 6 21 2 1 7 18 fitness: 20 code: 2
+Total time taken is 913161
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 259 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 13 2 1 8 18 ; ] = best = -1.01088
+Total time taken is 913180
+Evaluating: 1 5 13 2 1 8 18 
+1 5 13 2 1 8 18 fitness: 20 code: 2
+Total time taken is 914565
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 260 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 3 18 3 1 8 20 ; ] = best = -1.00535
+Total time taken is 914584
+Evaluating: 2 3 18 3 1 8 20 
+2 3 18 3 1 8 20 fitness: 20 code: 2
+Total time taken is 915922
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 261 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 4 19 1 1 9 18 ; ] = best = -0.990656
+Total time taken is 915941
+Evaluating: 4 4 19 1 1 9 18 
+4 4 19 1 1 9 18 fitness: 20 code: 2
+Total time taken is 917166
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 262 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 2 22 2 1 8 19 ; ] = best = -0.968183
+Total time taken is 917184
+Evaluating: 3 2 22 2 1 8 19 
+3 2 22 2 1 8 19 fitness: 20 code: 2
+Total time taken is 918425
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 263 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 8 10 2 1 7 19 ; ] = best = -0.958146
+Total time taken is 918444
+Evaluating: 6 8 10 2 1 7 19 
+6 8 10 2 1 7 19 fitness: 20 code: 2
+Total time taken is 919677
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 264 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 4 7 2 1 9 17 ; ] = best = -0.984386
+Total time taken is 919696
+Evaluating: 2 4 7 2 1 9 17 
+2 4 7 2 1 9 17 fitness: 20 code: 2
+Total time taken is 921028
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 265 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 7 4 3 1 8 19 ; ] = best = -0.945948
+Total time taken is 921047
+Evaluating: 6 7 4 3 1 8 19 
+6 7 4 3 1 8 19 fitness: 20 code: 2
+Total time taken is 922285
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 266 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 4 21 2 1 8 19 ; ] = best = -1.00799
+Total time taken is 922304
+Evaluating: 2 4 21 2 1 8 19 
+2 4 21 2 1 8 19 fitness: 20 code: 2
+Total time taken is 923557
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 267 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[9 3 24 2 1 10 20 ; ] = best = -0.972422
+Total time taken is 923576
+Evaluating: 9 3 24 2 1 10 20 
+9 3 24 2 1 10 20 fitness: 20 code: 2
+Total time taken is 924795
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 268 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 6 12 3 1 9 19 ; ] = best = -1.05596
+Total time taken is 924814
+Evaluating: 5 6 12 3 1 9 19 
+5 6 12 3 1 9 19 fitness: 20 code: 2
+Total time taken is 926045
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 269 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 6 13 2 1 4 21 ; ] = best = -0.988187
+Total time taken is 926063
+Evaluating: 5 6 13 2 1 4 21 
+5 6 13 2 1 4 21 fitness: 20 code: 2
+Total time taken is 927304
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 270 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 6 12 3 1 6 20 ; ] = best = -0.973501
+Total time taken is 927323
+Evaluating: 2 6 12 3 1 6 20 
+2 6 12 3 1 6 20 fitness: 20 code: 2
+Total time taken is 928691
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 271 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 3 13 3 1 7 18 ; ] = best = -0.977309
+Total time taken is 928710
+Evaluating: 1 3 13 3 1 7 18 
+1 3 13 3 1 7 18 fitness: 20 code: 2
+Total time taken is 929956
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 272 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[9 2 20 2 1 8 18 ; ] = best = -1.00329
+Total time taken is 929975
+Evaluating: 9 2 20 2 1 8 18 
+9 2 20 2 1 8 18 fitness: 20 code: 2
+Total time taken is 931311
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 273 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 5 12 3 1 6 21 ; ] = best = -0.985838
+Total time taken is 931330
+Evaluating: 4 5 12 3 1 6 21 
+4 5 12 3 1 6 21 fitness: 20 code: 2
+Total time taken is 932722
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 274 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 8 17 2 1 8 20 ; ] = best = -0.974006
+Total time taken is 932741
+Evaluating: 5 8 17 2 1 8 20 
+5 8 17 2 1 8 20 fitness: 20 code: 2
+Total time taken is 933944
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 275 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 20 2 1 8 20 ; ] = best = -1.02999
+Total time taken is 933963
+Evaluating: 1 7 20 2 1 8 20 
+1 7 20 2 1 8 20 fitness: 20 code: 2
+Total time taken is 935192
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 276 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 8 9 2 1 6 19 ; ] = best = -0.925194
+Total time taken is 935210
+Evaluating: 5 8 9 2 1 6 19 
+5 8 9 2 1 6 19 fitness: 20 code: 2
+Total time taken is 936597
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 277 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[9 7 8 3 1 6 19 ; ] = best = -0.944247
+Total time taken is 936616
+Evaluating: 9 7 8 3 1 6 19 
+9 7 8 3 1 6 19 fitness: 20 code: 2
+Total time taken is 938000
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 278 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 5 16 2 1 7 20 ; ] = best = -0.997013
+Total time taken is 938019
+Evaluating: 6 5 16 2 1 7 20 
+6 5 16 2 1 7 20 fitness: 20 code: 2
+Total time taken is 939377
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 279 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 14 2 1 8 19 ; ] = best = -0.983853
+Total time taken is 939396
+Evaluating: 1 7 14 2 1 8 19 
+1 7 14 2 1 8 19 fitness: 20 code: 2
+Total time taken is 940713
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 280 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 3 22 2 1 9 17 ; ] = best = -0.978299
+Total time taken is 940732
+Evaluating: 6 3 22 2 1 9 17 
+6 3 22 2 1 9 17 fitness: 20 code: 2
+Total time taken is 942043
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 281 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[10 6 4 2 1 6 20 ; ] = best = -1.00079
+Total time taken is 942062
+Evaluating: 10 6 4 2 1 6 20 
+10 6 4 2 1 6 20 fitness: 20 code: 2
+Total time taken is 943378
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 282 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 6 14 2 1 7 21 ; ] = best = -1.00261
+Total time taken is 943397
+Evaluating: 2 6 14 2 1 7 21 
+2 6 14 2 1 7 21 fitness: 20 code: 2
+Total time taken is 944751
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 283 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 5 10 2 1 8 19 ; ] = best = -0.992539
+Total time taken is 944770
+Evaluating: 8 5 10 2 1 8 19 
+8 5 10 2 1 8 19 fitness: 20 code: 2
+Total time taken is 946158
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 284 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 9 15 2 1 9 18 ; ] = best = -0.96531
+Total time taken is 946177
+Evaluating: 6 9 15 2 1 9 18 
+6 9 15 2 1 9 18 fitness: 20 code: 2
+Total time taken is 947516
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 285 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 7 15 2 1 7 19 ; ] = best = -1.11283
+Total time taken is 947535
+Evaluating: 2 7 15 2 1 7 19 
+2 7 15 2 1 7 19 fitness: 20 code: 2
+Total time taken is 948861
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 286 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 4 16 3 1 8 22 ; ] = best = -0.953596
+Total time taken is 948880
+Evaluating: 5 4 16 3 1 8 22 
+5 4 16 3 1 8 22 fitness: 20 code: 2
+Total time taken is 950157
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 287 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 9 13 2 1 7 20 ; ] = best = -0.968429
+Total time taken is 950175
+Evaluating: 7 9 13 2 1 7 20 
+7 9 13 2 1 7 20 fitness: 20 code: 2
+Total time taken is 951401
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 288 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 4 15 2 1 8 21 ; ] = best = -0.974851
+Total time taken is 951420
+Evaluating: 7 4 15 2 1 8 21 
+7 4 15 2 1 8 21 fitness: 20 code: 2
+Total time taken is 952734
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 289 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 8 21 2 1 7 19 ; ] = best = -0.997903
+Total time taken is 952753
+Evaluating: 6 8 21 2 1 7 19 
+6 8 21 2 1 7 19 fitness: 20 code: 2
+Total time taken is 954064
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 290 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 5 17 3 1 7 21 ; ] = best = -1.00989
+Total time taken is 954083
+Evaluating: 5 5 17 3 1 7 21 
+5 5 17 3 1 7 21 fitness: 20 code: 2
+Total time taken is 955464
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 291 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 8 13 2 1 6 20 ; ] = best = -1.02361
+Total time taken is 955482
+Evaluating: 1 8 13 2 1 6 20 
+1 8 13 2 1 6 20 fitness: 20 code: 2
+Total time taken is 956788
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 292 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 4 17 2 1 6 17 ; ] = best = -0.998061
+Total time taken is 956807
+Evaluating: 1 4 17 2 1 6 17 
+1 4 17 2 1 6 17 fitness: 20 code: 2
+Total time taken is 958037
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 293 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 6 22 2 1 10 19 ; ] = best = -1.00888
+Total time taken is 958056
+Evaluating: 1 6 22 2 1 10 19 
+1 6 22 2 1 10 19 fitness: 20 code: 2
+Total time taken is 959395
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 294 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 5 12 2 1 6 19 ; ] = best = -0.982602
+Total time taken is 959413
+Evaluating: 5 5 12 2 1 6 19 
+5 5 12 2 1 6 19 fitness: 20 code: 2
+Total time taken is 960799
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 295 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 6 15 1 1 8 21 ; ] = best = -0.998207
+Total time taken is 960818
+Evaluating: 3 6 15 1 1 8 21 
+3 6 15 1 1 8 21 fitness: 20 code: 2
+Total time taken is 962163
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 296 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 5 15 2 1 6 19 ; ] = best = -0.978909
+Total time taken is 962182
+Evaluating: 3 5 15 2 1 6 19 
+3 5 15 2 1 6 19 fitness: 20 code: 2
+Total time taken is 963480
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 297 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 8 22 2 1 7 18 ; ] = best = -0.987662
+Total time taken is 963499
+Evaluating: 4 8 22 2 1 7 18 
+4 8 22 2 1 7 18 fitness: 20 code: 2
+Total time taken is 964739
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 298 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 4 18 3 1 10 23 ; ] = best = -0.95291
+Total time taken is 964758
+Evaluating: 5 4 18 3 1 10 23 
+5 4 18 3 1 10 23 fitness: 20 code: 2
+Total time taken is 966089
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 299 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 9 2 1 9 22 ; ] = best = -1.00552
+Total time taken is 966108
+Evaluating: 1 5 9 2 1 9 22 
+1 5 9 2 1 9 22 fitness: 20 code: 2
+Total time taken is 967404
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 300 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 9 8 2 1 9 19 ; ] = best = -1.00623
+Total time taken is 967423
+Evaluating: 3 9 8 2 1 9 19 
+3 9 8 2 1 9 19 fitness: 20 code: 2
+Total time taken is 968777
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 301 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 18 2 1 5 20 ; ] = best = -0.990844
+Total time taken is 968796
+Evaluating: 1 5 18 2 1 5 20 
+1 5 18 2 1 5 20 fitness: 20 code: 2
+Total time taken is 970084
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 302 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 5 17 3 1 6 20 ; ] = best = -0.998332
+Total time taken is 970103
+Evaluating: 6 5 17 3 1 6 20 
+6 5 17 3 1 6 20 fitness: 20 code: 2
+Total time taken is 971324
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 303 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 2 19 2 1 7 20 ; ] = best = -0.977633
+Total time taken is 971342
+Evaluating: 3 2 19 2 1 7 20 
+3 2 19 2 1 7 20 fitness: 20 code: 2
+Total time taken is 972704
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 304 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 3 13 3 1 8 20 ; ] = best = -0.948706
+Total time taken is 972723
+Evaluating: 7 3 13 3 1 8 20 
+7 3 13 3 1 8 20 fitness: 20 code: 2
+Total time taken is 974072
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 305 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 4 6 3 2 9 21 ; ] = best = -1.04285
+Total time taken is 974090
+Evaluating: 5 4 6 3 2 9 21 
+5 4 6 3 2 9 21 fitness: 20 code: 2
+Total time taken is 975403
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 306 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 3 8 2 1 7 20 ; ] = best = -1.00279
+Total time taken is 975422
+Evaluating: 1 3 8 2 1 7 20 
+1 3 8 2 1 7 20 fitness: 20 code: 2
+Total time taken is 976707
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 307 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 4 20 1 1 10 22 ; ] = best = -0.961396
+Total time taken is 976726
+Evaluating: 1 4 20 1 1 10 22 
+1 4 20 1 1 10 22 fitness: 20 code: 2
+Total time taken is 977997
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 308 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 20 3 1 7 18 ; ] = best = -1.01609
+Total time taken is 978016
+Evaluating: 1 7 20 3 1 7 18 
+1 7 20 3 1 7 18 fitness: 20 code: 2
+Total time taken is 979259
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 309 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 7 12 1 1 9 20 ; ] = best = -0.990764
+Total time taken is 979278
+Evaluating: 5 7 12 1 1 9 20 
+5 7 12 1 1 9 20 fitness: 20 code: 2
+Total time taken is 980492
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 310 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 18 3 1 6 20 ; ] = best = -1.06145
+Total time taken is 980511
+Evaluating: 1 7 18 3 1 6 20 
+1 7 18 3 1 6 20 fitness: 20 code: 2
+Total time taken is 981727
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 311 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 6 9 2 1 8 18 ; ] = best = -1.01379
+Total time taken is 981746
+Evaluating: 2 6 9 2 1 8 18 
+2 6 9 2 1 8 18 fitness: 20 code: 2
+Total time taken is 983103
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 312 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[9 3 23 2 1 9 19 ; ] = best = -0.93592
+Total time taken is 983122
+Evaluating: 9 3 23 2 1 9 19 
+9 3 23 2 1 9 19 fitness: 20 code: 2
+Total time taken is 984334
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 313 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 4 18 2 1 6 19 ; ] = best = -1.01558
+Total time taken is 984353
+Evaluating: 3 4 18 2 1 6 19 
+3 4 18 2 1 6 19 fitness: 20 code: 2
+Total time taken is 985697
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 314 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 5 5 2 1 7 20 ; ] = best = -1.04263
+Total time taken is 985716
+Evaluating: 8 5 5 2 1 7 20 
+8 5 5 2 1 7 20 fitness: 20 code: 2
+Total time taken is 987044
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 315 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 4 13 3 1 10 19 ; ] = best = -0.977453
+Total time taken is 987063
+Evaluating: 3 4 13 3 1 10 19 
+3 4 13 3 1 10 19 fitness: 20 code: 2
+Total time taken is 988355
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 316 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 7 10 2 1 9 20 ; ] = best = -0.961236
+Total time taken is 988374
+Evaluating: 8 7 10 2 1 9 20 
+8 7 10 2 1 9 20 fitness: 20 code: 2
+Total time taken is 989586
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 317 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 5 23 2 1 7 18 ; ] = best = -1.04047
+Total time taken is 989605
+Evaluating: 5 5 23 2 1 7 18 
+5 5 23 2 1 7 18 fitness: 20 code: 2
+Total time taken is 990821
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 318 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 6 19 3 2 6 20 ; ] = best = -1.02639
+Total time taken is 990840
+Evaluating: 7 6 19 3 2 6 20 
+7 6 19 3 2 6 20 fitness: 20 code: 2
+Total time taken is 992228
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 319 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 6 14 2 1 6 18 ; ] = best = -0.983554
+Total time taken is 992247
+Evaluating: 7 6 14 2 1 6 18 
+7 6 14 2 1 6 18 fitness: 20 code: 2
+Total time taken is 993592
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 320 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[9 7 24 2 1 9 19 ; ] = best = -0.981932
+Total time taken is 993611
+Evaluating: 9 7 24 2 1 9 19 
+9 7 24 2 1 9 19 fitness: 20 code: 2
+Total time taken is 994875
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 321 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 8 15 3 1 7 24 ; ] = best = -0.972436
+Total time taken is 994894
+Evaluating: 2 8 15 3 1 7 24 
+2 8 15 3 1 7 24 fitness: 20 code: 2
+Total time taken is 996118
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 322 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 3 23 1 1 10 19 ; ] = best = -1.02867
+Total time taken is 996137
+Evaluating: 3 3 23 1 1 10 19 
+3 3 23 1 1 10 19 fitness: 20 code: 2
+Total time taken is 997501
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 323 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 5 4 2 1 8 20 ; ] = best = -1.00999
+Total time taken is 997520
+Evaluating: 4 5 4 2 1 8 20 
+4 5 4 2 1 8 20 fitness: 20 code: 2
+Total time taken is 998881
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 324 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 7 19 2 1 8 21 ; ] = best = -0.985336
+Total time taken is 998900
+Evaluating: 7 7 19 2 1 8 21 
+7 7 19 2 1 8 21 fitness: 20 code: 2
+Total time taken is 1000231
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 325 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 3 5 2 1 6 18 ; ] = best = -0.977078
+Total time taken is 1000250
+Evaluating: 4 3 5 2 1 6 18 
+4 3 5 2 1 6 18 fitness: 20 code: 2
+Total time taken is 1001459
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 326 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 2 20 2 1 10 17 ; ] = best = -1.0422
+Total time taken is 1001478
+Evaluating: 5 2 20 2 1 10 17 
+5 2 20 2 1 10 17 fitness: 20 code: 2
+Total time taken is 1002789
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 327 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[10 8 10 2 1 10 18 ; ] = best = -0.962972
+Total time taken is 1002808
+Evaluating: 10 8 10 2 1 10 18 
+10 8 10 2 1 10 18 fitness: 20 code: 2
+Total time taken is 1004193
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 328 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 5 6 2 1 8 20 ; ] = best = -1.02416
+Total time taken is 1004212
+Evaluating: 8 5 6 2 1 8 20 
+8 5 6 2 1 8 20 fitness: 20 code: 2
+Total time taken is 1005558
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 329 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 6 17 3 1 8 19 ; ] = best = -1.12115
+Total time taken is 1005577
+Evaluating: 2 6 17 3 1 8 19 
+2 6 17 3 1 8 19 fitness: 20 code: 2
+Total time taken is 1006976
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 330 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 4 2 1 8 21 ; ] = best = -1.04433
+Total time taken is 1006995
+Evaluating: 1 5 4 2 1 8 21 
+1 5 4 2 1 8 21 fitness: 20 code: 2
+Total time taken is 1008304
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 331 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 3 21 2 1 9 18 ; ] = best = -0.993734
+Total time taken is 1008323
+Evaluating: 5 3 21 2 1 9 18 
+5 3 21 2 1 9 18 fitness: 20 code: 2
+Total time taken is 1009675
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 332 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 6 19 3 1 9 18 ; ] = best = -0.954177
+Total time taken is 1009694
+Evaluating: 8 6 19 3 1 9 18 
+8 6 19 3 1 9 18 fitness: 20 code: 2
+Total time taken is 1010928
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 333 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 6 19 2 1 7 19 ; ] = best = -1.05888
+Total time taken is 1010947
+Evaluating: 4 6 19 2 1 7 19 
+4 6 19 2 1 7 19 fitness: 20 code: 2
+Total time taken is 1012276
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 334 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 5 13 2 1 6 24 ; ] = best = -0.947911
+Total time taken is 1012295
+Evaluating: 2 5 13 2 1 6 24 
+2 5 13 2 1 6 24 fitness: 20 code: 2
+Total time taken is 1013549
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 335 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 7 18 2 1 7 18 ; ] = best = -1.10521
+Total time taken is 1013568
+Evaluating: 6 7 18 2 1 7 18 
+6 7 18 2 1 7 18 fitness: 20 code: 2
+Total time taken is 1014908
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 336 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 4 19 1 1 8 19 ; ] = best = -0.947991
+Total time taken is 1014927
+Evaluating: 6 4 19 1 1 8 19 
+6 4 19 1 1 8 19 fitness: 20 code: 2
+Total time taken is 1016176
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 337 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 4 18 3 1 9 19 ; ] = best = -0.9892
+Total time taken is 1016195
+Evaluating: 8 4 18 3 1 9 19 
+8 4 18 3 1 9 19 fitness: 20 code: 2
+Total time taken is 1017430
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 338 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 7 14 2 1 7 18 ; ] = best = -0.959064
+Total time taken is 1017449
+Evaluating: 4 7 14 2 1 7 18 
+4 7 14 2 1 7 18 fitness: 20 code: 2
+Total time taken is 1018791
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 339 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 7 4 2 1 8 23 ; ] = best = -0.943095
+Total time taken is 1018810
+Evaluating: 8 7 4 2 1 8 23 
+8 7 4 2 1 8 23 fitness: 20 code: 2
+Total time taken is 1020072
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 340 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 8 15 3 1 6 21 ; ] = best = -0.978681
+Total time taken is 1020091
+Evaluating: 1 8 15 3 1 6 21 
+1 8 15 3 1 6 21 fitness: 20 code: 2
+Total time taken is 1021485
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 341 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 8 11 3 1 7 20 ; ] = best = -1.04583
+Total time taken is 1021504
+Evaluating: 1 8 11 3 1 7 20 
+1 8 11 3 1 7 20 fitness: 20 code: 2
+Total time taken is 1022827
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 342 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[9 5 11 1 1 9 18 ; ] = best = -0.970988
+Total time taken is 1022847
+Evaluating: 9 5 11 1 1 9 18 
+9 5 11 1 1 9 18 fitness: 20 code: 2
+Total time taken is 1024159
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 343 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 7 1 1 10 18 ; ] = best = -0.977474
+Total time taken is 1024178
+Evaluating: 1 7 7 1 1 10 18 
+1 7 7 1 1 10 18 fitness: 20 code: 2
+Total time taken is 1025478
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 344 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 8 14 2 1 5 20 ; ] = best = -1.0128
+Total time taken is 1025496
+Evaluating: 1 8 14 2 1 5 20 
+1 8 14 2 1 5 20 fitness: 20 code: 2
+Total time taken is 1026799
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 345 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 7 24 3 1 5 18 ; ] = best = -0.980603
+Total time taken is 1026817
+Evaluating: 2 7 24 3 1 5 18 
+2 7 24 3 1 5 18 fitness: 20 code: 2
+Total time taken is 1028155
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 346 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 21 2 1 7 19 ; ] = best = -0.986325
+Total time taken is 1028174
+Evaluating: 1 5 21 2 1 7 19 
+1 5 21 2 1 7 19 fitness: 20 code: 2
+Total time taken is 1029560
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 347 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 4 18 1 1 10 20 ; ] = best = -0.99942
+Total time taken is 1029580
+Evaluating: 8 4 18 1 1 10 20 
+8 4 18 1 1 10 20 fitness: 20 code: 2
+Total time taken is 1030925
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 348 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 8 18 3 1 6 20 ; ] = best = -0.979372
+Total time taken is 1030944
+Evaluating: 2 8 18 3 1 6 20 
+2 8 18 3 1 6 20 fitness: 20 code: 2
+Total time taken is 1032243
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 349 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 21 2 1 8 18 ; ] = best = -0.985794
+Total time taken is 1032262
+Evaluating: 1 7 21 2 1 8 18 
+1 7 21 2 1 8 18 fitness: 20 code: 2
+Total time taken is 1033630
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 350 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 6 24 2 1 9 19 ; ] = best = -0.973554
+Total time taken is 1033649
+Evaluating: 5 6 24 2 1 9 19 
+5 6 24 2 1 9 19 fitness: 20 code: 2
+Total time taken is 1035037
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 351 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 6 11 2 1 5 20 ; ] = best = -0.996776
+Total time taken is 1035056
+Evaluating: 6 6 11 2 1 5 20 
+6 6 11 2 1 5 20 fitness: 20 code: 2
+Total time taken is 1036433
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 352 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 6 24 3 1 6 18 ; ] = best = -0.955408
+Total time taken is 1036452
+Evaluating: 3 6 24 3 1 6 18 
+3 6 24 3 1 6 18 fitness: 20 code: 2
+Total time taken is 1037710
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 353 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[9 4 13 2 1 8 21 ; ] = best = -1.06447
+Total time taken is 1037729
+Evaluating: 9 4 13 2 1 8 21 
+9 4 13 2 1 8 21 fitness: 20 code: 2
+Total time taken is 1039110
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 354 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 6 12 3 1 9 18 ; ] = best = -1.04397
+Total time taken is 1039129
+Evaluating: 5 6 12 3 1 9 18 
+5 6 12 3 1 9 18 fitness: 20 code: 2
+Total time taken is 1040514
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 355 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 3 11 3 2 5 20 ; ] = best = -0.983951
+Total time taken is 1040532
+Evaluating: 4 3 11 3 2 5 20 
+4 3 11 3 2 5 20 fitness: 20 code: 2
+Total time taken is 1041743
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 356 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 7 5 2 1 9 22 ; ] = best = -1.05388
+Total time taken is 1041762
+Evaluating: 6 7 5 2 1 9 22 
+6 7 5 2 1 9 22 fitness: 20 code: 2
+Total time taken is 1042975
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 357 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 7 16 1 1 10 18 ; ] = best = -1.08217
+Total time taken is 1042994
+Evaluating: 2 7 16 1 1 10 18 
+2 7 16 1 1 10 18 fitness: 20 code: 2
+Total time taken is 1044376
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 358 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 18 2 1 9 17 ; ] = best = -1.00911
+Total time taken is 1044395
+Evaluating: 1 5 18 2 1 9 17 
+1 5 18 2 1 9 17 fitness: 20 code: 2
+Total time taken is 1045604
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 359 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[10 8 16 2 1 7 23 ; ] = best = -0.958708
+Total time taken is 1045623
+Evaluating: 10 8 16 2 1 7 23 
+10 8 16 2 1 7 23 fitness: 20 code: 2
+Total time taken is 1046906
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 360 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 6 21 2 1 5 20 ; ] = best = -1.02553
+Total time taken is 1046925
+Evaluating: 2 6 21 2 1 5 20 
+2 6 21 2 1 5 20 fitness: 20 code: 2
+Total time taken is 1048229
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 361 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 6 24 1 1 8 21 ; ] = best = -0.974569
+Total time taken is 1048248
+Evaluating: 6 6 24 1 1 8 21 
+6 6 24 1 1 8 21 fitness: 20 code: 2
+Total time taken is 1049538
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 362 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 3 17 2 1 5 20 ; ] = best = -0.932034
+Total time taken is 1049557
+Evaluating: 1 3 17 2 1 5 20 
+1 3 17 2 1 5 20 fitness: 20 code: 2
+Total time taken is 1050853
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 363 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 6 11 2 1 4 21 ; ] = best = -0.938142
+Total time taken is 1050872
+Evaluating: 2 6 11 2 1 4 21 
+2 6 11 2 1 4 21 fitness: 20 code: 2
+Total time taken is 1052134
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 364 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 4 24 1 1 9 17 ; ] = best = -1.02066
+Total time taken is 1052153
+Evaluating: 8 4 24 1 1 9 17 
+8 4 24 1 1 9 17 fitness: 20 code: 2
+Total time taken is 1053449
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 365 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 4 20 1 1 9 19 ; ] = best = -0.976915
+Total time taken is 1053468
+Evaluating: 7 4 20 1 1 9 19 
+7 4 20 1 1 9 19 fitness: 20 code: 2
+Total time taken is 1054818
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 366 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 13 2 1 8 19 ; ] = best = -1.06317
+Total time taken is 1054837
+Evaluating: 1 7 13 2 1 8 19 
+1 7 13 2 1 8 19 fitness: 20 code: 2
+Total time taken is 1056090
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 367 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 8 24 2 2 10 17 ; ] = best = -1.01545
+Total time taken is 1056109
+Evaluating: 1 8 24 2 2 10 17 
+1 8 24 2 2 10 17 fitness: 20 code: 2
+Total time taken is 1057432
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 368 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 5 24 2 1 7 22 ; ] = best = -1.01058
+Total time taken is 1057451
+Evaluating: 4 5 24 2 1 7 22 
+4 5 24 2 1 7 22 fitness: 20 code: 2
+Total time taken is 1058785
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 369 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 5 13 3 1 6 19 ; ] = best = -1.01708
+Total time taken is 1058804
+Evaluating: 4 5 13 3 1 6 19 
+4 5 13 3 1 6 19 fitness: 20 code: 2
+Total time taken is 1060058
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 370 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 13 3 1 3 21 ; ] = best = -0.965124
+Total time taken is 1060077
+Evaluating: 1 5 13 3 1 3 21 
+1 5 13 3 1 3 21 fitness: 20 code: 2
+Total time taken is 1061388
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 371 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 2 16 2 1 7 18 ; ] = best = -0.999787
+Total time taken is 1061407
+Evaluating: 1 2 16 2 1 7 18 
+1 2 16 2 1 7 18 fitness: 20 code: 2
+Total time taken is 1062654
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 372 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 13 2 1 9 18 ; ] = best = -0.980867
+Total time taken is 1062673
+Evaluating: 1 5 13 2 1 9 18 
+1 5 13 2 1 9 18 fitness: 20 code: 2
+Total time taken is 1063892
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 373 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 24 1 2 8 20 ; ] = best = -1.02169
+Total time taken is 1063911
+Evaluating: 1 7 24 1 2 8 20 
+1 7 24 1 2 8 20 fitness: 20 code: 2
+Total time taken is 1065165
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 374 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 12 2 1 8 18 ; ] = best = -0.983933
+Total time taken is 1065184
+Evaluating: 1 7 12 2 1 8 18 
+1 7 12 2 1 8 18 fitness: 20 code: 2
+Total time taken is 1066413
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 375 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 4 15 1 2 7 21 ; ] = best = -0.965345
+Total time taken is 1066432
+Evaluating: 4 4 15 1 2 7 21 
+4 4 15 1 2 7 21 fitness: 20 code: 2
+Total time taken is 1067814
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 376 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 7 17 3 1 7 21 ; ] = best = -0.988805
+Total time taken is 1067833
+Evaluating: 5 7 17 3 1 7 21 
+5 7 17 3 1 7 21 fitness: 20 code: 2
+Total time taken is 1069197
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 377 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 4 2 1 7 20 ; ] = best = -1.10784
+Total time taken is 1069216
+Evaluating: 1 5 4 2 1 7 20 
+1 5 4 2 1 7 20 fitness: 20 code: 2
+Total time taken is 1070467
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 378 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 9 20 2 1 10 19 ; ] = best = -0.95059
+Total time taken is 1070486
+Evaluating: 7 9 20 2 1 10 19 
+7 9 20 2 1 10 19 fitness: 20 code: 2
+Total time taken is 1071695
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 379 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 8 5 2 1 7 20 ; ] = best = -1.00862
+Total time taken is 1071714
+Evaluating: 2 8 5 2 1 7 20 
+2 8 5 2 1 7 20 fitness: 20 code: 2
+Total time taken is 1073030
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 380 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 20 3 1 6 20 ; ] = best = -1.07038
+Total time taken is 1073049
+Evaluating: 1 5 20 3 1 6 20 
+1 5 20 3 1 6 20 fitness: 20 code: 2
+Total time taken is 1074288
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 381 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 5 13 2 1 8 18 ; ] = best = -0.960376
+Total time taken is 1074307
+Evaluating: 6 5 13 2 1 8 18 
+6 5 13 2 1 8 18 fitness: 20 code: 2
+Total time taken is 1075554
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 382 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 6 19 2 1 6 21 ; ] = best = -1.05814
+Total time taken is 1075573
+Evaluating: 7 6 19 2 1 6 21 
+7 6 19 2 1 6 21 fitness: 20 code: 2
+Total time taken is 1076822
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 383 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 6 22 1 1 10 18 ; ] = best = -0.985084
+Total time taken is 1076841
+Evaluating: 8 6 22 1 1 10 18 
+8 6 22 1 1 10 18 fitness: 20 code: 2
+Total time taken is 1078078
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 384 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 5 10 1 1 10 19 ; ] = best = -0.9657
+Total time taken is 1078097
+Evaluating: 5 5 10 1 1 10 19 
+5 5 10 1 1 10 19 fitness: 20 code: 2
+Total time taken is 1079321
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 385 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 8 11 2 1 5 20 ; ] = best = -0.98149
+Total time taken is 1079340
+Evaluating: 1 8 11 2 1 5 20 
+1 8 11 2 1 5 20 fitness: 20 code: 2
+Total time taken is 1080711
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 386 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 6 23 2 2 8 18 ; ] = best = -0.967125
+Total time taken is 1080730
+Evaluating: 8 6 23 2 2 8 18 
+8 6 23 2 2 8 18 fitness: 20 code: 2
+Total time taken is 1082006
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 387 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 8 14 2 1 6 20 ; ] = best = -1.00651
+Total time taken is 1082025
+Evaluating: 3 8 14 2 1 6 20 
+3 8 14 2 1 6 20 fitness: 20 code: 2
+Total time taken is 1083329
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 388 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 3 14 2 1 7 21 ; ] = best = -1.00294
+Total time taken is 1083348
+Evaluating: 1 3 14 2 1 7 21 
+1 3 14 2 1 7 21 fitness: 20 code: 2
+Total time taken is 1084672
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 389 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[9 5 11 3 2 7 20 ; ] = best = -1.01007
+Total time taken is 1084691
+Evaluating: 9 5 11 3 2 7 20 
+9 5 11 3 2 7 20 fitness: 20 code: 2
+Total time taken is 1086011
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 390 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 5 4 2 1 7 19 ; ] = best = -0.958179
+Total time taken is 1086030
+Evaluating: 8 5 4 2 1 7 19 
+8 5 4 2 1 7 19 fitness: 20 code: 2
+Total time taken is 1087389
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 391 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 4 20 2 1 5 18 ; ] = best = -0.99678
+Total time taken is 1087408
+Evaluating: 1 4 20 2 1 5 18 
+1 4 20 2 1 5 18 fitness: 20 code: 2
+Total time taken is 1088698
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 392 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 5 14 1 1 8 19 ; ] = best = -0.960099
+Total time taken is 1088717
+Evaluating: 5 5 14 1 1 8 19 
+5 5 14 1 1 8 19 fitness: 20 code: 2
+Total time taken is 1090103
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 393 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 6 16 3 1 9 21 ; ] = best = -0.98475
+Total time taken is 1090122
+Evaluating: 3 6 16 3 1 9 21 
+3 6 16 3 1 9 21 fitness: 20 code: 2
+Total time taken is 1091452
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 394 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 5 15 2 1 7 20 ; ] = best = -0.963483
+Total time taken is 1091471
+Evaluating: 5 5 15 2 1 7 20 
+5 5 15 2 1 7 20 fitness: 20 code: 2
+Total time taken is 1092800
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 395 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 5 4 3 1 6 20 ; ] = best = -0.977053
+Total time taken is 1092819
+Evaluating: 5 5 4 3 1 6 20 
+5 5 4 3 1 6 20 fitness: 20 code: 2
+Total time taken is 1094084
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 396 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 7 17 3 1 9 22 ; ] = best = -0.999252
+Total time taken is 1094104
+Evaluating: 6 7 17 3 1 9 22 
+6 7 17 3 1 9 22 fitness: 20 code: 2
+Total time taken is 1095479
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 397 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 8 16 3 1 6 19 ; ] = best = -0.990861
+Total time taken is 1095498
+Evaluating: 3 8 16 3 1 6 19 
+3 8 16 3 1 6 19 fitness: 20 code: 2
+Total time taken is 1096862
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 398 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 21 3 1 8 19 ; ] = best = -1.03378
+Total time taken is 1096881
+Evaluating: 1 7 21 3 1 8 19 
+1 7 21 3 1 8 19 fitness: 20 code: 2
+Total time taken is 1098122
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 399 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 6 20 2 1 8 19 ; ] = best = -0.960822
+Total time taken is 1098141
+Evaluating: 1 6 20 2 1 8 19 
+1 6 20 2 1 8 19 fitness: 20 code: 2
+Total time taken is 1099430
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 400 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 5 9 3 1 7 19 ; ] = best = -0.999986
+Total time taken is 1099449
+Evaluating: 7 5 9 3 1 7 19 
+7 5 9 3 1 7 19 fitness: 20 code: 2
+Total time taken is 1100760
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 401 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 7 20 1 1 10 19 ; ] = best = -1.00304
+Total time taken is 1100779
+Evaluating: 4 7 20 1 1 10 19 
+4 7 20 1 1 10 19 fitness: 20 code: 2
+Total time taken is 1102179
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 402 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 6 7 3 1 6 18 ; ] = best = -0.988348
+Total time taken is 1102198
+Evaluating: 1 6 7 3 1 6 18 
+1 6 7 3 1 6 18 fitness: 20 code: 2
+Total time taken is 1103521
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 403 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 4 15 3 1 7 19 ; ] = best = -1.02012
+Total time taken is 1103540
+Evaluating: 2 4 15 3 1 7 19 
+2 4 15 3 1 7 19 fitness: 20 code: 2
+Total time taken is 1104750
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 404 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 5 12 2 1 7 21 ; ] = best = -0.999439
+Total time taken is 1104769
+Evaluating: 8 5 12 2 1 7 21 
+8 5 12 2 1 7 21 fitness: 20 code: 2
+Total time taken is 1106044
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 405 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 14 2 1 9 18 ; ] = best = -1.02567
+Total time taken is 1106063
+Evaluating: 1 7 14 2 1 9 18 
+1 7 14 2 1 9 18 fitness: 20 code: 2
+Total time taken is 1107428
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 406 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 4 15 1 1 10 17 ; ] = best = -1.00186
+Total time taken is 1107447
+Evaluating: 1 4 15 1 1 10 17 
+1 4 15 1 1 10 17 fitness: 20 code: 2
+Total time taken is 1108782
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 407 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 7 15 2 1 10 17 ; ] = best = -0.990542
+Total time taken is 1108801
+Evaluating: 6 7 15 2 1 10 17 
+6 7 15 2 1 10 17 fitness: 20 code: 2
+Total time taken is 1110099
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 408 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[10 5 14 3 1 8 21 ; ] = best = -0.971939
+Total time taken is 1110118
+Evaluating: 10 5 14 3 1 8 21 
+10 5 14 3 1 8 21 fitness: 20 code: 2
+Total time taken is 1111390
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 409 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 9 7 3 1 10 23 ; ] = best = -1.02823
+Total time taken is 1111409
+Evaluating: 4 9 7 3 1 10 23 
+4 9 7 3 1 10 23 fitness: 20 code: 2
+Total time taken is 1112808
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 410 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 4 19 1 1 9 19 ; ] = best = -0.97086
+Total time taken is 1112827
+Evaluating: 4 4 19 1 1 9 19 
+4 4 19 1 1 9 19 fitness: 20 code: 2
+Total time taken is 1114221
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 411 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 8 16 3 1 7 20 ; ] = best = -1.02239
+Total time taken is 1114240
+Evaluating: 5 8 16 3 1 7 20 
+5 8 16 3 1 7 20 fitness: 20 code: 2
+Total time taken is 1115497
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 412 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 4 19 2 1 8 19 ; ] = best = -1.00586
+Total time taken is 1115516
+Evaluating: 5 4 19 2 1 8 19 
+5 4 19 2 1 8 19 fitness: 20 code: 2
+Total time taken is 1116740
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 413 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[8 7 9 2 1 6 20 ; ] = best = -1.02728
+Total time taken is 1116759
+Evaluating: 8 7 9 2 1 6 20 
+8 7 9 2 1 6 20 fitness: 20 code: 2
+Total time taken is 1118058
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 414 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 5 20 2 1 7 19 ; ] = best = -0.987041
+Total time taken is 1118077
+Evaluating: 5 5 20 2 1 7 19 
+5 5 20 2 1 7 19 fitness: 20 code: 2
+Total time taken is 1119390
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 415 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 4 24 2 2 6 17 ; ] = best = -1.01941
+Total time taken is 1119409
+Evaluating: 1 4 24 2 2 6 17 
+1 4 24 2 2 6 17 fitness: 20 code: 2
+Total time taken is 1120727
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 416 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 4 5 1 1 10 20 ; ] = best = -0.956348
+Total time taken is 1120746
+Evaluating: 6 4 5 1 1 10 20 
+6 4 5 1 1 10 20 fitness: 20 code: 2
+Total time taken is 1122095
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 417 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 4 15 1 1 9 19 ; ] = best = -0.96103
+Total time taken is 1122114
+Evaluating: 7 4 15 1 1 9 19 
+7 4 15 1 1 9 19 fitness: 20 code: 2
+Total time taken is 1123480
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 418 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 7 19 3 1 7 19 ; ] = best = -1.00665
+Total time taken is 1123499
+Evaluating: 2 7 19 3 1 7 19 
+2 7 19 3 1 7 19 fitness: 20 code: 2
+Total time taken is 1124708
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 419 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 10 10 3 1 8 19 ; ] = best = -1.00395
+Total time taken is 1124727
+Evaluating: 6 10 10 3 1 8 19 
+6 10 10 3 1 8 19 fitness: 20 code: 2
+Total time taken is 1126038
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 420 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 7 16 2 1 7 19 ; ] = best = -0.975686
+Total time taken is 1126057
+Evaluating: 2 7 16 2 1 7 19 
+2 7 16 2 1 7 19 fitness: 20 code: 2
+Total time taken is 1127283
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 421 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 5 18 2 1 7 19 ; ] = best = -0.972149
+Total time taken is 1127302
+Evaluating: 5 5 18 2 1 7 19 
+5 5 18 2 1 7 19 fitness: 20 code: 2
+Total time taken is 1128513
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 422 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 7 16 1 1 10 20 ; ] = best = -0.97457
+Total time taken is 1128533
+Evaluating: 3 7 16 1 1 10 20 
+3 7 16 1 1 10 20 fitness: 20 code: 2
+Total time taken is 1129816
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 423 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 7 12 3 1 5 22 ; ] = best = -1.05251
+Total time taken is 1129835
+Evaluating: 2 7 12 3 1 5 22 
+2 7 12 3 1 5 22 fitness: 20 code: 2
+Total time taken is 1131088
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 424 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 2 23 2 1 7 18 ; ] = best = -1.01316
+Total time taken is 1131107
+Evaluating: 1 2 23 2 1 7 18 
+1 2 23 2 1 7 18 fitness: 20 code: 2
+Total time taken is 1132331
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 425 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 4 18 2 1 7 19 ; ] = best = -1.08383
+Total time taken is 1132350
+Evaluating: 1 4 18 2 1 7 19 
+1 4 18 2 1 7 19 fitness: 20 code: 2
+Total time taken is 1133578
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 426 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 4 13 2 1 7 20 ; ] = best = -1.00214
+Total time taken is 1133597
+Evaluating: 1 4 13 2 1 7 20 
+1 4 13 2 1 7 20 fitness: 20 code: 2
+Total time taken is 1134851
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 427 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 4 24 3 2 8 22 ; ] = best = -0.962475
+Total time taken is 1134870
+Evaluating: 6 4 24 3 2 8 22 
+6 4 24 3 2 8 22 fitness: 20 code: 2
+Total time taken is 1136223
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 428 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 7 8 2 1 7 19 ; ] = best = -1.00194
+Total time taken is 1136242
+Evaluating: 5 7 8 2 1 7 19 
+5 7 8 2 1 7 19 fitness: 20 code: 2
+Total time taken is 1137552
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 429 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 5 4 1 1 9 18 ; ] = best = -0.981743
+Total time taken is 1137572
+Evaluating: 4 5 4 1 1 9 18 
+4 5 4 1 1 9 18 fitness: 20 code: 2
+Total time taken is 1138775
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 430 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[10 5 10 2 2 5 23 ; ] = best = -0.916782
+Total time taken is 1138793
+Evaluating: 10 5 10 2 2 5 23 
+10 5 10 2 2 5 23 fitness: 20 code: 2
+Total time taken is 1140185
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 431 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 4 16 3 1 5 20 ; ] = best = -0.985174
+Total time taken is 1140203
+Evaluating: 3 4 16 3 1 5 20 
+3 4 16 3 1 5 20 fitness: 20 code: 2
+Total time taken is 1141493
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 432 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 5 9 2 2 6 19 ; ] = best = -1.00421
+Total time taken is 1141512
+Evaluating: 3 5 9 2 2 6 19 
+3 5 9 2 2 6 19 fitness: 20 code: 2
+Total time taken is 1142791
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 433 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 6 9 2 2 7 21 ; ] = best = -0.989371
+Total time taken is 1142810
+Evaluating: 7 6 9 2 2 7 21 
+7 6 9 2 2 7 21 fitness: 20 code: 2
+Total time taken is 1144054
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 434 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 5 17 1 1 8 22 ; ] = best = -1.01457
+Total time taken is 1144073
+Evaluating: 4 5 17 1 1 8 22 
+4 5 17 1 1 8 22 fitness: 20 code: 2
+Total time taken is 1145318
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 435 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 8 24 2 1 8 22 ; ] = best = -1.02984
+Total time taken is 1145337
+Evaluating: 7 8 24 2 1 8 22 
+7 8 24 2 1 8 22 fitness: 20 code: 2
+Total time taken is 1146626
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 436 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 15 2 1 7 20 ; ] = best = -1.05332
+Total time taken is 1146645
+Evaluating: 1 7 15 2 1 7 20 
+1 7 15 2 1 7 20 fitness: 20 code: 2
+Total time taken is 1147915
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 437 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 8 20 2 1 6 19 ; ] = best = -1.02457
+Total time taken is 1147934
+Evaluating: 7 8 20 2 1 6 19 
+7 8 20 2 1 6 19 fitness: 20 code: 2
+Total time taken is 1149137
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 438 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 6 24 3 1 7 21 ; ] = best = -0.966031
+Total time taken is 1149156
+Evaluating: 3 6 24 3 1 7 21 
+3 6 24 3 1 7 21 fitness: 20 code: 2
+Total time taken is 1150545
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 439 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 7 6 2 1 7 19 ; ] = best = -0.959517
+Total time taken is 1150563
+Evaluating: 1 7 6 2 1 7 19 
+1 7 6 2 1 7 19 fitness: 20 code: 2
+Total time taken is 1151861
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 440 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 4 8 1 2 10 18 ; ] = best = -1.01534
+Total time taken is 1151880
+Evaluating: 3 4 8 1 2 10 18 
+3 4 8 1 2 10 18 fitness: 20 code: 2
+Total time taken is 1153238
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 441 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 6 14 3 1 10 19 ; ] = best = -1.02047
+Total time taken is 1153257
+Evaluating: 1 6 14 3 1 10 19 
+1 6 14 3 1 10 19 fitness: 20 code: 2
+Total time taken is 1154541
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 442 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 6 4 1 1 10 19 ; ] = best = -0.960563
+Total time taken is 1154560
+Evaluating: 1 6 4 1 1 10 19 
+1 6 4 1 1 10 19 fitness: 20 code: 2
+Total time taken is 1155798
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 443 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 7 24 2 1 6 24 ; ] = best = -0.969908
+Total time taken is 1155817
+Evaluating: 3 7 24 2 1 6 24 
+3 7 24 2 1 6 24 fitness: 20 code: 2
+Total time taken is 1157033
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 444 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 8 12 3 1 9 18 ; ] = best = -0.983344
+Total time taken is 1157052
+Evaluating: 3 8 12 3 1 9 18 
+3 8 12 3 1 9 18 fitness: 20 code: 2
+Total time taken is 1158434
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 445 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 3 23 2 1 6 21 ; ] = best = -0.978706
+Total time taken is 1158453
+Evaluating: 7 3 23 2 1 6 21 
+7 3 23 2 1 6 21 fitness: 20 code: 2
+Total time taken is 1159719
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 446 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 6 8 2 1 8 23 ; ] = best = -0.988255
+Total time taken is 1159738
+Evaluating: 3 6 8 2 1 8 23 
+3 6 8 2 1 8 23 fitness: 20 code: 2
+Total time taken is 1161058
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 447 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 5 11 2 2 6 21 ; ] = best = -0.983153
+Total time taken is 1161077
+Evaluating: 2 5 11 2 2 6 21 
+2 5 11 2 2 6 21 fitness: 20 code: 2
+Total time taken is 1162401
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 448 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 6 24 3 1 7 20 ; ] = best = -1.04004
+Total time taken is 1162420
+Evaluating: 2 6 24 3 1 7 20 
+2 6 24 3 1 7 20 fitness: 20 code: 2
+Total time taken is 1163810
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 449 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 16 2 1 7 20 ; ] = best = -1.02004
+Total time taken is 1163829
+Evaluating: 1 5 16 2 1 7 20 
+1 5 16 2 1 7 20 fitness: 20 code: 2
+Total time taken is 1165167
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 450 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 6 8 2 1 6 19 ; ] = best = -1.01059
+Total time taken is 1165186
+Evaluating: 3 6 8 2 1 6 19 
+3 6 8 2 1 6 19 fitness: 20 code: 2
+Total time taken is 1166488
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 451 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 7 13 2 1 7 19 ; ] = best = -1.05606
+Total time taken is 1166507
+Evaluating: 6 7 13 2 1 7 19 
+6 7 13 2 1 7 19 fitness: 20 code: 2
+Total time taken is 1167852
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 452 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 5 12 3 1 7 22 ; ] = best = -0.95452
+Total time taken is 1167871
+Evaluating: 5 5 12 3 1 7 22 
+5 5 12 3 1 7 22 fitness: 20 code: 2
+Total time taken is 1169225
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 453 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[10 6 19 1 1 9 18 ; ] = best = -0.972788
+Total time taken is 1169244
+Evaluating: 10 6 19 1 1 9 18 
+10 6 19 1 1 9 18 fitness: 20 code: 2
+Total time taken is 1170459
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 454 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 5 13 2 1 7 19 ; ] = best = -1.00653
+Total time taken is 1170478
+Evaluating: 5 5 13 2 1 7 19 
+5 5 13 2 1 7 19 fitness: 20 code: 2
+Total time taken is 1171863
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 455 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 4 24 1 1 8 18 ; ] = best = -1.03252
+Total time taken is 1171882
+Evaluating: 7 4 24 1 1 8 18 
+7 4 24 1 1 8 18 fitness: 20 code: 2
+Total time taken is 1173210
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 456 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 6 21 3 1 7 20 ; ] = best = -1.01211
+Total time taken is 1173229
+Evaluating: 3 6 21 3 1 7 20 
+3 6 21 3 1 7 20 fitness: 20 code: 2
+Total time taken is 1174538
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 457 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[5 7 20 2 1 9 19 ; ] = best = -0.961777
+Total time taken is 1174557
+Evaluating: 5 7 20 2 1 9 19 
+5 7 20 2 1 9 19 fitness: 20 code: 2
+Total time taken is 1175916
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 458 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 6 10 2 1 6 19 ; ] = best = -1.01398
+Total time taken is 1175935
+Evaluating: 4 6 10 2 1 6 19 
+4 6 10 2 1 6 19 fitness: 20 code: 2
+Total time taken is 1177153
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 459 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 5 10 2 1 8 19 ; ] = best = -1.01203
+Total time taken is 1177172
+Evaluating: 1 5 10 2 1 8 19 
+1 5 10 2 1 8 19 fitness: 20 code: 2
+Total time taken is 1178457
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 460 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 3 15 2 1 7 20 ; ] = best = -0.973748
+Total time taken is 1178476
+Evaluating: 4 3 15 2 1 7 20 
+4 3 15 2 1 7 20 fitness: 20 code: 2
+Total time taken is 1179726
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 461 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 5 18 3 1 7 21 ; ] = best = -1.00017
+Total time taken is 1179745
+Evaluating: 3 5 18 3 1 7 21 
+3 5 18 3 1 7 21 fitness: 20 code: 2
+Total time taken is 1181123
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 462 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 5 13 2 1 7 18 ; ] = best = -1.02914
+Total time taken is 1181142
+Evaluating: 2 5 13 2 1 7 18 
+2 5 13 2 1 7 18 fitness: 20 code: 2
+Total time taken is 1182367
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 463 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[7 8 20 2 1 8 20 ; ] = best = -1.04371
+Total time taken is 1182386
+Evaluating: 7 8 20 2 1 8 20 
+7 8 20 2 1 8 20 fitness: 20 code: 2
+Total time taken is 1183685
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 464 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 5 11 1 1 8 20 ; ] = best = -1.02154
+Total time taken is 1183704
+Evaluating: 2 5 11 1 1 8 20 
+2 5 11 1 1 8 20 fitness: 20 code: 2
+Total time taken is 1184970
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 465 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 6 4 2 1 6 20 ; ] = best = -1.03807
+Total time taken is 1184989
+Evaluating: 4 6 4 2 1 6 20 
+4 6 4 2 1 6 20 fitness: 20 code: 2
+Total time taken is 1186339
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 466 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 5 8 2 1 7 21 ; ] = best = -1.02642
+Total time taken is 1186358
+Evaluating: 2 5 8 2 1 7 21 
+2 5 8 2 1 7 21 fitness: 20 code: 2
+Total time taken is 1187738
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 467 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[3 4 17 1 2 7 20 ; ] = best = -0.954672
+Total time taken is 1187756
+Evaluating: 3 4 17 1 2 7 20 
+3 4 17 1 2 7 20 fitness: 20 code: 2
+Total time taken is 1189140
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 468 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[2 6 24 2 1 5 19 ; ] = best = -0.968578
+Total time taken is 1189159
+Evaluating: 2 6 24 2 1 5 19 
+2 6 24 2 1 5 19 fitness: 20 code: 2
+Total time taken is 1190400
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 469 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 7 18 3 1 7 20 ; ] = best = -1.01677
+Total time taken is 1190419
+Evaluating: 4 7 18 3 1 7 20 
+4 7 18 3 1 7 20 fitness: 20 code: 2
+Total time taken is 1191747
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 470 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 6 15 3 1 7 21 ; ] = best = -0.981183
+Total time taken is 1191766
+Evaluating: 1 6 15 3 1 7 21 
+1 6 15 3 1 7 21 fitness: 20 code: 2
+Total time taken is 1193131
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 471 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[10 9 17 3 2 9 19 ; ] = best = -0.920742
+Total time taken is 1193150
+Evaluating: 10 9 17 3 2 9 19 
+10 9 17 3 2 9 19 fitness: 20 code: 2
+Total time taken is 1194469
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 472 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 7 15 2 1 6 19 ; ] = best = -0.996698
+Total time taken is 1194487
+Evaluating: 6 7 15 2 1 6 19 
+6 7 15 2 1 6 19 fitness: 20 code: 2
+Total time taken is 1195801
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 473 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[6 6 17 2 1 9 19 ; ] = best = -1.0202
+Total time taken is 1195820
+Evaluating: 6 6 17 2 1 9 19 
+6 6 17 2 1 9 19 fitness: 20 code: 2
+Total time taken is 1197127
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 474 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[1 10 12 3 1 7 19 ; ] = best = -1.01033
+Total time taken is 1197145
+Evaluating: 1 10 12 3 1 7 19 
+1 10 12 3 1 7 19 fitness: 20 code: 2
+Total time taken is 1198359
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 475 / 500, RUNNING: 0 Lambda: 1 best 0.362723
+[4 7 15 2 1 6 19 ; ] = best = -0.967706
+Total time taken is 1198378
+Have run: 4 7 15 2 1 6 19 Evaluating: 1 2 8 3 1 7 10 
+1 2 8 3 1 7 10 fitness: 0.23856 code: 0
+Total time taken is 1226700
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 476 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[1 6 17 3 1 8 21 ; ] = best = -0.900037
+Total time taken is 1226719
+Evaluating: 1 6 17 3 1 8 21 
+1 6 17 3 1 8 21 fitness: 20 code: 2
+Total time taken is 1227941
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 477 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[2 3 10 2 1 10 21 ; ] = best = -0.792725
+Total time taken is 1227960
+Evaluating: 2 3 10 2 1 10 21 
+2 3 10 2 1 10 21 fitness: 20 code: 2
+Total time taken is 1229314
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 478 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[3 4 6 2 1 7 21 ; ] = best = -0.835993
+Total time taken is 1229333
+Evaluating: 3 4 6 2 1 7 21 
+3 4 6 2 1 7 21 fitness: 20 code: 2
+Total time taken is 1230615
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 479 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[4 7 6 3 1 4 22 ; ] = best = -0.768615
+Total time taken is 1230633
+Evaluating: 4 7 6 3 1 4 22 
+4 7 6 3 1 4 22 fitness: 20 code: 2
+Total time taken is 1231932
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 480 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[6 7 16 2 1 8 23 ; ] = best = -0.815446
+Total time taken is 1231951
+Evaluating: 6 7 16 2 1 8 23 
+6 7 16 2 1 8 23 fitness: 20 code: 2
+Total time taken is 1233350
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 481 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[10 7 24 2 1 9 21 ; ] = best = -0.785738
+Total time taken is 1233369
+Evaluating: 10 7 24 2 1 9 21 
+10 7 24 2 1 9 21 fitness: 20 code: 2
+Total time taken is 1234586
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 482 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[3 7 17 2 1 6 21 ; ] = best = -0.843053
+Total time taken is 1234605
+Evaluating: 3 7 17 2 1 6 21 
+3 7 17 2 1 6 21 fitness: 20 code: 2
+Total time taken is 1235988
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 483 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[4 1 18 3 1 8 21 ; ] = best = -0.824058
+Total time taken is 1236007
+Evaluating: 4 1 18 3 1 8 21 
+4 1 18 3 1 8 21 fitness: 20 code: 2
+Total time taken is 1237339
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 484 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[3 6 16 3 1 7 22 ; ] = best = -0.80844
+Total time taken is 1237358
+Evaluating: 3 6 16 3 1 7 22 
+3 6 16 3 1 7 22 fitness: 20 code: 2
+Total time taken is 1238612
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 485 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[4 7 4 3 1 9 22 ; ] = best = -0.834149
+Total time taken is 1238631
+Evaluating: 4 7 4 3 1 9 22 
+4 7 4 3 1 9 22 fitness: 20 code: 2
+Total time taken is 1239940
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 486 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[7 4 14 3 1 4 23 ; ] = best = -0.792926
+Total time taken is 1239959
+Evaluating: 7 4 14 3 1 4 23 
+7 4 14 3 1 4 23 fitness: 20 code: 2
+Total time taken is 1241176
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 487 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[5 2 12 2 1 8 20 ; ] = best = -0.837823
+Total time taken is 1241195
+Evaluating: 5 2 12 2 1 8 20 
+5 2 12 2 1 8 20 fitness: 20 code: 2
+Total time taken is 1242496
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 488 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[8 2 20 3 1 10 22 ; ] = best = -0.79721
+Total time taken is 1242515
+Evaluating: 8 2 20 3 1 10 22 
+8 2 20 3 1 10 22 fitness: 20 code: 2
+Total time taken is 1243817
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 489 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[10 7 18 2 1 6 23 ; ] = best = -0.796293
+Total time taken is 1243836
+Evaluating: 10 7 18 2 1 6 23 
+10 7 18 2 1 6 23 fitness: 20 code: 2
+Total time taken is 1245176
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 490 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[8 7 24 2 1 8 21 ; ] = best = -0.837788
+Total time taken is 1245195
+Evaluating: 8 7 24 2 1 8 21 
+8 7 24 2 1 8 21 fitness: 20 code: 2
+Total time taken is 1246459
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 491 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[1 7 13 2 1 8 22 ; ] = best = -0.876227
+Total time taken is 1246478
+Evaluating: 1 7 13 2 1 8 22 
+1 7 13 2 1 8 22 fitness: 20 code: 2
+Total time taken is 1247743
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 492 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[5 5 4 2 1 6 21 ; ] = best = -0.784336
+Total time taken is 1247762
+Evaluating: 5 5 4 2 1 6 21 
+5 5 4 2 1 6 21 fitness: 20 code: 2
+Total time taken is 1249062
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 493 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[5 6 13 2 1 7 21 ; ] = best = -0.798749
+Total time taken is 1249081
+Evaluating: 5 6 13 2 1 7 21 
+5 6 13 2 1 7 21 fitness: 20 code: 2
+Total time taken is 1250474
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 494 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[4 8 9 3 1 6 23 ; ] = best = -0.821679
+Total time taken is 1250493
+Evaluating: 4 8 9 3 1 6 23 
+4 8 9 3 1 6 23 fitness: 20 code: 2
+Total time taken is 1251748
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 495 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[1 3 20 2 1 7 21 ; ] = best = -0.865466
+Total time taken is 1251767
+Evaluating: 1 3 20 2 1 7 21 
+1 3 20 2 1 7 21 fitness: 20 code: 2
+Total time taken is 1253125
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 496 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[10 4 24 2 1 10 20 ; ] = best = -0.80562
+Total time taken is 1253144
+Evaluating: 10 4 24 2 1 10 20 
+10 4 24 2 1 10 20 fitness: 20 code: 2
+Total time taken is 1254500
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 497 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[1 5 21 2 1 6 22 ; ] = best = -0.822489
+Total time taken is 1254519
+Evaluating: 1 5 21 2 1 6 22 
+1 5 21 2 1 6 22 fitness: 20 code: 2
+Total time taken is 1255819
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 498 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[2 3 10 2 1 9 21 ; ] = best = -0.821874
+Total time taken is 1255838
+Evaluating: 2 3 10 2 1 9 21 
+2 3 10 2 1 9 21 fitness: 20 code: 2
+Total time taken is 1257109
+Optimised SVM, gamma: 0.05 C: 10
+Iter: 499 / 500, RUNNING: 0 Lambda: 1 best 0.23856
+[1 2 22 2 1 9 21 ; ] = best = -0.810766
+Total time taken is 1257128
+Evaluating: 1 2 22 2 1 9 21 
+1 2 22 2 1 9 21 fitness: 20 code: 2
+Total time taken is 1258454
+Search l=1 took 8190225 iter=429 / 500
+In FPGA time took 1258454

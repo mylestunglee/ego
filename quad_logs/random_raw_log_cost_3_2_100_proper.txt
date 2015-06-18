@@ -1,0 +1,644 @@
+Search = 3 test QUAD lambda = 2 n_sims = 100
+1 312100
+Using combined PSO and Brute Search
+Building
+41 gamma size
+Python initialised
+/homes/wjn11/MLO/examples/quadrature_method_based_app
+Got pName: fitness_script
+Got pModule
+Got pFunc
+Got rid of pName
+Built
+Evaluating: 1 53 32 
+Sending Py_None
+Sample
+10 size
+Latin eval
+Evaluating: 2 39 16 
+2 39 16 fitness: 0.621103 code: 0
+Software cost 40
+Total time taken is 3039
+Evaluating: 14 15 28 
+14 15 28 fitness: 300 code: 1
+Total time taken is 4356
+Evaluating: 4 48 22 
+1 53 32 fitness: 0.0391451 code: 0
+Software cost 119
+Total time taken is 5921
+Evaluating: 12 43 32 
+12 43 32 fitness: 300 code: 1
+Total time taken is 7266
+Evaluating: 9 53 7 
+9 53 7 fitness: 300 code: 1
+Total time taken is 8474
+Evaluating: 7 29 25 
+4 48 22 fitness: 0.480774 code: 0
+Software cost 84
+Total time taken is 15432
+Evaluating: 16 11 13 
+16 11 13 fitness: 300 code: 1
+Total time taken is 16795
+Evaluating: 11 20 4 
+7 29 25 fitness: 0.565038 code: 0
+Software cost 161
+Total time taken is 18122
+Evaluating: 6 34 10 
+6 34 10 fitness: 7.51865 code: 0
+Software cost 55
+Total time taken is 27953
+Evaluating: 1 25 19 
+11 20 4 fitness: 202.556 code: 2
+Software cost 13
+Total time taken is 28348
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 3.58318 C: 47.6837
+Adding extra permutations
+svm label: 1
+Evaluating: 6 21 28 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 3.58318 C: 47.6837
+1 25 19 fitness: 0.186145 code: 0
+Software cost 82
+Total time taken is 32832
+svm label: 1
+Evaluating: 4 35 31 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+6 21 28 fitness: 0.34581 code: 0
+Software cost 118
+Total time taken is 36311
+svm label: 1
+Evaluating: 9 37 19 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+4 35 31 fitness: 0.170326 code: 0
+Software cost 147
+Total time taken is 36814
+svm label: 1
+Evaluating: 11 48 13 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+9 37 19 fitness: 300 code: 1
+Total time taken is 37644
+svm label: 1
+Evaluating: 10 19 7 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+11 48 13 fitness: 300 code: 1
+Total time taken is 38083
+svm label: 1
+Evaluating: 11 31 18 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+11 31 18 fitness: 300 code: 1
+Total time taken is 39434
+svm label: 1
+Evaluating: 2 14 23 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 5.15978 C: 74.5058
+2 14 23 fitness: 0.209329 code: 2
+Software cost 125
+Total time taken is 43923
+svm label: 1
+Evaluating: 1 19 14 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+10 19 7 fitness: 35.9084 code: 0
+Software cost 41
+Total time taken is 47851
+svm label: 1
+Evaluating: 5 34 13 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+1 19 14 fitness: 0.457366 code: 0
+Software cost 75
+Total time taken is 48540
+svm label: 1
+Evaluating: 5 42 14 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+5 34 13 fitness: 2.88424 code: 0
+Software cost 41
+Total time taken is 57346
+svm label: 1
+Evaluating: 12 16 7 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+5 42 14 fitness: 2.2846 code: 0
+Software cost 63
+Total time taken is 59530
+svm label: 1
+Evaluating: 4 14 14 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+4 14 14 fitness: 1.82892 code: 2
+Software cost 36
+Total time taken is 65145
+svm label: 1
+Evaluating: 14 27 29 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+14 27 29 fitness: 300 code: 1
+Total time taken is 66423
+svm label: 1
+Evaluating: 12 45 23 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+12 16 7 fitness: 43.127 code: 0
+Software cost 23
+Total time taken is 67719
+svm label: 1
+Evaluating: 3 28 17 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+12 45 23 fitness: 300 code: 1
+Total time taken is 67820
+svm label: 1
+Evaluating: 9 12 28 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+3 28 17 fitness: 0.770195 code: 0
+Software cost 98
+Total time taken is 74293
+svm label: 1
+Evaluating: 5 34 9 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+5 34 9 fitness: 8.71937 code: 0
+Software cost 45
+Total time taken is 74342
+svm label: 1
+Evaluating: 9 49 16 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+9 49 16 fitness: 300 code: 1
+Total time taken is 75737
+svm label: 1
+Evaluating: 3 41 10 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+9 12 28 fitness: 0.518603 code: 2
+Software cost 190
+Total time taken is 75762
+svm label: 1
+Evaluating: 11 35 11 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+11 35 11 fitness: 300 code: 1
+Total time taken is 77088
+Sampled
+Started, dim=3, lambda=2 max_f=0.0390423
+Defaulted to using log on GP log like: -7.71663 normal like: -99.0036
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.134588 C: 0.858993
+Defaulted to using log on GP log like: -10.6575 normal like: -90.6598
+Total time taken is 77090
+Iter: 30 / 1000, RUNNING: 1 Lambda: 1 best 0.0391451
+Evaluating random pertubations of best results
+[2 52 32 ; ] = best = -0
+Total time taken is 77099
+Evaluating: 2 52 32 
+2 52 32 fitness: 0.0782241 code: 0
+Software cost 89
+Total time taken is 80686
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 80688
+Iter: 31 / 1000, RUNNING: 1 Lambda: 1 best 0.0391451
+[1 52 32 ; ] = best = -0.0453731
+Total time taken is 80699
+Evaluating: 1 52 32 
+3 41 10 fitness: 3.76543 code: 0
+Software cost 25
+Total time taken is 83233
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 83236
+Iter: 32 / 1000, RUNNING: 1 Lambda: 1 best 0.0391451
+[16 47 30 ; ] = best = -0.0696222
+Total time taken is 83247
+Evaluating: 16 47 30 
+16 47 30 fitness: 300 code: 1
+Total time taken is 84498
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+Total time taken is 84501
+Iter: 33 / 1000, RUNNING: 1 Lambda: 1 best 0.0391451
+[16 14 30 ; ] = best = -0.0612389
+Total time taken is 84512
+Evaluating: 16 14 30 
+1 52 32 fitness: 0.039112 code: 0
+Software cost 148
+Total time taken is 84936
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+Total time taken is 84939
+Iter: 34 / 1000, RUNNING: 1 Lambda: 1 best 0.039112
+[1 34 32 ; ] = best = -0.0113006
+Total time taken is 84951
+Evaluating: 1 34 32 
+16 14 30 fitness: 300 code: 1
+Total time taken is 85894
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 85897
+Iter: 35 / 1000, RUNNING: 1 Lambda: 1 best 0.039112
+[16 50 23 ; ] = best = -0.0145018
+Total time taken is 85908
+Evaluating: 16 50 23 
+16 50 23 fitness: 300 code: 1
+Total time taken is 87133
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 87136
+Iter: 36 / 1000, RUNNING: 1 Lambda: 1 best 0.039112
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 51 31 ; ] = best = -0
+Total time taken is 87147
+Evaluating: 2 51 31 
+1 34 32 fitness: 0.039119 code: 0
+Software cost 210
+Total time taken is 89385
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0934639 C: 0.549756
+Total time taken is 89388
+Iter: 37 / 1000, RUNNING: 1 Lambda: 1 best 0.039112
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 51 32 ; ] = best = -0
+Total time taken is 89400
+Evaluating: 2 51 32 
+2 51 32 fitness: 0.0782178 code: 0
+Software cost 155
+Total time taken is 89568
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 89572
+Iter: 38 / 1000, RUNNING: 1 Lambda: 1 best 0.039112
+[16 50 20 ; ] = best = -0.0276733
+Total time taken is 89584
+Evaluating: 16 50 20 
+16 50 20 fitness: 300 code: 1
+Total time taken is 89674
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0778866 C: 0.439805
+Total time taken is 89678
+Iter: 39 / 1000, RUNNING: 1 Lambda: 1 best 0.039112
+[1 38 32 ; ] = best = -0.0344574
+Total time taken is 89690
+Evaluating: 1 38 32 
+2 51 31 fitness: 0.0851475 code: 0
+Software cost 125
+Total time taken is 90696
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 90700
+Iter: 40 / 1000, RUNNING: 1 Lambda: 1 best 0.039112
+[16 42 27 ; ] = best = -0.0460011
+Total time taken is 90712
+Evaluating: 16 42 27 
+16 42 27 fitness: 300 code: 1
+Total time taken is 91936
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 91940
+Iter: 41 / 1000, RUNNING: 1 Lambda: 1 best 0.039112
+[16 14 26 ; ] = best = -0.0199625
+Total time taken is 91952
+Evaluating: 16 14 26 
+16 14 26 fitness: 300 code: 1
+Total time taken is 92046
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 92051
+Iter: 42 / 1000, RUNNING: 1 Lambda: 1 best 0.039112
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 34 32 ; ] = best = -0
+Total time taken is 92063
+Evaluating: 2 34 32 
+1 38 32 fitness: 0.0390993 code: 0
+Software cost 88
+Total time taken is 93467
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 93471
+Iter: 43 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+[16 48 22 ; ] = best = -0.032059
+Total time taken is 93483
+Evaluating: 16 48 22 
+16 48 22 fitness: 300 code: 1
+Total time taken is 94867
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0649055 C: 0.351844
+Total time taken is 94872
+Iter: 44 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 38 31 ; ] = best = -0
+Total time taken is 94884
+Evaluating: 1 38 31 
+1 38 31 fitness: 0.0425777 code: 0
+Software cost 184
+Total time taken is 95078
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 95083
+Iter: 45 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+[16 52 22 ; ] = best = -0.0611226
+Total time taken is 95095
+Evaluating: 16 52 22 
+2 34 32 fitness: 0.0782379 code: 0
+Software cost 223
+Total time taken is 95548
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 95553
+Iter: 46 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+[16 53 24 ; ] = best = -0.0725699
+Total time taken is 95566
+Evaluating: 16 53 24 
+16 52 22 fitness: 300 code: 1
+Total time taken is 96406
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 96411
+Iter: 47 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+[14 22 25 ; ] = best = -0.00624185
+Total time taken is 96424
+Evaluating: 14 22 25 
+16 53 24 fitness: 300 code: 1
+Total time taken is 96922
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 96928
+Iter: 48 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 39 31 ; ] = best = -0.0343828
+Total time taken is 96940
+Evaluating: 1 39 31 
+14 22 25 fitness: 300 code: 1
+Total time taken is 97795
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0450732 C: 0.22518
+Total time taken is 97801
+Iter: 49 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 33 31 ; ] = best = -0
+Total time taken is 97813
+Evaluating: 1 33 31 
+1 39 31 fitness: 0.042583 code: 0
+Software cost 225
+Total time taken is 100669
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 100675
+Iter: 50 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 37 32 ; ] = best = -0
+Total time taken is 100687
+Evaluating: 2 37 32 
+1 33 31 fitness: 0.0425945 code: 0
+Software cost 98
+Total time taken is 102149
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0540879 C: 0.281475
+Total time taken is 102155
+Iter: 51 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 37 30 ; ] = best = -0
+Total time taken is 102167
+Evaluating: 2 37 30 
+2 37 30 fitness: 0.0943289 code: 0
+Software cost 172
+Total time taken is 102250
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 102256
+Iter: 52 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+[16 44 23 ; ] = best = -0.122427
+Total time taken is 102269
+Evaluating: 16 44 23 
+16 44 23 fitness: 300 code: 1
+Total time taken is 103493
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 103499
+Iter: 53 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+[14 32 26 ; ] = best = -0.0280476
+Total time taken is 103512
+Evaluating: 14 32 26 
+2 37 32 fitness: 0.0782509 code: 0
+Software cost 237
+Total time taken is 103788
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+Total time taken is 103795
+Iter: 54 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 40 32 ; ] = best = -0.00241973
+Total time taken is 103808
+Evaluating: 2 40 32 
+14 32 26 fitness: 300 code: 1
+Total time taken is 104750
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 104757
+Iter: 55 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 35 32 ; ] = best = -0
+Total time taken is 104770
+Evaluating: 2 35 32 
+2 40 32 fitness: 0.0782655 code: 0
+Software cost 227
+Total time taken is 107381
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 107388
+Iter: 56 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+[14 11 5 ; ] = best = -0.000199303
+Total time taken is 107401
+Evaluating: 14 11 5 
+2 35 32 fitness: 0.0782565 code: 0
+Software cost 203
+Total time taken is 108303
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+Total time taken is 108310
+Iter: 57 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 52 31 ; ] = best = -0
+Total time taken is 108323
+Evaluating: 2 52 31 
+2 52 31 fitness: 0.0851647 code: 0
+Software cost 173
+Total time taken is 108442
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0778866 C: 0.439805
+Total time taken is 108449
+Iter: 58 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 38 31 ; ] = best = -0.000850973
+Total time taken is 108462
+Evaluating: 2 38 31 
+2 38 31 fitness: 0.0851554 code: 0
+Software cost 188
+Total time taken is 111519
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 111527
+Iter: 59 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+[16 11 4 ; ] = best = -0.223776
+Total time taken is 111540
+Evaluating: 16 11 4 
+16 11 4 fitness: 300 code: 1
+Total time taken is 111562
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.134588 C: 0.858993
+Total time taken is 111570
+Iter: 60 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Evaluating random pertubations of best results
+[1 51 31 ; ] = best = -0
+Total time taken is 111581
+Evaluating: 1 51 31 
+1 51 31 fitness: 0.0425737 code: 0
+Software cost 105
+Total time taken is 115847
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 115855
+Iter: 61 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 40 31 ; ] = best = -0
+Total time taken is 115868
+Evaluating: 2 40 31 
+2 40 31 fitness: 0.085213 code: 0
+Software cost 137
+Total time taken is 116004
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0540879 C: 0.281475
+Total time taken is 116012
+Iter: 62 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 50 30 ; ] = best = -0
+Total time taken is 116025
+Evaluating: 2 50 30 
+14 11 5 fitness: 130.568 code: 2
+Software cost 19
+Total time taken is 117303
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+Total time taken is 117312
+Iter: 63 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[2 37 31 ; ] = best = -0.00662395
+Total time taken is 117326
+Evaluating: 2 37 31 
+2 37 31 fitness: 0.0852095 code: 0
+Software cost 143
+Total time taken is 117554
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.161506 C: 1.07374
+Total time taken is 117563
+Iter: 64 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+[1 12 4 ; ] = best = -0.0109088
+Total time taken is 117576
+Evaluating: 1 12 4 
+2 50 30 fitness: 0.0943938 code: 0
+Software cost 88
+Total time taken is 120730
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.112157 C: 0.687195
+Total time taken is 120739
+Iter: 65 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Evaluating random pertubations of best results
+[1 32 32 ; ] = best = -0
+Total time taken is 120750
+Evaluating: 1 32 32 
+1 12 4 fitness: 18.512 code: 2
+Software cost 15
+Total time taken is 121739
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0450732 C: 0.22518
+Total time taken is 121748
+Iter: 66 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+[1 11 12 ; ] = best = -0.702364
+Total time taken is 121762
+Evaluating: 1 11 12 
+1 32 32 fitness: 0.039119 code: 0
+Software cost 122
+Total time taken is 125087
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0934639 C: 0.549756
+Total time taken is 125097
+Iter: 67 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Evaluating random pertubations of best results
+[3 33 32 ; ] = best = -0
+Total time taken is 125108
+Evaluating: 3 33 32 
+1 11 12 fitness: 0.740153 code: 2
+Software cost 63
+Total time taken is 125786
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0934639 C: 0.549756
+Total time taken is 125796
+Iter: 68 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Evaluating random pertubations of best results
+[2 33 31 ; ] = best = -0
+Total time taken is 125807
+Evaluating: 2 33 31 
+3 33 32 fitness: 0.117342 code: 0
+Software cost 234
+Total time taken is 129014
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 129024
+Iter: 69 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[1 50 31 ; ] = best = -0.0517253
+Total time taken is 129038
+Evaluating: 1 50 31 
+2 33 31 fitness: 0.085189 code: 0
+Software cost 143
+Total time taken is 129271
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.112157 C: 0.687195
+Total time taken is 129281
+Iter: 70 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Evaluating random pertubations of best results
+[1 41 32 ; ] = best = -0
+Total time taken is 129292
+Evaluating: 1 41 32 
+1 50 31 fitness: 0.0426014 code: 0
+Software cost 217
+Total time taken is 133036
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+Total time taken is 133046
+Iter: 71 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993
+Cannot find new points in direct vicinity of best
+Evaluating random pertubations of best results
+[4 32 32 ; ] = best = -0
+Total time taken is 133060
+Evaluating: 4 32 32 
+1 41 32 fitness: 0.0391165 code: 0
+Software cost 175
+Total time taken is 135150
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 135161
+Iter: 72 / 1000, RUNNING: 1 Lambda: 1 best 0.0390993

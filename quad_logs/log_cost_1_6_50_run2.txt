@@ -1,0 +1,2018 @@
+Search = 1 test QUAD lambda = 6 n_sims = 50
+1 11650
+Using Brute Search
+Building
+41 gamma size
+Python initialised
+Got pName: fitness_script
+Got pModule
+Got pFunc
+Got rid of pName
+Built
+Sample
+10 size
+Latin eval
+Evaluating: 9 25 25 
+Sending Py_None
+Evaluating: 2 11 4 
+Evaluating: 12 48 22 
+Evaluating: 7 20 28 
+Evaluating: 16 53 7 
+Evaluating: 4 39 32 
+12 48 22 fitness: 300 code: 1
+Total time taken is 1237
+Evaluating: 14 34 13 
+16 53 7 fitness: 300 code: 1
+Total time taken is 1283
+Evaluating: 11 15 10 
+14 34 13 fitness: 300 code: 1
+Total time taken is 2575
+Evaluating: 6 29 16 
+2 11 4 fitness: 37.0947 code: 2
+Total time taken is 4222
+Evaluating: 1 43 19 
+4 39 32 fitness: 0.156392 code: 0
+Total time taken is 4332
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+Adding extra permutations
+svm label: 1
+Evaluating: 5 37 29 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.05 C: 10
+9 25 25 fitness: 0.725983 code: 0
+Total time taken is 6724
+svm label: 1
+Evaluating: 5 39 29 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+7 20 28 fitness: 0.403269 code: 0
+Total time taken is 9052
+svm label: 1
+Evaluating: 12 24 26 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+5 37 29 fitness: 0.262303 code: 0
+Total time taken is 9138
+svm label: 1
+Evaluating: 10 25 22 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+1 43 19 fitness: 0.186215 code: 0
+Total time taken is 10402
+svm label: 1
+Evaluating: 3 24 32 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0450732 C: 0.22518
+12 24 26 fitness: 300 code: 1
+Total time taken is 10441
+svm label: 1
+Evaluating: 14 37 27 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+6 29 16 fitness: 1.86182 code: 0
+Total time taken is 11178
+svm label: 1
+Evaluating: 2 23 24 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+11 15 10 fitness: 13.8092 code: 0
+Total time taken is 11438
+svm label: 1
+Evaluating: 11 17 5 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+14 37 27 fitness: 300 code: 1
+Total time taken is 11678
+svm label: 1
+Evaluating: 4 32 15 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+5 39 29 fitness: 0.262373 code: 0
+Total time taken is 11774
+svm label: 1
+Evaluating: 9 21 17 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+4 32 15 fitness: 1.47255 code: 0
+Total time taken is 15523
+svm label: 1
+Evaluating: 12 36 12 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+2 23 24 fitness: 0.183271 code: 0
+Total time taken is 16303
+svm label: 1
+Evaluating: 1 41 10 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+3 24 32 fitness: 0.117395 code: 0
+Total time taken is 16621
+svm label: 1
+Evaluating: 7 37 28 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+12 36 12 fitness: 300 code: 1
+Total time taken is 16857
+svm label: 1
+Evaluating: 15 45 26 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+15 45 26 fitness: 300 code: 1
+Total time taken is 18157
+svm label: 1
+Evaluating: 13 21 17 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+13 21 17 fitness: 300 code: 1
+Total time taken is 19411
+svm label: 1
+Evaluating: 16 46 30 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0450732 C: 0.22518
+16 46 30 fitness: 300 code: 1
+Total time taken is 20675
+svm label: 1
+Evaluating: 5 20 26 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+10 25 22 fitness: 1.20283 code: 0
+Total time taken is 21183
+svm label: 1
+Evaluating: 4 31 10 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+11 17 5 fitness: 103.724 code: 2
+Total time taken is 21802
+svm label: 1
+Evaluating: 10 34 31 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+1 41 10 fitness: 1.25514 code: 0
+Total time taken is 22161
+svm label: 1
+Evaluating: 6 15 18 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+9 21 17 fitness: 2.31336 code: 0
+Total time taken is 22261
+1 40 label:1
+1 41 label:1
+1 42 label:1
+1 43 label:1
+1 44 label:1
+1 45 label:1
+1 46 label:1
+1 47 label:1
+1 48 label:1
+1 49 label:1
+1 50 label:1
+1 51 label:1
+1 52 label:1
+1 53 label:1
+2 40 label:1
+2 41 label:1
+2 42 label:1
+2 43 label:1
+2 44 label:1
+2 45 label:1
+2 46 label:1
+2 47 label:1
+2 48 label:1
+2 49 label:1
+2 50 label:1
+2 51 label:1
+2 52 label:1
+2 53 label:1
+3 40 label:1
+3 41 label:1
+3 42 label:1
+3 43 label:1
+3 44 label:1
+3 45 label:1
+3 46 label:1
+3 47 label:1
+3 48 label:1
+3 49 label:1
+3 50 label:1
+3 51 label:1
+3 52 label:1
+3 53 label:1
+4 40 label:1
+4 41 label:1
+4 42 label:1
+4 43 label:1
+4 44 label:1
+4 45 label:1
+4 46 label:1
+4 47 label:1
+4 48 label:1
+4 49 label:1
+4 50 label:1
+4 51 label:1
+4 52 label:1
+4 53 label:1
+Sampled
+Started, dim=3, lambda=6 max_f=0.0390423
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 22264
+Iter: 25 / 230, RUNNING: 5 Lambda: 1 best 0.117395
+[1 53 32 ; ] = best = -1.49198
+Total time taken is 22265
+Evaluating: 1 53 32 
+7 37 28 fitness: 0.403333 code: 0
+Total time taken is 22918
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 22921
+Iter: 26 / 230, RUNNING: 5 Lambda: 1 best 0.117395
+[7 47 17 ; ] = best = -0.0380608
+Total time taken is 22922
+Evaluating: 7 47 17 
+10 34 31 fitness: 300 code: 1
+Total time taken is 23172
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 23175
+Iter: 27 / 230, RUNNING: 5 Lambda: 1 best 0.117395
+Couldn't find new particles, searching in region of best
+2 23 31  got around best
+Total time taken is 23176
+Evaluating: 2 23 31 
+2 23 31 fitness: 0.0851721 code: 0
+Total time taken is 23361
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 23365
+Iter: 28 / 230, RUNNING: 5 Lambda: 1 best 0.0851721
+[2 35 32 ; ] = best = -2.78134
+Total time taken is 23366
+Evaluating: 2 35 32 
+7 47 17 fitness: 300 code: 1
+Total time taken is 24320
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 24324
+Iter: 29 / 230, RUNNING: 5 Lambda: 1 best 0.0851721
+Couldn't find new particles, searching in region of best
+1 22 30  got around best
+Total time taken is 24325
+Evaluating: 1 22 30 
+4 31 10 fitness: 5.0176 code: 0
+Total time taken is 25049
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 25053
+Iter: 30 / 230, RUNNING: 5 Lambda: 1 best 0.0851721
+[11 20 23 ; ] = best = -0.349766
+Total time taken is 25054
+Evaluating: 11 20 23 
+2 35 32 fitness: 0.0782565 code: 0
+Total time taken is 26899
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 26904
+Iter: 31 / 230, RUNNING: 5 Lambda: 1 best 0.0782565
+[1 30 29 ; ] = best = -2.99788
+Total time taken is 26905
+Evaluating: 1 30 29 
+5 20 26 fitness: 0.363153 code: 0
+Total time taken is 28005
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 28009
+Iter: 32 / 230, RUNNING: 5 Lambda: 1 best 0.0782565
+[1 37 28 ; ] = best = -0.0325106
+Total time taken is 28010
+Evaluating: 1 37 28 
+1 53 32 fitness: 0.0391451 code: 0
+Total time taken is 28186
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 28191
+Iter: 33 / 230, RUNNING: 5 Lambda: 1 best 0.0391451
+[1 44 30 ; ] = best = -6.6426
+Total time taken is 28192
+Evaluating: 1 44 30 
+6 15 18 fitness: 1.28927 code: 0
+Total time taken is 28842
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 28847
+Iter: 34 / 230, RUNNING: 5 Lambda: 1 best 0.0391451
+Couldn't find new particles, searching in region of best
+1 52 31  got around best
+Total time taken is 28848
+Evaluating: 1 52 31 
+1 22 30 fitness: 0.0471649 code: 0
+Total time taken is 29023
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+Total time taken is 29028
+Iter: 35 / 230, RUNNING: 5 Lambda: 1 best 0.0391451
+[1 14 30 ; ] = best = -4.1719
+Total time taken is 29029
+Evaluating: 1 14 30 
+1 37 28 fitness: 0.057619 code: 0
+Total time taken is 31793
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 31798
+Iter: 36 / 230, RUNNING: 5 Lambda: 1 best 0.0391451
+[1 44 20 ; ] = best = -2.80031
+Total time taken is 31799
+Evaluating: 1 44 20 
+1 44 20 fitness: 0.158482 code: 0
+Total time taken is 31859
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 31865
+Iter: 37 / 230, RUNNING: 5 Lambda: 1 best 0.0391451
+[1 39 31 ; ] = best = -0.274498
+Total time taken is 31866
+Evaluating: 1 39 31 
+1 30 29 fitness: 0.0524112 code: 0
+Total time taken is 32100
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0450732 C: 0.22518
+Total time taken is 32106
+Iter: 38 / 230, RUNNING: 5 Lambda: 1 best 0.0391451
+[4 39 29 ; ] = best = -3.27302
+Total time taken is 32107
+Evaluating: 4 39 29 
+4 39 29 fitness: 0.209898 code: 0
+Total time taken is 32260
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 32267
+Iter: 39 / 230, RUNNING: 5 Lambda: 1 best 0.0391451
+[5 25 30 ; ] = best = -0.0983531
+Total time taken is 32268
+Evaluating: 5 25 30 
+1 52 31 fitness: 0.0425823 code: 0
+Total time taken is 33085
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 33092
+Iter: 40 / 230, RUNNING: 5 Lambda: 1 best 0.0391451
+[4 45 27 ; ] = best = -3.77685
+Total time taken is 33093
+Evaluating: 4 45 27 
+1 14 30 fitness: 0.0471705 code: 0
+Total time taken is 33198
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 33205
+Iter: 41 / 230, RUNNING: 5 Lambda: 1 best 0.0391451
+[1 22 23 ; ] = best = -3.41321
+Total time taken is 33206
+Evaluating: 1 22 23 
+1 22 23 fitness: 0.104576 code: 0
+Total time taken is 33293
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 33300
+Iter: 42 / 230, RUNNING: 5 Lambda: 1 best 0.0391451
+[15 18 25 ; ] = best = -0.701322
+Total time taken is 33301
+Evaluating: 15 18 25 
+1 44 30 fitness: 0.047194 code: 0
+Total time taken is 33931
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 33939
+Iter: 43 / 230, RUNNING: 5 Lambda: 1 best 0.0391451
+[2 37 28 ; ] = best = -3.62302
+Total time taken is 33940
+Evaluating: 2 37 28 
+15 18 25 fitness: 300 code: 1
+Total time taken is 34662
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 34670
+Iter: 44 / 230, RUNNING: 5 Lambda: 1 best 0.0391451
+Couldn't find new particles, searching in region of best
+1 52 32  got around best
+Total time taken is 34671
+Evaluating: 1 52 32 
+1 52 32 fitness: 0.039112 code: 0
+Total time taken is 34866
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 34874
+Iter: 45 / 230, RUNNING: 5 Lambda: 1 best 0.039112
+[1 40 28 ; ] = best = -3.86217
+Total time taken is 34875
+Evaluating: 1 40 28 
+1 39 31 fitness: 0.042583 code: 0
+Total time taken is 35595
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 35603
+Iter: 46 / 230, RUNNING: 5 Lambda: 1 best 0.039112
+[5 45 30 ; ] = best = -3.422
+Total time taken is 35604
+Evaluating: 5 45 30 
+11 20 23 fitness: 1.15087 code: 0
+Total time taken is 36607
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 36616
+Iter: 47 / 230, RUNNING: 5 Lambda: 1 best 0.039112
+[1 47 29 ; ] = best = -0.301443
+Total time taken is 36617
+Evaluating: 1 47 29 
+2 37 28 fitness: 0.115238 code: 0
+Total time taken is 37041
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 37050
+Iter: 48 / 230, RUNNING: 5 Lambda: 1 best 0.039112
+[1 52 16 ; ] = best = -0.400658
+Total time taken is 37051
+Evaluating: 1 52 16 
+1 52 16 fitness: 0.310178 code: 0
+Total time taken is 37100
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 37110
+Iter: 49 / 230, RUNNING: 5 Lambda: 1 best 0.039112
+Couldn't find new particles, searching in region of best
+1 51 31  got around best
+Total time taken is 37111
+Evaluating: 1 51 31 
+4 45 27 fitness: 0.25805 code: 0
+Total time taken is 38595
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 38605
+Iter: 50 / 230, RUNNING: 5 Lambda: 1 best 0.039112
+Couldn't find new particles, searching in region of best
+1 51 32  got around best
+Total time taken is 38606
+Evaluating: 1 51 32 
+1 51 32 fitness: 0.0391089 code: 0
+Total time taken is 38736
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 38746
+Iter: 51 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[2 36 28 ; ] = best = -4.37797
+Total time taken is 38747
+Evaluating: 2 36 28 
+1 40 28 fitness: 0.0576205 code: 0
+Total time taken is 39572
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 39583
+Iter: 52 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[1 48 23 ; ] = best = -2.24552
+Total time taken is 39584
+Evaluating: 1 48 23 
+5 25 30 fitness: 0.235838 code: 0
+Total time taken is 40707
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 40718
+Iter: 53 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+1 50 31  got around best
+Total time taken is 40719
+Evaluating: 1 50 31 
+1 51 31 fitness: 0.0425737 code: 0
+Total time taken is 41377
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 41388
+Iter: 54 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[2 41 27 ; ] = best = -3.35067
+Total time taken is 41389
+Evaluating: 2 41 27 
+2 36 28 fitness: 0.115178 code: 0
+Total time taken is 42349
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 42360
+Iter: 55 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[6 21 32 ; ] = best = -0.26195
+Total time taken is 42361
+Evaluating: 6 21 32 
+5 45 30 fitness: 0.23588 code: 0
+Total time taken is 42527
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 42539
+Iter: 56 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+1 50 32  got around best
+Total time taken is 42540
+Evaluating: 1 50 32 
+1 50 32 fitness: 0.0391278 code: 0
+Total time taken is 42715
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 42727
+Iter: 57 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[2 50 26 ; ] = best = -3.98425
+Total time taken is 42728
+Evaluating: 2 50 26 
+1 47 29 fitness: 0.0524323 code: 0
+Total time taken is 42812
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 42824
+Iter: 58 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[1 53 20 ; ] = best = -2.29072
+Total time taken is 42825
+Evaluating: 1 53 20 
+1 53 20 fitness: 0.158444 code: 0
+Total time taken is 42945
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 42957
+Iter: 59 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[15 24 7 ; ] = best = -0.0244843
+Total time taken is 42958
+Evaluating: 15 24 7 
+15 24 7 fitness: 300 code: 1
+Total time taken is 44259
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 44272
+Iter: 60 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+2 50 31  got around best
+Total time taken is 44273
+Evaluating: 2 50 31 
+2 50 31 fitness: 0.0852028 code: 0
+Total time taken is 44402
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 44414
+Iter: 61 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[15 36 11 ; ] = best = -0.694913
+Total time taken is 44415
+Evaluating: 15 36 11 
+1 50 31 fitness: 0.0426014 code: 0
+Total time taken is 44717
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 44730
+Iter: 62 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[3 42 31 ; ] = best = -2.74641
+Total time taken is 44731
+Evaluating: 3 42 31 
+15 36 11 fitness: 300 code: 1
+Total time taken is 45752
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 45766
+Iter: 63 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+2 50 32  got around best
+Total time taken is 45767
+Evaluating: 2 50 32 
+1 48 23 fitness: 0.104678 code: 0
+Total time taken is 45882
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 45896
+Iter: 64 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[4 39 24 ; ] = best = -0.277973
+Total time taken is 45897
+Evaluating: 4 39 24 
+4 39 24 fitness: 0.36642 code: 0
+Total time taken is 45969
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 45983
+Iter: 65 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[15 18 14 ; ] = best = -0.0135635
+Total time taken is 45984
+Evaluating: 15 18 14 
+2 50 32 fitness: 0.0782557 code: 0
+Total time taken is 45986
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 46001
+Iter: 66 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[7 24 28 ; ] = best = -0.671915
+Total time taken is 46002
+Evaluating: 7 24 28 
+15 18 14 fitness: 300 code: 1
+Total time taken is 46071
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 46086
+Iter: 67 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+2 51 31  got around best
+Total time taken is 46087
+Evaluating: 2 51 31 
+2 41 27 fitness: 0.129096 code: 0
+Total time taken is 47406
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 47422
+Iter: 68 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[13 19 20 ; ] = best = -0.0984138
+Total time taken is 47423
+Evaluating: 13 19 20 
+2 50 26 fitness: 0.145238 code: 0
+Total time taken is 47433
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 47449
+Iter: 69 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[7 21 31 ; ] = best = -0.0432595
+Total time taken is 47450
+Evaluating: 7 21 31 
+2 51 31 fitness: 0.0851475 code: 0
+Total time taken is 49636
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 49652
+Iter: 70 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[9 45 28 ; ] = best = -0.707531
+Total time taken is 49653
+Evaluating: 9 45 28 
+6 21 32 fitness: 0.234254 code: 0
+Total time taken is 50324
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 50340
+Iter: 71 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+2 51 32  got around best
+Total time taken is 50341
+Evaluating: 2 51 32 
+2 51 32 fitness: 0.0782178 code: 0
+Total time taken is 50523
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 50539
+Iter: 72 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[6 50 25 ; ] = best = -0.947332
+Total time taken is 50540
+Evaluating: 6 50 25 
+9 45 28 fitness: 300 code: 1
+Total time taken is 51051
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 51068
+Iter: 73 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+2 52 31  got around best
+Total time taken is 51069
+Evaluating: 2 52 31 
+6 50 25 fitness: 300 code: 1
+Total time taken is 51895
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 51912
+Iter: 74 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+2 52 32  got around best
+Total time taken is 51913
+Evaluating: 2 52 32 
+2 52 32 fitness: 0.0782241 code: 0
+Total time taken is 52121
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 52139
+Iter: 75 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[4 37 24 ; ] = best = -0.905261
+Total time taken is 52140
+Evaluating: 4 37 24 
+3 42 31 fitness: 0.12776 code: 0
+Total time taken is 54488
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 54506
+Iter: 76 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[4 41 12 ; ] = best = -0.0950876
+Total time taken is 54507
+Evaluating: 4 41 12 
+2 52 31 fitness: 0.0851647 code: 0
+Total time taken is 54656
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 54674
+Iter: 77 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[6 49 23 ; ] = best = -0.753106
+Total time taken is 54675
+Evaluating: 6 49 23 
+7 24 28 fitness: 0.40361 code: 0
+Total time taken is 55459
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 55477
+Iter: 78 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[11 33 9 ; ] = best = -0.178683
+Total time taken is 55478
+Evaluating: 11 33 9 
+6 49 23 fitness: 300 code: 1
+Total time taken is 55885
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 55904
+Iter: 79 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+1 49 30  got around best
+Total time taken is 55905
+Evaluating: 1 49 30 
+4 37 24 fitness: 0.366629 code: 0
+Total time taken is 56439
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 56458
+Iter: 80 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[10 33 4 ; ] = best = -0.100962
+Total time taken is 56459
+Evaluating: 10 33 4 
+7 21 31 fitness: 0.298117 code: 0
+Total time taken is 56640
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 56660
+Iter: 81 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[11 35 18 ; ] = best = -0.0032564
+Total time taken is 56661
+Evaluating: 11 35 18 
+11 33 9 fitness: 300 code: 1
+Total time taken is 56832
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+Total time taken is 56852
+Iter: 82 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+1 49 31  got around best
+Total time taken is 56853
+Evaluating: 1 49 31 
+1 49 31 fitness: 0.0426004 code: 0
+Total time taken is 57003
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 57024
+Iter: 83 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[3 51 28 ; ] = best = -4.7742
+Total time taken is 57025
+Evaluating: 3 51 28 
+10 33 4 fitness: 300 code: 1
+Total time taken is 57707
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 57728
+Iter: 84 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+1 49 32  got around best
+Total time taken is 57729
+Evaluating: 1 49 32 
+1 49 32 fitness: 0.0391285 code: 0
+Total time taken is 57850
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 57871
+Iter: 85 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[3 47 24 ; ] = best = -4.72433
+Total time taken is 57872
+Evaluating: 3 47 24 
+11 35 18 fitness: 300 code: 1
+Total time taken is 57981
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 58003
+Iter: 86 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+1 50 30  got around best
+Total time taken is 58004
+Evaluating: 1 50 30 
+1 50 30 fitness: 0.0471969 code: 0
+Total time taken is 58206
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 58228
+Iter: 87 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[1 49 16 ; ] = best = -2.43226
+Total time taken is 58229
+Evaluating: 1 49 16 
+1 49 16 fitness: 0.31052 code: 0
+Total time taken is 58331
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 58354
+Iter: 88 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[12 52 15 ; ] = best = -0.025179
+Total time taken is 58355
+Evaluating: 12 52 15 
+12 52 15 fitness: 300 code: 1
+Total time taken is 59717
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 59740
+Iter: 89 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+1 51 30  got around best
+Total time taken is 59741
+Evaluating: 1 51 30 
+1 51 30 fitness: 0.047171 code: 0
+Total time taken is 59935
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 59960
+Iter: 90 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[16 28 5 ; ] = best = -2.49592
+Total time taken is 59961
+Evaluating: 16 28 5 
+13 19 20 fitness: 300 code: 1
+Total time taken is 60955
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 60980
+Iter: 91 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+1 52 30  got around best
+Total time taken is 60981
+Evaluating: 1 52 30 
+1 52 30 fitness: 0.0471698 code: 0
+Total time taken is 61076
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 61102
+Iter: 92 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[7 26 20 ; ] = best = -2.01311
+Total time taken is 61103
+Evaluating: 7 26 20 
+16 28 5 fitness: 300 code: 1
+Total time taken is 61183
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 61209
+Iter: 93 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+1 53 30  got around best
+Total time taken is 61210
+Evaluating: 1 53 30 
+1 53 30 fitness: 0.0471761 code: 0
+Total time taken is 61316
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 61342
+Iter: 94 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[3 52 23 ; ] = best = -1.99707
+Total time taken is 61343
+Evaluating: 3 52 23 
+3 51 28 fitness: 0.17287 code: 0
+Total time taken is 62017
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 62043
+Iter: 95 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+1 53 31  got around best
+Total time taken is 62044
+Evaluating: 1 53 31 
+1 53 31 fitness: 0.0425952 code: 0
+Total time taken is 62230
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 62256
+Iter: 96 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[4 47 27 ; ] = best = -2.56176
+Total time taken is 62257
+Evaluating: 4 47 27 
+1 49 30 fitness: 0.0471674 code: 0
+Total time taken is 62490
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 62517
+Iter: 97 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[12 28 31 ; ] = best = -1.61789
+Total time taken is 62518
+Evaluating: 12 28 31 
+4 41 12 fitness: 2.95509 code: 0
+Total time taken is 62778
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 62805
+Iter: 98 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[3 11 27 ; ] = best = -10.2858
+Total time taken is 62806
+Evaluating: 3 11 27 
+12 28 31 fitness: 300 code: 1
+Total time taken is 63790
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 63818
+Iter: 99 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+2 49 30  got around best
+Total time taken is 63819
+Evaluating: 2 49 30 
+3 52 23 fitness: 0.313904 code: 0
+Total time taken is 65801
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 65830
+Iter: 100 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[16 27 4 ; ] = best = -0.0474454
+Total time taken is 65831
+Evaluating: 16 27 4 
+3 47 24 fitness: 0.274896 code: 0
+Total time taken is 66153
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 66182
+Iter: 101 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[4 33 6 ; ] = best = -0.00992492
+Total time taken is 66183
+Evaluating: 4 33 6 
+16 27 4 fitness: 300 code: 1
+Total time taken is 67211
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 67241
+Iter: 102 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+2 49 31  got around best
+Total time taken is 67242
+Evaluating: 2 49 31 
+2 49 31 fitness: 0.0852008 code: 0
+Total time taken is 67382
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 67413
+Iter: 103 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[13 20 5 ; ] = best = -0.357203
+Total time taken is 67414
+Evaluating: 13 20 5 
+3 11 27 fitness: 0.193671 code: 2
+Total time taken is 67925
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 67957
+Iter: 104 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+2 49 32  got around best
+Total time taken is 67958
+Evaluating: 2 49 32 
+2 49 32 fitness: 0.078257 code: 0
+Total time taken is 68118
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 68150
+Iter: 105 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[6 53 24 ; ] = best = -0.695189
+Total time taken is 68151
+Evaluating: 6 53 24 
+13 20 5 fitness: 300 code: 1
+Total time taken is 68637
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 68670
+Iter: 106 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+2 50 30  got around best
+Total time taken is 68671
+Evaluating: 2 50 30 
+2 50 30 fitness: 0.0943938 code: 0
+Total time taken is 68753
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 68786
+Iter: 107 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[2 28 26 ; ] = best = -0.282888
+Total time taken is 68787
+Evaluating: 2 28 26 
+6 53 24 fitness: 300 code: 1
+Total time taken is 69501
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 69535
+Iter: 108 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+2 51 30  got around best
+Total time taken is 69536
+Evaluating: 2 51 30 
+2 51 30 fitness: 0.0943419 code: 0
+Total time taken is 69648
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 69683
+Iter: 109 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[15 14 23 ; ] = best = -0.255522
+Total time taken is 69684
+Evaluating: 15 14 23 
+4 33 6 fitness: 23.0683 code: 0
+Total time taken is 70055
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0450732 C: 0.22518
+Total time taken is 70090
+Iter: 110 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[8 45 26 ; ] = best = -38.4579
+Total time taken is 70091
+Evaluating: 8 45 26 
+7 26 20 fitness: 1.1105 code: 0
+2 49 30 fitness: 0.0943349 code: 0
+Total time taken is 70688
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 70724
+Iter: 112 / 230, RUNNING: 4 Lambda: 2 best 0.0391089
+[10 41 4 ; 2 49 25 ; ] = best = -0.44859
+Total time taken is 70728
+Evaluating: 10 41 4 
+Evaluating: 2 49 25 
+2 49 25 fitness: 0.161332 code: 0
+Total time taken is 70904
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 70941
+Iter: 113 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+2 52 30  got around best
+Total time taken is 70942
+Evaluating: 2 52 30 
+15 14 23 fitness: 300 code: 1
+Total time taken is 70999
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+2 52 30 fitness: 0.0943395 code: 0
+Total time taken is 71037
+Iter: 115 / 230, RUNNING: 4 Lambda: 2 best 0.0391089
+Couldn't find new particles, searching in region of best
+2 53 30 2 53 31  got around best
+Total time taken is 71038
+Evaluating: 2 53 30 
+Evaluating: 2 53 31 
+2 53 31 fitness: 0.0851903 code: 0
+Total time taken is 71135
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 71174
+Iter: 116 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[13 38 32 ; ] = best = -0.892198
+Total time taken is 71175
+Evaluating: 13 38 32 
+8 45 26 fitness: 300 code: 1
+Total time taken is 71386
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 71426
+Iter: 117 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+2 53 32  got around best
+Total time taken is 71427
+Evaluating: 2 53 32 
+2 53 32 fitness: 0.0782902 code: 0
+Total time taken is 71598
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 71638
+Iter: 118 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[2 24 22 ; ] = best = -0.618613
+Total time taken is 71639
+Evaluating: 2 24 22 
+10 41 4 fitness: 300 code: 1
+Total time taken is 72031
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 72070
+Iter: 119 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+3 49 30  got around best
+Total time taken is 72071
+Evaluating: 3 49 30 
+13 38 32 fitness: 300 code: 1
+Total time taken is 72381
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 72421
+Iter: 120 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+3 49 31  got around best
+Total time taken is 72422
+Evaluating: 3 49 31 
+3 49 31 fitness: 0.127801 code: 0
+Total time taken is 72527
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 72568
+Iter: 121 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[3 11 6 ; ] = best = -0.0345391
+Total time taken is 72569
+Evaluating: 3 11 6 
+3 11 6 fitness: 17.4634 code: 2
+Total time taken is 72586
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 72628
+Iter: 122 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[13 49 25 ; ] = best = -34.6228
+Total time taken is 72629
+Evaluating: 13 49 25 
+4 47 27 fitness: 0.258247 code: 0
+Total time taken is 72884
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 72927
+Iter: 123 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+3 49 32  got around best
+Total time taken is 72928
+Evaluating: 3 49 32 
+3 49 32 fitness: 0.117386 code: 0
+Total time taken is 73043
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+Total time taken is 73086
+Iter: 124 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[1 43 22 ; ] = best = -0.103156
+Total time taken is 73087
+Evaluating: 1 43 22 
+1 43 22 fitness: 0.120216 code: 0
+Total time taken is 73187
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 73230
+Iter: 125 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[4 45 22 ; ] = best = -0.0942762
+Total time taken is 73231
+Evaluating: 4 45 22 
+4 45 22 fitness: 0.480928 code: 0
+Total time taken is 73344
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 73389
+Iter: 126 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[1 21 15 ; ] = best = -0.493782
+Total time taken is 73390
+Evaluating: 1 21 15 
+13 49 25 fitness: 300 code: 1
+Total time taken is 73871
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 73916
+Iter: 127 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+3 50 30  got around best
+Total time taken is 73917
+Evaluating: 3 50 30 
+2 28 26 fitness: 0.145335 code: 0
+Total time taken is 74012
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 74057
+Iter: 128 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[8 45 16 ; ] = best = -0.0101109
+Total time taken is 74058
+Evaluating: 8 45 16 
+8 45 16 fitness: 300 code: 1
+Total time taken is 74176
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 74222
+Iter: 129 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+3 50 31  got around best
+Total time taken is 74223
+Evaluating: 3 50 31 
+3 50 31 fitness: 0.127804 code: 0
+Total time taken is 74406
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+Total time taken is 74452
+Iter: 130 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[1 53 15 ; ] = best = -0.0494724
+Total time taken is 74453
+Evaluating: 1 53 15 
+1 53 15 fitness: 0.369007 code: 0
+Total time taken is 74500
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0450732 C: 0.22518
+Total time taken is 74547
+Iter: 131 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[2 16 17 ; ] = best = -0.191069
+Total time taken is 74548
+Evaluating: 2 16 17 
+2 24 22 fitness: 0.240505 code: 0
+Total time taken is 76787
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 76835
+Iter: 132 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+3 50 32  got around best
+Total time taken is 76836
+Evaluating: 3 50 32 
+3 50 32 fitness: 0.117384 code: 0
+Total time taken is 77049
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 77098
+Iter: 133 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[2 20 8 ; ] = best = -0.157808
+Total time taken is 77099
+Evaluating: 2 20 8 
+2 53 30 fitness: 0.0943522 code: 0
+Total time taken is 77644
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 77693
+Iter: 134 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[6 22 20 ; ] = best = -0.582604
+Total time taken is 77694
+Evaluating: 6 22 20 
+1 21 15 fitness: 0.368986 code: 0
+Total time taken is 78008
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 78057
+Iter: 135 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[8 27 19 ; ] = best = -0.272465
+Total time taken is 78058
+Evaluating: 8 27 19 
+2 16 17 fitness: 0.514424 code: 0
+Total time taken is 79115
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 79164
+Iter: 136 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[7 49 23 ; ] = best = -0.978046
+Total time taken is 79165
+Evaluating: 7 49 23 
+3 50 30 fitness: 0.141591 code: 0
+Total time taken is 79943
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 79993
+Iter: 137 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[9 22 30 ; ] = best = -0.0156709
+Total time taken is 79994
+Evaluating: 9 22 30 
+7 49 23 fitness: 300 code: 1
+Total time taken is 80424
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 80475
+Iter: 138 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+3 51 30  got around best
+Total time taken is 80476
+Evaluating: 3 51 30 
+3 51 30 fitness: 0.141513 code: 0
+Total time taken is 80564
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+Total time taken is 80615
+Iter: 139 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[1 16 8 ; ] = best = -0.0127311
+Total time taken is 80616
+Evaluating: 1 16 8 
+3 49 30 fitness: 0.141502 code: 0
+Total time taken is 81843
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 81895
+Iter: 140 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[3 16 14 ; ] = best = -0.0107641
+Total time taken is 81896
+Evaluating: 3 16 14 
+2 20 8 fitness: 4.76166 code: 0
+Total time taken is 81912
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 81965
+Iter: 141 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[7 28 25 ; ] = best = -16.5227
+Total time taken is 81966
+Evaluating: 7 28 25 
+1 16 8 fitness: 2.37506 code: 0
+Total time taken is 84972
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 85026
+Iter: 142 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[8 53 28 ; ] = best = -6.7807
+Total time taken is 85027
+Evaluating: 8 53 28 
+6 22 20 fitness: 0.951383 code: 0
+Total time taken is 86072
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 86126
+Iter: 143 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[4 13 6 ; ] = best = -1.57413
+Total time taken is 86127
+Evaluating: 4 13 6 
+8 53 28 fitness: 300 code: 1
+Total time taken is 86422
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 86477
+Iter: 144 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+3 51 31  got around best
+Total time taken is 86478
+Evaluating: 3 51 31 
+3 51 31 fitness: 0.127721 code: 0
+Total time taken is 86656
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 86712
+Iter: 145 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[3 42 20 ; ] = best = -0.0720624
+Total time taken is 86713
+Evaluating: 3 42 20 
+3 42 20 fitness: 0.475351 code: 0
+Total time taken is 86770
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 86826
+Iter: 146 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[4 31 5 ; ] = best = -0.310527
+Total time taken is 86827
+Evaluating: 4 31 5 
+4 31 5 fitness: 37.5308 code: 2
+Total time taken is 86856
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 86913
+Iter: 147 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[5 28 28 ; ] = best = -36.1108
+Total time taken is 86914
+Evaluating: 5 28 28 
+3 16 14 fitness: 1.37125 code: 0
+Total time taken is 87479
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0450732 C: 0.22518
+Total time taken is 87537
+Iter: 148 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[6 15 28 ; ] = best = -2.0111
+Total time taken is 87538
+Evaluating: 6 15 28 
+6 15 28 fitness: 0.345511 code: 0
+Total time taken is 87679
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 87739
+Iter: 149 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[1 40 19 ; ] = best = -0.0150721
+Total time taken is 87740
+Evaluating: 1 40 19 
+1 40 19 fitness: 0.186046 code: 0
+Total time taken is 87809
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0540879 C: 0.281475
+Total time taken is 87869
+Iter: 150 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+3 51 32  got around best
+Total time taken is 87870
+Evaluating: 3 51 32 
+3 51 32 fitness: 0.117327 code: 0
+Total time taken is 88017
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 88078
+Iter: 151 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[4 19 28 ; ] = best = -0.13641
+Total time taken is 88079
+Evaluating: 4 19 28 
+8 27 19 fitness: 1.48851 code: 0
+Total time taken is 88416
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 88478
+Iter: 152 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[3 48 30 ; ] = best = -2.35689
+Total time taken is 88479
+Evaluating: 3 48 30 
+9 22 30 fitness: 0.424484 code: 0
+Total time taken is 90419
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 90481
+Iter: 153 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[3 27 19 ; ] = best = -0.0515779
+Total time taken is 90482
+Evaluating: 3 27 19 
+7 28 25 fitness: 0.564342 code: 0
+Total time taken is 91563
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 91625
+Iter: 154 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[11 26 6 ; ] = best = -0.301217
+Total time taken is 91626
+Evaluating: 11 26 6 
+4 13 6 fitness: 23.2407 code: 2
+Total time taken is 91770
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 91834
+Iter: 155 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[1 50 9 ; ] = best = -22.6895
+Total time taken is 91835
+Evaluating: 1 50 9 
+1 50 9 fitness: 1.74238 code: 0
+Total time taken is 91877
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 91941
+Iter: 156 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[11 35 25 ; ] = best = -3.18185
+Total time taken is 91942
+Evaluating: 11 35 25 
+11 35 25 fitness: 300 code: 1
+Total time taken is 92056
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 92121
+Iter: 157 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+3 52 30  got around best
+Total time taken is 92122
+Evaluating: 3 52 30 
+3 52 30 fitness: 0.141509 code: 0
+Total time taken is 92274
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 92340
+Iter: 158 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[10 30 32 ; ] = best = -0.055197
+Total time taken is 92341
+Evaluating: 10 30 32 
+11 26 6 fitness: 300 code: 1
+Total time taken is 92859
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+Total time taken is 92927
+Iter: 159 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+3 52 31  got around best
+Total time taken is 92928
+Evaluating: 3 52 31 
+3 52 31 fitness: 0.127747 code: 0
+Total time taken is 93110
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 93177
+Iter: 160 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[2 19 13 ; ] = best = -0.13929
+Total time taken is 93178
+Evaluating: 2 19 13 
+5 28 28 fitness: 0.288188 code: 0
+Total time taken is 93535
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 93603
+Iter: 161 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+3 52 32  got around best
+Total time taken is 93604
+Evaluating: 3 52 32 
+3 52 32 fitness: 0.117336 code: 0
+Total time taken is 93826
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 93894
+Iter: 162 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[4 33 25 ; ] = best = -0.24166
+Total time taken is 93895
+Evaluating: 4 33 25 
+4 33 25 fitness: 0.322559 code: 0
+Total time taken is 93975
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 94045
+Iter: 163 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+3 53 30  got around best
+Total time taken is 94046
+Evaluating: 3 53 30 
+4 19 28 fitness: 0.230482 code: 0
+Total time taken is 94648
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 94717
+Iter: 164 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+3 53 31  got around best
+Total time taken is 94718
+Evaluating: 3 53 31 
+3 53 31 fitness: 0.127786 code: 0
+Total time taken is 94822
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 94892
+Iter: 165 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[3 37 28 ; ] = best = -0.155736
+Total time taken is 94893
+Evaluating: 3 37 28 
+3 27 19 fitness: 0.55819 code: 0
+Total time taken is 96874
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 96943
+Iter: 166 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[8 46 24 ; ] = best = -0.349235
+Total time taken is 96944
+Evaluating: 8 46 24 
+3 48 30 fitness: 0.141452 code: 0
+Total time taken is 97238
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 97309
+Iter: 167 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[10 53 25 ; ] = best = -0.0877999
+Total time taken is 97310
+Evaluating: 10 53 25 
+2 19 13 fitness: 1.15239 code: 0
+Total time taken is 98125
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0450732 C: 0.22518
+8 46 24 fitness: 300 code: 1
+Total time taken is 98198
+Iter: 169 / 230, RUNNING: 4 Lambda: 2 best 0.0391089
+[8 37 31 ; 6 17 31 ; ] = best = -1.47936
+Total time taken is 98200
+Evaluating: 8 37 31 
+Evaluating: 6 17 31 
+10 53 25 fitness: 300 code: 1
+Total time taken is 98646
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0450732 C: 0.22518
+Total time taken is 98721
+Iter: 170 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+3 53 32  got around best
+Total time taken is 98722
+Evaluating: 3 53 32 
+3 53 32 fitness: 0.117435 code: 0
+Total time taken is 98954
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+3 37 28 fitness: 0.172857 code: 0
+Total time taken is 99029
+Iter: 172 / 230, RUNNING: 4 Lambda: 2 best 0.0391089
+[6 38 6 ; 3 18 15 ; ] = best = -0.120436
+Total time taken is 99031
+Evaluating: 6 38 6 
+Evaluating: 3 18 15 
+3 53 30 fitness: 0.141528 code: 0
+Total time taken is 101982
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 102058
+Iter: 173 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[9 27 27 ; ] = best = -0.112926
+Total time taken is 102059
+Evaluating: 9 27 27 
+6 38 6 fitness: 34.9856 code: 0
+Total time taken is 104427
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0778866 C: 0.439805
+Total time taken is 104507
+Iter: 174 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[3 17 30 ; ] = best = -32.9438
+Total time taken is 104508
+Evaluating: 3 17 30 
+8 37 31 fitness: 0.340838 code: 0
+Total time taken is 105198
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+Total time taken is 105278
+Iter: 175 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+1 48 29  got around best
+Total time taken is 105279
+Evaluating: 1 48 29 
+3 18 15 fitness: 1.10761 code: 0
+Total time taken is 105346
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+1 48 29 fitness: 0.0524233 code: 0
+Total time taken is 105426
+Iter: 177 / 230, RUNNING: 4 Lambda: 2 best 0.0391089
+[9 44 22 ; 6 42 26 ; ] = best = -0.74219
+Total time taken is 105429
+Evaluating: 9 44 22 
+Evaluating: 6 42 26 
+10 30 32 fitness: 0.391275 code: 0
+Total time taken is 105586
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+6 17 31 fitness: 0.255512 code: 0
+Total time taken is 105669
+Iter: 179 / 230, RUNNING: 4 Lambda: 2 best 0.0391089
+[2 47 24 ; 2 39 27 ; ] = best = -0.466004
+Total time taken is 105673
+Evaluating: 2 47 24 
+Evaluating: 2 39 27 
+9 44 22 fitness: 300 code: 1
+Total time taken is 106658
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0649055 C: 0.351844
+Total time taken is 106743
+Iter: 180 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+1 48 30  got around best
+Total time taken is 106744
+Evaluating: 1 48 30 
+1 48 30 fitness: 0.0471506 code: 0
+Total time taken is 106903
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0778866 C: 0.439805
+Total time taken is 106987
+Iter: 181 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[1 37 26 ; ] = best = -2.10693
+Total time taken is 106988
+Evaluating: 1 37 26 
+1 37 26 fitness: 0.0726428 code: 0
+Total time taken is 107057
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 107142
+Iter: 182 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[1 16 4 ; ] = best = -0.879182
+Total time taken is 107143
+Evaluating: 1 16 4 
+1 16 4 fitness: 18.5281 code: 2
+Total time taken is 107167
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0450732 C: 0.22518
+Total time taken is 107254
+Iter: 183 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[1 51 25 ; ] = best = -18.1393
+Total time taken is 107255
+Evaluating: 1 51 25 
+1 51 25 fitness: 0.0806912 code: 0
+Total time taken is 107370
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 107457
+Iter: 184 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[11 31 27 ; ] = best = -0.711773
+Total time taken is 107458
+Evaluating: 11 31 27 
+11 31 27 fitness: 300 code: 1
+Total time taken is 108671
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+2 39 27 fitness: 0.129184 code: 0
+Total time taken is 108760
+Iter: 186 / 230, RUNNING: 4 Lambda: 2 best 0.0391089
+Couldn't find new particles, searching in region of best
+1 48 31 1 48 32  got around best
+Total time taken is 108761
+Evaluating: 1 48 31 
+Evaluating: 1 48 32 
+1 48 32 fitness: 0.0391129 code: 0
+Total time taken is 108856
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 108946
+Iter: 187 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[2 53 18 ; ] = best = -2.97588
+Total time taken is 108947
+Evaluating: 2 53 18 
+1 48 31 fitness: 0.0425608 code: 0
+Total time taken is 108958
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+2 53 18 fitness: 0.430066 code: 0
+Total time taken is 109048
+Iter: 189 / 230, RUNNING: 4 Lambda: 2 best 0.0391089
+[4 42 29 ; 1 39 27 ; ] = best = -1.61729
+Total time taken is 109051
+Evaluating: 4 42 29 
+Evaluating: 1 39 27 
+1 39 27 fitness: 0.064592 code: 0
+Total time taken is 109143
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 109235
+Iter: 190 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[1 11 25 ; ] = best = -0.00334481
+Total time taken is 109236
+Evaluating: 1 11 25 
+3 17 30 fitness: 0.14156 code: 0
+Total time taken is 110255
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 110348
+Iter: 191 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[3 35 30 ; ] = best = -0.0532674
+Total time taken is 110349
+Evaluating: 3 35 30 
+2 47 24 fitness: 0.183264 code: 0
+Total time taken is 112569
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 112662
+Iter: 192 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+1 49 29  got around best
+Total time taken is 112663
+Evaluating: 1 49 29 
+1 49 29 fitness: 0.0524915 code: 0
+Total time taken is 112834
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+Total time taken is 112926
+Iter: 193 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[3 35 27 ; ] = best = -2.29135
+Total time taken is 112927
+Evaluating: 3 35 27 
+3 35 27 fitness: 0.193547 code: 0
+Total time taken is 113113
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 113206
+Iter: 194 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+Couldn't find new particles, searching in region of best
+1 50 29  got around best
+Total time taken is 113207
+Evaluating: 1 50 29 
+1 11 25 fitness: 0.0806552 code: 2
+Total time taken is 113260
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 113358
+Iter: 195 / 230, RUNNING: 5 Lambda: 1 best 0.0391089
+[2 35 28 ; ] = best = -0.812327
+Total time taken is 113359
+Evaluating: 2 35 28 
+1 50 29 fitness: 0.0524412 code: 0
+Total time taken is 113423
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0934639 C: 0.549756
+2 35 28 fitness: 0.115146 code: 0
+Total time taken is 113521
+Iter: 197 / 230, RUNNING: 4 Lambda: 2 best 0.0391089
+[2 29 31 ; 1 47 32 ; ] = best = -1.33563
+Total time taken is 113523
+Evaluating: 2 29 31 
+Evaluating: 1 47 32 
+1 47 32 fitness: 0.0391055 code: 0
+Total time taken is 113695
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 113795
+Iter: 198 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+[6 50 32 ; ] = best = -3.29433
+Total time taken is 113796
+Evaluating: 6 50 32 
+6 50 32 fitness: 300 code: 1
+Total time taken is 113960
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0450732 C: 0.22518
+Total time taken is 114063
+Iter: 199 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+Couldn't find new particles, searching in region of best
+1 46 31  got around best
+Total time taken is 114064
+Evaluating: 1 46 31 
+3 35 30 fitness: 0.141484 code: 0
+Total time taken is 114222
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0450732 C: 0.22518
+Total time taken is 114323
+Iter: 200 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+[2 47 18 ; ] = best = -0.056627
+Total time taken is 114324
+Evaluating: 2 47 18 
+9 27 27 fitness: 0.580854 code: 0
+Total time taken is 114341
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+2 47 18 fitness: 0.42987 code: 0
+Total time taken is 114445
+Iter: 202 / 230, RUNNING: 4 Lambda: 2 best 0.0391055
+[3 47 26 ; 9 33 17 ; ] = best = -0.180885
+Total time taken is 114449
+Evaluating: 3 47 26 
+Evaluating: 9 33 17 
+3 47 26 fitness: 0.217814 code: 0
+Total time taken is 114577
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+Total time taken is 114683
+Iter: 203 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+Couldn't find new particles, searching in region of best
+1 46 32  got around best
+Total time taken is 114684
+Evaluating: 1 46 32 
+1 46 32 fitness: 0.0391274 code: 0
+Total time taken is 114794
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 114899
+Iter: 204 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+[2 27 29 ; ] = best = -3.25399
+Total time taken is 114900
+Evaluating: 2 27 29 
+6 42 26 fitness: 0.435386 code: 0
+Total time taken is 118228
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+4 42 29 fitness: 0.209811 code: 0
+Total time taken is 118335
+Iter: 206 / 230, RUNNING: 4 Lambda: 2 best 0.0391055
+[3 30 4 ; 8 13 32 ; ] = best = -0.0629307
+Total time taken is 118339
+Evaluating: 3 30 4 
+Evaluating: 8 13 32 
+2 29 31 fitness: 0.085165 code: 0
+Total time taken is 118860
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 118968
+Iter: 207 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+[3 23 16 ; ] = best = -0.219556
+Total time taken is 118969
+Evaluating: 3 23 16 
+2 27 29 fitness: 0.104885 code: 0
+Total time taken is 120136
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 120244
+Iter: 208 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+[1 49 6 ; ] = best = -0.419362
+Total time taken is 120245
+Evaluating: 1 49 6 
+1 49 6 fitness: 5.82245 code: 0
+Total time taken is 120274
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+1 46 31 fitness: 0.0425979 code: 0
+Total time taken is 120382
+Iter: 210 / 230, RUNNING: 4 Lambda: 2 best 0.0391055
+[10 20 17 ; 8 18 28 ; ] = best = -8.65542
+Total time taken is 120386
+Evaluating: 10 20 17 
+Evaluating: 8 18 28 
+3 30 4 fitness: 55.6421 code: 2
+Total time taken is 124799
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 124910
+Iter: 211 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+[5 44 32 ; ] = best = -18.0973
+Total time taken is 124911
+Evaluating: 5 44 32 
+3 23 16 fitness: 0.931898 code: 0
+Total time taken is 125220
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.334898 C: 2.62144
+Total time taken is 125332
+Iter: 212 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+Couldn't find new particles, searching in region of best
+1 47 31  got around best
+Total time taken is 125333
+Evaluating: 1 47 31 
+1 47 31 fitness: 0.0425678 code: 0
+Total time taken is 125551
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 125663
+Iter: 213 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+[4 46 21 ; ] = best = -1.70321
+Total time taken is 125664
+Evaluating: 4 46 21 
+8 13 32 fitness: 0.312944 code: 0
+Total time taken is 125738
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.482253 C: 4.096
+Total time taken is 125853
+Iter: 214 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+Couldn't find new particles, searching in region of best
+2 46 31  got around best
+Total time taken is 125854
+Evaluating: 2 46 31 
+9 33 17 fitness: 2.31269 code: 0
+Total time taken is 128300
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 128417
+Iter: 215 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+[4 38 8 ; ] = best = -2.50186
+Total time taken is 128418
+Evaluating: 4 38 8 
+8 18 28 fitness: 0.460741 code: 0
+Total time taken is 129424
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 129543
+Iter: 216 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+[2 41 19 ; ] = best = -0.0664145
+Total time taken is 129544
+Evaluating: 2 41 19 
+2 41 19 fitness: 0.372374 code: 0
+Total time taken is 129681
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+Total time taken is 129799
+Iter: 217 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+[5 17 7 ; ] = best = -0.0106505
+Total time taken is 129800
+Evaluating: 5 17 7 
+10 20 17 fitness: 2.57093 code: 0
+Total time taken is 131389
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.334898 C: 2.62144
+Total time taken is 131509
+Iter: 218 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+Couldn't find new particles, searching in region of best
+2 46 32  got around best
+Total time taken is 131510
+Evaluating: 2 46 32 
+2 46 32 fitness: 0.0782547 code: 0
+Total time taken is 131729
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.279082 C: 2.09715
+Total time taken is 131849
+Iter: 219 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+Couldn't find new particles, searching in region of best
+2 47 31  got around best
+Total time taken is 131850
+Evaluating: 2 47 31 
+4 46 21 fitness: 0.544664 code: 0
+Total time taken is 131998
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+2 47 31 fitness: 0.0851355 code: 0
+Total time taken is 132117
+Iter: 221 / 230, RUNNING: 4 Lambda: 2 best 0.0391055
+[7 14 21 ; 10 38 19 ; ] = best = -0.126524
+Total time taken is 132121
+Evaluating: 7 14 21 
+Evaluating: 10 38 19 
+4 38 8 fitness: 9.55662 code: 0
+Total time taken is 132656
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0778866 C: 0.439805
+2 46 31 fitness: 0.0851959 code: 0
+Total time taken is 132770
+Iter: 223 / 230, RUNNING: 4 Lambda: 2 best 0.0391055
+[1 23 28 ; 1 26 32 ; ] = best = -4.15735
+Total time taken is 132772
+Evaluating: 1 23 28 
+Evaluating: 1 26 32 
+10 38 19 fitness: 300 code: 1
+Total time taken is 133420
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.401878 C: 3.2768
+Total time taken is 133537
+Iter: 224 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+[1 19 32 ; ] = best = -0.255036
+Total time taken is 133538
+Evaluating: 1 19 32 
+5 44 32 fitness: 0.195644 code: 0
+Total time taken is 136328
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Total time taken is 136450
+Iter: 225 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+Couldn't find new particles, searching in region of best
+2 47 32  got around best
+Total time taken is 136452
+Evaluating: 2 47 32 
+2 47 32 fitness: 0.0782111 code: 0
+Total time taken is 136559
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+5 17 7 fitness: 18.048 code: 0
+Total time taken is 136682
+Iter: 227 / 230, RUNNING: 4 Lambda: 2 best 0.0391055
+[11 47 31 ; 4 26 30 ; ] = best = -0.383533
+Total time taken is 136685
+Evaluating: 11 47 31 
+Evaluating: 4 26 30 
+1 23 28 fitness: 0.0576242 code: 0
+Total time taken is 137436
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0313009 C: 0.144115
+Total time taken is 137560
+Iter: 228 / 230, RUNNING: 5 Lambda: 1 best 0.0391055
+[3 22 28 ; ] = best = -10.3877
+Total time taken is 137561
+Evaluating: 3 22 28 
+11 47 31 fitness: 300 code: 1
+Total time taken is 137915
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+1 26 32 fitness: 0.0391162 code: 0
+Total time taken is 138043
+Iter: 230 / 230, RUNNING: 4 Lambda: 2 best 0.0391055
+Couldn't find new particles, searching in region of best
+2 48 31 2 48 32  got around best
+Total time taken is 138044
+Evaluating: 2 48 31 
+Evaluating: 2 48 32 
+2 48 32 fitness: 0.0782257 code: 0
+Total time taken is 138137
+Search l=6 took 18586819 iter=190 / 231
+In FPGA time took 138137

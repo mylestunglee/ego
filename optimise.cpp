@@ -77,7 +77,7 @@ opt::opt(int d, vector<double> u, vector<double> l, EGO *e, bool disc)
   }
 }
 
-void opt::generate(int pop)
+void opt::generate(int pop, int groups)
 {
   //random_device rd;
   //mt19937 gen(rd());
@@ -92,6 +92,7 @@ void opt::generate(int pop)
       part->speed.push_back(uni_dist(-speed_max[j], speed_max[j]));
     }
     part->best_fitness = -0.0;
+    part->group = rand() % groups;
     particles.push_back(part);
   }
   best_part = new Particle();
@@ -120,6 +121,39 @@ vector<double> opt::swarm_optimise(int max_gen, int pop, int min_gen)
   return swarm_main_optimise(max_gen, min_gen);
 }
 
+vector<vector<double>> opt::combined_optimise(vector<double> best, int max_gen, int pop, int num_groups)
+{
+  generate(pop, num_groups);
+  Particle *part = particles[0];
+  for(int i = 0; i < dimension; i++) {
+   part->p[i] = best[i];
+  }
+
+  vector<double> groups(num_groups, 1.0);
+  vector<vector<double>> group_best(num_groups, vector<double>(dimension));
+
+  for(int g = 0; g < max_gen; g++) {
+    for(vector<Particle *>::iterator p = particles.begin(); p != particles.end(); p++) {
+      Particle *part = *p;
+      double result = ego->fitness(part->p);
+
+      if(result < part->best_fitness) {
+        part->best_fitness = result;
+        part->best = part->p;
+      }
+
+      if(result < groups[part->group]) {
+        group_best[part->group] = part->p;
+	groups[part->group] = result;
+      }
+    }
+    update_particles(g, max_gen);
+    filter();
+  }
+  group_best.push_back(groups);
+  return group_best;
+}
+
 vector<double> opt::swarm_main_optimise(int max_gen, int min_gen)
 {
   for(int g = 0; g < max_gen; g++) {
@@ -138,7 +172,6 @@ vector<double> opt::swarm_main_optimise(int max_gen, int min_gen)
 	last_gen = (g+1);
       }
     }
-    //if(g > min_gen && g - last_gen == 400) break;
     update_particles(g, max_gen);
     filter();
   }

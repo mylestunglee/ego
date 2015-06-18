@@ -65,6 +65,8 @@ class EGO
     bool is_new_result;
     bool use_brute_search;
     bool use_cost;
+    bool train_cost_soft;
+    bool is_max;
     bool suppress;
     bool exhaustive;
     vector<double> discrete_steps;
@@ -90,6 +92,7 @@ class EGO
 
     Surrogate *sg;
     Surrogate *sg_cost;
+    Surrogate *sg_cost_soft;
 
     EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string python_file_name, int search_type);
     void python_eval(const vector<double> &x, bool add=false);

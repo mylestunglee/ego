@@ -73,14 +73,18 @@ EGO *reset_ego()
 
     case pq:
       python_name = "/homes/wjn11/MLO/examples/pq";
-      lower = {1.0, 11.0, 4.0};
-      upper = {16.0, 53.0, 32.0};
+      lower = {4.0, 80.0, 1.0};
+      upper = {53.0, 120.0, 4.0};
       dimension = 3;
-      max_f = 0.0390423230495;
-      for(double i = -20.; i < 21; i++) {
+      max_f = 155.0;
+      exhaustive = true;
+      for(double i = -10.; i < 11; i++) {
         gamma.push_back(pow(1.2, i));
+      }
+      for(double i = 1.; i < 11; i++) {
         C.push_back(10 * pow(1.25, i));
       }
+      always_valid = {4., 80., 1.};
       break;
 
     case rtm:
@@ -98,20 +102,24 @@ EGO *reset_ego()
   sg->gamma = gamma;
   cout << sg->gamma.size() << " gamma size" << endl;
   sg->C = C;
-  //sg->set_params(0.0, 0.0);
 
   EGO *ego = new EGO(dimension, sg, lower, upper, python_name, search_type);
   cout << "Built" << endl;
 
   ego->search_type = search_type;
   ego->max_fitness = max_f;
-  ego->max_iterations = 10*dimension + 200;
+  ego->max_iterations = 1000;
   ego->suppress = false;
   ego->is_discrete = true;
   ego->n_sims = n_sims;
   ego->use_cost = use_cost;
   ego->num_lambda = lambda;
   ego->max_points = upper[1] - lower[1];
+  if(bench == pq) {
+    ego->is_max = true;
+    ego->best_fitness = -100000;
+  }
+  //cout << "MAX = " << ego->is_max << endl;
   //ego->max_points = 100;
   ego->num_points = ego->max_points;
   ego->pso_gen = 500;
@@ -119,7 +127,7 @@ EGO *reset_ego()
   //ego->use_brute_search = use_brute;
   ego->exhaustive = exhaustive;
 
-  if(bench == rtm) ego->python_eval(always_valid);
+  ego->python_eval(always_valid);
   cout << "Sample"<<endl;
   ego->sample_plan(10*dimension, 10);
   cout << "Sampled"<<endl;
@@ -128,39 +136,40 @@ EGO *reset_ego()
 
 int main(int argc, char * argv[]) 
 {
+  srand(time(NULL));
   dimension = 3;
   EGO* ego = NULL;
-  //if(argc < 6) {
-  //  cout<<"Usage: " << endl;
-  //  cout <<"./test example search_type use_cost lambda n_sims" << endl;
-  //  cout << "examples: 1 = Quad, 2 = PQ, 3 = RTM" << endl;
-  //  cout << "search_type: 1 = Brute, 2 = PSO, 3 = PSO + Brute" << endl;
-  //  cout << "use_cost: 0 = Standard EI, 1 = EI / Cost" << endl;
-  //  exit(0);
-  //} else {
-  //  bench = static_cast<example>(atoi(argv[1]));
-  //  search_type = atoi(argv[2]);
-  //  use_cost = atoi(argv[3]);
-  //  lambda = atoi(argv[4]);
-  //  n_sims = atoi(argv[5]);
-  //  use_log = atoi(argv[6]);
-  //  cout << bench <<" "<<search_type<<use_cost<<lambda<<n_sims<<endl;
-  //}
+  if(argc < 6) {
+    cout<<"Usage: " << endl;
+    cout <<"./test example search_type use_cost lambda n_sims" << endl;
+    cout << "examples: 1 = Quad, 2 = PQ, 3 = RTM" << endl;
+    cout << "search_type: 1 = Brute, 2 = PSO, 3 = PSO + Brute" << endl;
+    cout << "use_cost: 0 = Standard EI, 1 = EI / Cost" << endl;
+    exit(0);
+  } else {
+    bench = static_cast<example>(atoi(argv[1]));
+    search_type = atoi(argv[2]);
+    use_cost = atoi(argv[3]);
+    lambda = atoi(argv[4]);
+    n_sims = atoi(argv[5]);
+    use_log = atoi(argv[6]);
+    cout << bench <<" "<<search_type<<use_cost<<lambda<<n_sims<<endl;
+  }
 
-  for(int i = 2; i < 7; i+=2) {
-    for(int j = 0; j < 5; j++) {
-      cout << endl << endl << endl << endl << endl;
-      bench = rtm;
-      search_type = 1;
-      use_cost = 1;
-      lambda = i;
-      n_sims = 100;
-      use_log = 1;
-      cout << "STARTING BENCH OF RTM ";
-      cout << "LAMBDA = " << lambda;
-      cout << " SEARCH = BRUTE ";
-      cout << " NSIMS = " << n_sims;
-      cout << " USING COST";
+  //vector<double> lambdas = {1, 2, 4, 6};
+  //for(size_t i = 0; i < lambdas.size(); i++) {
+      //cout << endl << endl << endl << endl << endl;
+      //bench = quad;
+      //search_type = 1;
+      //use_cost = 1;
+      //lambda = lambdas[i];
+      //n_sims = 100;
+      //use_log = 1;
+      //cout << "STARTING BENCH OF QUAD ";
+      //cout << "LAMBDA = " << lambda;
+      //cout << " SEARCH = BRUTE ";
+      //cout << " NSIMS = " << n_sims;
+      //cout << " COST";
       ego = reset_ego();
       ego->suppress = false;
       auto t1 = std::chrono::high_resolution_clock::now();
@@ -170,6 +179,5 @@ int main(int argc, char * argv[])
       cout << "Search l=" << lambda << " took " << t3  << " iter=" << ego->iter << " / " << ego->num_iterations<< endl;
       cout << "In FPGA time took " << ego->total_time << endl;
       delete ego;
-    }
-  }
+  //}
 }
