@@ -338,8 +338,8 @@ void EGO::python_eval(const vector<double> &x, bool add)
           best_fitness = run.fitness;
           best_particle = x;
         }
-        for(int i = 0; i < dimension; i++) cout << x[i] << " ";
-        cout << run.fitness << endl;
+        //for(int i = 0; i < dimension; i++) cout << x[i] << " ";
+        //cout << run.fitness << endl;
       }
       training_f.push_back(run.fitness);
     }

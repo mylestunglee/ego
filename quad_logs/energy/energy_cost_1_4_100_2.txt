@@ -1,0 +1,180 @@
+Search = 1 test QUAD lambda = 4 n_sims = 100
+1 114100
+Using Brute Search
+Building
+41 gamma size
+Python initialised
+/homes/wjn11/MLO/examples/quadrature_method_based_app
+Got pName: fitness_script
+Got pModule
+Got pFunc
+Got rid of pName
+Built
+Evaluating: 1 53 32 
+Sending Py_None
+Sample
+10 size
+Latin eval
+Evaluating: 2 39 16 
+Evaluating: 14 15 28 
+Evaluating: 4 48 22 
+14 15 28 fitness: 375.399 code: 1
+Total time taken is 1201
+Evaluating: 12 43 32 
+12 43 32 fitness: 375.399 code: 1
+Total time taken is 2402
+Evaluating: 9 53 7 
+2 39 16 fitness: 22.3796 code: 2
+Software cost 94
+Total time taken is 3039
+Evaluating: 7 29 25 
+9 53 7 fitness: 375.399 code: 1
+Total time taken is 3603
+Evaluating: 16 11 13 
+16 11 13 fitness: 375.399 code: 1
+Total time taken is 4804
+Evaluating: 11 20 4 
+1 53 32 fitness: 352.535 code: 0
+Software cost 204
+Total time taken is 5921
+Evaluating: 6 34 10 
+4 48 22 fitness: 31.0749 code: 2
+Software cost 162
+Total time taken is 11076
+Evaluating: 1 25 19 
+7 29 25 fitness: 26.8301 code: 2
+Software cost 152
+Total time taken is 12687
+Optimised SVM, gamma: 0.05 C: 10
+Adding extra permutations
+Evaluating: 2 53 32 
+Optimised SVM, gamma: 0.05 C: 10
+6 34 10 fitness: 1.99105 code: 2
+Software cost 63
+Total time taken is 15752
+Evaluating: 1 52 32 
+Optimised SVM, gamma: 0.05 C: 10
+1 25 19 fitness: 72.2556 code: 2
+Software cost 123
+Total time taken is 15955
+Evaluating: 1 53 30 
+Optimised SVM, gamma: 0.05 C: 10
+1 53 30 fitness: 291.673 code: 2
+Software cost 157
+Total time taken is 16107
+Evaluating: 1 53 31 
+Optimised SVM, gamma: 0.05 C: 10
+1 53 31 fitness: 324.45 code: 2
+Software cost 204
+Total time taken is 16309
+Evaluating: 4 53 32 
+Optimised SVM, gamma: 0.05 C: 10
+11 20 4 fitness: 0.074498 code: 2
+Software cost 27
+Total time taken is 16357
+Evaluating: 2 52 31 
+Optimised SVM, gamma: 0.05 C: 10
+2 53 32 fitness: 181.76 code: 0
+Software cost 204
+Total time taken is 19293
+Evaluating: 2 53 31 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+2 53 31 fitness: 166.803 code: 2
+Software cost 155
+Total time taken is 19470
+Evaluating: 3 53 32 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+2 52 31 fitness: 167.088 code: 2
+Software cost 117
+Total time taken is 19944
+Evaluating: 1 50 30 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+1 52 32 fitness: 351.81 code: 0
+Software cost 160
+Total time taken is 19989
+Evaluating: 5 51 30 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+1 50 30 fitness: 289.638 code: 2
+Software cost 195
+Total time taken is 23942
+Evaluating: 1 51 29 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+4 53 32 fitness: 96.0529 code: 0
+Software cost 211
+Total time taken is 26034
+Evaluating: 3 48 31 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+3 53 32 fitness: 124.239 code: 0
+Software cost 103
+Total time taken is 27406
+Evaluating: 5 48 32 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+1 51 29 fitness: 260.978 code: 2
+Software cost 195
+Total time taken is 28208
+Evaluating: 2 52 32 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+2 52 32 fitness: 182.041 code: 0
+Software cost 85
+Total time taken is 28433
+Evaluating: 3 52 32 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+3 52 32 fitness: 124.599 code: 0
+Software cost 131
+Total time taken is 32891
+Evaluating: 5 51 31 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+5 51 31 fitness: 72.3451 code: 2
+Software cost 192
+Total time taken is 32999
+Evaluating: 2 51 31 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+5 51 30 fitness: 65.2096 code: 2
+Software cost 80
+Total time taken is 33346
+Evaluating: 1 52 31 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+1 52 31 fitness: 323.374 code: 2
+Software cost 190
+Total time taken is 33456
+Evaluating: 1 50 32 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+1 50 32 fitness: 349.879 code: 0
+Software cost 137
+Total time taken is 33597
+1001
+1002
+1003
+1004
+1005
+1006
+1007
+Evaluating: 2 50 29 
+Performing 5 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+3 48 31 fitness: 113.641 code: 2
+Software cost 125
+Total time taken is 34793
+Sampled
+Started, dim=3, lambda=4 max_f=0.0578514
+Defaulted to using log on GP log like: 30.4567 normal like: -98.6718
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.0260841 C: 0.115292
+Defaulted to using log on GP log like: -9.66983 normal like: -127.861
+Total time taken is 34795
+Found best at [1, 53, 32, ] with fitness [352.535]
+Search l=4 took 2500 iter=0 / 28
+In FPGA time took 34795

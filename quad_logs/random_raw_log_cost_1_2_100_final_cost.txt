@@ -1594,3 +1594,61 @@ Evaluating: 1 11 12
 Software cost 49
 Total time taken is 171910
 Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.037561 C: 0.180144
+1 11 12 fitness: 0.740153 code: 2
+Software cost 68
+Total time taken is 172015
+Iter: 205 / 1000, RUNNING: 0 Lambda: 2 best: 0.039112 time: 172015
+[2 50 4 ; 1 49 4 ; ] = best = 80.6441
+Total time taken is 172018
+Evaluating: 2 50 4 
+Evaluating: 1 49 4 
+2 50 4 fitness: 37.0899 code: 2
+Software cost 13
+Total time taken is 172041
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.279082 C: 2.09715
+Total time taken is 172892
+Iter: 206 / 1000, RUNNING: 1 Lambda: 1 best: 0.039112 time: 172892
+[1 17 21 ; ] = best = 36.7879
+Evaluating: 1 17 21 
+1 17 21 fitness: 0.136246 code: 0
+Software cost 141
+Total time taken is 173044
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 10.6993 C: 181.899
+Total time taken is 173151
+Iter: 207 / 1000, RUNNING: 1 Lambda: 1 best: 0.039112 time: 173151
+[1 11 13 ; ] = best = 36.7879
+Evaluating: 1 11 13 
+1 11 13 fitness: 0.573918 code: 2
+Software cost 41
+Total time taken is 173204
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.193807 C: 1.34218
+Total time taken is 174094
+Iter: 208 / 1000, RUNNING: 1 Lambda: 1 best: 0.039112 time: 174094
+[1 17 22 ; ] = best = 36.7879
+Evaluating: 1 17 22 
+1 17 22 fitness: 0.120145 code: 0
+Software cost 119
+Total time taken is 174185
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 7.43008 C: 116.415
+Total time taken is 174294
+Iter: 209 / 1000, RUNNING: 1 Lambda: 1 best: 0.039112 time: 174294
+[1 11 14 ; ] = best = 36.7879
+Evaluating: 1 11 14 
+1 11 14 fitness: 0.456191 code: 2
+Software cost 72
+Total time taken is 174363
+Performing 10 fold validation for SVM
+Optimised SVM, gamma: 0.334898 C: 2.62144
+Total time taken is 175229
+Iter: 210 / 1000, RUNNING: 1 Lambda: 1 best: 0.039112 time: 175229
+[1 17 23 ; ] = best = 36.7879
+Evaluating: 1 17 23 
+1 17 23 fitness: 0.104736 code: 0
+Software cost 63
+Total time taken is 175369
+Performing 10 fold validation for SVM
