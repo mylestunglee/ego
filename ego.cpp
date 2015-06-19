@@ -82,7 +82,9 @@ void EGO::run_quad()
     if(is_new_result && !suppress) {
       cout << "Iter: " << num_iterations << " / " << max_iterations;
       cout << ", RUNNING: " << running.size() << " Lambda: " << lambda;
-      cout << " best " << best_fitness << endl;
+      cout << " best: " << best_fitness;
+      cout << " time: " << total_time << endl;
+      
       is_new_result = false;
     }
 
@@ -348,6 +350,7 @@ void EGO::python_eval(const vector<double> &x, bool add)
     run.data = x;
     run.pos = mu_means.size() - 1;
     running.push_back(run);
+    //cout << "Cost given as " << run.cost << " " << run.true_cost << endl;
   }
 }
 

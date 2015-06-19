@@ -10,7 +10,9 @@ int main(int argc, char * argv[]) {
   string python_name = "/homes/wjn11/MLO/examples/quadrature_method_based_app";
   vector<double> lower = {1.0, 11.0, 4.0};
   vector<double> upper = {16.0, 53.0, 32.0};
-  vector<double> gamma, C;
+  python_name = "/homes/wjn11/MLO/examples/pq";
+  lower = {4.0, 80.0, 1.0};
+  upper = {53.0, 120.0, 4.0};
   int dimension = 3;
   double max_f = 0.0390423230495;
 
@@ -22,11 +24,11 @@ int main(int argc, char * argv[]) {
     for(int j = lower[1]; j <= upper[1]; j++) {
       for(int k = lower[2]; k <= upper[2]; k++) {
         vector<double> x(dimension, 0.0);
-	x[0] = i;
-	x[1] = j;
-	x[2] = k;
-	ego->python_eval(x);
-	ego->update_running();
+        x[0] = i;
+        x[1] = j;
+        x[2] = k;
+        ego->python_eval(x);
+        ego->update_running();
       }
     }
   }

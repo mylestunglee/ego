@@ -49,8 +49,8 @@ EGO *reset_ego()
       lower = {1.0, 11.0, 4.0};
       upper = {16.0, 53.0, 32.0};
       dimension = 3;
-      max_f = 0.0390423230495;
-      //max_f = 0.0469;
+      //max_f = 0.0390423230495;
+      max_f = 0.05785136;
 
       //if(local) {
       //  for(double i = -10.; i < 31; i++) {
@@ -76,7 +76,7 @@ EGO *reset_ego()
       lower = {4.0, 80.0, 1.0};
       upper = {53.0, 120.0, 4.0};
       dimension = 3;
-      max_f = 155.0;
+      max_f = 153.0;
       exhaustive = true;
       for(double i = -10.; i < 11; i++) {
         gamma.push_back(pow(1.2, i));
