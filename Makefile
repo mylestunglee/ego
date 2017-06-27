@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -c -std=c++0x -Wall #-Werror
+CFLAGS = -c -std=c++0x -Wall
 INC = -Ieigen3 -Ilibgp/include -Ilibgp/src -I/usr/include/python2.6 -I/usr/include/python2.7
 LIBS = -Llibgp -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu/ -lgp -lpthread -lpython2.7
 
@@ -19,6 +19,7 @@ $(EXECUTABLE) : $(OBJECTS)
 clean:
 	rm -rf *.o
 	rm -f test
+	rm $(EXECUTABLE)
 
 old_test: main.o $(OBJECTS)
 	$(CC) main.o surrogate.o functions.o optimise.o ego.o ihs.o libsvm-3.20/svm.o $(INC) $(LIBS) -o old_test
