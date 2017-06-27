@@ -133,9 +133,11 @@ EGO *reset_ego()
   cout << "Sampled"<<endl;
   return ego;
 }
-
+/*
 int main(int argc, char * argv[]) 
 {
+  cout << "Executing bench.cpp" << endl;
+
   srand(time(NULL));
   dimension = 3;
   EGO* ego = NULL;
@@ -180,4 +182,4 @@ int main(int argc, char * argv[])
       cout << "In FPGA time took " << ego->total_time << endl;
       delete ego;
   //}
-}
+}*/

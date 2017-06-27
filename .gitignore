@@ -5,3 +5,6 @@
 *.swp
 *test*
 *example*
+libgp/*
+libsvm*
+pq_optimisation
