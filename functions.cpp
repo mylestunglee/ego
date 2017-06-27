@@ -1,13 +1,18 @@
 #include "functions.h"
+#include <vector>
 #include <cmath>
+#include <iostream>
 
 using namespace std;
 
 const double PI = std::atan(1.0)*4;
 
-double quadratic(double x[])
-{
-  return pow(x[0] - 1, 2) + pow(x[1] - 1, 2);
+void test_evaluator(vector<double> x, double &fitness, int &label, int &cost) {
+  cost = 10;
+  label = 0;
+  if (x[0] > 4) label = 2;
+  if (x[1] > 4) label = 1;
+  fitness = pow(x[0] - 1, 2) + pow(x[1] - 1, 2);
 }
 
 double easy_test(double x[])

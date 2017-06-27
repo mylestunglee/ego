@@ -12,11 +12,11 @@ class EGO
 {
   public:
     //Constructor
-    EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*fit)(double x[]));
+    EGO(int dim, Surrogate *s, vector<double> low, vector<double> up);
     ~EGO();
 
     struct running_node {
-      long double fitness;
+      double fitness;
       int label;
       bool is_finished;
       int addReturn;
@@ -71,14 +71,14 @@ class EGO
     bool exhaustive;
     vector<double> discrete_steps;
 
-    PyObject *pName; 
-    PyObject *pModule; 
-    PyObject *pDict; 
-    PyObject *pFunc; 
-    PyObject *pValue; 
-    PyObject *pState; 
+    PyObject *pName;
+    PyObject *pModule;
+    PyObject *pDict;
+    PyObject *pFunc;
+    PyObject *pValue;
+    PyObject *pState;
 
-    double (* proper_fitness) (double x[]);
+    evaluator_t evaluator;
 
     mutex running_mtx;
     vector<struct running_node> running;
@@ -103,4 +103,3 @@ class EGO
     void latin_hypercube(size_t F, int D);
     vector<double> local_random(double radius=1.0, int llambda=1);
 };
-

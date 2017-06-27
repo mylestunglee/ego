@@ -1,6 +1,12 @@
 #pragma once
+#include <vector>
 
-double quadratic(double x[]);
+using namespace std;
+
+typedef void (* evaluator_t)(vector<double> x, double &fitness, int &label, int &cost);
+
+void test_evaluator(vector<double> x, double &fitness, int &label, int &cost);
+
 double easy_test(double x[]);
 double easy_test2(double x[]);
 double ackley(double z[]);
@@ -19,4 +25,3 @@ double prob09(double x[]);
 double tang(double x[]);
 
 enum example {quad=1, pq, rtm};
-

@@ -49,6 +49,7 @@ void EGO::run_quad()
     } else {
       sg_cost_soft->train();
     }
+
     //auto t2 = std::chrono::high_resolution_clock::now();
     //auto t3 = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
     t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
@@ -149,162 +150,10 @@ void EGO::python_eval(const vector<double> &x, bool add)
     mu_means.push_back(p.first);
     mu_vars.push_back(p.second);
   }
-
   struct running_node run;
-  PyObject *args, *index, *args2, *fitness_result, *results, *temp, *index_0;
-  args = PyList_New(x.size());
-  //Set up arguments for call to fitness function
-  for(unsigned int i = 0; i < x.size(); i++) {
-    long val = round(x[i]);
-    if(val > 0) {
-      size_t v = val;
-      pValue = PyInt_FromSize_t(v);
-    } else {
-      pValue = PyInt_FromLong(val);
-    }
-    if(pValue == NULL || PyErr_Occurred()) {
-      cout << "Broken python code in eval, exiting" << endl;
-      cout << "Broke on adding " << x[i] << " to arg list" << endl;
-      PyErr_Print();
-      Py_DECREF(pValue);
-      Py_DECREF(args);
-      exit(-1);
-    }
-    PyList_SetItem(args, i, pValue);
-    //cout << "Break on pValue " << pValue << " for " <<val <<endl;
-    if(pValue) {
-      //Python breaks horribly for no reason, so we are fudging this and leaking
-      //memory everywhere
-      //Py_XDECREF(pValue);
-    }
-  }
-
-  //SO LONG URGH
-  if(pState) {
-    args2 = Py_BuildValue("(O,O)", args, pState);
-  } else {
-    cout << "Sending Py_None" << endl;
-    args2 = Py_BuildValue("(O,O)", args, Py_None);
-  }
-  if(!args2) {
-    cout << "Broken python code in eval, exiting" << endl;
-    PyErr_Print();
-    cout << "Couldn't create argument list" << endl;
-    exit(-1);
-  }
-
-  //Finally call python code
-  fitness_result = PyObject_CallObject(pFunc, args2);
-
-  if(!fitness_result) {
-    cout << "Broken python code in eval, exiting" << endl;
-    PyErr_Print();
-    cout << "No fitness values were returned" << endl;
-    exit(-1);
-  }
-
-  if(args)  {
-    Py_DECREF(args);
-    args = NULL;
-  }
-  if(args2)  {
-    Py_DECREF(args2);
-    args2 = NULL;
-  }
-  if(pState) {
-    Py_DECREF(pState);
-    pState = NULL;
-  }
-
-  //Check dem errors
-  int size = PyTuple_Size(fitness_result);
-  if(size < 2) {
-    cout << "Broken python code in eval, exiting" << endl;
-    cout << "Broke on reading returned fitness values, size is " << size << endl;
-    PyErr_Print();
-    exit(-1);
-  }
-  index = PyInt_FromLong(0);
-  results = PyObject_GetItem(fitness_result, index);
-  Py_DECREF(index);
-
-  //Set all the python stuff back to C++ types
-  index = PyInt_FromLong(1);
-  //Set our state object
-  pState = PyObject_GetItem(fitness_result, index);
-  if(!pState) {
-    cout << "Broken python code in eval, exiting" << endl;
-    PyErr_Print();
-    cout << "No state returned" << endl;
-    exit(-1);
-  }
-  Py_DECREF(index);
-
-  //Grab all those juicy results - now in longform
-  index_0 = PyInt_FromLong(0);
-  pValue = PyObject_GetItem(results, index_0);
-  if(!pValue) {
-    cout << "Broken python code in eval, exiting" << endl;
-    PyErr_Print();
-    cout << "No fitness returned" << endl;
-    exit(-1);
-  }
-  temp = PyObject_GetItem(pValue, index_0);
-  run.fitness = PyFloat_AsDouble(temp);
-
-  Py_DECREF(pValue);
-  Py_DECREF(temp);
-
-  index = PyInt_FromLong(1);
-  pValue = PyObject_GetItem(results, index);
-  if(!pValue) {
-    cout << "Broken python code in eval, exiting" << endl;
-    PyErr_Print();
-    cout << "No label returned" << endl;
-    exit(-1);
-  }
-  temp = PyObject_GetItem(pValue, index_0);
-  run.label = PyInt_AsLong(temp);
-
-  Py_DECREF(pValue);
-  Py_DECREF(temp);
-  Py_DECREF(index);
-
-  index = PyInt_FromLong(2);
-  pValue = PyObject_GetItem(results, index);
-  if(!pValue) {
-    cout << "Broken python code in eval, exiting" << endl;
-    PyErr_Print();
-    cout << "No addReturn returned" << endl;
-    exit(-1);
-  }
-  temp = PyObject_GetItem(pValue, index_0);
-  run.addReturn = PyInt_AsLong(temp);
-
-  Py_DECREF(pValue);
-  Py_DECREF(temp);
-  Py_DECREF(index);
-
-  index = PyInt_FromLong(3);
-  pValue = PyObject_GetItem(results, index);
-  if(!pValue) {
-    cout << "Broken python code in eval, exiting" << endl;
-    PyErr_Print();
-    cout << "No cost returned" << endl;
-    exit(-1);
-  }
-  temp = PyObject_GetItem(pValue, index_0);
-  run.cost = PyInt_AsLong(pValue);
-  run.true_cost = run.cost;
+  evaluator(x, run.fitness, run.label, run.true_cost);
+  run.addReturn = 0;
   run.cost = abs(run.cost);
-
-  Py_DECREF(pValue);
-  Py_DECREF(temp);
-  Py_DECREF(index);
-  Py_DECREF(index_0);
-  Py_DECREF(results);
-  Py_DECREF(fitness_result);
-  //FINALLY CLEAN
 
   if(add) {
     //We evaluated it, now add to all our surrogate models
@@ -426,6 +275,8 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string py
   sg_cost_soft = new Surrogate(dim, SEard);
   search_type = search;
 
+  return;
+
   // Initialize the Python Interpreter
   Py_Initialize();
   cout << "Python initialised" << endl;
@@ -469,12 +320,11 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string py
   cout << "Got rid of pName" << endl;
 }
 
-EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*fit)(double x[]))
+EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up)
 {
   dimension = dim;
   upper = up;
   lower = low;
-  proper_fitness = fit;
   sg = s;
   n_sims = 50;
   max_iterations = 500;
@@ -500,6 +350,7 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*f
 
 void EGO::run()
 {
+  suppress = false;
   if(!suppress) cout << "Started, dim=" << dimension << ", lambda=" << num_lambda << endl;
   sg->train_gp_first();
   while(num_iterations < max_iterations) {
@@ -511,13 +362,13 @@ void EGO::run()
     //update_time(t3);
 
     if(at_optimum || best_fitness <= max_fitness) {
-      if(!suppress) {
+      //if(!suppress) {
         cout << "Found best at [";
         for(int i = 0; i < dimension; i++) {
           cout << best_particle[i] << ", ";
         }
         cout << "\b\b] with fitness [" << best_fitness << "]" << endl;
-      }
+      //}
       while(running.size() > 0){
         //std::this_thread::sleep_for(std::chrono::milliseconds(50));
 	check_running_tasks();
@@ -613,38 +464,26 @@ void EGO::evaluate(const vector<double> &x)
 void EGO::worker_task(vector<double> node)
 {
   //Perform calculation
-  double result = proper_fitness(&node[0]);
+  double fitness;
+  int label;
+  int cost;
+  evaluator(node, fitness, label, cost);
 
   running_mtx.lock();
 
   //Add results back to node keeping track
-  vector<struct running_node>::iterator running_i = running.begin();
-  while(running_i != running.end()) {
+  for(auto &run : running) {
     int i = 0;
     for(; i < dimension; i++) {
-      if(running_i->data[i] != node[i]) break;
+      if(run.data[i] != node[i]) break;
     }
     if(i == dimension) {
-      running_i->is_finished = true;
-      running_i->fitness = result;
-      running_i->label = 1; //(int) (result < 100 && result > -100);
+      run.is_finished = true;
+      run.fitness = fitness;
+      run.label = 1;
       break;
     }
-    running_i++;
   }
-
-  //Uses C++11 features and can't compile on old gcc
-  //for(auto &run : running) {
-  //  int i = 0;
-  //  for(; i < dimension; i++) {
-  //    if(run.data[i] != node[i]) break;
-  //  }
-  //  if(i == dimension) {
-  //    run.is_finished = true;
-  //    run.fitness = result;
-  //    break;
-  //  }
-  //}
 
   running_mtx.unlock();
 }
@@ -1029,7 +868,7 @@ void EGO::sample_plan(size_t F, int D)
 vector<double> EGO::local_random(double radius, int llambda)
 {
   if(!suppress) {
-    cout << "Evaluating random pertubations of best results" << endl;
+    // cout << "Evaluating random pertubations of best results" << endl;
   }
   double noise = sg->error();
   vector<int> index;
