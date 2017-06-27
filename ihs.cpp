@@ -271,7 +271,7 @@ int i4_uniform_ab ( int a, int b, int &seed )
 //
 //  Licensing:
 //
-//    This code is distributed under the GNU LGPL license. 
+//    This code is distributed under the GNU LGPL license.
 //
 //  Modified:
 //
@@ -356,7 +356,7 @@ int i4_uniform_ab ( int a, int b, int &seed )
 //
 //  Scale R to lie between A-0.5 and B+0.5.
 //
-  r = ( 1.0 - r ) * ( ( float ) a - 0.5 ) 
+  r = ( 1.0 - r ) * ( ( float ) a - 0.5 )
     +         r   * ( ( float ) b + 0.5 );
 //
 //  Use rounding to convert R to an integer between A and B.
@@ -765,7 +765,7 @@ double r8_uniform_01 ( int &seed )
 //
 //  Licensing:
 //
-//    This code is distributed under the GNU LGPL license. 
+//    This code is distributed under the GNU LGPL license.
 //
 //  Modified:
 //
@@ -809,7 +809,7 @@ double r8_uniform_01 ( int &seed )
 //    Input/output, int &SEED, the "seed" value.  Normally, this
 //    value should not be 0.  On output, SEED has been updated.
 //
-//    Output, double R8_UNIFORM_01, a new pseudorandom variate, 
+//    Output, double R8_UNIFORM_01, a new pseudorandom variate,
 //    strictly between 0 and 1.
 //
 {
@@ -1227,15 +1227,6 @@ void timestamp ( )
 # define TIME_SIZE 40
 
   static char time_buffer[TIME_SIZE];
-  const struct tm *tm;
-  size_t len;
-  time_t now;
-
-  now = time ( NULL );
-  tm = localtime ( &now );
-
-  len = strftime ( time_buffer, TIME_SIZE, "%d %B %Y %I:%M:%S %p", tm );
-
   cout << time_buffer << "\n";
 
   return;

@@ -812,7 +812,7 @@ vector<double> EGO::max_ei_par(int llambda)
     opt *op = new opt(size, up, low, this, is_discrete);
     vector<vector<double>> swarms = op->combined_optimise(x, pso_gen, population_size * size, lambda);
     double best_f = 0.0;
-    if(swarms.size() <= llambda) {
+    if(swarms.size() <= (unsigned) llambda) {
       best = local_random(1.0, llambda);
     } else {
       for(size_t i = 0; i < swarms[llambda].size(); i++) {
@@ -828,7 +828,7 @@ vector<double> EGO::max_ei_par(int llambda)
         for(int i = 0; i < llambda; i++) {
 	  x = swarms[i];
           y = brute_search_local_swarm(x, 1, 1, true, false, use_mean);
-	  if(y.size() < size) {
+	  if(y.size() < (unsigned) size) {
 	    y = local_random();
 	  }
           for(int j = 0; j < dimension; j++) {
