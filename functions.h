@@ -1,5 +1,6 @@
 #pragma once
 
+double quadratic(double x[]);
 double easy_test(double x[]);
 double easy_test2(double x[]);
 double ackley(double z[]);

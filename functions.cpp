@@ -1,12 +1,14 @@
 #include "functions.h"
-#include "Python.h"
 #include <cmath>
-#include <iostream>
-#include <thread>
 
 using namespace std;
 
 const double PI = std::atan(1.0)*4;
+
+double quadratic(double x[])
+{
+  return pow(x[0] - 1, 2) + pow(x[1] - 1, 2);
+}
 
 double easy_test(double x[])
 {
@@ -42,7 +44,6 @@ double sphere_5(double x[])
 
 double sphere_10(double x[])
 {
-  //std::this_thread::sleep_for(std::chrono::milliseconds(100));
   return sphere(x, 6);
 }
 

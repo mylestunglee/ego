@@ -84,7 +84,7 @@ void EGO::run_quad()
       cout << ", RUNNING: " << running.size() << " Lambda: " << lambda;
       cout << " best: " << best_fitness;
       cout << " time: " << total_time << endl;
-      
+
       is_new_result = false;
     }
 
@@ -150,7 +150,7 @@ void EGO::python_eval(const vector<double> &x, bool add)
     mu_vars.push_back(p.second);
   }
 
-  struct running_node run; 
+  struct running_node run;
   PyObject *args, *index, *args2, *fitness_result, *results, *temp, *index_0;
   args = PyList_New(x.size());
   //Set up arguments for call to fitness function
@@ -215,7 +215,7 @@ void EGO::python_eval(const vector<double> &x, bool add)
     Py_DECREF(pState);
     pState = NULL;
   }
-    
+
   //Check dem errors
   int size = PyTuple_Size(fitness_result);
   if(size < 2) {
@@ -416,7 +416,7 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string py
   total_time = 0;
   is_discrete = false;
   is_new_result = false;
-  use_brute_search = true;
+  use_brute_search = false;
   suppress = false;
   at_optimum = false;
   use_cost = false;
@@ -491,7 +491,7 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, double(*f
   is_discrete = false;
   is_new_result = false;
   use_brute_search = true;
-  suppress = false;
+  suppress = true;
   at_optimum = false;
   use_cost = false;
   pName = NULL;
@@ -596,7 +596,7 @@ void EGO::evaluate(const vector<double> &x)
   mu_vars.push_back(var);
 
   //Add to running set
-  struct running_node run; 
+  struct running_node run;
   run.fitness = mean;
   run.is_finished = false;
   run.data = x;
@@ -606,7 +606,7 @@ void EGO::evaluate(const vector<double> &x)
 
   //Launch another thread to calculate
   //std::thread (&EGO::worker_task, this, x).detach();
-  
+
   worker_task(x);
 }
 
@@ -696,7 +696,7 @@ void EGO::check_running_tasks()
       node++;
     }
   }
-  
+
   running_mtx.unlock();
 }
 
@@ -752,13 +752,13 @@ void EGO::add_training(const vector<double> &x, double y, int label)
   }
 }
 
-vector<double> EGO::max_ei_par(int llambda) 
+vector<double> EGO::max_ei_par(int llambda)
 {
   vector<double> best;
   static bool use_mean = false;
   if(search_type == 1) {
     vector<double> *ptr = brute_search_swarm(num_points, llambda, use_mean);
-    if(ptr) { 
+    if(ptr) {
       best = *ptr;
       delete ptr;
     } else {
@@ -771,7 +771,7 @@ vector<double> EGO::max_ei_par(int llambda)
         cout << " got around best" << endl;
       }
     }
-  } else if(search_type == 2){ 
+  } else if(search_type == 2){
     int size = dimension * llambda;
     vector<double> low(size, 0.0), up(size, 0.0), x(size, 0.0);
 
@@ -787,7 +787,7 @@ vector<double> EGO::max_ei_par(int llambda)
 
     if(best_f < 0.001) {
       best = local_random(1.0, llambda);
-    } 
+    }
     if(!suppress) {
       cout << "[";
       for(int i = 0; i < llambda; i++) {
@@ -852,13 +852,13 @@ vector<double> EGO::max_ei_par(int llambda)
       cout << "\b\b] = best = "  << best_f << endl;
     }
     delete op;
-  } 
+  }
 
   iter++;
   return best;
 }
 
-void EGO::latin_hypercube(size_t F, int D) 
+void EGO::latin_hypercube(size_t F, int D)
 {
   int* latin = ihs(dimension, F, D, D);
   if(!latin) {
@@ -957,7 +957,7 @@ void EGO::sample_plan(size_t F, int D)
   //              j = -1;
   //            }
   //          }
-  //        } 
+  //        }
   //      }
   //      //dist = max(dist+1, 4);
   //      python_eval(point);
@@ -1006,7 +1006,7 @@ void EGO::sample_plan(size_t F, int D)
           if(!not_run(&point[0]) || !not_running(&point[0])) {
             j = -1;
           }
-        } 
+        }
 	if(loops > 1000) {
 	  radius++;
 	  cout << loops << endl;
@@ -1399,10 +1399,10 @@ bool EGO::not_running(const double x[])
   }
   //Not in training or running set, so hasn't been run
   return true;
-  
+
 }
 
-double EGO::ei(double y, double S2, double y_min) 
+double EGO::ei(double y, double S2, double y_min)
 {
   if(S2 <= 0.0) {
     return 0.0;
@@ -1440,14 +1440,14 @@ double EGO::ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, 
                   max2 = l;
 	      }
           }
-          
+
           e_i = max2 - max;
           if (e_i < 0.0) {
             e_i = 0.0;
           }
           sum_ei = e_i + sum_ei;
       }
-    } else { 
+    } else {
       for (int k=0; k < n; k++) {
           double min = y_best;
           for(int i=0; i < max_mus; i++){
@@ -1462,7 +1462,7 @@ double EGO::ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, 
                   min2 = l;
 	      }
           }
-          
+
           e_i = min - min2;
           if (e_i < 0.0) {
             e_i = 0.0;
@@ -1493,7 +1493,7 @@ double gaussrand1()
 	return Z;
 }
 
- 
+
 //Code for CDF of normal distribution
 double phi(double x)
 {
@@ -1504,17 +1504,17 @@ double phi(double x)
     double a4 = -1.453152027;
     double a5 =  1.061405429;
     double p  =  0.3275911;
- 
+
     // Save the sign of x
     int sign = 1;
     if (x < 0)
         sign = -1;
     x = fabs(x)/sqrt(2.0);
- 
+
     // A&S formula 7.1.26
     double t = 1.0/(1.0 + p*x);
     double y = 1.0 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*exp(-x*x);
- 
+
     return 0.5*(1.0 + sign*y);
 }
 
