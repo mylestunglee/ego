@@ -7,5 +7,6 @@
 *example*
 libgp/*
 libsvm*
+gsl*
 pq_optimisation
 *.log

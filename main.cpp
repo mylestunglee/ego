@@ -1,11 +1,15 @@
 #include "ego.hpp"
 #include "surrogate.hpp"
-#include "optimise.hpp"
 #include "evaluator.hpp"
+#include "transfer.hpp"
 
 using namespace std;
 
 int main(int argc, char * argv[]) {
+	if (argc > 1) {
+		transfer();
+		return 0;
+	}
 
 	vector<double> lower = {-2, -2};
 	vector<double> upper = {2, 2};
@@ -19,7 +23,7 @@ int main(int argc, char * argv[]) {
 	ego->search_type = 2; // PSO
 	ego->use_cost = 1; //EI/cost
 
-	ego->sample_plan(3 * dimension, 5);
+	ego->sample_plan(5 * dimension, 5);
 	ego->run_quad();
 
 	evaluator->save("fitness.log");
@@ -27,4 +31,6 @@ int main(int argc, char * argv[]) {
 	delete sg;
 	delete ego;
 	delete evaluator;
+
+	return 0;
 }
