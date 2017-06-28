@@ -52,11 +52,11 @@ void Evaluator::save(string filename) {
 	vector<vector<string>> data;
 	for (pair<vector<double>, vector<double>> pair : cache) {
 		vector<string> line;
-		for (double arg : pair.first) {
-			line.push_back(to_string(arg));
+		for (double x : pair.first) {
+			line.push_back(to_string(x));
 		}
-		for (double res : pair.second) {
-			line.push_back(to_string(res));
+		for (double y : pair.second) {
+			line.push_back(to_string(y));
 		}
 		data.push_back(line);
 	}

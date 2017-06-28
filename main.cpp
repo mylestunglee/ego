@@ -6,8 +6,10 @@
 using namespace std;
 
 int main(int argc, char * argv[]) {
-	if (argc > 1) {
-		transfer();
+	if (argc == 3) {
+		string filename_results_old(argv[1]);
+		string filename_script_new(argv[2]);
+		transfer(filename_results_old, filename_script_new);
 		return 0;
 	}
 
