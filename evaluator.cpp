@@ -1,4 +1,5 @@
 #include "evaluator.hpp"
+#include "csv.hpp"
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -47,6 +48,17 @@ vector<string> Evaluator::execute(string command) {
 }
 
 /* Saves the cache as a CSV file */
-void save(string filename) {
-
+void Evaluator::save(string filename) {
+	vector<vector<string>> data;
+	for (pair<vector<double>, vector<double>> pair : cache) {
+		vector<string> line;
+		for (double arg : pair.first) {
+			line.push_back(to_string(arg));
+		}
+		for (double res : pair.second) {
+			line.push_back(to_string(res));
+		}
+		data.push_back(line);
+	}
+	write(filename, data);
 }

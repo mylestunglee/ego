@@ -8,3 +8,4 @@
 libgp/*
 libsvm*
 pq_optimisation
+*.log

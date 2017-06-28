@@ -22,6 +22,8 @@ int main(int argc, char * argv[]) {
 	ego->sample_plan(3 * dimension, 5);
 	ego->run_quad();
 
+	evaluator->save("fitness.log");
+
 	delete sg;
 	delete ego;
 	delete evaluator;
