@@ -9,14 +9,15 @@ using namespace std;
 int main(int argc, char * argv[]) {
   int dimension = 2;
 
-  vector<double> lower = {-100, -100};
-  vector<double> upper = {100, 100};
+  vector<double> lower = {-10, -10};
+  vector<double> upper = {10, 10};
 
   Surrogate *sg = new Surrogate(dimension, SEiso, true, true);
 
   EGO *ego = new EGO(dimension, sg, lower, upper, "", 1);
   ego->evaluator = test_evaluator;
-
+  ego->search_type = 2; // PSO
+  ego->use_cost = 1; //EI/cost
   /*ego->search_type = 1;
   ego->max_fitness = 0;
   ego->is_discrete = true;
@@ -27,12 +28,13 @@ int main(int argc, char * argv[]) {
   ego->exhaustive = true;*/
 
   ego->sample_plan(10 * dimension, 5);
-  ego->sg->train();
+  /*ego->sg->train();
   cout << "Best fitness: ";
   for (double x : ego->best_result()) {
     cout << x << ", ";
   }
-  cout << endl;
+  cout << endl;*/
+  ego->run();
 
   /*opt *op = new opt(2, upper, lower, ego, false);
   vector<vector<double>> best = op->combined_optimise({2, 2}, 10, 10, 10);

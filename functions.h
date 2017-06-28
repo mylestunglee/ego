@@ -24,4 +24,4 @@ double sphere_30(double x[]);
 double prob09(double x[]);
 double tang(double x[]);
 
-enum example {quad=1, pq, rtm};
+// enum example {quad=1, pq, rtm};
