@@ -19,16 +19,8 @@ const double PI = std::atan(1.0)*4;
 
 EGO::~EGO()
 {
-  if(pFunc) {
-    // Clean up
-    Py_DECREF(pModule);
-    Py_DECREF(pFunc);
-
-    // Finish the Python Interpreter
-    Py_Finalize();
-    delete sg_cost;
-    delete sg_cost_soft;
-  }
+	delete sg_cost;
+	delete sg_cost_soft;
 }
 
 void EGO::run_quad()
@@ -278,48 +270,6 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string py
   search_type = search;
 
   return;
-
-  // Initialize the Python Interpreter
-  Py_Initialize();
-  cout << "Python initialised" << endl;
-  string sys_append = "sys.path.append(\"";
-  sys_append += python_file_name;
-  sys_append += "\")\n";
-  PyRun_SimpleString("import sys\n");
-  PyRun_SimpleString(sys_append.c_str());
-  cout << python_file_name << endl;
-
-  // Build the name object
-  const char *file_name = "fitness_script";
-  pName = PyString_FromString(file_name);
-  if(!pName) {
-    cout << "Couldn't create pName for " << file_name << endl;
-    exit(-1);
-  }
-  cout << "Got pName: " << PyString_AsString(pName) << endl;
-
-  // Load the module object
-  pModule = PyImport_Import(pName);
-  if(!pModule) {
-    cout << "Couldn't find module " << file_name << endl;
-    exit(-1);
-  }
-  cout << "Got pModule" << endl;
-
-  char name[] = "fitnessFunc";
-  pFunc = PyObject_GetAttrString(pModule, name);
-  if(!pFunc) {
-    cout << "Couldn't find pFunc" << endl;
-    exit(-1);
-  }
-  cout << "Got pFunc" << endl;
-  if(!PyCallable_Check(pFunc)) {
-    cout << "pFunc not callable" << endl;
-    exit(-1);
-  }
-
-  Py_DECREF(pName);
-  cout << "Got rid of pName" << endl;
 }
 
 EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up)
@@ -346,8 +296,6 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up)
   suppress = true;
   at_optimum = false;
   use_cost = false;
-  pName = NULL;
-  pFunc = NULL;
 }
 
 void EGO::run()

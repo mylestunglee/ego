@@ -1,4 +1,3 @@
-#include <Python.h>
 #include <vector>
 #include <random>
 #include "surrogate.hpp"
@@ -70,13 +69,6 @@ class EGO
     bool suppress;
     bool exhaustive;
     vector<double> discrete_steps;
-
-    PyObject *pName;
-    PyObject *pModule;
-    PyObject *pDict;
-    PyObject *pFunc;
-    PyObject *pValue;
-    PyObject *pState;
 
 	Evaluator* evaluator;
 
