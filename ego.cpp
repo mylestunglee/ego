@@ -19,7 +19,6 @@ const double PI = std::atan(1.0)*4;
 
 EGO::~EGO()
 {
-  delete sg;
   if(pFunc) {
     // Clean up
     Py_DECREF(pModule);
@@ -151,7 +150,10 @@ void EGO::python_eval(const vector<double> &x, bool add)
     mu_vars.push_back(p.second);
   }
   struct running_node run;
-  evaluator(x, run.fitness, run.label, run.true_cost);
+  vector<double> result = evaluator->evaluate(x);
+	run.fitness = result[0];
+	run.label = result[1];
+	run.true_cost = result[2];
   run.addReturn = 0;
   run.cost = abs(run.cost);
 
@@ -251,7 +253,7 @@ EGO::EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string py
   lower = low;
   sg = s;
   n_sims = 50;
-  max_iterations = 500;
+  max_iterations = 200;
   num_iterations = 0;
   num_lambda = 3;
   lambda = num_lambda;
@@ -464,10 +466,7 @@ void EGO::evaluate(const vector<double> &x)
 void EGO::worker_task(vector<double> node)
 {
   //Perform calculation
-  double fitness;
-  int label;
-  int cost;
-  evaluator(node, fitness, label, cost);
+  double fitness = evaluator->evaluate(node)[0];
 
   running_mtx.lock();
 

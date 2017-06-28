@@ -3,54 +3,28 @@
 #include "functions.h"
 #include "optimise.h"
 #include <vector>
+#include "evaluator.h"
 
 using namespace std;
 
 int main(int argc, char * argv[]) {
-  int dimension = 2;
 
-  vector<double> lower = {-10, -10};
-  vector<double> upper = {10, 10};
+	vector<double> lower = {-2, -2};
+	vector<double> upper = {2, 2};
+	int dimension = 2;
 
-  Surrogate *sg = new Surrogate(dimension, SEiso, true, true);
+	Surrogate *sg = new Surrogate(dimension, SEiso, true, true);
+	Evaluator* evaluator = new Evaluator("./test_script");
 
-  EGO *ego = new EGO(dimension, sg, lower, upper, "", 1);
-  ego->evaluator = test_evaluator;
-  ego->search_type = 2; // PSO
-  ego->use_cost = 1; //EI/cost
-  /*ego->search_type = 1;
-  ego->max_fitness = 0;
-  ego->is_discrete = true;
-  ego->n_sims = 50;
-  ego->max_points = upper[0] - lower[0];
-  ego->num_points = ego->max_points;
-  ego->pso_gen = 100;
-  ego->exhaustive = true;*/
+	EGO *ego = new EGO(dimension, sg, lower, upper, "", 1);
+	ego->evaluator = evaluator;
+	ego->search_type = 2; // PSO
+	ego->use_cost = 1; //EI/cost
 
-  ego->sample_plan(10 * dimension, 5);
-  /*ego->sg->train();
-  cout << "Best fitness: ";
-  for (double x : ego->best_result()) {
-    cout << x << ", ";
-  }
-  cout << endl;*/
-  ego->run();
+	ego->sample_plan(3 * dimension, 5);
+	ego->run_quad();
 
-  /*opt *op = new opt(2, upper, lower, ego, false);
-  vector<vector<double>> best = op->combined_optimise({2, 2}, 10, 10, 10);
-  for (vector<double> group : best) {
-    for (double elem : group) {
-      cout << elem << '\t';
-    }
-    cout << endl;
-  }*/
-
-  /*for(int i = lower[0]; i <= upper[0]; i++) {
-    for(int j = lower[1]; j <= upper[1]; j++) {
-      ego->python_eval({(double) i, (double) j});
-
-    }
-  }*/
-
-  delete ego;
+	delete sg;
+	delete ego;
+	delete evaluator;
 }

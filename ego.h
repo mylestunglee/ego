@@ -4,6 +4,7 @@
 #include <random>
 #include "surrogate.h"
 #include <mutex>
+#include "evaluator.h"
 #pragma once
 
 using namespace std;
@@ -78,7 +79,7 @@ class EGO
     PyObject *pValue;
     PyObject *pState;
 
-    evaluator_t evaluator;
+	Evaluator* evaluator;
 
     mutex running_mtx;
     vector<struct running_node> running;
