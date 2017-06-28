@@ -10,3 +10,4 @@ libsvm*
 gsl*
 pq_optimisation
 *.log
+eigen3/*
