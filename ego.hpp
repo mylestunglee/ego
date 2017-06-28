@@ -1,10 +1,9 @@
 #include <Python.h>
 #include <vector>
-#include "functions.h"
 #include <random>
-#include "surrogate.h"
+#include "surrogate.hpp"
 #include <mutex>
-#include "evaluator.h"
+#include "evaluator.hpp"
 #pragma once
 
 using namespace std;

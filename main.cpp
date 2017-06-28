@@ -1,9 +1,7 @@
-#include "ego.h"
-#include "surrogate.h"
-#include "functions.h"
-#include "optimise.h"
-#include <vector>
-#include "evaluator.h"
+#include "ego.hpp"
+#include "surrogate.hpp"
+#include "optimise.hpp"
+#include "evaluator.hpp"
 
 using namespace std;
 

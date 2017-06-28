@@ -1,9 +1,8 @@
-#include "evaluator.h"
+#include "evaluator.hpp"
 #include <memory>
 #include <stdexcept>
 #include <string>
 #include <array>
-#include <iostream>
 
 using namespace std;
 
@@ -45,4 +44,9 @@ vector<string> Evaluator::execute(string command) {
             result.push_back(buffer.data());
     }
     return result;
+}
+
+/* Saves the cache as a CSV file */
+void save(string filename) {
+
 }

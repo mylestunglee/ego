@@ -1,4 +1,4 @@
-#include "optimise.h"
+#include "optimise.hpp"
 
 double uni_dist(double N, double M) 
 {

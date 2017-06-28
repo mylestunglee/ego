@@ -1,4 +1,4 @@
-#include "ego.h"
+#include "ego.hpp"
 #include <vector>
 #include <random>
 

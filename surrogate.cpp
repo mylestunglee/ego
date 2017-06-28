@@ -1,4 +1,4 @@
-#include "surrogate.h"
+#include "surrogate.hpp"
 #include "gp.h"
 #include "cg.h"
 #include <thread>

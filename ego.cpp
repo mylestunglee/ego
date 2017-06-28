@@ -1,5 +1,5 @@
-#include "ego.h"
-#include "optimise.h"
+#include "ego.hpp"
+#include "optimise.hpp"
 #include "ihs.hpp"
 #include <ctime>
 
