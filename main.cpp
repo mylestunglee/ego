@@ -1,7 +1,7 @@
 #include "ego.hpp"
 #include "surrogate.hpp"
 #include "evaluator.hpp"
-#include "transfer.hpp"
+#include "transferrer.hpp"
 
 using namespace std;
 
@@ -9,7 +9,8 @@ int main(int argc, char * argv[]) {
 	if (argc == 3) {
 		string filename_results_old(argv[1]);
 		string filename_script_new(argv[2]);
-		transfer(filename_results_old, filename_script_new);
+		Transferrer transferrer(filename_results_old, filename_script_new);
+		transferrer.transfer();
 		return 0;
 	}
 
