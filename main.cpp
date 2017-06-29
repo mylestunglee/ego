@@ -5,11 +5,13 @@
 
 using namespace std;
 
-int main(int argc, char * argv[]) {
+int main(int argc, char* argv[]) {
+	double sig_level = 0.05;
+
 	if (argc == 3) {
 		string filename_results_old(argv[1]);
 		string filename_script_new(argv[2]);
-		Transferrer transferrer(filename_results_old, filename_script_new);
+		Transferrer transferrer(filename_results_old, filename_script_new, sig_level);
 		transferrer.transfer();
 		return 0;
 	}
@@ -18,7 +20,7 @@ int main(int argc, char * argv[]) {
 	vector<double> upper = {2, 2};
 	int dimension = 2;
 
-	Surrogate *sg = new Surrogate(dimension, SEiso, true, true);
+	Surrogate* sg = new Surrogate(dimension, SEiso, true, true);
 	Evaluator* evaluator = new Evaluator("./test_script");
 
 	EGO *ego = new EGO(dimension, sg, lower, upper, "", 1);
