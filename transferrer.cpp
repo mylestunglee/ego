@@ -36,7 +36,10 @@ void Transferrer::transfer() {
 	vector<double> ys_old;
 	vector<double> ys_new;
 	vector<pair<vector<double>, int>> sample_labels_new;
-	for (auto result_old : sample_results_old()) {
+
+	auto sample = sample_results_old();
+
+	for (auto result_old : sample) {
 		auto x_old = result_old.first;
 		auto y_old = result_old.second;
 		auto y_new = evaluator->evaluate(x_old);
@@ -54,16 +57,23 @@ void Transferrer::transfer() {
 	calc_correlation(ys_old, ys_new, pearson, spearman);
 
 	cout << "Pearson: " << pearson << ", Spearman: " << spearman << endl;
+	double y_old_best = (results_old[0].second)[FITNESS_INDEX];
 
 	// If hypothesis test for linear relationship between ys_old and ys_new passes
 	if (1.0 - pearson < sig_level || 1.0 + pearson < sig_level) {
-		// Predict y_new_max
-		double y_old_best = (results_old[0].second)[FITNESS_INDEX];
 		vector<double> coeff = fit_polynomial(ys_old, ys_new, 1);
-		double y_new_best_approx = coeff[1] + coeff[0] * y_old_best;
+		double y_new_best_approx = coeff[1] * y_old_best + coeff[0];
 		cout << "Using linear regression, predicted new best: " << y_new_best_approx << endl;
+
+	// If hypothesis test for monotonic relationship passes
+	} else if (1.0 - spearman < sig_level || 1.0 + spearman < sig_level) {
+		vector<double> coeff = fit_polynomial(ys_old, ys_new, 2);
+		double y_new_best_approx = coeff[2] * pow(y_old_best, 2) +
+			coeff[1] * y_old_best + coeff[0];
+		cout << "Using quadratic regression, predicted new best: " << y_new_best_approx << endl;
+	} else {
+		cout << "Automatic knowledge transfer is not applicable." << endl;
 	}
-	// TODO: spearson and quadratic regression
 }
 
 /* Reads results from a CSV file from a previous EGO computation */
@@ -197,7 +207,7 @@ double Transferrer::calc_label_correlation(vector<pair<vector<double>, int>> sam
 	}
 	surrogate.train();
 
-	vector<double> correlations;
+	vector<double> coeffs;
 
 	for (auto sample_label : sample_labels) {
 		auto x = sample_label.first;
@@ -207,13 +217,13 @@ double Transferrer::calc_label_correlation(vector<pair<vector<double>, int>> sam
 
 		// If SVM prediction is certain, otherwise assume normal distribution
 		if (isnan(sd)) {
-			correlations.push_back(1.0);
+			coeffs.push_back(1.0);
 		} else if (sample_label.second == 0.0) {
-			correlations.push_back(gsl_cdf_gaussian_P(1.0 - mean, sd));
+			coeffs.push_back(gsl_cdf_gaussian_P(1.0 - mean, sd));
 		} else {
-			correlations.push_back(gsl_cdf_gaussian_Q(-mean, sd));
+			coeffs.push_back(gsl_cdf_gaussian_Q(-mean, sd));
 		}
 	}
 
-	return accumulate(correlations.begin(), correlations.end(), 0.0) / correlations.size();
+	return accumulate(coeffs.begin(), coeffs.end(), 0.0) / coeffs.size();
 }
