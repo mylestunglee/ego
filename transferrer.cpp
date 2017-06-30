@@ -32,13 +32,13 @@ Transferrer::~Transferrer() {
 
 /* Performs the automatic knowledge transfer */
 void Transferrer::transfer() {
-
 	vector<double> ys_old;
 	vector<double> ys_new;
 	vector<pair<vector<double>, int>> sample_labels_new;
 
 	auto sample = sample_results_old();
 
+	// Compute fitness for sample
 	for (auto result_old : sample) {
 		auto x_old = result_old.first;
 		auto y_old = result_old.second;
@@ -52,6 +52,11 @@ void Transferrer::transfer() {
 	double label_correlation = calc_label_correlation(sample_labels_new);
 	cout << "Label correlation: " << label_correlation << endl;
 
+	if (1.0 - label_correlation > sig_level) {
+		cout << "Insufficent consistency of labels." << endl;
+		return;
+	}
+
 	double pearson;
 	double spearman;
 	calc_correlation(ys_old, ys_new, pearson, spearman);
@@ -60,19 +65,19 @@ void Transferrer::transfer() {
 	double y_old_best = (results_old[0].second)[FITNESS_INDEX];
 
 	// If hypothesis test for linear relationship between ys_old and ys_new passes
-	if (1.0 - pearson < sig_level || 1.0 + pearson < sig_level) {
+	if (1.0 - pearson <= sig_level || 1.0 + pearson <= sig_level) {
 		vector<double> coeff = fit_polynomial(ys_old, ys_new, 1);
 		double y_new_best_approx = coeff[1] * y_old_best + coeff[0];
 		cout << "Using linear regression, predicted new best: " << y_new_best_approx << endl;
 
 	// If hypothesis test for monotonic relationship passes
-	} else if (1.0 - spearman < sig_level || 1.0 + spearman < sig_level) {
+	} else if (1.0 - spearman <= sig_level || 1.0 + spearman <= sig_level) {
 		vector<double> coeff = fit_polynomial(ys_old, ys_new, 2);
 		double y_new_best_approx = coeff[2] * pow(y_old_best, 2) +
 			coeff[1] * y_old_best + coeff[0];
 		cout << "Using quadratic regression, predicted new best: " << y_new_best_approx << endl;
 	} else {
-		cout << "Automatic knowledge transfer is not applicable." << endl;
+		cout << "Insufficent monotonic relationship between fitness functions." << endl;
 	}
 }
 
@@ -128,7 +133,8 @@ void Transferrer::calc_correlation(vector<double> xs, vector<double> ys, double 
 vector<pair<vector<double>, vector<double>>> Transferrer::sample_results_old() {
 	vector<pair<vector<double>, vector<double>>> result;
 	set<vector<double>> sampled;
-	for (int i = 0; i < SAMPLE_TRIALS; i++) {
+
+	for (unsigned i = 0; i < SAMPLE_TRIALS; i++) {
 		auto sample = results_old[rand() % results_old.size()];
 
 		// Only add sample when sample fits new parameter space and has not been
@@ -136,6 +142,10 @@ vector<pair<vector<double>, vector<double>>> Transferrer::sample_results_old() {
 		if (is_bound(sample.first) && sampled.find(sample.first) == sampled.end()) {
 			sampled.insert(sample.first);
 			result.push_back(sample);
+		}
+
+		if (sampled.size() > SAMPLE_MAX) {
+			break;
 		}
 	}
 
@@ -193,7 +203,7 @@ bool Transferrer::fitness_more_than(
 	return (x.second)[0] < (y.second)[0];
 }
 
-/* Calculates the biggest p-value from confidence interval tests on all samples */
+/* Calculates the average p-value from confidence interval tests on all samples */
 double Transferrer::calc_label_correlation(vector<pair<vector<double>, int>> sample_labels) {
 	assert(!sample_labels.empty());
 
