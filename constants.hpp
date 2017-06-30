@@ -1,0 +1,6 @@
+int FITNESS_INDEX = 0;
+int LABEL_INDEX   = 1;
+int COST_INDEX    = 2;
+
+int SAMPLE_TRIALS = 30;
+

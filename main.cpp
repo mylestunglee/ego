@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 	vector<double> upper = {2, 2};
 	int dimension = 2;
 
-	Surrogate* sg = new Surrogate(dimension, SEiso, true, true);
+	Surrogate* sg = new Surrogate(dimension, SEiso, true, false);
 	Evaluator* evaluator = new Evaluator("./test_script");
 
 	EGO *ego = new EGO(dimension, sg, lower, upper, "", 1);
