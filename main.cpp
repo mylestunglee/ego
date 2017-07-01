@@ -16,23 +16,16 @@ int main(int argc, char* argv[]) {
 		return 0;
 	}
 
-	vector<double> lower = {-2, -2};
-	vector<double> upper = {2, 2};
-	int dimension = 2;
+	vector<pair<double, double>> boundaries = {make_pair(-2, 2), make_pair(-2, 2)};
 
-	Evaluator* evaluator = new Evaluator("./test_script");
+	Evaluator evaluator("./test_script");
 
-	EGO ego(dimension, lower, upper);
-	ego.evaluator = evaluator;
-	ego.search_type = 2; // PSO
-	ego.use_cost = 1; //EI/cost
+	EGO ego(boundaries, evaluator);
 
-	ego.sample_plan(5 * dimension, 5);
+	ego.sample_plan(5 * 2, 5); // 5 * dimension
 	ego.run_quad();
 
-	evaluator->save("fitness.log");
-
-	delete evaluator;
+	evaluator.save("fitness.log");
 
 	return 0;
 }

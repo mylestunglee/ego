@@ -3,11 +3,8 @@
 #include "ihs.hpp"
 #include <ctime>
 
-//#define _GLIBCXX_USE_NANOSLEEP //Need to send thread to sleep on old GCC
-
 #include <thread>
 #include <chrono>
-
 
 using namespace std;
 
@@ -119,38 +116,24 @@ void EGO::run_quad()
   }
 }
 
-void EGO::python_eval(const vector<double> &x, bool add)
-{
-  if(!add) {
-    double *data = (double *) &x[0];
-    if(!suppress) {
-      cout << "Evaluating: ";
-      for(int j = 0; j < dimension; j++) {
-        cout << x[j] << " ";
-      }
-      cout << endl;
-    }
+void EGO::python_eval(vector<double> &x, bool add) {
+	if(!add) {
+		pair<double, double> p = sg.predict(&x[0], true);
+		mu_means.push_back(p.first);
+		mu_vars.push_back(p.second);
+	}
 
-    pair<double, double> p = sg.predict(data, true);
-    mu_means.push_back(p.first);
-    mu_vars.push_back(p.second);
-  }
   struct running_node run;
-  vector<double> result = evaluator->evaluate(x);
+  vector<double> result = evaluator.evaluate(x);
 	run.fitness = result[0];
 	run.label = result[1];
 	run.true_cost = result[2];
   run.addReturn = 0;
-  run.cost = abs(run.cost);
+	run.cost = abs(run.true_cost);
 
   if(add) {
     //We evaluated it, now add to all our surrogate models
     num_iterations++;
-
-    if(!suppress) {
-      for(int i = 0; i < dimension; i++) cout << x[i] << " ";
-      cout << "fitness: " << run.fitness << " code: " << run.label << endl;
-    }
 
     int label = 2 - (int) (run.label == 0); //1 if run.label == 0
     sg.add(x, run.fitness, label, run.addReturn);
@@ -187,7 +170,6 @@ void EGO::python_eval(const vector<double> &x, bool add)
     run.data = x;
     run.pos = mu_means.size() - 1;
     running.push_back(run);
-    //cout << "Cost given as " << run.cost << " " << run.true_cost << endl;
   }
 }
 
@@ -229,17 +211,21 @@ void EGO::update_running(const long int &t)
 void EGO::update_time(long int t)
 {
   total_time += t;
-  if(!suppress) cout << "Total time taken is " << total_time << endl;
 }
 
-EGO::EGO(int dim, vector<double> low, vector<double> up) :
-sg(dim, SEiso, true, false),
-sg_cost(dim, SEard),
-sg_cost_soft(dim, SEard)
+EGO::EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator) :
+	evaluator(evaluator),
+	sg(boundaries.size(), SEiso, true, false),
+	sg_cost(boundaries.size(), SEard),
+	sg_cost_soft(boundaries.size(), SEard)
 {
-  dimension = dim;
-  upper = up;
-  lower = low;
+  dimension = boundaries.size();
+
+	for (auto boundary : boundaries) {
+		lower.push_back(boundary.first);
+		upper.push_back(boundary.second);
+	}
+
   n_sims = 50;
   max_iterations = 200;
   num_iterations = 0;
@@ -258,10 +244,10 @@ sg_cost_soft(dim, SEard)
   use_brute_search = false;
   suppress = false;
   at_optimum = false;
-  use_cost = false;
+  use_cost = true;
   train_cost_soft = false;
   is_max = false;
-  search_type = 1;
+  search_type = 2;
 }
 
 void EGO::run()
@@ -380,7 +366,7 @@ void EGO::evaluate(const vector<double> &x)
 void EGO::worker_task(vector<double> node)
 {
   //Perform calculation
-  double fitness = evaluator->evaluate(node)[0];
+  double fitness = evaluator.evaluate(node)[0];
 
   running_mtx.lock();
 

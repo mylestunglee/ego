@@ -11,16 +11,16 @@ class EGO
 {
   public:
     //Constructor
-    EGO(int dim, vector<double> low, vector<double> up);
+    EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator);
 
     struct running_node {
       double fitness;
       int label;
       bool is_finished;
       int addReturn;
-      int cost;
       int true_cost;
       int pos;
+		int cost;
       vector<double> data;
     };
 
@@ -69,7 +69,7 @@ class EGO
     bool exhaustive;
     vector<double> discrete_steps;
 
-	Evaluator* evaluator;
+	Evaluator& evaluator;
 
     mutex running_mtx;
     vector<struct running_node> running;
@@ -85,7 +85,7 @@ class EGO
     Surrogate sg_cost;
     Surrogate sg_cost_soft;
 
-    void python_eval(const vector<double> &x, bool add=false);
+    void python_eval(vector<double> &x, bool add=false);
     void run_quad();
     void update_running(const long int &t=-1l);
     void update_time(long int t);
