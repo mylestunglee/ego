@@ -43,18 +43,6 @@ void EGO::run_quad()
     t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
     update_running(t3);
 
-    if(is_max) {
-      if(at_optimum || best_fitness >= max_fitness) {
-        if(!suppress) {
-          cout << "Found best at [";
-          for(int i = 0; i < dimension; i++) {
-            cout << best_particle[i] << ", ";
-          }
-          cout << "\b\b] with fitness [" << best_fitness << "]" << endl;
-        }
-        return;
-      }
-    } else {
       if(at_optimum || best_fitness <= max_fitness) {
         if(!suppress) {
           cout << "Found best at [";
@@ -65,14 +53,12 @@ void EGO::run_quad()
         }
         return;
       }
-    }
 
 
     if(is_new_result && !suppress) {
       cout << "Iter: " << num_iterations << " / " << max_iterations;
       cout << ", RUNNING: " << running.size() << " Lambda: " << lambda;
       cout << " best: " << best_fitness;
-      cout << " time: " << total_time << endl;
 
       is_new_result = false;
     }
@@ -154,19 +140,12 @@ void EGO::python_eval(vector<double> &x, bool add) {
     }
     if(run.label == 0 ) {
       valid_set.push_back(x);
-      if(is_max) {
-        if(run.fitness > best_fitness) {
-          best_fitness = run.fitness;
-          best_particle = x;
-        }
-      } else {
         if(run.fitness < best_fitness) {
           best_fitness = run.fitness;
           best_particle = x;
         }
         //for(int i = 0; i < dimension; i++) cout << x[i] << " ";
         //cout << run.fitness << endl;
-      }
       training_f.push_back(run.fitness);
     }
     training.push_back(x);
@@ -209,15 +188,10 @@ void EGO::update_running(const long int &t)
         node++;
       }
     }
-    update_time(time);
   }
   lambda = num_lambda - running.size();
 }
 
-void EGO::update_time(long int t)
-{
-  total_time += t;
-}
 
 EGO::EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator) :
 	evaluator(evaluator)
@@ -235,7 +209,7 @@ EGO::EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator) :
 
 
   n_sims = 50;
-  max_iterations = 200;
+  max_iterations = 100;
   num_iterations = 0;
   num_lambda = 3;
   lambda = num_lambda;
@@ -243,10 +217,8 @@ EGO::EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator) :
   num_points = 10;
   max_points = 10;
   pso_gen = 1;
-  iter = 0;
   best_fitness = 10000000000;
   max_fitness = 0;
-  total_time = 0;
   is_discrete = false;
   is_new_result = false;
   use_brute_search = false;
@@ -254,7 +226,6 @@ EGO::EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator) :
   at_optimum = false;
   use_cost = true;
   train_cost_soft = false;
-  is_max = false;
   search_type = 2;
 }
 
@@ -269,7 +240,6 @@ void EGO::run()
     check_running_tasks();
     sg->train();
     //t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
-    //update_time(t3);
 
     if(at_optimum || best_fitness <= max_fitness) {
       //if(!suppress) {
@@ -323,7 +293,6 @@ void EGO::run()
     }
     t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
     cout << "Lambda" << lambda << endl;
-    update_time(t3);
   }
   check_running_tasks();
 }
@@ -413,19 +382,12 @@ void EGO::check_running_tasks()
       if(sg->is_svm) {
         add_training(node->data, node->fitness, node->label);
       } else {
-	training.push_back(node->data);
+   	training.push_back(node->data);
         sg->add(node->data, node->fitness);
-	if(is_max) {
-	  if(node->fitness > best_fitness) {
-	    best_particle = node->data;
-	    best_fitness = node->fitness;
-	  }
-	} else {
 	  if(node->fitness < best_fitness) {
 	    best_particle = node->data;
 	    best_fitness = node->fitness;
 	  }
-	}
       }
 
       //Delete estimations
@@ -464,10 +426,6 @@ double EGO::fitness(const vector<double> &x)
       pair<double, double> p = sg->predict(y, true);
       lambda_means[i] = p.first;
       lambda_vars[i] = p.second;
-      if(is_max && p.second == 0) {
-        lambda_means[i] = -p.first;
-      }
-      //cout << p.first << " "<< p.second << endl;
       if(use_cost) {
         pair<double, double> p_cost = sg_cost->predict(y);
         pair<double, double> s_cost = sg_cost_soft->predict(y);
@@ -600,7 +558,6 @@ vector<double> EGO::max_ei_par(int llambda)
     delete op;
   }
 
-  iter++;
   return best;
 }
 
@@ -1154,15 +1111,9 @@ double EGO::ei(double y, double S2, double y_min)
     return 0.0;
   } else {
     double s = sqrt(S2);
-    if(is_max) {
-      double y_diff = y - y_min;
-      double y_diff_s = y_diff / s;
-      return y_diff * phi(y_diff_s) + s * normal_pdf(y_diff_s);
-    } else {
       double y_diff = y_min - y;
       double y_diff_s = y_diff / s;
       return y_diff * phi(y_diff_s) + s * normal_pdf(y_diff_s);
-    }
   }
 }
 
@@ -1171,29 +1122,6 @@ double EGO::ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, 
     double sum_ei=0.0, e_i=0.0;
     int max_mus = mu_means.size();
 
-    if(is_max) {
-      for (int k=0; k < n; k++) {
-          double max = y_best;
-          for(int i=0; i < max_mus; i++){
-              double mius = gaussrand1()*mu_vars[i] + mu_means[i];
-              if (mius > max)
-                  max = mius;
-          }
-          double max2=-100000000.0;
-          for(int j=0;j<max_lambdas;j++){
-              double l = gaussrand1()*lambda_s2[j] + lambda_mean[j];
-              if (l > max2) {
-                  max2 = l;
-	      }
-          }
-
-          e_i = max2 - max;
-          if (e_i < 0.0) {
-            e_i = 0.0;
-          }
-          sum_ei = e_i + sum_ei;
-      }
-    } else {
       for (int k=0; k < n; k++) {
           double min = y_best;
           for(int i=0; i < max_mus; i++){
@@ -1215,7 +1143,6 @@ double EGO::ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, 
           }
           sum_ei = e_i + sum_ei;
       }
-    }
     return sum_ei;
 }
 

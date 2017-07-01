@@ -54,8 +54,6 @@ class EGO
     int max_points;
     int pso_gen;
     int search_type;
-    int iter;
-    long int total_time;
     vector<double> best_particle;
     long double best_fitness;
     long double max_fitness;
@@ -65,7 +63,6 @@ class EGO
     bool use_brute_search;
     bool use_cost;
     bool train_cost_soft;
-    bool is_max;
     bool suppress;
     bool exhaustive;
     vector<double> discrete_steps;
@@ -89,7 +86,6 @@ class EGO
     void python_eval(vector<double> &x, bool add=false);
     void run_quad();
     void update_running(const long int &t=-1l);
-    void update_time(long int t);
     bool has_run(const vector<double> &point);
     void latin_hypercube(size_t F, int D);
     vector<double> local_random(double radius=1.0, int llambda=1);
