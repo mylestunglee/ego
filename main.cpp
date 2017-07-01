@@ -20,21 +20,18 @@ int main(int argc, char* argv[]) {
 	vector<double> upper = {2, 2};
 	int dimension = 2;
 
-	Surrogate* sg = new Surrogate(dimension, SEiso, true, false);
 	Evaluator* evaluator = new Evaluator("./test_script");
 
-	EGO *ego = new EGO(dimension, sg, lower, upper, "", 1);
-	ego->evaluator = evaluator;
-	ego->search_type = 2; // PSO
-	ego->use_cost = 1; //EI/cost
+	EGO ego(dimension, lower, upper);
+	ego.evaluator = evaluator;
+	ego.search_type = 2; // PSO
+	ego.use_cost = 1; //EI/cost
 
-	ego->sample_plan(5 * dimension, 5);
-	ego->run_quad();
+	ego.sample_plan(5 * dimension, 5);
+	ego.run_quad();
 
 	evaluator->save("fitness.log");
 
-	delete sg;
-	delete ego;
 	delete evaluator;
 
 	return 0;

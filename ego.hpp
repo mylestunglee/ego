@@ -11,8 +11,7 @@ class EGO
 {
   public:
     //Constructor
-    EGO(int dim, Surrogate *s, vector<double> low, vector<double> up);
-    ~EGO();
+    EGO(int dim, vector<double> low, vector<double> up);
 
     struct running_node {
       double fitness;
@@ -82,11 +81,10 @@ class EGO
     vector<double> lower;
     vector<double> upper;
 
-    Surrogate *sg;
-    Surrogate *sg_cost;
-    Surrogate *sg_cost_soft;
+    Surrogate sg;
+    Surrogate sg_cost;
+    Surrogate sg_cost_soft;
 
-    EGO(int dim, Surrogate *s, vector<double> low, vector<double> up, string python_file_name, int search_type);
     void python_eval(const vector<double> &x, bool add=false);
     void run_quad();
     void update_running(const long int &t=-1l);
