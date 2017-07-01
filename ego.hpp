@@ -12,6 +12,7 @@ class EGO
   public:
     //Constructor
     EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator);
+	~EGO();
 
     struct running_node {
       double fitness;
@@ -81,9 +82,9 @@ class EGO
     vector<double> lower;
     vector<double> upper;
 
-    Surrogate sg;
-    Surrogate sg_cost;
-    Surrogate sg_cost_soft;
+    Surrogate* sg;
+    Surrogate* sg_cost;
+    Surrogate* sg_cost_soft;
 
     void python_eval(vector<double> &x, bool add=false);
     void run_quad();
