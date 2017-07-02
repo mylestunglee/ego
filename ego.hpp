@@ -20,9 +20,8 @@ class EGO
       int label;
       bool is_finished;
       int addReturn;
-      int true_cost;
+      int cost;
       int pos;
-		int cost;
       vector<double> data;
     };
 
@@ -32,13 +31,12 @@ class EGO
     void evaluate(const vector<double> &x);
     void run();
     vector<double> best_result();
-    void add_training(const vector<double> &x, double y, int label);
     vector<double> brute_search_local_swarm(const vector<double> &particle, double radius=1.0, int llambda=1, bool has_to_run=false, bool random=false, bool use_mean=false);
     vector<double>* brute_search_swarm(int npts=10, int llambda=1, bool use_mean=false);
     double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n, double y_best);
-    double ei(double y, double S2, double y_min);
+    double ei(double y, double var, double y_min);
     void check_running_tasks();
-    void worker_task(vector<double> data);
+    void worker_task(struct running_node& run);
     bool not_run(const double x[]);
     bool not_running(const double x[]);
     void sample_plan(size_t F, int D=5);
@@ -60,7 +58,6 @@ class EGO
     bool is_discrete;
     bool use_brute_search;
     bool use_cost;
-    bool train_cost_soft;
     bool suppress;
     bool exhaustive;
 
@@ -78,7 +75,6 @@ class EGO
 
     Surrogate* sg;
     Surrogate* sg_cost;
-    Surrogate* sg_cost_soft;
 
 	gsl_rng* rng;
 
@@ -88,4 +84,6 @@ class EGO
     bool has_run(const vector<double> &point);
     void latin_hypercube(size_t F, int D);
     vector<double> local_random(double radius=1.0, int llambda=1);
+
+	void update_best_result(vector<double> x, double y);
 };
