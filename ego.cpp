@@ -6,15 +6,14 @@
 #include <thread>
 #include <chrono>
 
+#include <gsl/gsl_cdf.h>
+#include <gsl/gsl_randist.h>
+
 using namespace std;
 
-double gaussrand1();
-double phi(double x);
-double normal_pdf(double x);
-
-const double PI = std::atan(1.0)*4;
-
 EGO::~EGO() {
+	gsl_rng_free(rng);
+
 	delete sg;
 	delete sg_cost;
 	delete sg_cost_soft;
@@ -22,8 +21,7 @@ EGO::~EGO() {
 
 void EGO::run_quad()
 {
-  if(!suppress) cout << "Started, dim=" << dimension << ", lambda=" <<
-  num_lambda << " max_f=" << max_fitness << endl;
+  if(!suppress) cout << "Started, dim=" << dimension << ", lambda=" << num_lambda << endl;
   sg->train_gp_first();
   while(num_iterations < max_iterations) {
     //Check to see if any workers have finished computing
@@ -43,25 +41,7 @@ void EGO::run_quad()
     t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
     update_running(t3);
 
-      if(at_optimum || best_fitness <= max_fitness) {
-        if(!suppress) {
-          cout << "Found best at [";
-          for(int i = 0; i < dimension; i++) {
-            cout << best_particle[i] << ", ";
-          }
-          cout << "\b\b] with fitness [" << best_fitness << "]" << endl;
-        }
-        return;
-      }
-
-
-    if(is_new_result && !suppress) {
-      cout << "Iter: " << num_iterations << " / " << max_iterations;
-      cout << ", RUNNING: " << running.size() << " Lambda: " << lambda;
-      cout << " best: " << best_fitness;
-
-      is_new_result = false;
-    }
+	cout << "Iteration: " << num_iterations << endl;
 
     if(lambda > 0) {
       int temp_lambda = lambda;
@@ -80,7 +60,7 @@ void EGO::run_quad()
           y[j] = best_xs[l * dimension + j];
         }
 
-        if(!at_optimum && not_running(&y[0]) && not_run(&y[0])) {
+        if(not_running(&y[0]) && not_run(&y[0])) {
           python_eval(y);
         } else {
 	  if(!suppress) {
@@ -91,7 +71,7 @@ void EGO::run_quad()
 	  }
           y = local_random();
 	  int s = y.size();
-	  if(s != dimension || at_optimum) {
+	  if(s != dimension) {
 	    break;
 	  }
           python_eval(y);
@@ -183,7 +163,6 @@ void EGO::update_running(const long int &t)
 
         //Delete node from running vector
         node = running.erase(node);
-        is_new_result = true;
       } else {
         node++;
       }
@@ -207,6 +186,7 @@ EGO::EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator) :
 	sg_cost = new Surrogate(boundaries.size(), SEard);
 	sg_cost_soft = new Surrogate(boundaries.size(), SEard);
 
+	rng = gsl_rng_alloc(gsl_rng_taus);
 
   n_sims = 50;
   max_iterations = 100;
@@ -218,12 +198,9 @@ EGO::EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator) :
   max_points = 10;
   pso_gen = 1;
   best_fitness = 10000000000;
-  max_fitness = 0;
   is_discrete = false;
-  is_new_result = false;
   use_brute_search = false;
   suppress = false;
-  at_optimum = false;
   use_cost = true;
   train_cost_soft = false;
   search_type = 2;
@@ -241,30 +218,11 @@ void EGO::run()
     sg->train();
     //t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
 
-    if(at_optimum || best_fitness <= max_fitness) {
-      //if(!suppress) {
-        cout << "Found best at [";
-        for(int i = 0; i < dimension; i++) {
-          cout << best_particle[i] << ", ";
-        }
-        cout << "\b\b] with fitness [" << best_fitness << "]" << endl;
-      //}
-      while(running.size() > 0){
-        //std::this_thread::sleep_for(std::chrono::milliseconds(50));
-	check_running_tasks();
-      }
-      break;
-    }
 
     int lambda = num_lambda - running.size();
     lambda = min(lambda, max_iterations - num_iterations);
 
-    if(is_new_result && !suppress) {
-      cout << "Iter: " << num_iterations << " / " << max_iterations;
-      cout << ", RUNNING: " << running.size() << " Lambda: " << lambda;
-      cout << " best " << best_fitness << endl;
-      is_new_result = false;
-    }
+	cout << "Iterations: " << num_iterations << endl;
 
     //t3 = std::clock();
     if(lambda > 0) {
@@ -399,7 +357,6 @@ void EGO::check_running_tasks()
 
       //Delete node from running vector
       node = running.erase(node);
-      is_new_result = true;
     } else {
       node++;
     }
@@ -468,7 +425,7 @@ vector<double> EGO::max_ei_par(int llambda)
     } else {
       if(!suppress) cout << "Couldn't find new particles, searching in region of best" << endl;
       best = local_random(1.0, llambda);
-      if(!suppress && !at_optimum) {
+      if(!suppress) {
         for(size_t i = 0; i < best.size(); i++) {
           cout << best[i] << " ";
         }
@@ -619,64 +576,6 @@ void EGO::sample_plan(size_t F, int D)
   sg->choose_svm_param(5, true);
   delete latin;
 
-  //while(training.size() < F) {
-  //  std::this_thread::sleep_for(std::chrono::milliseconds(10));
-  //  check_running_tasks();
-  //}
-
-  //long long int random_count = 1;
-  //while(training.size() < F) {
-  //  vector<double> point(dimension, 0.0);
-  //  for(int j = 0; j < dimension; j++) {
-  //    point[j] = round(uni_dist(lower[j], upper[j]));
-  //    point[j] = min(point[j], upper[j]);
-  //    point[j] = max(point[j], lower[j]);
-  //  }
-
-  //  if(sg->svm_label(&point[0]) != 1) {
-  //    if(random_count % 1000 == 0) {
-  //      cout << "Evaluating random permuation of valid" << endl;
-  //      int choice = 0, valid_size = valid_set.size(), dist = 2;
-  //      if(valid_size > 1) {
-  //        choice = round(uni_dist(0, valid_size-1));
-  //      }
-  //      int restarts = 0;
-  //      for(int j = 0; j < dimension; j++) {
-  //        point[j] = valid_set[choice][j] + round(uni_dist(0, dist) - dist / 2);
-  //        point[j] = min(point[j], upper[j]);
-  //        point[j] = max(point[j], lower[j]);
-  //        if(point[j] < lower[j] || point[j] > upper[j]) {
-  //          j = -1;
-  //        }
-  //        if(j == dimension - 1) {
-  //          if(!not_run(&point[0]) || !not_running(&point[0])) {
-  //            j = -1;
-  //            if(++restarts > 100) {
-  //      	restarts = 0;
-  //              dist++;
-  //            }
-  //          } else if(sg->svm_label(&point[0]) != 1) {
-  //            if(++restarts < 100) {
-  //              j = -1;
-  //            }
-  //          }
-  //        }
-  //      }
-  //      //dist = max(dist+1, 4);
-  //      python_eval(point);
-  //      sg->choose_svm_param(5);
-  //    }
-  //  } else {
-  //    python_eval(point);
-  //    sg->choose_svm_param(5);
-  //  }
-  //  random_count++;
-
-  //  while(running.size() >= num_lambda) {
-  //    update_running();
-  //  }
-
-  //}
   cout << "Adding extra permutations" << endl;
   for(size_t i = 0; i < F - size_latin; i++) {
     vector<double> point(dimension, 0.0);
@@ -1105,15 +1004,15 @@ bool EGO::not_running(const double x[])
 
 }
 
-double EGO::ei(double y, double S2, double y_min)
-{
+double EGO::ei(double y, double S2, double y_min) {
+	// TODO: tidy
   if(S2 <= 0.0) {
     return 0.0;
   } else {
     double s = sqrt(S2);
       double y_diff = y_min - y;
       double y_diff_s = y_diff / s;
-      return y_diff * phi(y_diff_s) + s * normal_pdf(y_diff_s);
+      return y_diff * gsl_cdf_gaussian_P(y_diff_s, 1.0) + s * gsl_ran_gaussian_pdf(y_diff_s, 1.0);
   }
 }
 
@@ -1125,13 +1024,13 @@ double EGO::ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, 
       for (int k=0; k < n; k++) {
           double min = y_best;
           for(int i=0; i < max_mus; i++){
-              double mius = gaussrand1()*mu_vars[i] + mu_means[i];
+              double mius = gsl_ran_ugaussian(rng) * mu_vars[i] + mu_means[i];
               if (mius < min)
                   min = mius;
           }
           double min2=100000000.0;
           for(int j=0;j<max_lambdas;j++){
-              double l = gaussrand1()*lambda_s2[j] + lambda_mean[j];
+              double l = gsl_ran_ugaussian(rng) * lambda_s2[j] + lambda_mean[j];
               if (l < min2){
                   min2 = l;
 	      }
@@ -1146,54 +1045,5 @@ double EGO::ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, 
     return sum_ei;
 }
 
-//Use a method described by Abramowitz and Stegun:
-double gaussrand1()
-{
-	static double U, V;
-	static int phase = 0;
-	double Z;
-
-	if(phase == 0) {
-	  U = (rand() + 1.) / (RAND_MAX + 2.);
-	  V = rand() / (RAND_MAX + 1.);
-	  Z = sqrt(-2 * log(U)) * sin(2 * PI * V);
-	} else {
-       	  Z = sqrt(-2 * log(U)) * cos(2 * PI * V);
-	}
-
-	phase = 1 - phase;
-
-	return Z;
-}
 
 
-//Code for CDF of normal distribution
-double phi(double x)
-{
-    // constants
-    double a1 =  0.254829592;
-    double a2 = -0.284496736;
-    double a3 =  1.421413741;
-    double a4 = -1.453152027;
-    double a5 =  1.061405429;
-    double p  =  0.3275911;
-
-    // Save the sign of x
-    int sign = 1;
-    if (x < 0)
-        sign = -1;
-    x = fabs(x)/sqrt(2.0);
-
-    // A&S formula 7.1.26
-    double t = 1.0/(1.0 + p*x);
-    double y = 1.0 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*exp(-x*x);
-
-    return 0.5*(1.0 + sign*y);
-}
-
-double normal_pdf(double x)
-{
-    static const double inv_sqrt_2pi = 0.3989422804014327;
-
-    return inv_sqrt_2pi * exp(-0.5 * x * x);
-}

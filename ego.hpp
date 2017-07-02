@@ -3,6 +3,7 @@
 #include "surrogate.hpp"
 #include <mutex>
 #include "evaluator.hpp"
+#include <gsl/gsl_rng.h>
 #pragma once
 
 using namespace std;
@@ -56,16 +57,12 @@ class EGO
     int search_type;
     vector<double> best_particle;
     long double best_fitness;
-    long double max_fitness;
-    bool at_optimum;
     bool is_discrete;
-    bool is_new_result;
     bool use_brute_search;
     bool use_cost;
     bool train_cost_soft;
     bool suppress;
     bool exhaustive;
-    vector<double> discrete_steps;
 
 	Evaluator& evaluator;
 
@@ -82,6 +79,8 @@ class EGO
     Surrogate* sg;
     Surrogate* sg_cost;
     Surrogate* sg_cost_soft;
+
+	gsl_rng* rng;
 
     void python_eval(vector<double> &x, bool add=false);
     void run_quad();
