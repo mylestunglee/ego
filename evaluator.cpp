@@ -13,9 +13,13 @@ Evaluator::Evaluator(string script) {
 
 /* Consults proxy then packages x for execution */
 vector<double> Evaluator::evaluate(vector<double> x) {
+	cache_lock.lock();
 	if (cache.find(x) != cache.end()) {
-		return cache[x];
+		vector<double> result = cache[x];
+		cache_lock.unlock();
+		return result;
 	}
+	cache_lock.unlock();
 
 	string command = script;
 
@@ -29,7 +33,9 @@ vector<double> Evaluator::evaluate(vector<double> x) {
 		result.push_back(atof(line.c_str()));
 	}
 
+	cache_lock.lock();
 	cache[x] = result;
+	cache_lock.unlock();
 
     return result;
 }

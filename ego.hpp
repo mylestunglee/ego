@@ -78,7 +78,7 @@ class EGO
 
 	gsl_rng* rng;
 
-    void python_eval(vector<double> &x, bool add=false);
+    void python_eval(vector<double> &x);
     void run_quad();
     void update_running(const long int &t=-1l);
     bool has_run(const vector<double> &point);
@@ -86,4 +86,7 @@ class EGO
     vector<double> local_random(double radius=1.0, int llambda=1);
 
 	void update_best_result(vector<double> x, double y);
+
+	static void evaluate2(EGO* ego, vector<double> x);
+	void evaluate(vector<vector<double>> xs);
 };

@@ -81,17 +81,7 @@ void EGO::run_quad()
         if(not_running(&y[0]) && not_run(&y[0])) {
           python_eval(y);
         } else {
-	  if(!suppress) {
-            cout << "Have run: ";
-            for(int j = 0; j < dimension; j++) {
-              cout << y[j] << " ";
-            }
-	  }
           y = local_random();
-	  int s = y.size();
-	  if(s != dimension) {
-	    break;
-	  }
           python_eval(y);
         }
       }
@@ -106,47 +96,27 @@ void EGO::run_quad()
   }
 }
 
-void EGO::python_eval(vector<double> &x, bool add) {
-	if(!add) {
-		pair<double, double> p = sg->predict(&x[0], true);
-		mu_means.push_back(p.first);
-		mu_vars.push_back(p.second);
-	}
-
+void EGO::python_eval(vector<double> &x) {
   struct running_node run;
   vector<double> result = evaluator.evaluate(x);
 	run.fitness = result[0];
 	run.label = result[1];
 	run.cost = result[2];
-  run.addReturn = 0;
 
-  if(add) {
     //We evaluated it, now add to all our surrogate models
     num_iterations++;
 
     int label = 2 - (int) (run.label == 0); //1 if run.label == 0
-    sg->add(x, run.fitness, label, run.addReturn);
-    if(run.addReturn == 0) {
+    sg->add(x, run.fitness, label, 0);
         sg_cost->add(x, run.cost);
-    }
+
     if(run.label == 0 ) {
       valid_set.push_back(x);
-        if(run.fitness < best_fitness) {
-          best_fitness = run.fitness;
-          best_particle = x;
-        }
-        //for(int i = 0; i < dimension; i++) cout << x[i] << " ";
-        //cout << run.fitness << endl;
+		update_best_result(x, run.fitness);
       training_f.push_back(run.fitness);
     }
     training.push_back(x);
-  } else {
-    //About to run, stick on running vector
-    run.is_finished = false;
-    run.data = x;
-    run.pos = mu_means.size() - 1;
-    running.push_back(run);
-  }
+
 }
 
 void EGO::update_running(const long int &t)
@@ -163,7 +133,7 @@ void EGO::update_running(const long int &t)
     for(vector<struct running_node>::iterator node = running.begin(); node != running.end();) {
       node->cost -= time;
       if(node->cost <= 0) {
-        python_eval(node->data, true);
+        python_eval(node->data);
 
         //Delete estimations
         mu_means.erase(mu_means.begin() + node->pos);
@@ -984,5 +954,40 @@ void EGO::update_best_result(vector<double> x, double y) {
 	if (y < best_fitness) {
 		best_particle = x;
 		best_fitness = y;
+	}
+}
+
+/* Evaluates a vector to add to the training set */
+void EGO::evaluate2(EGO* ego, vector<double> x) {
+	vector<double> y = ego->evaluator.evaluate(x);
+
+	ego->running_mtx.lock();
+
+    ego->num_iterations++;
+
+	ego->sg->add(x, y[0], y[1] == 0 ? 1 : 2, 0);
+	ego->sg_cost->add(x, y[2]);
+
+	if (y[1] == 0) {
+		ego->valid_set.push_back(x);
+		ego->update_best_result(x, y[0]);
+		ego->training_f.push_back(y[0]);
+	}
+
+	ego->training.push_back(x);
+
+	ego->running_mtx.unlock();
+}
+
+/* Concurrently evaluates multiple points xs */
+void EGO::evaluate(vector<vector<double>> xs) {
+	vector<thread> threads;
+
+	for (vector<double> x : xs) {
+		threads.push_back(thread(evaluate2, this, x));
+	}
+
+	for (auto& t : threads) {
+		t.join();
 	}
 }

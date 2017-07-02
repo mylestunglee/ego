@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <mutex>
 
 using namespace std;
 
@@ -15,4 +16,5 @@ class Evaluator {
     string script;
     map<vector<double>, vector<double>> cache;
     vector<string> execute(string command);
+	mutex cache_lock;
 };
