@@ -78,7 +78,6 @@ class EGO
 
 	gsl_rng* rng;
 
-    void python_eval(vector<double> &x);
     void run_quad();
     void update_running(const long int &t=-1l);
     bool has_run(const vector<double> &point);
@@ -89,4 +88,5 @@ class EGO
 
 	static void evaluate2(EGO* ego, vector<double> x);
 	void evaluate(vector<vector<double>> xs);
+	vector<vector<double>> group(vector<double> xs, size_t size);
 };

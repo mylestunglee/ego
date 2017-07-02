@@ -72,19 +72,9 @@ void EGO::run_quad()
       update_running(t3);
 
       t3 = std::clock();
-      for(int l = 0; l < temp_lambda; l++) {
-        vector<double> y(dimension, 0.0);
-        for(int j = 0; j < dimension; j++) {
-          y[j] = best_xs[l * dimension + j];
-        }
 
-        if(not_running(&y[0]) && not_run(&y[0])) {
-          python_eval(y);
-        } else {
-          y = local_random();
-          python_eval(y);
-        }
-      }
+	evaluate(group(best_xs, temp_lambda));
+
       t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
       update_running(t3);
     }
@@ -94,29 +84,6 @@ void EGO::run_quad()
       exit(-1);
     }
   }
-}
-
-void EGO::python_eval(vector<double> &x) {
-  struct running_node run;
-  vector<double> result = evaluator.evaluate(x);
-	run.fitness = result[0];
-	run.label = result[1];
-	run.cost = result[2];
-
-    //We evaluated it, now add to all our surrogate models
-    num_iterations++;
-
-    int label = 2 - (int) (run.label == 0); //1 if run.label == 0
-    sg->add(x, run.fitness, label, 0);
-        sg_cost->add(x, run.cost);
-
-    if(run.label == 0 ) {
-      valid_set.push_back(x);
-		update_best_result(x, run.fitness);
-      training_f.push_back(run.fitness);
-    }
-    training.push_back(x);
-
 }
 
 void EGO::update_running(const long int &t)
@@ -133,7 +100,7 @@ void EGO::update_running(const long int &t)
     for(vector<struct running_node>::iterator node = running.begin(); node != running.end();) {
       node->cost -= time;
       if(node->cost <= 0) {
-        python_eval(node->data);
+			evaluate({node->data});
 
         //Delete estimations
         mu_means.erase(mu_means.begin() + node->pos);
@@ -461,13 +428,14 @@ void EGO::sample_plan(size_t F, int D)
 {
   size_t size_latin = floor(F/3);
   cout << size_latin << " size" << endl;
-  D += rand() % 5;
   int* latin = ihs(dimension, size_latin, D, D);
   if(!latin) {
     cout << "Sample plan broke horribly, exiting" << endl;
     exit(-1);
   }
   cout << "Latin eval" << endl;
+
+
   for(size_t i = 0; i < size_latin; i++) {
     vector<double> x(dimension, 0.0);
     for(int j = 0; j < dimension; j++) {
@@ -482,9 +450,10 @@ void EGO::sample_plan(size_t F, int D)
       //check_running_tasks();
       update_running();
     }
-    //evaluate(x);
-    python_eval(x);
+	evaluate2(this, x);
   }
+
+
   while(valid_set.size() < 1 || running.size() >= num_lambda) {
     update_running();
   }
@@ -530,7 +499,7 @@ void EGO::sample_plan(size_t F, int D)
 	}
       }
     }
-    python_eval(point);
+    evaluate2(this, point);
     sg->choose_svm_param(5);
 
     while(running.size() >= num_lambda) {
@@ -959,6 +928,8 @@ void EGO::update_best_result(vector<double> x, double y) {
 
 /* Evaluates a vector to add to the training set */
 void EGO::evaluate2(EGO* ego, vector<double> x) {
+	assert(ego != NULL);
+
 	vector<double> y = ego->evaluator.evaluate(x);
 
 	ego->running_mtx.lock();
@@ -991,3 +962,17 @@ void EGO::evaluate(vector<vector<double>> xs) {
 		t.join();
 	}
 }
+
+/* Group sequences of elements into vectors of size size */
+vector<vector<double>> EGO::group(vector<double> xs, size_t size) {
+	assert(xs.size() % size == 0);
+
+	vector<vector<double>> result(xs.size() / size, vector<double>());
+
+	for (size_t i = 0; i < xs.size(); i++) {
+		result[i / size].push_back(xs[i]);
+	}
+
+	return result;
+}
+
