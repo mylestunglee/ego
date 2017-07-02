@@ -73,7 +73,7 @@ void EGO::run_quad()
 
       t3 = std::clock();
 
-	evaluate(group(best_xs, temp_lambda));
+	evaluate(group(best_xs, dimension));
 
       t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
       update_running(t3);
