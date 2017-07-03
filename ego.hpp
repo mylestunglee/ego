@@ -33,7 +33,6 @@ class EGO
     vector<double>* brute_search_swarm(int npts=10, int llambda=1, bool use_mean=false);
     double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n, double y_best);
     double ei(double y, double var, double y_min);
-    void check_running_tasks();
     bool not_run(const double x[]);
     bool not_running(const double x[]);
     void sample_plan(size_t n);
@@ -77,7 +76,6 @@ class EGO
 	gsl_rng* rng;
 
     void run_quad();
-    void update_running(const long int &t=-1l);
     bool has_run(const vector<double> &point);
     vector<double> local_random(double radius=1.0, int llambda=1);
 

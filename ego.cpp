@@ -49,115 +49,27 @@ EGO::~EGO() {
 
 void EGO::run_quad()
 {
-  sg->train_gp_first();
-  while(num_iterations < max_iterations) {
-    std::clock_t t3 = std::clock();
-    sg->train();
-    sg_cost->train();
+	assert(num_iterations > 0);
 
-    t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
-    update_running(t3);
+	sg->train_gp_first();
+	while(num_iterations < max_iterations) {
+		sg->train();
+		sg_cost->train();
 
-	cout << "Iteration: " << num_iterations << endl;
+		cout << "Iteration: " << num_iterations << endl;
 
-    if(lambda > 0) {
-      int temp_lambda = lambda;
-      t3 = std::clock();
-      vector<double> best_xs = max_ei_par(temp_lambda);
-      t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
-      update_running(t3);
+		vector<double> best_xs = max_ei_par(lambda);
 
-      t3 = std::clock();
+		evaluate(group(best_xs, dimension));
 
-	evaluate(group(best_xs, dimension));
-		// if evaluating
         //  y = brute_search_local_swarm(best_particle, 1, 1, true);
 
-      t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
-      update_running(t3);
-    }
-    if(lambda == 0) update_running();
-    if(running.size() >= num_lambda) {
-      cout << "Couldn't update running, exiting" << endl;
-      exit(-1);
-    }
   }
-}
-
-void EGO::update_running(const long int &t)
-{
-  long int time = t;
-  if(time == -1L) {
-    time = 1000000000000000L;
-    for(vector<struct running_node>::iterator node = running.begin(); node != running.end(); node++) {
-      time = min(time, (long) node->cost);
-    }
-    time++;
-  }
-  if(time > 0) {
-    for(vector<struct running_node>::iterator node = running.begin(); node != running.end();) {
-      node->cost -= time;
-      if(node->cost <= 0) {
-			evaluate({node->data});
-
-        //Delete estimations
-        mu_means.erase(mu_means.begin() + node->pos);
-        mu_vars.erase(mu_vars.begin() + node->pos);
-        for(size_t i = 0; i < running.size(); i++) {
-          if(running[i].pos > node->pos) running[i].pos--;
-        }
-
-        //Delete node from running vector
-        node = running.erase(node);
-      } else {
-        node++;
-      }
-    }
-  }
-  lambda = num_lambda - running.size();
 }
 
 vector<double> EGO::best_result()
 {
   return best_particle;
-}
-
-void EGO::check_running_tasks() {
-	running_mtx.lock();
-
-	vector<struct running_node>::iterator node = running.begin();
-
-	while(node != running.end()) {
-		if(node->is_finished) {
-			//Add it to our training set
-			training.push_back(node->data);
-
-			if(sg->is_svm) {
-				sg->add(node->data, node->fitness, node->label);
-			} else {
-				sg->add(node->data, node->fitness);
-			}
-
-			update_best_result(node->data, node->fitness);
-
-			//Delete estimations
-			mu_means.erase(mu_means.begin() + node->pos);
-			mu_vars.erase(mu_vars.begin() + node->pos);
-
-			for (auto& run : running) {
-				if (run.pos > node->pos) {
-					run.pos--;
-				}
-			}
-
-			//Delete node from running vector
-			node = running.erase(node);
-		} else {
-			node++;
-		}
-	}
-
-	running_mtx.unlock();
 }
 
 double EGO::fitness(const vector<double> &x)
