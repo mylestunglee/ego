@@ -1,3 +1,4 @@
+#include <limits>
 #include "ego.hpp"
 #include "optimise.hpp"
 #include "ihs.hpp"
@@ -87,7 +88,7 @@ double EGO::fitness(const vector<double> &x)
       y[j] = x[i * dimension + j];
     }
 
-    if(not_running(y)) {
+    if(true) {
       pair<double, double> p = sg->predict(y, true);
       lambda_means[i] = p.first;
       lambda_vars[i] = p.second;
@@ -264,87 +265,82 @@ void EGO::uniform_sample(size_t n) {
 	}
 }
 
-vector<double> EGO::local_random(double radius, int llambda)
-{
-  if(!suppress) {
-    // cout << "Evaluating random pertubations of best results" << endl;
-  }
-  double noise = sg->error();
-  vector<int> index;
-  vector<vector<double>> points;
-  for(size_t i = 0; i < valid_set.size(); i++) {
-    if(abs(training_f[i] - best_fitness) < noise) {
-      index.push_back(i);
-    }
-  }
-  vector<double> low_bounds(dimension, -10000000.0);
-  double up;
-  vector<double> x(dimension, 0.0);
-  int num[dimension+1];
-  for(size_t i = 0; i < index.size(); i++) {
-    num[0] = 1;
-    for(int j = 0; j < dimension; j++) {
-      double point = valid_set[index[i]][j];
-      low_bounds[j] = max(lower[j], point - radius);
-      up = min(upper[j], point + radius);
-      num[j+1] = num[j] * (int) (up - low_bounds[j] + 1);
-      //cout << j << " " <<num[j+1] <<" "<<low_bounds[j]<<" "<<up<< " possible" << endl;
-    }
-    for(int j = 0; j < num[dimension]; j++) {
-      for(int k = 0; k < dimension; k++) {
-        x[k] = low_bounds[k] + (j % num[k+1]) / num[k];
-	//cout << x[k] << " ";
-      }
-      //cout << endl;
-      if(!has_run(x)) {
-	bool can_run = true;
-        for(size_t z = 0; z < points.size(); z++) {
-	  for(int l = 0; l < dimension; l++) {
-	    if(x[l] != points[z][l]) {
-	      break;
-	    } else if(l == dimension - 1) {
-	      can_run = false;
-	      break;
-	    }
-	  }
-	  if(!can_run) {
-	    break;
-	  }
-        }
-	if(can_run) {
-	  points.push_back(x);
-	  //cout << "able" << endl;
-        }
-      }
-    }
-  }
-  int size = points.size();
-  if(size > 0) {
-    vector<double> result(dimension * llambda, 0.0);
-    double choices[llambda];
-    for(int i = 0; i < llambda; i++) {
-      choices[i] = -1;
-      int ind = rand() % size;
-      if(size >= llambda) {
-        for(int j = 0; j < llambda; j++) {
-          if(ind == choices[j]) {
-            j = -1;
-            ind = rand() % size;
-          }
-        }
-      }
-      for(int j = 0; j < dimension; j++) {
-        result[i*dimension+j] = points[ind][j];
-      }
-    }
-    return result;
-  } else {
-    points.clear();
-    low_bounds.clear();
-    index.clear();
-    x.clear();
-    return local_random(radius + 1, llambda);
-  }
+vector<double> EGO::local_random(double radius, int llambda) {
+	if (!suppress) {
+		// cout << "Evaluating random pertubations of best results" << endl;
+	}
+	double noise = sg->error();
+	vector < int > index;
+	vector < vector < double >> points;
+	for (size_t i = 0; i < valid_set.size(); i++) {
+		if (abs(training_f[i] - best_fitness) < noise) {
+			index.push_back(i);
+		}
+	}
+	vector < double > low_bounds(dimension, -10000000.0);
+	double up;
+	vector < double > x(dimension, 0.0);
+	int num[dimension + 1];
+	for (size_t i = 0; i < index.size(); i++) {
+		num[0] = 1;
+		for (int j = 0; j < dimension; j++) {
+			double point = valid_set[index[i]][j];
+			low_bounds[j] = max(lower[j], point - radius);
+			up = min(upper[j], point + radius);
+			num[j + 1] = num[j] * (int)(up - low_bounds[j] + 1);
+			//cout << j << " " <<num[j+1] <<" "<<low_bounds[j]<<" "<<up<< " possible" << endl;
+		}
+		for (int j = 0; j < num[dimension]; j++) {
+			for (int k = 0; k < dimension; k++) {
+				x[k] = low_bounds[k] + (j % num[k + 1]) / num[k];
+				//cout << x[k] << " ";
+			}
+			bool can_run = true;
+			for (size_t z = 0; z < points.size(); z++) {
+				for (int l = 0; l < dimension; l++) {
+					if (x[l] != points[z][l]) {
+						break;
+					} else if (l == dimension - 1) {
+						can_run = false;
+						break;
+					}
+				}
+				if (!can_run) {
+					break;
+				}
+			}
+			if (can_run) {
+				points.push_back(x);
+			}
+		}
+	}
+	int size = points.size();
+	if (size > 0) {
+		vector < double > result(dimension * llambda, 0.0);
+		double choices[llambda];
+		for (int i = 0; i < llambda; i++) {
+			choices[i] = -1;
+			int ind = rand() % size;
+			if (size >= llambda) {
+				for (int j = 0; j < llambda; j++) {
+					if (ind == choices[j]) {
+						j = -1;
+						ind = rand() % size;
+					}
+				}
+			}
+			for (int j = 0; j < dimension; j++) {
+				result[i * dimension + j] = points[ind][j];
+			}
+		}
+		return result;
+	} else {
+		points.clear();
+		low_bounds.clear();
+		index.clear();
+		x.clear();
+		return local_random(radius + 1, llambda);
+	}
 }
 
 vector<double> *EGO::brute_search_swarm(int npts, int llambda, bool use_mean)
@@ -384,7 +380,7 @@ vector<double> *EGO::brute_search_swarm(int npts, int llambda, bool use_mean)
         if(x[j] > upper[j] || x[j] < lower[j]) can_run = false;
       }
 
-      if(can_run && not_run(&x[0]) && not_running(&x[0])) {
+      if(can_run) {
         if(sg->svm_label(&x[0]) == 1) {
           double result = fitness(x);
           if(result > best) {
@@ -420,7 +416,7 @@ vector<double> *EGO::brute_search_swarm(int npts, int llambda, bool use_mean)
           if(point[i * dimension + k] > upper[k] || point[i * dimension + k] < lower[k]) can_run = false;
         }
 
-        if(can_run && not_run(&point[i*dimension]) && not_running(&point[i*dimension])) {
+        if(can_run) {
 	  if(sg->svm_label(&point[i*dimension]) == 1) {
 	    pair<double, double> p = sg->predict(&point[i*dimension], true);
 	    double result = 0.0;
@@ -499,7 +495,7 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
           if(x[j] > upper[j] || x[j] < lower[j]) can_run = false;
         }
 
-        if(can_run && (!has_to_run || (not_run(&x[0]) && not_running(&x[0])))) {
+        if(can_run) {
 	  if(random || sg->svm_label(&x[0]) == 1) {
             double result = fitness(x);
 	    if(num_lambda == 1){
@@ -538,7 +534,7 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
           if(point[i * dimension + k] > upper[k] || point[i * dimension + k] < lower[k]) can_run = false;
         }
 
-        if(can_run && (!has_to_run || (not_run(&point[i*dimension]) && not_running(&point[i*dimension])))) {
+        if(can_run) {
 	    if(random || sg->svm_label(&point[i*dimension]) == 1) {
 	    double result = fitness(point);
             if(result > best) {
@@ -594,43 +590,6 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
   }
 }
 
-bool EGO::has_run(const vector<double> &point)
-{
-  return !(not_run(&point[0]) && not_running(&point[0]));
-}
-
-bool EGO::not_run(const double x[])
-{
-  static double eps = 0.001;
-  vector<vector<double>>::iterator train = training.begin();
-  while(train != training.end()) {
-    int i = 0;
-    for(; i < dimension; i++) {
-      if(abs((*train)[i] - x[i]) > eps) break;
-    }
-    if(i == dimension) return false;
-    train++;
-  }
-  return true;
-}
-
-bool EGO::not_running(const double x[])
-{
-	static double eps = 0.001;
-  vector<struct running_node>::iterator node = running.begin();
-  while(node != running.end()) {
-    int i = 0;
-    for(; i < dimension; i++) {
-      if(abs(node->data[i] - x[i]) > eps) break;
-    }
-    if(i == dimension) return false;
-    node++;
-  }
-  //Not in training or running set, so hasn't been run
-  return true;
-
-}
-
 double EGO::ei(double y, double var, double y_min) {
 	if (var <= 0.0) {
 		return 0.0;
@@ -642,33 +601,22 @@ double EGO::ei(double y, double var, double y_min) {
 	return y_diff * gsl_cdf_ugaussian_P(y_diff_s) + sd * gsl_ran_ugaussian_pdf(y_diff_s);
 }
 
-double EGO::ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n, double y_best)
-{
-    double sum_ei=0.0, e_i=0.0;
-    int max_mus = mu_means.size();
+double EGO::ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n, double y_best) {
+	double result = 0.0;
 
-      for (int k=0; k < n; k++) {
-          double min = y_best;
-          for(int i=0; i < max_mus; i++){
-              double mius = gsl_ran_ugaussian(rng) * mu_vars[i] + mu_means[i];
-              if (mius < min)
-                  min = mius;
-          }
-          double min2=100000000.0;
-          for(int j=0;j<max_lambdas;j++){
-              double l = gsl_ran_ugaussian(rng) * lambda_s2[j] + lambda_mean[j];
-              if (l < min2){
-                  min2 = l;
-	      }
-          }
+	for (int k=0; k < n; k++) {
+		double minimum = numeric_limits<double>::max();
+		for(int j=0;j<max_lambdas;j++){
+			minimum = min(gsl_ran_ugaussian(rng) * lambda_s2[j] + lambda_mean[j], minimum);
+		}
 
-          e_i = min - min2;
-          if (e_i < 0.0) {
-            e_i = 0.0;
-          }
-          sum_ei = e_i + sum_ei;
-      }
-    return sum_ei;
+		double ei = y_best - minimum;
+
+		if (ei > 0.0) {
+			result += ei;
+		}
+	}
+	return result;
 }
 
 void EGO::update_best_result(vector<double> x, double y) {
@@ -727,4 +675,3 @@ vector<vector<double>> EGO::group(vector<double> xs, size_t size) {
 
 	return result;
 }
-

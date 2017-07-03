@@ -15,16 +15,6 @@ class EGO
     EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator);
 	~EGO();
 
-    struct running_node {
-      double fitness;
-      int label;
-      bool is_finished;
-      int addReturn;
-      int cost;
-      int pos;
-      vector<double> data;
-    };
-
     //Functions
     vector<double> max_ei_par(int llambda);
     double fitness(const vector<double> &x);
@@ -33,8 +23,6 @@ class EGO
     vector<double>* brute_search_swarm(int npts=10, int llambda=1, bool use_mean=false);
     double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n, double y_best);
     double ei(double y, double var, double y_min);
-    bool not_run(const double x[]);
-    bool not_running(const double x[]);
     void sample_plan(size_t n);
 	void uniform_sample(size_t n);
 
@@ -61,7 +49,6 @@ class EGO
 	Evaluator& evaluator;
 
     mutex running_mtx;
-    vector<struct running_node> running;
     vector<vector<double>> training;
     vector<double> training_f;
     vector<vector<double>> valid_set;
@@ -76,7 +63,6 @@ class EGO
 	gsl_rng* rng;
 
     void run_quad();
-    bool has_run(const vector<double> &point);
     vector<double> local_random(double radius=1.0, int llambda=1);
 
 	void update_best_result(vector<double> x, double y);
