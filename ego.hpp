@@ -42,7 +42,6 @@ class EGO
     long double best_fitness;
     bool is_discrete;
     bool use_brute_search;
-    bool use_cost;
     bool suppress;
     bool exhaustive;
 
@@ -52,8 +51,6 @@ class EGO
     vector<vector<double>> training;
     vector<double> training_f;
     vector<vector<double>> valid_set;
-    vector<double> mu_means;
-    vector<double> mu_vars;
     vector<double> lower;
     vector<double> upper;
 

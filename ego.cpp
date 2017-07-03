@@ -58,14 +58,8 @@ void EGO::run_quad()
 		sg_cost->train();
 
 		cout << "Iteration: " << num_iterations << endl;
-
-		vector<double> best_xs = max_ei_par(lambda);
-
-		evaluate(group(best_xs, dimension));
-
-        //  y = brute_search_local_swarm(best_particle, 1, 1, true);
-
-  }
+		evaluate(group(max_ei_par(lambda), dimension));
+	}
 }
 
 vector<double> EGO::best_result()
@@ -73,42 +67,34 @@ vector<double> EGO::best_result()
   return best_particle;
 }
 
-double EGO::fitness(const vector<double> &x)
-{
-  int num = x.size() / dimension;
+double EGO::fitness(const vector<double> &x) {
+	int num = x.size() / dimension;
 
-  double lambda_means[num];
-  double lambda_vars[num];
-  double cost = 1.0, mean_cost=1.0;
+	double lambda_means[num];
+	double lambda_vars[num];
+	double cost = 1.0, mean_cost=1.0;
 
-  for(int i = 0; i < num; i++) {
-    double y [dimension];
+	for(int i = 0; i < num; i++) {
+		double y [dimension];
 
-    for(int j = 0; j < dimension; j++) {
-      y[j] = x[i * dimension + j];
-    }
+		for(int j = 0; j < dimension; j++) {
+			y[j] = x[i * dimension + j];
+		}
 
-    if(true) {
-      pair<double, double> p = sg->predict(y, true);
-      lambda_means[i] = p.first;
-      lambda_vars[i] = p.second;
+		pair<double, double> p = sg->predict(y, true);
+		lambda_means[i] = p.first;
+		lambda_vars[i] = p.second;
 
-        pair<double, double> p_cost = sg_cost->predict(y);
-	cost += p_cost.first;
-	mean_cost = sg_cost->mean_fit;
-
-    } else {
-      lambda_means[i] = 100000000000;
-      lambda_vars[i] = 0;
-    }
-  }
+		pair<double, double> p_cost = sg_cost->predict(y);
+		cost += p_cost.first;
+		mean_cost = sg_cost->mean_fit;
+	}
 
   double result = ei_multi(lambda_vars, lambda_means, num, n_sims, sg->best_raw());
   if(cost > 0) {
-    result = result * mean_cost / cost;
+    result *= mean_cost / cost;
   }
-  result = exp(abs(result/n_sims) - 1) * 100;
-  return result;
+  return exp(abs(result/n_sims) - 1) * 100;
 }
 
 vector<double> EGO::max_ei_par(int llambda)
@@ -228,7 +214,7 @@ void EGO::sample_plan(size_t n)
 	for (size_t i = 0; i < n; i++) {
 		vector<double> x;
 		for (size_t j = 0; j < (unsigned) dimension; j++) {
-			double x_j = lower[j] + latin[i * dimension + j] * (upper[j] - lower[j]) * 0.1;
+			double x_j = lower[j] + (latin[i * dimension + j] - 1) * (n - 1) * (upper[j] - lower[j]);
 			if (is_discrete) {
 				x_j = round(x_j);
 			}
@@ -270,16 +256,17 @@ vector<double> EGO::local_random(double radius, int llambda) {
 		// cout << "Evaluating random pertubations of best results" << endl;
 	}
 	double noise = sg->error();
-	vector < int > index;
-	vector < vector < double >> points;
-	for (size_t i = 0; i < valid_set.size(); i++) {
+	vector<int> index;
+	vector<vector<double>> points;
+	for (size_t i = 0; i < training_f.size(); i++) {
 		if (abs(training_f[i] - best_fitness) < noise) {
 			index.push_back(i);
 		}
 	}
-	vector < double > low_bounds(dimension, -10000000.0);
+
+	vector <double> low_bounds(dimension, -10000000.0);
 	double up;
-	vector < double > x(dimension, 0.0);
+	vector <double> x(dimension, 0.0);
 	int num[dimension + 1];
 	for (size_t i = 0; i < index.size(); i++) {
 		num[0] = 1;
