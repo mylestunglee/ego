@@ -2,6 +2,7 @@
 #include "surrogate.hpp"
 #include "evaluator.hpp"
 #include "transferrer.hpp"
+#include "ihs.hpp"
 
 using namespace std;
 
@@ -22,7 +23,7 @@ int main(int argc, char* argv[]) {
 
 	EGO ego(boundaries, evaluator);
 
-	ego.sample_plan(5 * 2, 5); // 5 * dimension
+	ego.sample_plan(10);
 	ego.run_quad();
 
 	evaluator.save("fitness.log");

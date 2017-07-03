@@ -4,7 +4,6 @@
 #include <ctime>
 #include <thread>
 #include <chrono>
-
 #include <gsl/gsl_cdf.h>
 #include <gsl/gsl_randist.h>
 
@@ -63,17 +62,16 @@ void EGO::run_quad()
 
     if(lambda > 0) {
       int temp_lambda = lambda;
-      //t1 = std::chrono::high_resolution_clock::now();
       t3 = std::clock();
       vector<double> best_xs = max_ei_par(temp_lambda);
-      //t2 = std::chrono::high_resolution_clock::now();
-      //t3 = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
       t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
       update_running(t3);
 
       t3 = std::clock();
 
 	evaluate(group(best_xs, dimension));
+		// if evaluating
+        //  y = brute_search_local_swarm(best_particle, 1, 1, true);
 
       t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
       update_running(t3);
@@ -119,104 +117,9 @@ void EGO::update_running(const long int &t)
   lambda = num_lambda - running.size();
 }
 
-
-
-void EGO::run()
-{
-  suppress = false;
-  if(!suppress) cout << "Started, dim=" << dimension << ", lambda=" << num_lambda << endl;
-  sg->train_gp_first();
-  while(num_iterations < max_iterations) {
-    //Check to see if any workers have finished computing
-    std::clock_t t3 = std::clock();
-    check_running_tasks();
-    sg->train();
-    //t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
-
-
-    int lambda = num_lambda - running.size();
-    lambda = min(lambda, max_iterations - num_iterations);
-
-	cout << "Iterations: " << num_iterations << endl;
-
-    //t3 = std::clock();
-    if(lambda > 0) {
-      cout << " max " <<endl;
-      vector<double> best_xs = max_ei_par(lambda);
-      cout << " max " <<endl;
-      for(int l = 0; l < lambda; l++) {
-        vector<double> y(dimension, 0.0);
-        for(int j = 0; j < dimension; j++) {
-          y[j] = best_xs[l * dimension + j];
-        }
-
-        if(not_running(&y[0]) && not_run(&y[0])) {
-          evaluate(y);
-        } else {
-	  if(!suppress) {
-            cout << "Have run: ";
-            for(int j = 0; j < dimension; j++) {
-              cout << y[j] << " ";
-            }
-	  }
-          y = brute_search_local_swarm(best_particle, 1, 1, true);
-          evaluate(y);
-        }
-      }
-    }
-    t3 = (std::clock() - t3) / CLOCKS_PER_SEC;
-    cout << "Lambda" << lambda << endl;
-  }
-  check_running_tasks();
-}
-
 vector<double> EGO::best_result()
 {
   return best_particle;
-}
-
-void EGO::evaluate(const vector<double> &x)
-{
-  double *data = (double *) &x[0];
-
-  double mean, var;
-  if(sg->is_trained){
-    pair<double, double> p = sg->predict(data, true);
-    mean = p.first;
-    var = p.second;
-  } else {
-    mean = sg->mean(data);
-    var = sg->var(data);
-  }
-  mu_means.push_back(mean);
-  mu_vars.push_back(var);
-
-  //Add to running set
-  struct running_node run;
-  run.fitness = mean;
-  run.is_finished = false;
-  run.data = x;
-  run.pos = mu_means.size() - 1;
-  running.push_back(run);
-  num_iterations++;
-
-  //Launch another thread to calculate
-//  thread (&EGO::worker_task, this, run).detach();
-
-  worker_task(run);
-}
-
-/* Thread function that manages evaluation storage */
-void EGO::worker_task(struct running_node& run) {
-	double fitness = evaluator.evaluate(run.data)[0];
-
-	running_mtx.lock();
-
-	run.is_finished = true;
-	run.fitness = fitness;
-	run.label = 1;
-
-	running_mtx.unlock();
 }
 
 void EGO::check_running_tasks() {
@@ -400,68 +303,34 @@ vector<double> EGO::max_ei_par(int llambda)
   return best;
 }
 
-void EGO::latin_hypercube(size_t F, int D)
+void EGO::sample_plan(size_t n)
 {
-  int* latin = ihs(dimension, F, D, D);
-  if(!latin) {
-    cout << "Sample plan broke horribly, exiting" << endl;
-    exit(-1);
-  }
-  for(size_t i = 0; i < F; i++) {
-    vector<double> x(dimension, 0.0);
-    for(int j = 0; j < dimension; j++) {
-      double frac = (upper[j] - lower[j]) / (F-1);
-      x[j] = lower[j] + frac*(latin[i*dimension+j]-1);
-      if(is_discrete) {
-        x[j] = floor(x[j]);
-      }
-    }
-    while(running.size() >= num_lambda) {
-      //std::this_thread::sleep_for(std::chrono::milliseconds(20));
-      check_running_tasks();
-    }
-    evaluate(x);
-  }
-}
+	int seed = gsl_rng_get(rng);
+	int* latin = ihs(dimension, n, 5, seed);
+	assert(latin != NULL);
 
-void EGO::sample_plan(size_t F, int D)
-{
-  size_t size_latin = floor(F/3);
-  cout << size_latin << " size" << endl;
-  int* latin = ihs(dimension, size_latin, D, D);
-  if(!latin) {
-    cout << "Sample plan broke horribly, exiting" << endl;
-    exit(-1);
-  }
-  cout << "Latin eval" << endl;
+	vector<vector<double>> xs;
 
+	// Scale latin hypercube to fit parameter space
+	for (size_t i = 0; i < n; i++) {
+		vector<double> x;
+		for (size_t j = 0; j < (unsigned) dimension; j++) {
+			double x_j = lower[j] + latin[i * dimension + j] * (upper[j] - lower[j]) * 0.1;
+			if (is_discrete) {
+				x_j = round(x_j);
+			}
+			x.push_back(x_j);
+		}
+		xs.push_back(x);
+	}
 
-  for(size_t i = 0; i < size_latin; i++) {
-    vector<double> x(dimension, 0.0);
-    for(int j = 0; j < dimension; j++) {
-      double frac = (upper[j] - lower[j]) / (size_latin-1);
-      x[j] = lower[j] + frac*(latin[i*dimension+j]-1);
-      if(is_discrete) {
-        x[j] = floor(x[j]);
-      }
-    }
-    while(running.size() >= num_lambda) {
-      //std::this_thread::sleep_for(std::chrono::milliseconds(20));
-      //check_running_tasks();
-      update_running();
-    }
-	evaluate2(this, x);
-  }
+	evaluate(xs);
 
-
-  while(valid_set.size() < 1 || running.size() >= num_lambda) {
-    update_running();
-  }
-  sg->choose_svm_param(5, true);
-  delete latin;
+	sg->choose_svm_param(5, true);
+	delete latin;
 
   cout << "Adding extra permutations" << endl;
-  for(size_t i = 0; i < F - size_latin; i++) {
+  for(size_t i = 0; i < n; i++) {
     vector<double> point(dimension, 0.0);
     for(int j = 0, loops = 0; j < dimension; loops++, j++) {
       int rand_num = rand() % ((int)round(upper[j] - lower[j]) + 1);
@@ -954,7 +823,7 @@ void EGO::evaluate2(EGO* ego, vector<double> x) {
 void EGO::evaluate(vector<vector<double>> xs) {
 	vector<thread> threads;
 
-	for (vector<double> x : xs) {
+	for (auto x : xs) {
 		threads.push_back(thread(evaluate2, this, x));
 	}
 

@@ -28,18 +28,15 @@ class EGO
     //Functions
     vector<double> max_ei_par(int llambda);
     double fitness(const vector<double> &x);
-    void evaluate(const vector<double> &x);
-    void run();
     vector<double> best_result();
     vector<double> brute_search_local_swarm(const vector<double> &particle, double radius=1.0, int llambda=1, bool has_to_run=false, bool random=false, bool use_mean=false);
     vector<double>* brute_search_swarm(int npts=10, int llambda=1, bool use_mean=false);
     double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n, double y_best);
     double ei(double y, double var, double y_min);
     void check_running_tasks();
-    void worker_task(struct running_node& run);
     bool not_run(const double x[]);
     bool not_running(const double x[]);
-    void sample_plan(size_t F, int D=5);
+    void sample_plan(size_t n);
 
     //Variables
     int dimension;
@@ -81,7 +78,6 @@ class EGO
     void run_quad();
     void update_running(const long int &t=-1l);
     bool has_run(const vector<double> &point);
-    void latin_hypercube(size_t F, int D);
     vector<double> local_random(double radius=1.0, int llambda=1);
 
 	void update_best_result(vector<double> x, double y);
