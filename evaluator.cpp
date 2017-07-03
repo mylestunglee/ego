@@ -68,3 +68,11 @@ void Evaluator::save(string filename) {
 	}
 	write(filename, data);
 }
+
+/* Returns true iff x is in the domain of the cache mapping */
+bool Evaluator::has_evaluated(vector<double> x) {
+	cache_lock.lock();
+	bool result = cache.find(x) != cache.end();
+	cache_lock.unlock();
+	return result;
+}

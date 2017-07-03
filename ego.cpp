@@ -324,61 +324,32 @@ void EGO::sample_plan(size_t n)
 		xs.push_back(x);
 	}
 
+	delete latin;
+
 	evaluate(xs);
 
 	sg->choose_svm_param(5, true);
-	delete latin;
+}
 
-  cout << "Adding extra permutations" << endl;
-  for(size_t i = 0; i < n; i++) {
-    vector<double> point(dimension, 0.0);
-    for(int j = 0, loops = 0; j < dimension; loops++, j++) {
-      int rand_num = rand() % ((int)round(upper[j] - lower[j]) + 1);
-      point[j] = lower[j] + rand_num;
-      point[j] = min(point[j], upper[j]);
-      point[j] = max(point[j], lower[j]);
-      if(j == dimension - 1) {
-        if(loops < 1000 && (sg->svm_label(&point[0]) != 1 || has_run(point))) {
-	  j = -1; // reset and try and find another random point
-	}
-      }
-    }
-    if(sg->svm_label(&point[0]) != 1 || has_run(point)) {
-      int choice = 0, valid_size = valid_set.size(), radius = 2;
-      if(valid_size > 1) {
-        choice = rand() % valid_size;
-      }
-      int loops = 0;
-      for(int j = 0; j < dimension; j++, loops++) {
-	//int dist = floor((upper[j] - lower[j]) / radius);
-        //point[j] = valid_set[choice][j] + round(uni_dist(0, dist) - dist / 2);
-        int rand_num = rand() % (radius + 1);
-        point[j] = valid_set[choice][j] + (rand_num - radius / 2);
-        if((point[j] > upper[j]) || (point[j] < lower[j])) {
-	  j = -1; // reset loop
-	}
-        if(j == dimension - 1) {
-          if(!not_run(&point[0]) || !not_running(&point[0])) {
-            j = -1;
-          }
-        }
-	if(loops > 1000) {
-	  radius++;
-	  cout << loops << endl;
-	}
-      }
-    }
-    evaluate2(this, point);
-    sg->choose_svm_param(5);
+void EGO::uniform_sample(size_t n) {
+	for (size_t i = 0; i < n; i++) {
+		vector<double> x(dimension, 0.0);
+		for (size_t trial = 0; trial < 30; trial++) {
+			// Sample parameter space using uniform distribution
+			for (int j = 0; j < dimension; j++) {
+				x[j] = gsl_ran_flat(rng, lower[j], upper[j]);
+			}
 
-    while(running.size() >= num_lambda) {
-      update_running();
-    }
+			// Predicted label is valid
+			if (sg->svm_label(&x[0]) == 1) {
+				evaluate({x});
+				sg->choose_svm_param(5);
 
-  }
-  while(running.size() >= num_lambda) {
-    update_running();
-  }
+				// Find next point
+				break;
+			}
+		}
+	}
 }
 
 vector<double> EGO::local_random(double radius, int llambda)
@@ -733,7 +704,7 @@ bool EGO::not_run(const double x[])
 
 bool EGO::not_running(const double x[])
 {
-  static double eps = 0.001;
+	static double eps = 0.001;
   vector<struct running_node>::iterator node = running.begin();
   while(node != running.end()) {
     int i = 0;

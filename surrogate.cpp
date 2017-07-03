@@ -180,7 +180,7 @@ void Surrogate::choose_svm_param(int num_folds, bool local)
     s_param.gamma = 0.05;
     s_param.C = 10.0;
   }
-  cout << "Optimised SVM, gamma: " <<s_param.gamma<< " C: " << s_param.C << endl;
+  // cout << "Optimised SVM, gamma: " <<s_param.gamma<< " C: " << s_param.C << endl;
 
   free(target);
 

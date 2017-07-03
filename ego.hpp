@@ -37,6 +37,7 @@ class EGO
     bool not_run(const double x[]);
     bool not_running(const double x[]);
     void sample_plan(size_t n);
+	void uniform_sample(size_t n);
 
     //Variables
     int dimension;

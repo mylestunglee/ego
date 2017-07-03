@@ -24,6 +24,7 @@ int main(int argc, char* argv[]) {
 	EGO ego(boundaries, evaluator);
 
 	ego.sample_plan(10);
+	ego.uniform_sample(10);
 	ego.run_quad();
 
 	evaluator.save("fitness.log");

@@ -8,6 +8,6 @@
 libgp/*
 libsvm*
 gsl*
-pq_optimisation
+ego
 *.log
 eigen3/*
