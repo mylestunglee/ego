@@ -7,6 +7,7 @@
 #include <chrono>
 #include <gsl/gsl_cdf.h>
 #include <gsl/gsl_randist.h>
+#include <gsl/gsl_multimin.h>
 
 using namespace std;
 
@@ -26,7 +27,7 @@ EGO::EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator) :
 	rng = gsl_rng_alloc(gsl_rng_taus);
 
   n_sims = 50;
-  max_iterations = 100;
+  max_iterations = 1000;
   num_iterations = 0;
   num_lambda = 3;
   lambda = num_lambda;
@@ -58,7 +59,9 @@ void EGO::run_quad()
 		sg_cost->train();
 
 		cout << "Iteration: " << num_iterations << endl;
-		evaluate(group(max_ei_par(lambda), dimension));
+//		evaluate(group(max_ei_par(lambda), dimension));
+		evaluate({maximise_expected_improvement()});
+		cout << "Best @= " << best_particle[0] << ", " << best_particle[1] << endl;
 	}
 }
 
@@ -575,6 +578,136 @@ vector<double> EGO::brute_search_local_swarm(const vector<double> &particle, dou
       }
     }
   }
+}
+
+#include <iomanip>
+
+vector<double> EGO::maximise_expected_improvement() {
+  const gsl_multimin_fminimizer_type *T = gsl_multimin_fminimizer_nmsimplex2;
+  gsl_multimin_fminimizer *s = NULL;
+  gsl_vector *ss, *x;
+  gsl_multimin_function minex_func;
+
+  size_t iter = 0;
+  int status;
+  double size;
+
+  /* Starting point */
+  x = gsl_vector_alloc (dimension);
+
+
+
+
+	// sample ei across parameter space
+	/*double step = 0.4;
+	cout << endl;
+	for (double i = -2; i < 2; i += step) {
+		for (double j = -2; j < 2; j += step) {
+			gsl_vector_set(x, 0, i);
+			gsl_vector_set(x, 1, j);
+			cout << std::setprecision(3) << expected_improvement(x, this) << "\t";
+		}
+		cout << endl;
+	}*/
+
+
+
+
+
+
+
+
+
+	for (int i = 0; i < dimension; i++) {
+		gsl_vector_set(x, i, gsl_ran_flat(rng, lower[i], upper[i]));
+	}
+
+
+
+
+  /* Set initial step sizes to 1 */
+  ss = gsl_vector_alloc (dimension);
+  gsl_vector_set_all (ss, 1.0);
+
+  /* Initialize method and iterate */
+  minex_func.n = 2;
+  minex_func.f = &EGO::expected_improvement;
+  minex_func.params = this;
+
+  s = gsl_multimin_fminimizer_alloc (T, dimension);
+  gsl_multimin_fminimizer_set (s, &minex_func, x, ss);
+
+	vector<double> result;
+
+  do
+    {
+      iter++;
+      status = gsl_multimin_fminimizer_iterate(s);
+      
+      if (status) 
+        break;
+
+      size = gsl_multimin_fminimizer_size (s);
+      status = gsl_multimin_test_size (size, 1e-2);
+
+      if (status == GSL_SUCCESS)
+        {
+          printf ("converged to minimum at\n");
+			for (int i = 0; i < dimension; i++) {
+				result.push_back(gsl_vector_get(s->x, i));
+			}
+      printf ("%5d %10.3e %10.3e f() = %7.3f size = %.3f\n", 
+              iter,
+              gsl_vector_get (s->x, 0), 
+              gsl_vector_get (s->x, 1), 
+              s->fval, size);
+        }
+
+    }
+  while (status == GSL_CONTINUE && iter < 100);
+  
+  gsl_vector_free(x);
+  gsl_vector_free(ss);
+  gsl_multimin_fminimizer_free (s);
+
+  return result;
+}
+
+double EGO::expected_improvement(const gsl_vector* v, void* p) {
+	EGO* ego = (EGO*) p;
+
+	vector<double> x;
+	for (int i = 0; i < ego->dimension; i++) {
+		x.push_back(gsl_vector_get(v, i));
+	}
+
+	assert(x.size() != 0);
+
+	auto pair = ego->sg->predict(&x[0]);
+	double e = -ei(pair.first, pair.second, ego->best_fitness);
+	// if out of bounds
+	bool outside = false;
+	for (int i = 0; i < ego->dimension; i++) {
+		if (x[i] < ego->lower[i] || x[i] > ego->upper[i]) {
+			outside = true;
+			e = 0;
+			break;
+		}
+	}
+
+	if (e == 0) {
+		// v in some invalid region, just say it's some gradient towards the best fitness
+		double distance = 0.0;
+		for (int i = 0; i < ego->dimension; i++) {
+			distance += pow(x[i] - ego->best_particle[i], 2);
+		}
+
+		return sqrt(distance) * 100;
+	} else {
+		// return expected improvement
+		return e;
+	}
+
 }
 
 double EGO::ei(double y, double var, double y_min) {

@@ -4,6 +4,7 @@
 #include <mutex>
 #include "evaluator.hpp"
 #include <gsl/gsl_rng.h>
+#include <gsl/gsl_vector.h>
 #pragma once
 
 using namespace std;
@@ -22,7 +23,9 @@ class EGO
     vector<double> brute_search_local_swarm(const vector<double> &particle, double radius=1.0, int llambda=1, bool has_to_run=false, bool random=false, bool use_mean=false);
     vector<double>* brute_search_swarm(int npts=10, int llambda=1, bool use_mean=false);
     double ei_multi(double lambda_s2[], double lambda_mean[], int max_lambdas, int n, double y_best);
-    double ei(double y, double var, double y_min);
+	vector<double> maximise_expected_improvement();
+	static double expected_improvement(const gsl_vector* v, void* p);
+    static double ei(double y, double var, double y_min);
     void sample_plan(size_t n);
 	void uniform_sample(size_t n);
 
