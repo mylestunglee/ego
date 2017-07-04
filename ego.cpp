@@ -1,6 +1,7 @@
 #include <limits>
 #include "ego.hpp"
 #include "ihs.hpp"
+#include "functions.hpp"
 #include <ctime>
 #include <thread>
 #include <chrono>
@@ -13,12 +14,8 @@ using namespace std;
 EGO::EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator) :
 	evaluator(evaluator)
 {
-  dimension = boundaries.size();
-
-	for (auto boundary : boundaries) {
-		lower.push_back(boundary.first);
-		upper.push_back(boundary.second);
-	}
+	dimension = boundaries.size();
+	this->boundaries = boundaries;
 
 	sg = new Surrogate(boundaries.size(), SEiso, true, false);
 	sg_cost = new Surrogate(boundaries.size(), SEard);
@@ -53,11 +50,6 @@ void EGO::run_quad()
 	}
 }
 
-vector<double> EGO::best_result()
-{
-  return best_particle;
-}
-
 void EGO::sample_plan(size_t n)
 {
 	int seed = gsl_rng_get(rng);
@@ -70,7 +62,9 @@ void EGO::sample_plan(size_t n)
 	for (size_t i = 0; i < n; i++) {
 		vector<double> x;
 		for (size_t j = 0; j < (unsigned) dimension; j++) {
-			double x_j = lower[j] + (latin[i * dimension + j] - 1.0) / (n - 1.0) * (upper[j] - lower[j]);
+			double lower = boundaries[j].first;
+			double upper = boundaries[j].second;
+			double x_j = lower + (latin[i * dimension + j] - 1.0) / (n - 1.0) * (upper - lower);
 			if (is_discrete) {
 				x_j = round(x_j);
 			}
@@ -88,12 +82,8 @@ void EGO::sample_plan(size_t n)
 
 void EGO::uniform_sample(size_t n) {
 	for (size_t i = 0; i < n; i++) {
-		vector<double> x(dimension, 0.0);
 		for (size_t trial = 0; trial < 30; trial++) {
-			// Sample parameter space using uniform distribution
-			for (int j = 0; j < dimension; j++) {
-				x[j] = gsl_ran_flat(rng, lower[j], upper[j]);
-			}
+			auto x = generate_uniform_sample(rng, boundaries);
 
 			// Predicted label is valid
 			if (sg->svm_label(&x[0]) == 1) {
@@ -119,9 +109,9 @@ vector<double> EGO::maximise_expected_improvement() {
 
   /* Starting point */
   x = gsl_vector_alloc (dimension);
-
+	auto vx = generate_uniform_sample(rng, boundaries);
 	for (int i = 0; i < dimension; i++) {
-		gsl_vector_set(x, i, gsl_ran_flat(rng, lower[i], upper[i]));
+		gsl_vector_set(x, i, vx[i]);
 	}
 
   /* Set initial step sizes to 1 */
@@ -185,11 +175,8 @@ double EGO::expected_improvement(const gsl_vector* v, void* p) {
 	auto pair = ego->sg->predict(&x[0]);
 	double e = -ei(pair.first, pair.second, ego->best_fitness);
 	// if out of bounds
-	for (int i = 0; i < ego->dimension; i++) {
-		if (x[i] < ego->lower[i] || x[i] > ego->upper[i]) {
-			e = 0;
-			break;
-		}
+	if (!is_bounded(x, ego->boundaries)) {
+		e = 0;
 	}
 
 	if (e == 0) {
@@ -219,12 +206,12 @@ double EGO::ei(double y, double var, double y_min) {
 }
 
 /* Evaluates a vector to add to the training set */
-void EGO::evaluate2(EGO* ego, vector<double> x) {
+void EGO::thread_evaluate(EGO* ego, vector<double> x) {
 	assert(ego != NULL);
 
 	vector<double> y = ego->evaluator.evaluate(x);
 
-	ego->running_mtx.lock();
+	ego->evaluator_lock.lock();
 
     ego->num_iterations++;
 
@@ -238,7 +225,7 @@ void EGO::evaluate2(EGO* ego, vector<double> x) {
 		}
 	}
 
-	ego->running_mtx.unlock();
+	ego->evaluator_lock.unlock();
 }
 
 /* Concurrently evaluates multiple points xs */
@@ -246,7 +233,7 @@ void EGO::evaluate(vector<vector<double>> xs) {
 	vector<thread> threads;
 
 	for (auto x : xs) {
-		threads.push_back(thread(evaluate2, this, x));
+		threads.push_back(thread(thread_evaluate, this, x));
 	}
 
 	for (auto& t : threads) {

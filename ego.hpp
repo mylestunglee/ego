@@ -17,7 +17,6 @@ class EGO
 	~EGO();
 
     //Functions
-    vector<double> best_result();
 	vector<double> maximise_expected_improvement();
 	static double expected_improvement(const gsl_vector* v, void* p);
     static double ei(double y, double var, double y_min);
@@ -35,9 +34,8 @@ class EGO
 
 	Evaluator& evaluator;
 
-    mutex running_mtx;
-    vector<double> lower;
-    vector<double> upper;
+    mutex evaluator_lock;
+	vector<pair<double, double>> boundaries;
 
     Surrogate* sg;
     Surrogate* sg_cost;
@@ -46,6 +44,6 @@ class EGO
 
     void run_quad();
 
-	static void evaluate2(EGO* ego, vector<double> x);
+	static void thread_evaluate(EGO* ego, vector<double> x);
 	void evaluate(vector<vector<double>> xs);
 };
