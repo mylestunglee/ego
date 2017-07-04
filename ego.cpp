@@ -2,9 +2,7 @@
 #include "ego.hpp"
 #include "ihs.hpp"
 #include "functions.hpp"
-#include <ctime>
 #include <thread>
-#include <chrono>
 #include <gsl/gsl_cdf.h>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_multimin.h>
@@ -35,7 +33,7 @@ EGO::~EGO() {
 	delete sg_cost;
 }
 
-void EGO::run_quad()
+void EGO::run()
 {
 	assert(num_iterations > 0);
 
@@ -50,7 +48,7 @@ void EGO::run_quad()
 	}
 }
 
-void EGO::sample_plan(size_t n)
+void EGO::sample_latin(size_t n)
 {
 	int seed = gsl_rng_get(rng);
 	int* latin = ihs(dimension, n, 5, seed);
@@ -80,7 +78,7 @@ void EGO::sample_plan(size_t n)
 	sg->choose_svm_param(5, true);
 }
 
-void EGO::uniform_sample(size_t n) {
+void EGO::sample_uniform(size_t n) {
 	for (size_t i = 0; i < n; i++) {
 		for (size_t trial = 0; trial < 30; trial++) {
 			auto x = generate_uniform_sample(rng, boundaries);

@@ -9,41 +9,35 @@
 
 using namespace std;
 
-class EGO
-{
-  public:
-    //Constructor
-    EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator);
-	~EGO();
+class EGO {
+	public:
+		EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator);
+		~EGO();
+		void sample_latin(size_t n);
+		void sample_uniform(size_t n);
+		void run();
+	private:
+		int dimension;
+		int max_iterations;
+		int num_iterations;
+		vector<double> best_particle;
+		long double best_fitness;
+		bool is_discrete;
+		bool suppress;
 
-    //Functions
-	vector<double> maximise_expected_improvement();
-	static double expected_improvement(const gsl_vector* v, void* p);
-    static double ei(double y, double var, double y_min);
-    void sample_plan(size_t n);
-	void uniform_sample(size_t n);
+		Evaluator& evaluator;
 
-    //Variables
-    int dimension;
-    int max_iterations;
-    int num_iterations;
-    vector<double> best_particle;
-    long double best_fitness;
-    bool is_discrete;
-    bool suppress;
-
-	Evaluator& evaluator;
-
-    mutex evaluator_lock;
+		mutex evaluator_lock;
 	vector<pair<double, double>> boundaries;
 
-    Surrogate* sg;
-    Surrogate* sg_cost;
+		Surrogate* sg;
+		Surrogate* sg_cost;
 
-	gsl_rng* rng;
+		gsl_rng* rng;
 
-    void run_quad();
-
-	static void thread_evaluate(EGO* ego, vector<double> x);
-	void evaluate(vector<vector<double>> xs);
+		vector<double> maximise_expected_improvement();
+		static double expected_improvement(const gsl_vector* v, void* p);
+		static double ei(double y, double var, double y_min);
+		static void thread_evaluate(EGO* ego, vector<double> x);
+		void evaluate(vector<vector<double>> xs);
 };
