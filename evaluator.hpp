@@ -12,7 +12,6 @@ class Evaluator {
 	    Evaluator(string script);
 	    vector<double> evaluate(vector<double> x);
 		void save(string filename);
-		bool has_evaluated(vector<double> x);
 	private:
 	    string script;
 	    map<vector<double>, vector<double>> cache;
