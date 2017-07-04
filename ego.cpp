@@ -214,7 +214,7 @@ void EGO::sample_plan(size_t n)
 	for (size_t i = 0; i < n; i++) {
 		vector<double> x;
 		for (size_t j = 0; j < (unsigned) dimension; j++) {
-			double x_j = lower[j] + (latin[i * dimension + j] - 1) * (n - 1) * (upper[j] - lower[j]);
+			double x_j = lower[j] + (latin[i * dimension + j] - 1.0) / (n - 1.0) * (upper[j] - lower[j]);
 			if (is_discrete) {
 				x_j = round(x_j);
 			}
