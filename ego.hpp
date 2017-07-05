@@ -18,8 +18,8 @@ class EGO {
 		void run();
 	private:
 		int dimension;
-		int max_iterations;
-		int num_iterations;
+		int max_evaluations;
+		int evaluations;
 		vector<double> best_particle;
 		long double best_fitness;
 		bool is_discrete;
@@ -36,8 +36,8 @@ class EGO {
 		gsl_rng* rng;
 
 		vector<double> maximise_expected_improvement();
-		static double expected_improvement(const gsl_vector* v, void* p);
-		static double ei(double y, double var, double y_min);
+		static double expected_improvement_bounded(const gsl_vector* v, void* p);
+		static double expected_improvement(double y, double var, double y_min);
 		static void thread_evaluate(EGO* ego, vector<double> x);
 		void evaluate(vector<vector<double>> xs);
 };

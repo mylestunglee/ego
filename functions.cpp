@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <math.h>
 #include <gsl/gsl_randist.h>
 #include "functions.hpp"
 
@@ -8,7 +9,7 @@ bool is_bounded(vector<double> x, vector<pair<double, double>> boundaries) {
 
 	for (size_t i = 0; i < x.size(); i++) {
 		assert(boundaries[i].first <= boundaries[i].second);
-		if (x[i] > boundaries[i].first || x[i] < boundaries[i].second) {
+		if (x[i] < boundaries[i].first || x[i] > boundaries[i].second) {
 			return false;
 		}
 	}
@@ -26,4 +27,14 @@ vector<double> generate_uniform_sample(gsl_rng* rng, vector<pair<double, double>
 	}
 
 	return sample;
+}
+
+// Returns the Euclidean distance between two points
+double euclidean_distance(vector<double> x, vector<double> y) {
+	assert (x.size() == y.size());
+	double distance = 0.0;
+	for (size_t i = 0; i < x.size(); i++) {
+		distance += pow(x[i] - y[i], 2);
+	}
+	return sqrt(distance);
 }
