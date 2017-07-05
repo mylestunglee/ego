@@ -1,5 +1,7 @@
 #include <assert.h>
 #include <math.h>
+#include <iostream>
+#include <iomanip>
 #include <gsl/gsl_randist.h>
 #include "functions.hpp"
 
@@ -37,4 +39,16 @@ double euclidean_distance(vector<double> x, vector<double> y) {
 		distance += pow(x[i] - y[i], 2);
 	}
 	return sqrt(distance);
+}
+
+// Pretty prints a vector
+void print_vector(vector<double> x) {
+	cout << "(" << setprecision(3);
+	for (size_t i = 0; i < x.size(); i++) {
+		cout << x[i];
+		if (i < x.size() - 1) {
+			cout << ",";
+		}
+	}
+	cout << ")";
 }

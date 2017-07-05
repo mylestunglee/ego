@@ -20,8 +20,10 @@ EGO::EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator) :
 
 	rng = gsl_rng_alloc(gsl_rng_taus);
 
-  max_evaluations = 100;
+  max_evaluations = 1000;
   evaluations = 0;
+	max_trials = 100;
+	convergence_threshold = 0.01;
   best_fitness = std::numeric_limits<double>::max();
 }
 
@@ -41,9 +43,34 @@ void EGO::run()
 		sg->train();
 		sg_cost->train();
 
-		cout << "Iteration: " << evaluations << endl;
-		evaluate({maximise_expected_improvement()});
-		cout << "Best @= " << best_particle[0] << ", " << best_particle[1] << endl;
+		cout << "Iteration [" << (evaluations + 1) << "/" << max_evaluations << "] ";
+
+		// Find a point with the highest expected improvement
+		double improvement = 0.0;
+		vector<double> x;
+		for (size_t trial = 0; trial < max_trials; trial++) {
+			x = maximise_expected_improvement(improvement);
+			if (!x.empty()) {
+				break;
+			}
+		}
+
+		if (x.empty()) {
+			cout << "Cannot maximise expected improvement!" << endl;
+			return;
+		} else if (improvement < convergence_threshold) {
+			cout << "Optimial found!" << endl;
+			return;
+		}
+
+		cout << "Evaluating: ";
+		print_vector(x);
+
+		evaluate({x});
+
+		cout << "\tBest fitness: " << best_fitness << " at ";
+		print_vector(best_particle);
+		cout << endl;
 	}
 }
 
@@ -76,7 +103,7 @@ void EGO::sample_latin(size_t n)
 
 void EGO::sample_uniform(size_t n) {
 	for (size_t i = 0; i < n; i++) {
-		for (size_t trial = 0; trial < 30; trial++) {
+		for (size_t trial = 0; trial < max_trials; trial++) {
 			auto x = generate_uniform_sample(rng, boundaries);
 
 			// Predicted label is valid
@@ -91,14 +118,15 @@ void EGO::sample_uniform(size_t n) {
 	}
 }
 
-vector<double> EGO::maximise_expected_improvement() {
+vector<double> EGO::maximise_expected_improvement(double &improvement) {
   const gsl_multimin_fminimizer_type *algorithm = gsl_multimin_fminimizer_nmsimplex2;
   gsl_multimin_function func;
 
   /* Starting point */
   gsl_vector* x = gsl_vector_alloc (dimension);
-	for (int i = 0; i < dimension; i++) {
-		gsl_vector_set(x, i, best_particle[i]);
+	auto v = generate_uniform_sample(rng, boundaries);
+	for (size_t i = 0; i < dimension; i++) {
+		gsl_vector_set(x, i, v[i]);
 	}
 
   /* Set initial step sizes to 1 */
@@ -113,14 +141,14 @@ vector<double> EGO::maximise_expected_improvement() {
   gsl_multimin_fminimizer* s = gsl_multimin_fminimizer_alloc (algorithm, dimension);
   gsl_multimin_fminimizer_set (s, &func, x, ss);
 
-	for (size_t trial = 0; trial < 100; trial++) {
+	for (size_t trial = 0; trial < max_trials; trial++) {
       int status = gsl_multimin_fminimizer_iterate(s);
 
       if (status)
         break;
 
       double size = gsl_multimin_fminimizer_size (s);
-      status = gsl_multimin_test_size (size, 1e-2);
+      status = gsl_multimin_test_size (size, convergence_threshold);
 
 			if (status != GSL_CONTINUE) {
 				break;
@@ -130,9 +158,10 @@ vector<double> EGO::maximise_expected_improvement() {
 	vector<double> result;
 
 	if (s->fval < 0.0) {
-		for (int i = 0; i < dimension; i++) {
+		for (size_t i = 0; i < dimension; i++) {
 			result.push_back(gsl_vector_get(s->x, i));
 		}
+		improvement = -s->fval;
 	}
 
   gsl_vector_free(x);
@@ -146,7 +175,7 @@ double EGO::expected_improvement_bounded(const gsl_vector* v, void* p) {
 	EGO* ego = (EGO*) p;
 
 	vector<double> x;
-	for (int i = 0; i < ego->dimension; i++) {
+	for (size_t i = 0; i < ego->dimension; i++) {
 		x.push_back(gsl_vector_get(v, i));
 	}
 
@@ -183,7 +212,7 @@ void EGO::thread_evaluate(EGO* ego, vector<double> x) {
 
 	ego->evaluator_lock.lock();
 
-    ego->evaluations++;
+  ego->evaluations++;
 
 	ego->sg->add(x, y[0], y[1] == 0 ? 1 : 2, 0);
 	ego->sg_cost->add(x, y[2]);

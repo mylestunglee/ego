@@ -23,8 +23,8 @@ int main(int argc, char* argv[]) {
 
 	EGO ego(boundaries, evaluator);
 
-	ego.sample_latin(10);
-	ego.sample_uniform(10);
+	ego.sample_latin(20);
+	ego.sample_uniform(20);
 	ego.run();
 
 	evaluator.save("fitness.log");

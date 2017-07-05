@@ -17,25 +17,25 @@ class EGO {
 		void sample_uniform(size_t n);
 		void run();
 	private:
-		int dimension;
-		int max_evaluations;
-		int evaluations;
+		size_t dimension;
+		size_t max_evaluations;
+		size_t evaluations;
+		size_t max_trials;
+		double convergence_threshold;
 		vector<double> best_particle;
-		long double best_fitness;
-		bool is_discrete;
-		bool suppress;
+		double best_fitness;
 
 		Evaluator& evaluator;
 
 		mutex evaluator_lock;
-	vector<pair<double, double>> boundaries;
+		vector<pair<double, double>> boundaries;
 
 		Surrogate* sg;
 		Surrogate* sg_cost;
 
 		gsl_rng* rng;
 
-		vector<double> maximise_expected_improvement();
+		vector<double> maximise_expected_improvement(double &improvement);
 		static double expected_improvement_bounded(const gsl_vector* v, void* p);
 		static double expected_improvement(double y, double var, double y_min);
 		static void thread_evaluate(EGO* ego, vector<double> x);
