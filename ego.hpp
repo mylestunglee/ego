@@ -38,7 +38,7 @@ class EGO {
 
 		vector<double> maximise_expected_improvement(double &improvement);
 		static double expected_improvement_bounded(const gsl_vector* v, void* p);
-		static double expected_improvement(double y, double var, double y_min);
+		static double expected_improvement(double y, double sd, double y_min);
 		static void thread_evaluate(EGO* ego, vector<double> x);
 		void evaluate(vector<vector<double>> xs);
 };

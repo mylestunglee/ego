@@ -207,7 +207,7 @@ bool Transferrer::fitness_more_than(
 double Transferrer::calc_label_correlation(vector<pair<vector<double>, int>> sample_labels) {
 	assert(!sample_labels.empty());
 
-	Surrogate surrogate(boundaries.size(), SEiso);
+	Surrogate surrogate(boundaries.size());
 
 	// Converts labels into continuous values
 	for (auto result_old : results_old) {
@@ -221,8 +221,8 @@ double Transferrer::calc_label_correlation(vector<pair<vector<double>, int>> sam
 
 	for (auto sample_label : sample_labels) {
 		auto x = sample_label.first;
-		double mean = surrogate.mean(&x[0]);
-		double sd = sqrt(surrogate.var(&x[0]));
+		double mean = surrogate.mean(x);
+		double sd = surrogate.sd(x);
 
 		// If SVM prediction is certain, otherwise assume normal distribution
 		if (isnan(sd)) {

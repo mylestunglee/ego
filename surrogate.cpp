@@ -8,11 +8,10 @@
 using namespace std;
 using namespace libgp;
 
-Surrogate::Surrogate(int d, s_type type, bool svm, bool log_b)
-{
-  dim = d;
+Surrogate::Surrogate(size_t dimension) {
+  this->dimension = dimension;
+  gp = new GaussianProcess(dimension, "CovSEard");
 
-  gp = new GaussianProcess(dim, "CovSEard");
   Eigen::VectorXd params(gp->covf().get_param_dim());
   for(size_t i = 0; i < gp->covf().get_param_dim(); i++) {
     params(i) = -1;
@@ -20,52 +19,31 @@ Surrogate::Surrogate(int d, s_type type, bool svm, bool log_b)
   gp->covf().set_loghyper(params);
 }
 
-void Surrogate::choose_svm_param(int num_folds, bool local)
-{
+Surrogate::~Surrogate() {
+  delete gp;
 }
 
-void Surrogate::add(const vector<double> &x, double y)
-{
+void Surrogate::add(vector<double> x, double y) {
+  assert(x.size() == dimension);
   gp->add_pattern(&x[0], y);
 }
 
-void Surrogate::train_gp(libgp::GaussianProcess *gp_, bool log_fit)
-{
+void Surrogate::train() {
   CG cg;
-  cg.maximize(gp, 50, 0);
+  cg.maximize(gp, 50, false);
 }
 
-void Surrogate::train_gp_first()
-{
-  train_gp(NULL, false);
-}
-
-void Surrogate::train()
-{
-  train_gp(gp, false);
+double Surrogate::sd(vector<double> x) {
+  assert(x.size() == dimension);
+  double variance = gp->var(&x[0]);
+  if (variance < 0.0) {
+    return 0.0;
   }
 
-double Surrogate::best_raw()
-{
-  return 0;
+  return sqrt(variance);
 }
 
-double Surrogate::error()
-{
-  return 0;
-}
-
-double Surrogate::var(double x[])
-{
-  return gp->var(x);
-}
-
-double Surrogate::mean(double x[])
-{
-  return gp->f(x);
-}
-
-Surrogate::~Surrogate()
-{
-  delete gp;
+double Surrogate::mean(vector<double> x) {
+  assert(x.size() == dimension);
+  return gp->f(&x[0]);
 }

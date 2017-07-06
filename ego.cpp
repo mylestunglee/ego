@@ -17,9 +17,9 @@ EGO::EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator) :
 	dimension = boundaries.size();
 	this->boundaries = boundaries;
 
-	sg = new Surrogate(boundaries.size(), SEiso, true, false);
-	sg_label = new Surrogate(boundaries.size(), SEard);
-	sg_cost = new Surrogate(boundaries.size(), SEard);
+	sg = new Surrogate(dimension);
+	sg_label = new Surrogate(dimension);
+	sg_cost = new Surrogate(dimension);
 
 	rng = gsl_rng_alloc(gsl_rng_taus);
 
@@ -34,6 +34,7 @@ EGO::~EGO() {
 	gsl_rng_free(rng);
 
 	delete sg;
+	delete sg_label;
 	delete sg_cost;
 }
 
@@ -41,7 +42,7 @@ void EGO::run()
 {
 	assert(evaluations > 0);
 
-	sg->train_gp_first();
+	sg->train();
 	while(evaluations < max_evaluations) {
 		sg->train();
 		sg_cost->train();
@@ -62,7 +63,7 @@ void EGO::run()
 			cout << "Cannot maximise expected improvement!" << endl;
 			return;
 		} else if (improvement < pow(convergence_threshold, 2)) {
-			cout << "Optimial found!" << improvement << endl;
+			cout << "Optimial found!" << endl;
 			return;
 		}
 
@@ -108,7 +109,7 @@ void EGO::sample_uniform(size_t n) {
 			auto x = generate_uniform_sample(rng, boundaries);
 
 			// Predicted label is valid
-			if (success_probability(sg_label->mean(&x[0]), sqrt(sg_label->var(&x[0]))) >= 0.5) {
+			if (success_probability(sg_label->mean(x), sg_label->sd(x)) >= 0.5) {
 				evaluate({x});
 					// Find next point
 				break;
@@ -182,7 +183,7 @@ double EGO::expected_improvement_bounded(const gsl_vector* v, void* p) {
 
 	// Negate to maximise expected_improvement because this function is called by
 	// a minimiser
-	auto expectation = -expected_improvement(ego->sg->mean(&x[0]), ego->sg->var(&x[0]), ego->best_fitness);
+	auto expectation = -expected_improvement(ego->sg->mean(x), ego->sg->sd(x), ego->best_fitness);
 
 	if (expectation == 0.0 || !is_bounded(x, ego->boundaries)) {
 		return euclidean_distance(x, ego->best_particle);
@@ -191,12 +192,11 @@ double EGO::expected_improvement_bounded(const gsl_vector* v, void* p) {
 	return expectation;
 }
 
-double EGO::expected_improvement(double y, double var, double y_min) {
-	if (var <= 0.0) {
+double EGO::expected_improvement(double y, double sd, double y_min) {
+	if (sd <= 0.0) {
 		return 0.0;
 	}
 
-	double sd = sqrt(var);
 	double y_diff = y_min - y;
 	double y_diff_s = y_diff / sd;
 	return y_diff * gsl_cdf_ugaussian_P(y_diff_s) + sd * gsl_ran_ugaussian_pdf(y_diff_s);
