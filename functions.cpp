@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iomanip>
 #include <gsl/gsl_randist.h>
+#include <gsl/gsl_cdf.h>
 #include "functions.hpp"
 
 // Returns true iff x is bounded inside an n-dimensional hypercube defined by boundaries
@@ -51,4 +52,14 @@ void print_vector(vector<double> x) {
 		}
 	}
 	cout << ")";
+}
+
+// Finds the probability of success given a normal distribution
+double success_probability(double mean, double sd) {
+	double upper = gsl_cdf_gaussian_P(1.5 - mean, sd);
+	double middle = gsl_cdf_gaussian_P(0.5 - mean, sd);
+	double lower = gsl_cdf_gaussian_P(-0.5 - mean, sd);
+	double success = upper - middle;
+	double normal = upper - lower;
+	return success / normal;
 }

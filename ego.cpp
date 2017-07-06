@@ -3,6 +3,8 @@
 #include "ihs.hpp"
 #include "functions.hpp"
 #include <thread>
+#include <iostream>
+#include <iomanip>
 #include <gsl/gsl_cdf.h>
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_multimin.h>
@@ -16,14 +18,15 @@ EGO::EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator) :
 	this->boundaries = boundaries;
 
 	sg = new Surrogate(boundaries.size(), SEiso, true, false);
+	sg_label = new Surrogate(boundaries.size(), SEard);
 	sg_cost = new Surrogate(boundaries.size(), SEard);
 
 	rng = gsl_rng_alloc(gsl_rng_taus);
 
   max_evaluations = 1000;
   evaluations = 0;
-	max_trials = 100;
-	convergence_threshold = 0.01;
+	max_trials = 1000	;
+	convergence_threshold = 0.001;
   best_fitness = std::numeric_limits<double>::max();
 }
 
@@ -58,8 +61,8 @@ void EGO::run()
 		if (x.empty()) {
 			cout << "Cannot maximise expected improvement!" << endl;
 			return;
-		} else if (improvement < convergence_threshold) {
-			cout << "Optimial found!" << endl;
+		} else if (improvement < pow(convergence_threshold, 2)) {
+			cout << "Optimial found!" << improvement << endl;
 			return;
 		}
 
@@ -68,7 +71,7 @@ void EGO::run()
 
 		evaluate({x});
 
-		cout << "\tBest fitness: " << best_fitness << " at ";
+		cout << "\tBest fitness: " << setprecision(6) << best_fitness << " at ";
 		print_vector(best_particle);
 		cout << endl;
 	}
@@ -97,8 +100,6 @@ void EGO::sample_latin(size_t n)
 	delete latin;
 
 	evaluate(xs);
-
-	sg->choose_svm_param(5, true);
 }
 
 void EGO::sample_uniform(size_t n) {
@@ -107,11 +108,9 @@ void EGO::sample_uniform(size_t n) {
 			auto x = generate_uniform_sample(rng, boundaries);
 
 			// Predicted label is valid
-			if (sg->svm_label(&x[0]) == 1) {
+			if (success_probability(sg_label->mean(&x[0]), sqrt(sg_label->var(&x[0]))) >= 0.5) {
 				evaluate({x});
-				sg->choose_svm_param(5);
-
-				// Find next point
+					// Find next point
 				break;
 			}
 		}
@@ -181,10 +180,9 @@ double EGO::expected_improvement_bounded(const gsl_vector* v, void* p) {
 
 	assert(x.size() == ego->dimension);
 
-	auto pair = ego->sg->predict(&x[0]);
 	// Negate to maximise expected_improvement because this function is called by
 	// a minimiser
-	auto expectation = -expected_improvement(pair.first, pair.second, ego->best_fitness);
+	auto expectation = -expected_improvement(ego->sg->mean(&x[0]), ego->sg->var(&x[0]), ego->best_fitness);
 
 	if (expectation == 0.0 || !is_bounded(x, ego->boundaries)) {
 		return euclidean_distance(x, ego->best_particle);
@@ -214,7 +212,8 @@ void EGO::thread_evaluate(EGO* ego, vector<double> x) {
 
   ego->evaluations++;
 
-	ego->sg->add(x, y[0], y[1] == 0 ? 1 : 2, 0);
+	ego->sg->add(x, y[0]);
+	ego->sg_label->add(x, y[1] == 0 ? 1.0 : 0.0);
 	ego->sg_cost->add(x, y[2]);
 
 	if (y[1] == 0) {

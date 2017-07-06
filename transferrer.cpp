@@ -221,9 +221,8 @@ double Transferrer::calc_label_correlation(vector<pair<vector<double>, int>> sam
 
 	for (auto sample_label : sample_labels) {
 		auto x = sample_label.first;
-		auto mean_variance = surrogate.predict(&x[0]);
-		double mean = mean_variance.first;
-		double sd = sqrt(mean_variance.second);
+		double mean = surrogate.mean(&x[0]);
+		double sd = sqrt(surrogate.var(&x[0]));
 
 		// If SVM prediction is certain, otherwise assume normal distribution
 		if (isnan(sd)) {

@@ -31,6 +31,7 @@ class EGO {
 		vector<pair<double, double>> boundaries;
 
 		Surrogate* sg;
+		Surrogate* sg_label;
 		Surrogate* sg_cost;
 
 		gsl_rng* rng;

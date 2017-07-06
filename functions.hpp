@@ -11,3 +11,5 @@ vector<double> generate_uniform_sample(gsl_rng* rng, vector<pair<double, double>
 double euclidean_distance(vector<double> x, vector<double> y);
 
 void print_vector(vector<double> x);
+
+double success_probability(double mean, double sd);
