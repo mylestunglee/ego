@@ -22,8 +22,8 @@ class EGO {
 		size_t evaluations;
 		size_t max_trials;
 		double convergence_threshold;
-		vector<double> best_particle;
-		double best_fitness;
+		vector<double> x_opt;
+		double y_opt;
 
 		Evaluator& evaluator;
 

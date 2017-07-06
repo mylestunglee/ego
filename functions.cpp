@@ -2,8 +2,8 @@
 #include <math.h>
 #include <iostream>
 #include <iomanip>
-#include <gsl/gsl_randist.h>
-#include <gsl/gsl_cdf.h>
+#include <gsl_randist.h>
+#include <gsl_cdf.h>
 #include "functions.hpp"
 
 // Returns true iff x is bounded inside an n-dimensional hypercube defined by boundaries

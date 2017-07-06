@@ -2,16 +2,15 @@
 #include "csv.hpp"
 #include "constants.hpp"
 #include "surrogate.hpp"
-#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <utility>
 #include <assert.h>
 #include <set>
-#include <gsl/gsl_statistics.h>
-#include <gsl/gsl_vector.h>
-#include <gsl/gsl_multifit.h>
-#include <gsl/gsl_cdf.h>
+#include <gsl_statistics.h>
+#include <gsl_vector.h>
+#include <gsl_multifit.h>
+#include <gsl_cdf.h>
 
 using namespace std;
 
