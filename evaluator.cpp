@@ -11,7 +11,7 @@ Evaluator::Evaluator(string script) {
 	this->script = script;
 }
 
-/* Consults proxy then packages x for execution */
+// Consults proxy then packages x for execution
 vector<double> Evaluator::evaluate(vector<double> x) {
 	cache_lock.lock();
 	if (cache.find(x) != cache.end()) {
@@ -40,7 +40,7 @@ vector<double> Evaluator::evaluate(vector<double> x) {
     return result;
 }
 
-/* Executes command returning a vector of lines from stdout */
+// Executes command returning a vector of lines from stdout
 vector<string> Evaluator::execute(string command) {
 	array<char, 128> buffer;
 	vector<string> result;
@@ -53,7 +53,7 @@ vector<string> Evaluator::execute(string command) {
     return result;
 }
 
-/* Saves the cache as a CSV file */
+// Saves the cache as a CSV file
 void Evaluator::save(string filename) {
 	vector<vector<string>> data;
 	for (pair<vector<double>, vector<double>> pair : cache) {
@@ -67,4 +67,11 @@ void Evaluator::save(string filename) {
 		data.push_back(line);
 	}
 	write(filename, data);
+}
+
+// Simulates an execution without evalauting the script
+void Evaluator::simulate(vector<double> x, vector<double> y) {
+	cache_lock.lock();
+	cache[x] = y;
+	cache_lock.unlock();
 }

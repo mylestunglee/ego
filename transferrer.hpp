@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include "evaluator.hpp"
+#include "functions.hpp"
 
 using namespace std;
 
@@ -8,15 +9,15 @@ class Transferrer {
 	public:
 		Transferrer(
 			string filename_results_old,
-			string filename_script_new,
-			double sig_level);
-		~Transferrer();
+			Evaluator& evaluator,
+			double sig_level,
+			boundaries_t boundaries);
 		void transfer();
 	private:
-		Evaluator* evaluator;
+		Evaluator& evaluator;
 		vector<pair<vector<double>, vector<double>>> results_old;
-		vector<pair<double, double>> boundaries;
 		double sig_level;
+		boundaries_t boundaries;
 
 		void read_results(string filename);
 		void calc_correlation(
@@ -24,7 +25,7 @@ class Transferrer {
 			vector<double> y,
 			double &pearson,
 			double &spearman);
-		vector<pair<vector<double>, vector<double>>> sample_results_old();
+		results_t sample_results_old();
 		vector<double> fit_polynomial(
 			vector<double> xs,
 			vector<double> ys,
@@ -33,6 +34,8 @@ class Transferrer {
 			pair<vector<double>, vector<double>> xs,
 			pair<vector<double>, vector<double>> ys);
 		double calc_label_correlation(
-			vector<pair<vector<double>, int>> sample_passes);
+			vector<pair<vector<double>, vector<double>>> results_new);
+		void interpolate(boundaries_t boundaries_old, vector<double> coeffs,
+			results_t results_new);
 
 };

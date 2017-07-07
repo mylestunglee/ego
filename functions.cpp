@@ -10,6 +10,10 @@
 
 // Returns true iff x is bounded inside an n-dimensional hypercube defined by boundaries
 bool is_bounded(vector<double> x, boundaries_t boundaries) {
+	if (boundaries.empty()) {
+		return false;
+	}
+
 	assert(x.size() == boundaries.size());
 
 	for (size_t i = 0; i < x.size(); i++) {
@@ -71,8 +75,8 @@ boundaries_t get_intersection(boundaries_t bxs, boundaries_t bys) {
 	assert(bxs.size() == bys.size());
 	boundaries_t result;
 	for (size_t i = 0; i < bxs.size(); i++) {
-		double lower = min(bxs[i].first, bys[i].first);
-		double upper = max(bxs[i].second, bys[i].second);
+		double lower = max(bxs[i].first, bys[i].first);
+		double upper = min(bxs[i].second, bys[i].second);
 		if (lower > upper) {
 			return {};
 		} else {
@@ -111,8 +115,7 @@ vector<vector<double>> generate_latin_samples(gsl_rng* rng, size_t samples,
 }
 
 // Returns the boundaries that bounds all xs in results
-boundaries_t infer_boundaries(
-    vector<pair<vector<double>, vector<double>>> results) {
+boundaries_t infer_boundaries(results_t results) {
 	assert(!results.empty());
 
 	vector<vector<double>> xs(results[0].first.size(), vector<double>());

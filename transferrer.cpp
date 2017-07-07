@@ -3,6 +3,7 @@
 #include "constants.hpp"
 #include "surrogate.hpp"
 #include "functions.hpp"
+#include "ego.hpp"
 #include <vector>
 #include <algorithm>
 #include <utility>
@@ -17,39 +18,35 @@ using namespace std;
 
 Transferrer::Transferrer(
 	string filename_results_old,
-	string filename_script_new,
-	double sig_level
-) : sig_level(sig_level) {
+	Evaluator& evaluator,
+	double sig_level,
+	boundaries_t boundaries
+) : evaluator(evaluator), sig_level(sig_level), boundaries(boundaries) {
 	read_results(filename_results_old);
 	sort(results_old.begin(), results_old.end(), fitness_more_than);
-	evaluator = new Evaluator(filename_script_new);
-	boundaries = {make_pair(-1, 1), make_pair(-1, 3)};
 }
 
-Transferrer::~Transferrer() {
-	delete evaluator;
-}
-
-/* Performs the automatic knowledge transfer */
+// Performs the automatic knowledge transfer
 void Transferrer::transfer() {
 	vector<double> ys_old;
 	vector<double> ys_new;
-	vector<pair<vector<double>, int>> sample_labels_new;
+	results_t results_new;
 
 	auto sample = sample_results_old();
+	assert(!sample.empty());
 
 	// Compute fitness for sample
 	for (auto result_old : sample) {
 		auto x_old = result_old.first;
 		auto y_old = result_old.second;
-		auto y_new = evaluator->evaluate(x_old);
+		auto y_new = evaluator.evaluate(x_old);
 
 		ys_old.push_back(y_old[FITNESS_INDEX]);
 		ys_new.push_back(y_new[FITNESS_INDEX]);
-		sample_labels_new.push_back(make_pair(x_old, y_new[LABEL_INDEX]));
+		results_new.push_back(make_pair(x_old, y_new));
 	}
 
-	double label_correlation = calc_label_correlation(sample_labels_new);
+	double label_correlation = calc_label_correlation(results_new);
 	cout << "Label correlation: " << label_correlation << endl;
 
 	if (1.0 - label_correlation > sig_level) {
@@ -87,14 +84,14 @@ void Transferrer::transfer() {
 		return;
 	}
 
-	boundaries_t intersection = get_intersection(boundaries_old, boundaries);
+	cout << "Using interpolation: ";
+	print_vector(coeffs);
+	cout << endl;
 
-	for (auto boundary_old : boundaries) {
-		cout << boundary_old.first << ", " << boundary_old.second << endl;
-	}
+	interpolate(boundaries_old, coeffs, results_new);
 }
 
-/* Reads results from a CSV file from a previous EGO computation */
+// Reads results from a CSV file from a previous EGO computation
 void Transferrer::read_results(string filename) {
 	vector<vector<string>> data = read(filename);
 
@@ -113,8 +110,9 @@ void Transferrer::read_results(string filename) {
 	}
 }
 
-/* Calculates Pearson and Spearman correlation coefficents */
-void Transferrer::calc_correlation(vector<double> xs, vector<double> ys, double &pearson, double& spearman) {
+// Calculates Pearson and Spearman correlation coefficents
+void Transferrer::calc_correlation(vector<double> xs, vector<double> ys,
+	double &pearson, double& spearman) {
 	assert(xs.size() == ys.size());
 
 	size_t n = xs.size();
@@ -130,8 +128,10 @@ void Transferrer::calc_correlation(vector<double> xs, vector<double> ys, double 
 		(double*) gsl_y.vector.data, stride, n, work);
 }
 
-/* Selects a subset of old_results to determine relationship of old and new evaluators */
-vector<pair<vector<double>, vector<double>>> Transferrer::sample_results_old() {
+// Selects a subset of old_results to determine relationship of old and new evaluators
+results_t Transferrer::sample_results_old() {
+	return results_old;
+
 	vector<pair<vector<double>, vector<double>>> result;
 	set<vector<double>> sampled;
 
@@ -154,7 +154,7 @@ vector<pair<vector<double>, vector<double>>> Transferrer::sample_results_old() {
 	return result;
 }
 
-/* Fits a set of 2D points to a N-dimensional polynomial fit */
+// Fits a set of 2D points to a N-dimensional polynomial fit
 vector<double> Transferrer::fit_polynomial(vector<double> xs, vector<double> ys, int degree)
 {
 	assert(xs.size() == ys.size());
@@ -197,7 +197,7 @@ vector<double> Transferrer::fit_polynomial(vector<double> xs, vector<double> ys,
 	return coeffs;
 }
 
-/* Auxiliary less-than function to sort results */
+// Auxiliary less-than function to sort results
 bool Transferrer::fitness_more_than(
 	pair<vector<double>, vector<double>> x,
 	pair<vector<double>, vector<double>> y
@@ -205,9 +205,10 @@ bool Transferrer::fitness_more_than(
 	return (x.second)[0] < (y.second)[0];
 }
 
-/* Calculates the average p-value from confidence interval tests on all samples */
-double Transferrer::calc_label_correlation(vector<pair<vector<double>, int>> sample_labels) {
-	assert(!sample_labels.empty());
+// Calculates the average p-value from confidence interval tests on all samples
+double Transferrer::calc_label_correlation(
+	vector<pair<vector<double>, vector<double>>> results_new) {
+	assert(!results_new.empty());
 
 	Surrogate surrogate(boundaries.size());
 
@@ -221,15 +222,15 @@ double Transferrer::calc_label_correlation(vector<pair<vector<double>, int>> sam
 
 	vector<double> coeffs;
 
-	for (auto sample_label : sample_labels) {
-		auto x = sample_label.first;
+	for (auto result_new : results_new) {
+		auto x = result_new.first;
 		double mean = surrogate.mean(x);
 		double sd = surrogate.sd(x);
 
 		// If SVM prediction is certain, otherwise assume normal distribution
 		if (isnan(sd)) {
 			coeffs.push_back(1.0);
-		} else if (sample_label.second == 0.0) {
+		} else if (result_new.second[LABEL_INDEX] == 0.0) {
 			coeffs.push_back(gsl_cdf_gaussian_P(1.0 - mean, sd));
 		} else {
 			coeffs.push_back(gsl_cdf_gaussian_Q(-mean, sd));
@@ -237,4 +238,22 @@ double Transferrer::calc_label_correlation(vector<pair<vector<double>, int>> sam
 	}
 
 	return accumulate(coeffs.begin(), coeffs.end(), 0.0) / coeffs.size();
+}
+
+// Given a old parameter space, the approximation of y_olds to y_news, and some
+// samples of the new space, find y_opt
+void Transferrer::interpolate(boundaries_t boundaries_old, vector<double> coeffs,
+	results_t results_new) {
+
+	boundaries_t intersection = get_intersection(boundaries_old, boundaries);
+
+	EGO ego(evaluator, boundaries, intersection);
+	for (auto result_new : results_new) {
+		// Update old fitness to new fitness
+		result_new.second[FITNESS_INDEX] = apply_polynomial(
+			result_new.second[FITNESS_INDEX], coeffs);
+		ego.simulate(result_new.first, result_new.second);
+	}
+	ego.sample_uniform(10);
+	ego.run();
 }

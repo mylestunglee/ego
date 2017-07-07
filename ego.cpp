@@ -10,11 +10,12 @@
 
 using namespace std;
 
-EGO::EGO(boundaries_t boundaries, Evaluator& evaluator) :
+EGO::EGO(Evaluator& evaluator, boundaries_t boundaries, boundaries_t rejection) :
 	evaluator(evaluator)
 {
 	dimension = boundaries.size();
 	this->boundaries = boundaries;
+	this->rejection = rejection;
 
 	sg = new Surrogate(dimension);
 	sg_label = new Surrogate(dimension);
@@ -22,11 +23,11 @@ EGO::EGO(boundaries_t boundaries, Evaluator& evaluator) :
 
 	rng = gsl_rng_alloc(gsl_rng_taus);
 
-  max_evaluations = 1000;
-  evaluations = 0;
-	max_trials = 1000	;
+	max_evaluations = 1000;
+	evaluations = 0;
+	max_trials = 1000;
 	convergence_threshold = 0.001;
-  y_opt = std::numeric_limits<double>::max();
+	y_opt = std::numeric_limits<double>::max();
 }
 
 EGO::~EGO() {
@@ -41,6 +42,7 @@ void EGO::run()
 {
 	assert(evaluations > 0);
 
+	x_opt = {-2.5,-2.5};
 	sg->train();
 	while(evaluations < max_evaluations) {
 		sg->train();
@@ -68,9 +70,17 @@ void EGO::run()
 	}
 }
 
+// Evaluate samples from a Latin hypercube
 void EGO::sample_latin(size_t n)
 {
-	evaluate(generate_latin_samples(rng, n, boundaries));
+	auto xs = generate_latin_samples(rng, n, boundaries);
+	vector<vector<double>> filered;
+	for (auto x : xs) {
+		if (!is_bounded(x, rejection)) {
+			filered.push_back(x);
+		}
+	}
+	evaluate(filered);
 }
 
 void EGO::sample_uniform(size_t n) {
@@ -78,8 +88,9 @@ void EGO::sample_uniform(size_t n) {
 		for (size_t trial = 0; trial < max_trials; trial++) {
 			auto x = generate_uniform_sample(rng, boundaries);
 
-			// Predicted label is valid
-			if (success_probability(sg_label->mean(x), sg_label->sd(x)) >= 0.5) {
+			// Predicted label is valid and is not excluded
+			if (success_probability(sg_label->mean(x), sg_label->sd(x)) >= 0.5 &&
+				!is_bounded(x, rejection)) {
 				evaluate({x});
 				// Find next point
 				break;
@@ -120,6 +131,12 @@ vector<double> EGO::maximise_expected_improvement(double &improvement) {
       double size = gsl_multimin_fminimizer_size (s);
       status = gsl_multimin_test_size (size, convergence_threshold);
 
+	  /*printf ("%5d %10.3e %10.3e f() = %7.3f size = %.3f\n",
+	                trial,
+	                gsl_vector_get (s->x, 0),
+	                gsl_vector_get (s->x, 1),
+	                s->fval, size);*/
+
 			if (status != GSL_CONTINUE) {
 				break;
 			}
@@ -153,9 +170,11 @@ double EGO::expected_improvement_bounded(const gsl_vector* v, void* p) {
 
 	// Negate to maximise expected_improvement because this function is called by
 	// a minimiser
-	auto expectation = -expected_improvement(ego->sg->mean(x), ego->sg->sd(x), ego->y_opt);
+	auto expectation = -expected_improvement(ego->sg->mean(x), ego->sg->sd(x),
+		ego->y_opt);
 
-	if (expectation == 0.0 || !is_bounded(x, ego->boundaries)) {
+	if (expectation == 0.0 || !is_bounded(x, ego->boundaries)
+		|| is_bounded(x, ego->rejection)) {
 		return euclidean_distance(x, ego->x_opt);
 	}
 
@@ -179,19 +198,7 @@ void EGO::thread_evaluate(EGO* ego, vector<double> x) {
 	vector<double> y = ego->evaluator.evaluate(x);
 
 	ego->evaluator_lock.lock();
-
-  ego->evaluations++;
-
-	ego->sg->add(x, y[0]);
-	ego->sg_label->add(x, y[1] == 0 ? 1.0 : 0.0);
-	ego->sg_cost->add(x, y[2]);
-
-	if (y[1] == 0) {
-		if (y[0] < ego->y_opt) {
-			ego->x_opt = x;
-			ego->y_opt = y[0];
-		}
-	}
+	ego->simulate(x, y);
 
 	cout << "Iteration [" << ego->evaluations << "/" << ego->max_evaluations << "]: " << fixed;
 	print_vector(x);
@@ -202,7 +209,7 @@ void EGO::thread_evaluate(EGO* ego, vector<double> x) {
 	ego->evaluator_lock.unlock();
 }
 
-/* Concurrently evaluates multiple points xs */
+// Concurrently evaluates multiple points xs
 void EGO::evaluate(vector<vector<double>> xs) {
 	vector<thread> threads;
 
@@ -212,5 +219,21 @@ void EGO::evaluate(vector<vector<double>> xs) {
 
 	for (auto& t : threads) {
 		t.join();
+	}
+}
+
+// Simulates an evaluation
+void EGO::simulate(vector<double> x, vector<double> y) {
+	evaluations++;
+	evaluator.simulate(x, y);
+	sg->add(x, y[0]);
+	sg_label->add(x, y[1] == 0 ? 1.0 : 0.0);
+	sg_cost->add(x, y[2]);
+
+	if (y[1] == 0) {
+		if (y[0] < y_opt) {
+			x_opt = x;
+			y_opt = y[0];
+		}
 	}
 }

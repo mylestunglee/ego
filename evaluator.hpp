@@ -12,6 +12,7 @@ class Evaluator {
 	    Evaluator(string script);
 	    vector<double> evaluate(vector<double> x);
 		void save(string filename);
+		void simulate(vector<double> x, vector<double> y);
 	private:
 	    string script;
 	    map<vector<double>, vector<double>> cache;

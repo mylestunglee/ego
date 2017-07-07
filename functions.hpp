@@ -5,6 +5,7 @@
 using namespace std;
 
 typedef vector<pair<double, double>> boundaries_t;
+typedef vector<pair<vector<double>, vector<double>>> results_t;
 
 bool is_bounded(vector<double> x, boundaries_t boundaries);
 
@@ -21,8 +22,7 @@ boundaries_t get_intersection(boundaries_t bxs, boundaries_t bys);
 vector<vector<double>> generate_latin_samples(gsl_rng* rng, size_t samples,
   boundaries_t boundaries);
 
-boundaries_t infer_boundaries(
-    vector<pair<vector<double>, vector<double>>> results);
+boundaries_t infer_boundaries(results_t results);
 
 double apply_polynomial(double x, vector<double> coeffs);
 
