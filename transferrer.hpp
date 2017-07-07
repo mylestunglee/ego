@@ -24,7 +24,6 @@ class Transferrer {
 			vector<double> y,
 			double &pearson,
 			double &spearman);
-		bool is_bound(vector<double> x);
 		vector<pair<vector<double>, vector<double>>> sample_results_old();
 		vector<double> fit_polynomial(
 			vector<double> xs,
@@ -35,4 +34,5 @@ class Transferrer {
 			pair<vector<double>, vector<double>> ys);
 		double calc_label_correlation(
 			vector<pair<vector<double>, int>> sample_passes);
+
 };

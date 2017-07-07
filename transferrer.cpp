@@ -2,6 +2,7 @@
 #include "csv.hpp"
 #include "constants.hpp"
 #include "surrogate.hpp"
+#include "functions.hpp"
 #include <vector>
 #include <algorithm>
 #include <utility>
@@ -22,7 +23,7 @@ Transferrer::Transferrer(
 	read_results(filename_results_old);
 	sort(results_old.begin(), results_old.end(), fitness_more_than);
 	evaluator = new Evaluator(filename_script_new);
-	boundaries = {make_pair(-1, 1), make_pair(-1, 1)};
+	boundaries = {make_pair(-1, 1), make_pair(-1, 3)};
 }
 
 Transferrer::~Transferrer() {
@@ -62,21 +63,34 @@ void Transferrer::transfer() {
 
 	cout << "Pearson: " << pearson << ", Spearman: " << spearman << endl;
 	double y_old_best = (results_old[0].second)[FITNESS_INDEX];
+	vector<double> coeffs;
 
 	// If hypothesis test for linear relationship between ys_old and ys_new passes
 	if (1.0 - pearson <= sig_level || 1.0 + pearson <= sig_level) {
-		vector<double> coeff = fit_polynomial(ys_old, ys_new, 1);
-		double y_new_best_approx = coeff[1] * y_old_best + coeff[0];
-		cout << "Using linear regression, predicted new best: " << y_new_best_approx << endl;
+		coeffs = fit_polynomial(ys_old, ys_new, 1);
+		cout << "Using linear regression" << endl;
 
 	// If hypothesis test for monotonic relationship passes
 	} else if (1.0 - spearman <= sig_level || 1.0 + spearman <= sig_level) {
-		vector<double> coeff = fit_polynomial(ys_old, ys_new, 2);
-		double y_new_best_approx = coeff[2] * pow(y_old_best, 2) +
-			coeff[1] * y_old_best + coeff[0];
-		cout << "Using quadratic regression, predicted new best: " << y_new_best_approx << endl;
+		coeffs = fit_polynomial(ys_old, ys_new, 2);
+		cout << "Using quadratic regression" << endl;
 	} else {
 		cout << "Insufficent monotonic relationship between fitness functions." << endl;
+		return;
+	}
+
+	double y_new_best_approx = apply_polynomial(y_old_best, coeffs);
+	boundaries_t boundaries_old = infer_boundaries(results_old);
+
+	if (is_subset(boundaries, boundaries_old)) {
+		cout << "Trivial mapping, y_new_opt = " << y_new_best_approx << endl;
+		return;
+	}
+
+	boundaries_t intersection = get_intersection(boundaries_old, boundaries);
+
+	for (auto boundary_old : boundaries) {
+		cout << boundary_old.first << ", " << boundary_old.second << endl;
 	}
 }
 
@@ -97,18 +111,6 @@ void Transferrer::read_results(string filename) {
 		}
 		results_old.push_back(make_pair(x, y));
 	}
-}
-
-/* Returns true iff x is bounded by boundaries_new */
-bool Transferrer::is_bound(vector<double> xs) {
-	assert (xs.size() == boundaries.size());
-
-	for (size_t i = 0; i < xs.size(); i++) {
-		if (xs[i] < boundaries[i].first || xs[i] > boundaries[i].second) {
-			return false;
-		}
-	}
-	return true;
 }
 
 /* Calculates Pearson and Spearman correlation coefficents */
@@ -138,7 +140,8 @@ vector<pair<vector<double>, vector<double>>> Transferrer::sample_results_old() {
 
 		// Only add sample when sample fits new parameter space and has not been
 		// sampled before
-		if (is_bound(sample.first) && sampled.find(sample.first) == sampled.end()) {
+		if (is_bounded(sample.first, boundaries) &&
+			sampled.find(sample.first) == sampled.end()) {
 			sampled.insert(sample.first);
 			result.push_back(sample);
 		}

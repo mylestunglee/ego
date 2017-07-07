@@ -20,3 +20,10 @@ boundaries_t get_intersection(boundaries_t bxs, boundaries_t bys);
 
 vector<vector<double>> generate_latin_samples(gsl_rng* rng, size_t samples,
   boundaries_t boundaries);
+
+boundaries_t infer_boundaries(
+    vector<pair<vector<double>, vector<double>>> results);
+
+double apply_polynomial(double x, vector<double> coeffs);
+
+bool is_subset(boundaries_t bxs, boundaries_t bys);

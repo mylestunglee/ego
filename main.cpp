@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
 
 	ego.sample_latin(10);
 	// Randomness can offset optimiser negatively
-	//	ego.sample_uniform(10);
+	ego.sample_uniform(10);
 	ego.run();
 
 	evaluator.save("fitness.log");

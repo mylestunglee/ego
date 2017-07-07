@@ -2,6 +2,7 @@
 #include <math.h>
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
 #include <gsl_randist.h>
 #include <gsl_cdf.h>
 #include "ihs.hpp"
@@ -107,4 +108,47 @@ vector<vector<double>> generate_latin_samples(gsl_rng* rng, size_t samples,
 	delete latin;
 
 	return xs;
+}
+
+// Returns the boundaries that bounds all xs in results
+boundaries_t infer_boundaries(
+    vector<pair<vector<double>, vector<double>>> results) {
+	assert(!results.empty());
+
+	vector<vector<double>> xs(results[0].first.size(), vector<double>());
+	for (auto result : results) {
+		auto x = result.first;
+		for (size_t i = 0; i < x.size(); i++) {
+			xs[i].push_back(x[i]);
+		}
+	}
+
+	boundaries_t boundaries;
+	for (auto x : xs) {
+		auto boundary = minmax_element(x.begin(), x.end());
+		boundaries.push_back(make_pair(x[boundary.first - x.begin()],
+			x[boundary.second - x.begin()]));
+	}
+
+	return boundaries;
+}
+
+// Given a polynomial of coefficents c_0, c_1..., compute c_0 + c_1x + c_2x^2...
+double apply_polynomial(double x, vector<double> coeffs) {
+	double sum = 0.0;
+	for (size_t i = 0; i < coeffs.size(); i++) {
+		sum += coeffs[i] * pow(x, i);
+	}
+	return sum;
+}
+
+// Returns true iff all points in bxs are bounded by bys
+bool is_subset(boundaries_t bxs, boundaries_t bys) {
+	assert(bxs.size() == bys.size());
+	for (size_t i = 0; i < bxs.size(); i++) {
+		if (bxs[i].first < bys[i].first || bxs[i].second > bys[i].second) {
+			return false;
+		}
+	}
+	return true;
 }
