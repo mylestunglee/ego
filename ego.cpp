@@ -1,6 +1,5 @@
 #include <limits>
 #include "ego.hpp"
-#include "ihs.hpp"
 #include "functions.hpp"
 #include <thread>
 #include <iostream>
@@ -11,7 +10,7 @@
 
 using namespace std;
 
-EGO::EGO(vector<pair<double, double>> boundaries, Evaluator& evaluator) :
+EGO::EGO(boundaries_t boundaries, Evaluator& evaluator) :
 	evaluator(evaluator)
 {
 	dimension = boundaries.size();
@@ -71,27 +70,7 @@ void EGO::run()
 
 void EGO::sample_latin(size_t n)
 {
-	int seed = gsl_rng_get(rng);
-	int* latin = ihs(dimension, n, 5, seed);
-	assert(latin != NULL);
-
-	vector<vector<double>> xs;
-
-	// Scale latin hypercube to fit parameter space
-	for (size_t i = 0; i < n; i++) {
-		vector<double> x;
-		for (size_t j = 0; j < (unsigned) dimension; j++) {
-			double lower = boundaries[j].first;
-			double upper = boundaries[j].second;
-			double x_j = lower + (latin[i * dimension + j] - 1.0) / (n - 1.0) * (upper - lower);
-			x.push_back(x_j);
-		}
-		xs.push_back(x);
-	}
-
-	delete latin;
-
-	evaluate(xs);
+	evaluate(generate_latin_samples(rng, n, boundaries));
 }
 
 void EGO::sample_uniform(size_t n) {
@@ -102,7 +81,7 @@ void EGO::sample_uniform(size_t n) {
 			// Predicted label is valid
 			if (success_probability(sg_label->mean(x), sg_label->sd(x)) >= 0.5) {
 				evaluate({x});
-					// Find next point
+				// Find next point
 				break;
 			}
 		}

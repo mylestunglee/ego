@@ -1,3 +1,7 @@
+#include <string>
+
+using namespace std;
+
 void covariance ( int m, int n, int x[], double &average, double &std,
   double &covc );
 int get_seed ( );

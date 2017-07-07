@@ -2,6 +2,7 @@
 #include "surrogate.hpp"
 #include "evaluator.hpp"
 #include "transferrer.hpp"
+#include "functions.hpp"
 #include "ihs.hpp"
 
 using namespace std;
@@ -17,7 +18,7 @@ int main(int argc, char* argv[]) {
 		return 0;
 	}
 
-	vector<pair<double, double>> boundaries = {make_pair(-2, 2), make_pair(-2, 2)};
+	boundaries_t boundaries = {make_pair(-2, 2), make_pair(-2, 2)};
 
 	Evaluator evaluator("./test_script");
 
