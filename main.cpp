@@ -9,6 +9,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 	if (argc == 5) {
+		// Using knowledge transfer
 		string filename_results_old(argv[1]);
 		string filename_script(argv[2]);
 		string filename_config(argv[3]);
@@ -29,6 +30,7 @@ int main(int argc, char* argv[]) {
 		evaluator.save(filename_output);
 		return 0;
 	} else if (argc == 4) {
+		// Not using knowledge transfer
 		string script(argv[1]);
 		string filename_config(argv[2]);
 		string filename_output(argv[3]);
@@ -55,4 +57,12 @@ int main(int argc, char* argv[]) {
 
 		return 0;
 	}
+
+	cout << "Usage:" << endl;
+	cout << "Without knowledge transfer: ego script config log" << endl;
+	cout << "Script calls the fitness function; config contains hyperparameters for this program; log is the output that stores calls to the script." << endl;
+	cout << "With knowledge transfer: ego results script config log" << endl;
+	cout << "Results is the log of the previous (optimised) design." << endl;
+
+	return 0;
 }

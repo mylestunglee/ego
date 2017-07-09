@@ -1,6 +1,5 @@
 #include "transferrer.hpp"
 #include "csv.hpp"
-#include "constants.hpp"
 #include "surrogate.hpp"
 #include "functions.hpp"
 #include "ego.hpp"
@@ -11,6 +10,11 @@
 #include <set>
 
 using namespace std;
+
+const unsigned FITNESS_INDEX = 0;
+const unsigned LABEL_INDEX   = 1;
+const unsigned COST_INDEX    = 2;
+
 
 Transferrer::Transferrer(
 	string filename_results_old,
@@ -121,7 +125,7 @@ results_t Transferrer::sample_results_old() {
 	vector<pair<vector<double>, vector<double>>> result;
 	set<vector<double>> sampled;
 
-	for (unsigned i = 0; i < SAMPLE_TRIALS; i++) {
+	for (size_t trial = 0; trial < max_trials; trial++) {
 		auto sample = results_old[rand() % results_old.size()];
 
 		// Only add sample when sample fits new parameter space and has not been
@@ -132,7 +136,8 @@ results_t Transferrer::sample_results_old() {
 			result.push_back(sample);
 		}
 
-		if (sampled.size() > SAMPLE_MAX) {
+		// Sample at most 5 * dimension
+		if (sampled.size() > 5 * boundaries.size()) {
 			break;
 		}
 	}
