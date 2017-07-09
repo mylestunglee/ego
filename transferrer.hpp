@@ -12,7 +12,7 @@ class Transferrer {
 			Evaluator& evaluator,
 			double sig_level,
 			boundaries_t boundaries);
-		void transfer();
+		void run();
 	private:
 		Evaluator& evaluator;
 		vector<pair<vector<double>, vector<double>>> results_old;

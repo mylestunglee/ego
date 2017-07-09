@@ -12,7 +12,13 @@ using namespace std;
 
 class EGO {
 	public:
-		EGO(Evaluator& evaluator, boundaries_t boundaries, boundaries_t rejection);
+		EGO(
+			Evaluator& evaluator,
+			boundaries_t boundaries,
+			boundaries_t rejection,
+			size_t max_evaluations,
+			size_t max_trials,
+			double convegence_threshold);
 		~EGO();
 		void sample_latin(size_t n);
 		void sample_uniform(size_t n);

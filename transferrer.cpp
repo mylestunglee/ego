@@ -23,7 +23,7 @@ Transferrer::Transferrer(
 }
 
 // Performs the automatic knowledge transfer
-void Transferrer::transfer() {
+void Transferrer::run() {
 	vector<double> ys_old;
 	vector<double> ys_new;
 	results_t results_new;
@@ -95,7 +95,7 @@ void Transferrer::read_results(string filename) {
 		vector<double> x;
 		vector<double> y;
 		for (size_t i = 0; i < line.size(); i++) {
-			double cell = atof(line[i].c_str());
+			double cell = stof(line[i]);
 			if (i < line.size() - 3) {
 				x.push_back(cell);
 			} else {
@@ -180,7 +180,7 @@ void Transferrer::interpolate(boundaries_t boundaries_old, vector<double> coeffs
 
 	boundaries_t intersection = get_intersection(boundaries_old, boundaries);
 
-	EGO ego(evaluator, boundaries, intersection);
+	EGO ego(evaluator, boundaries, intersection, 1000, 1000, 0.01);
 	for (auto result_new : results_new) {
 		// Update old fitness to new fitness
 		result_new.second[FITNESS_INDEX] = apply_polynomial(

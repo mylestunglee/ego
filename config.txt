@@ -1,0 +1,12 @@
+# max_evaluations
+1000
+# max_trials
+1000
+# convergence_threshold
+0.001
+# lower boundaries
+-2, -2
+# upper boundaries
+2, 2
+# significance level
+0.05

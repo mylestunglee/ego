@@ -10,7 +10,11 @@
 
 using namespace std;
 
-EGO::EGO(Evaluator& evaluator, boundaries_t boundaries, boundaries_t rejection) :
+EGO::EGO(Evaluator& evaluator, boundaries_t boundaries, boundaries_t rejection,
+	size_t max_evaluations, size_t max_trials, double convergence_threshold) :
+	max_evaluations(max_evaluations),
+	max_trials(max_trials),
+	convergence_threshold(convergence_threshold),
 	evaluator(evaluator)
 {
 	dimension = boundaries.size();
@@ -23,10 +27,7 @@ EGO::EGO(Evaluator& evaluator, boundaries_t boundaries, boundaries_t rejection) 
 
 	rng = gsl_rng_alloc(gsl_rng_taus);
 
-	max_evaluations = 1000;
 	evaluations = 0;
-	max_trials = 1000;
-	convergence_threshold = 0.001;
 	y_opt = numeric_limits<double>::max();
 }
 
@@ -54,7 +55,7 @@ void EGO::run()
 		if (x.empty()) {
 			cout << "Cannot maximise expected improvement!" << endl;
 			return;
-		} else if (improvement < pow(convergence_threshold, 2)) {
+		} else if (improvement <= convergence_threshold) {
 			cout << "Optimial found!" << endl;
 			return;
 		}
@@ -111,46 +112,41 @@ vector<double> EGO::maximise_expected_improvement_global(double& improvement) {
 
 // Use the Nelder-Mead method to maximise local expected improvement
 vector<double> EGO::maximise_expected_improvement_local(double &improvement) {
-  const gsl_multimin_fminimizer_type *algorithm = gsl_multimin_fminimizer_nmsimplex2;
-  gsl_multimin_function func;
+	const gsl_multimin_fminimizer_type *algorithm = gsl_multimin_fminimizer_nmsimplex2;
+	gsl_multimin_function func;
 
-  // Starting point
-  gsl_vector* x = gsl_vector_alloc (dimension);
+	// Starting point
+	gsl_vector* x = gsl_vector_alloc (dimension);
 	auto v = generate_uniform_sample(rng, boundaries);
 	for (size_t i = 0; i < dimension; i++) {
 		gsl_vector_set(x, i, v[i]);
 	}
 
-  // Set initial step sizes to 1
-  gsl_vector* ss = gsl_vector_alloc (dimension);
-  gsl_vector_set_all (ss, 1.0);
+	// Set initial step sizes to 1
+	gsl_vector* ss = gsl_vector_alloc (dimension);
+	gsl_vector_set_all (ss, 1.0);
 
-  // Initialize method and iterate
-  func.n = dimension;
-  func.f = &EGO::expected_improvement_bounded;
-  func.params = this;
+	// Initialize method and iterate
+	func.n = dimension;
+	func.f = &EGO::expected_improvement_bounded;
+	func.params = this;
 
-  gsl_multimin_fminimizer* s = gsl_multimin_fminimizer_alloc (algorithm, dimension);
-  gsl_multimin_fminimizer_set (s, &func, x, ss);
+	gsl_multimin_fminimizer* s = gsl_multimin_fminimizer_alloc (algorithm, dimension);
+	gsl_multimin_fminimizer_set (s, &func, x, ss);
 
 	for (size_t trial = 0; trial < max_trials; trial++) {
-      int status = gsl_multimin_fminimizer_iterate(s);
+		int status = gsl_multimin_fminimizer_iterate(s);
 
-      if (status)
-        break;
+		if (status) {
+			break;
+		}
 
-      double size = gsl_multimin_fminimizer_size (s);
-      status = gsl_multimin_test_size (size, convergence_threshold);
+    	double size = gsl_multimin_fminimizer_size (s);
+		status = gsl_multimin_test_size (size, convergence_threshold);
 
-	  /*printf ("%5d %10.3e %10.3e f() = %7.3f size = %.3f\n",
-	                trial,
-	                gsl_vector_get (s->x, 0),
-	                gsl_vector_get (s->x, 1),
-	                s->fval, size);*/
-
-			if (status != GSL_CONTINUE) {
-				break;
-			}
+		if (status != GSL_CONTINUE) {
+			break;
+		}
 	}
 
 	vector<double> result;

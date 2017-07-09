@@ -4,7 +4,7 @@
 
 using namespace std;
 
-/* Writes a CSV file located as filename using a two-dimensional vector of strings */
+// Writes a CSV file located as filename using a two-dimensional vector of strings
 void write(string filename, vector<vector<string>> data) {
 	ofstream file(filename);
 	for (vector<string> line : data) {
@@ -18,12 +18,17 @@ void write(string filename, vector<vector<string>> data) {
 	}
 }
 
-/* Reads a CSV file located as filename as a two-dimensional vector of strings */
+// Reads a CSV file located as filename as a two-dimensional vector of strings
 vector<vector<string>> read(string filename) {
 	ifstream file(filename);
 	string line;
 	vector<vector<string>> data;
 	while (getline(file, line)) {
+		// Skip comment lines
+		if (!line.empty() && line[0] == '#') {
+			continue;
+		}
+
 		stringstream ss(line);
 		string cell;
 		vector<string> tokens;

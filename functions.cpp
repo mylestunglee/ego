@@ -73,7 +73,7 @@ double success_probability(double mean, double sd) {
 	return success / normal;
 }
 
-// Returns the hypercube intersection of the two hypercubes bxs and bys
+// Returns the hypercuboid intersection of the two hypercuboid bxs and bys
 boundaries_t get_intersection(boundaries_t bxs, boundaries_t bys) {
 	assert(bxs.size() == bys.size());
 	boundaries_t result;
@@ -89,7 +89,7 @@ boundaries_t get_intersection(boundaries_t bxs, boundaries_t bys) {
 	return result;
 }
 
-// Generates a Latin hypercube bounded by boundaries with samples samples
+// Generates a Latin hypercuboid bounded by boundaries with samples samples
 vector<vector<double>> generate_latin_samples(gsl_rng* rng, size_t samples,
 	boundaries_t boundaries) {
 	size_t dimension = boundaries.size();
@@ -220,3 +220,32 @@ void calc_correlation(vector<double> xs, vector<double> ys,
         (double*) gsl_y.vector.data, stride, n, work);
 }
 
+// Returns true iff a boundary is suitable for knowledge transfer
+bool are_valid_boundaries(boundaries_t boundaries) {
+	for (auto boundary : boundaries) {
+		if (boundary.first >= boundary.second) {
+			return false;
+		}
+	}
+	return true;
+}
+
+// Computes hypervolume of a hypercuboid defined by boundaries
+double calc_hypervolume(boundaries_t boundaries) {
+	assert(are_valid_boundaries(boundaries));
+
+	double hypervolume = 1.0;
+	for (auto boundary : boundaries) {
+		hypervolume *= boundary.second - boundary.first;
+	}
+	return hypervolume;
+}
+
+// Zips two vectors in a vector of pairs
+vector<pair<double, double>> read_boundaries(vector<string> xs, vector<string> ys) {
+	vector<pair<double, double>> result;
+	for (size_t i = 0; i < min(xs.size(), ys.size()); i++) {
+		result.push_back(make_pair(stof(xs[i]), stof(ys[i])));
+	}
+	return result;
+}
