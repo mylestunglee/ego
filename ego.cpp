@@ -27,7 +27,7 @@ EGO::EGO(Evaluator& evaluator, boundaries_t boundaries, boundaries_t rejection) 
 	evaluations = 0;
 	max_trials = 1000;
 	convergence_threshold = 0.001;
-	y_opt = std::numeric_limits<double>::max();
+	y_opt = numeric_limits<double>::max();
 }
 
 EGO::~EGO() {
@@ -42,21 +42,14 @@ void EGO::run()
 {
 	assert(evaluations > 0);
 
-	x_opt = {-2.5,-2.5};
-	sg->train();
 	while(evaluations < max_evaluations) {
 		sg->train();
+		sg_label->train();
 		sg_cost->train();
 
 		// Find a point with the highest expected improvement
 		double improvement = 0.0;
-		vector<double> x;
-		for (size_t trial = 0; trial < max_trials; trial++) {
-			x = maximise_expected_improvement(improvement);
-			if (!x.empty()) {
-				break;
-			}
-		}
+		vector<double> x = maximise_expected_improvement_global(improvement);
 
 		if (x.empty()) {
 			cout << "Cannot maximise expected improvement!" << endl;
@@ -83,6 +76,7 @@ void EGO::sample_latin(size_t n)
 	evaluate(filered);
 }
 
+// Takes random uniformly distributed samples
 void EGO::sample_uniform(size_t n) {
 	for (size_t i = 0; i < n; i++) {
 		for (size_t trial = 0; trial < max_trials; trial++) {
@@ -99,22 +93,39 @@ void EGO::sample_uniform(size_t n) {
 	}
 }
 
-vector<double> EGO::maximise_expected_improvement(double &improvement) {
+// Runs multiple trials to maximise global expected improvement
+vector<double> EGO::maximise_expected_improvement_global(double& improvement) {
+	double improvement_best = 0.0;
+	vector<double> x_best;
+	for (size_t trial = 0; trial < max_trials; trial++) {
+		double improvement_trial = 0.0;
+		auto x = maximise_expected_improvement_local(improvement_trial);
+		if (improvement_trial > improvement_best) {
+			improvement_best = improvement_trial;
+			x_best = x;
+		}
+	}
+	improvement = improvement_best;
+	return x_best;
+}
+
+// Use the Nelder-Mead method to maximise local expected improvement
+vector<double> EGO::maximise_expected_improvement_local(double &improvement) {
   const gsl_multimin_fminimizer_type *algorithm = gsl_multimin_fminimizer_nmsimplex2;
   gsl_multimin_function func;
 
-  /* Starting point */
+  // Starting point
   gsl_vector* x = gsl_vector_alloc (dimension);
 	auto v = generate_uniform_sample(rng, boundaries);
 	for (size_t i = 0; i < dimension; i++) {
 		gsl_vector_set(x, i, v[i]);
 	}
 
-  /* Set initial step sizes to 1 */
+  // Set initial step sizes to 1
   gsl_vector* ss = gsl_vector_alloc (dimension);
   gsl_vector_set_all (ss, 1.0);
 
-  /* Initialize method and iterate */
+  // Initialize method and iterate
   func.n = dimension;
   func.f = &EGO::expected_improvement_bounded;
   func.params = this;
@@ -144,18 +155,16 @@ vector<double> EGO::maximise_expected_improvement(double &improvement) {
 
 	vector<double> result;
 
-	if (s->fval < 0.0) {
-		for (size_t i = 0; i < dimension; i++) {
-			result.push_back(gsl_vector_get(s->x, i));
-		}
-		improvement = -s->fval;
+	for (size_t i = 0; i < dimension; i++) {
+		result.push_back(gsl_vector_get(s->x, i));
 	}
+	improvement = -s->fval;
 
-  gsl_vector_free(x);
-  gsl_vector_free(ss);
-  gsl_multimin_fminimizer_free (s);
+	gsl_vector_free(x);
+	gsl_vector_free(ss);
+	gsl_multimin_fminimizer_free (s);
 
-  return result;
+	return result;
 }
 
 double EGO::expected_improvement_bounded(const gsl_vector* v, void* p) {
@@ -224,7 +233,10 @@ void EGO::evaluate(vector<vector<double>> xs) {
 
 // Simulates an evaluation
 void EGO::simulate(vector<double> x, vector<double> y) {
+	assert(!y.empty());
+
 	evaluations++;
+
 	evaluator.simulate(x, y);
 	sg->add(x, y[0]);
 	sg_label->add(x, y[1] == 0 ? 1.0 : 0.0);

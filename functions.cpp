@@ -5,6 +5,9 @@
 #include <algorithm>
 #include <gsl_randist.h>
 #include <gsl_cdf.h>
+#include <gsl_statistics.h>
+#include <gsl_vector.h>
+#include <gsl_multifit.h>
 #include "ihs.hpp"
 #include "functions.hpp"
 
@@ -155,3 +158,65 @@ bool is_subset(boundaries_t bxs, boundaries_t bys) {
 	}
 	return true;
 }
+
+// Fits a set of 2D points to a N-dimensional polynomial fit
+vector<double> fit_polynomial(vector<double> xs, vector<double> ys, int degree)
+{
+    assert(xs.size() == ys.size());
+
+    gsl_multifit_linear_workspace *ws;
+    gsl_matrix* cov;
+    gsl_matrix* X;
+    gsl_vector* y;
+    gsl_vector* c;
+    double chisq;
+    int order = degree + 1;
+    int n = xs.size();
+    X = gsl_matrix_alloc(n, order);
+    y = gsl_vector_alloc(n);
+    c = gsl_vector_alloc(order);
+    cov = gsl_matrix_alloc(order, order);
+
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < order; j++) {
+            gsl_matrix_set(X, i, j, pow(xs[i], j));
+        }
+        gsl_vector_set(y, i, ys[i]);
+    }
+
+    ws = gsl_multifit_linear_alloc(n, order);
+    gsl_multifit_linear(X, y, c, cov, &chisq, ws);
+
+    vector<double> coeffs;
+
+    for (int i = 0; i < order; i++) {
+        coeffs.push_back(gsl_vector_get(c, i));
+    }
+
+    gsl_multifit_linear_free(ws);
+    gsl_matrix_free(X);
+    gsl_matrix_free(cov);
+    gsl_vector_free(y);
+    gsl_vector_free(c);
+
+    return coeffs;
+}
+
+// Calculates Pearson and Spearman correlation coefficents
+void calc_correlation(vector<double> xs, vector<double> ys,
+    double &pearson, double& spearman) {
+    assert(xs.size() == ys.size());
+
+    size_t n = xs.size();
+        const size_t stride = 1;
+    gsl_vector_const_view gsl_x = gsl_vector_const_view_array(&xs[0], n);
+    gsl_vector_const_view gsl_y = gsl_vector_const_view_array(&ys[0], n);
+    pearson = gsl_stats_correlation(
+        (double*) gsl_x.vector.data, stride,
+        (double*) gsl_y.vector.data, stride, n);
+    double work[2 * n];
+    spearman = gsl_stats_spearman(
+        (double*) gsl_x.vector.data, stride,
+        (double*) gsl_y.vector.data, stride, n, work);
+}
+

@@ -9,10 +9,6 @@
 #include <utility>
 #include <assert.h>
 #include <set>
-#include <gsl_statistics.h>
-#include <gsl_vector.h>
-#include <gsl_multifit.h>
-#include <gsl_cdf.h>
 
 using namespace std;
 
@@ -110,24 +106,6 @@ void Transferrer::read_results(string filename) {
 	}
 }
 
-// Calculates Pearson and Spearman correlation coefficents
-void Transferrer::calc_correlation(vector<double> xs, vector<double> ys,
-	double &pearson, double& spearman) {
-	assert(xs.size() == ys.size());
-
-	size_t n = xs.size();
-		const size_t stride = 1;
-	gsl_vector_const_view gsl_x = gsl_vector_const_view_array(&xs[0], n);
-	gsl_vector_const_view gsl_y = gsl_vector_const_view_array(&ys[0], n);
-	pearson = gsl_stats_correlation(
-		(double*) gsl_x.vector.data, stride,
-		(double*) gsl_y.vector.data, stride, n);
-	double work[2 * n];
-	spearman = gsl_stats_spearman(
-		(double*) gsl_x.vector.data, stride,
-		(double*) gsl_y.vector.data, stride, n, work);
-}
-
 // Selects a subset of old_results to determine relationship of old and new evaluators
 results_t Transferrer::sample_results_old() {
 	return results_old;
@@ -154,50 +132,6 @@ results_t Transferrer::sample_results_old() {
 	return result;
 }
 
-// Fits a set of 2D points to a N-dimensional polynomial fit
-vector<double> Transferrer::fit_polynomial(vector<double> xs, vector<double> ys, int degree)
-{
-	assert(xs.size() == ys.size());
-
-	gsl_multifit_linear_workspace *ws;
-	gsl_matrix* cov;
-	gsl_matrix* X;
-	gsl_vector* y;
-	gsl_vector* c;
-	double chisq;
-	int order = degree + 1;
-	int n = xs.size();
-	X = gsl_matrix_alloc(n, order);
-	y = gsl_vector_alloc(n);
-	c = gsl_vector_alloc(order);
-	cov = gsl_matrix_alloc(order, order);
-
-	for(int i = 0; i < n; i++) {
-		for(int j = 0; j < order; j++) {
-			gsl_matrix_set(X, i, j, pow(xs[i], j));
-		}
-		gsl_vector_set(y, i, ys[i]);
-	}
-
-	ws = gsl_multifit_linear_alloc(n, order);
-	gsl_multifit_linear(X, y, c, cov, &chisq, ws);
-
-	vector<double> coeffs;
-
-	for (int i = 0; i < order; i++) {
-		coeffs.push_back(gsl_vector_get(c, i));
-	}
-
-	gsl_multifit_linear_free(ws);
-	gsl_matrix_free(X);
-	gsl_matrix_free(cov);
-	gsl_vector_free(y);
-	gsl_vector_free(c);
-
-	return coeffs;
-}
-
-// Auxiliary less-than function to sort results
 bool Transferrer::fitness_more_than(
 	pair<vector<double>, vector<double>> x,
 	pair<vector<double>, vector<double>> y
@@ -206,8 +140,7 @@ bool Transferrer::fitness_more_than(
 }
 
 // Calculates the average p-value from confidence interval tests on all samples
-double Transferrer::calc_label_correlation(
-	vector<pair<vector<double>, vector<double>>> results_new) {
+double Transferrer::calc_label_correlation(results_t results_new) {
 	assert(!results_new.empty());
 
 	Surrogate surrogate(boundaries.size());
@@ -216,7 +149,7 @@ double Transferrer::calc_label_correlation(
 	for (auto result_old : results_old) {
 		surrogate.add(
 			result_old.first,
-			(result_old.second)[LABEL_INDEX] == 0.0 ? 0.0 : 1.0);
+			(result_old.second)[LABEL_INDEX] == 0.0 ? 1.0 : 0.0);
 	}
 	surrogate.train();
 
@@ -227,13 +160,13 @@ double Transferrer::calc_label_correlation(
 		double mean = surrogate.mean(x);
 		double sd = surrogate.sd(x);
 
-		// If SVM prediction is certain, otherwise assume normal distribution
-		if (isnan(sd)) {
+		// If GP prediction is certain, otherwise assume normal distribution
+		if (isnan(sd) || sd <= 0.0) {
 			coeffs.push_back(1.0);
 		} else if (result_new.second[LABEL_INDEX] == 0.0) {
-			coeffs.push_back(gsl_cdf_gaussian_P(1.0 - mean, sd));
+			coeffs.push_back(success_probability(mean, sd));
 		} else {
-			coeffs.push_back(gsl_cdf_gaussian_Q(-mean, sd));
+			coeffs.push_back(1.0 - success_probability(mean, sd));
 		}
 	}
 

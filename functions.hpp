@@ -27,3 +27,8 @@ boundaries_t infer_boundaries(results_t results);
 double apply_polynomial(double x, vector<double> coeffs);
 
 bool is_subset(boundaries_t bxs, boundaries_t bys);
+
+vector<double> fit_polynomial(vector<double> xs, vector<double> ys, int degree);
+
+void calc_correlation(vector<double> xs, vector<double> ys,
+	double &pearson, double& spearman);

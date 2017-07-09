@@ -20,21 +20,11 @@ class Transferrer {
 		boundaries_t boundaries;
 
 		void read_results(string filename);
-		void calc_correlation(
-			vector<double> x,
-			vector<double> y,
-			double &pearson,
-			double &spearman);
 		results_t sample_results_old();
-		vector<double> fit_polynomial(
-			vector<double> xs,
-			vector<double> ys,
-			int degree);
+		double calc_label_correlation(results_t results_new);
 		static bool fitness_more_than(
 			pair<vector<double>, vector<double>> xs,
 			pair<vector<double>, vector<double>> ys);
-		double calc_label_correlation(
-			vector<pair<vector<double>, vector<double>>> results_new);
 		void interpolate(boundaries_t boundaries_old, vector<double> coeffs,
 			results_t results_new);
 
