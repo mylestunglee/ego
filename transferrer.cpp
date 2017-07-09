@@ -15,9 +15,17 @@ using namespace std;
 Transferrer::Transferrer(
 	string filename_results_old,
 	Evaluator& evaluator,
+	size_t max_evaluations,
+	size_t max_trials,
+	double convergence_threshold,
 	double sig_level,
 	boundaries_t boundaries
-) : evaluator(evaluator), sig_level(sig_level), boundaries(boundaries) {
+) : evaluator(evaluator),
+	max_evaluations(max_evaluations),
+	max_trials(max_trials),
+	convergence_threshold(convergence_threshold),
+	sig_level(sig_level),
+	boundaries(boundaries) {
 	read_results(filename_results_old);
 	sort(results_old.begin(), results_old.end(), fitness_more_than);
 }
@@ -180,7 +188,8 @@ void Transferrer::interpolate(boundaries_t boundaries_old, vector<double> coeffs
 
 	boundaries_t intersection = get_intersection(boundaries_old, boundaries);
 
-	EGO ego(evaluator, boundaries, intersection, 1000, 1000, 0.01);
+	EGO ego(evaluator, boundaries, intersection, max_evaluations, max_trials,
+		convergence_threshold);
 	for (auto result_new : results_new) {
 		// Update old fitness to new fitness
 		result_new.second[FITNESS_INDEX] = apply_polynomial(

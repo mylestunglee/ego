@@ -10,12 +10,18 @@ class Transferrer {
 		Transferrer(
 			string filename_results_old,
 			Evaluator& evaluator,
+			size_t max_evaluations,
+			size_t max_trials,
+			double convergence_threshold,
 			double sig_level,
 			boundaries_t boundaries);
 		void run();
 	private:
-		Evaluator& evaluator;
 		vector<pair<vector<double>, vector<double>>> results_old;
+		Evaluator& evaluator;
+		size_t max_evaluations;
+		size_t max_trials;
+		double convergence_threshold;
 		double sig_level;
 		boundaries_t boundaries;
 
