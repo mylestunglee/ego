@@ -249,3 +249,12 @@ vector<pair<double, double>> read_boundaries(vector<string> xs, vector<string> y
 	}
 	return result;
 }
+
+// Rounds each value of x to the nearest integer
+vector<double> round_vector(vector<double> x) {
+	vector<double> result;
+	for (auto v : x) {
+		result.push_back(round(v));
+	}
+	return result;
+}

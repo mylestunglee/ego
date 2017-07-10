@@ -18,7 +18,10 @@ class EGO {
 			boundaries_t rejection,
 			size_t max_evaluations,
 			size_t max_trials,
-			double convegence_threshold);
+			double convegence_threshold,
+			bool is_discrete,
+			size_t constraints,
+			size_t costs);
 		~EGO();
 		void sample_latin(size_t n);
 		void sample_uniform(size_t n);
@@ -30,6 +33,7 @@ class EGO {
 		size_t evaluations;
 		size_t max_trials;
 		double convergence_threshold;
+		bool is_discrete;
 		vector<double> x_opt;
 		double y_opt;
 
@@ -41,7 +45,8 @@ class EGO {
 
 		Surrogate* sg;
 		Surrogate* sg_label;
-		Surrogate* sg_cost;
+		vector<Surrogate*> constraints;
+		vector<Surrogate*> costs;
 
 		gsl_rng* rng;
 
@@ -51,4 +56,6 @@ class EGO {
 		static double expected_improvement(double y, double sd, double y_min);
 		static void thread_evaluate(EGO* ego, vector<double> x);
 		void evaluate(vector<vector<double>> xs);
+		double predict_cost(vector<double> x);
+		double success_constraints_probability(vector<double> x);
 };

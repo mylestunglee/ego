@@ -23,13 +23,19 @@ Transferrer::Transferrer(
 	size_t max_trials,
 	double convergence_threshold,
 	double sig_level,
-	boundaries_t boundaries
-) : evaluator(evaluator),
+	boundaries_t boundaries,
+	bool is_discrete,
+	size_t constraints,
+	size_t costs) :
+	evaluator(evaluator),
 	max_evaluations(max_evaluations),
 	max_trials(max_trials),
 	convergence_threshold(convergence_threshold),
 	sig_level(sig_level),
-	boundaries(boundaries) {
+	boundaries(boundaries),
+	is_discrete(is_discrete),
+	constraints(constraints),
+	costs(costs) {
 	read_results(filename_results_old);
 	sort(results_old.begin(), results_old.end(), fitness_more_than);
 }
@@ -132,6 +138,16 @@ results_t Transferrer::sample_results_old() {
 		// sampled before
 		if (is_bounded(sample.first, boundaries) &&
 			sampled.find(sample.first) == sampled.end()) {
+
+			// Only sample iff is_discrete_old == is_discrete_new
+			if (is_discrete) {
+				auto x = sample.first;
+				auto rounded = round_vector(x);
+				if (!equal(x.begin(), x.end(), rounded.begin())) {
+					continue;
+				}
+			}
+
 			sampled.insert(sample.first);
 			result.push_back(sample);
 		}
@@ -194,7 +210,7 @@ void Transferrer::interpolate(boundaries_t boundaries_old, vector<double> coeffs
 	boundaries_t intersection = get_intersection(boundaries_old, boundaries);
 
 	EGO ego(evaluator, boundaries, intersection, max_evaluations, max_trials,
-		convergence_threshold);
+		convergence_threshold, is_discrete, constraints, costs);
 	for (auto result_new : results_new) {
 		// Update old fitness to new fitness
 		result_new.second[FITNESS_INDEX] = apply_polynomial(

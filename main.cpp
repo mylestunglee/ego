@@ -20,12 +20,17 @@ int main(int argc, char* argv[]) {
 		size_t max_evaluations = stoi(config[0][0]);
 		size_t max_trials = stoi(config[1][0]);
 		double convergence_threshold = stof(config[2][0]);
-		boundaries_t boundaries = read_boundaries(config[3], config[4]);
-		double sig_level = stof(config[5][0]);
+		bool is_discrete = config[3][0].compare("true") == 0;
+		size_t constraints = stoul(config[4][0]);
+		size_t costs = stoul(config[5][0]);
+		boundaries_t boundaries = read_boundaries(config[6], config[7]);
+		double sig_level = stof(config[8][0]);
 
 		Evaluator evaluator(filename_script);
-		Transferrer transferrer(filename_results_old, evaluator, max_evaluations,
-			max_trials, convergence_threshold, sig_level, boundaries);
+		Transferrer transferrer(
+			filename_results_old, evaluator, max_evaluations,
+			max_trials, convergence_threshold, sig_level, boundaries,
+			is_discrete, constraints, costs);
 		transferrer.run();
 		evaluator.save(filename_output);
 		return 0;
@@ -37,15 +42,19 @@ int main(int argc, char* argv[]) {
 
 		auto config = read(filename_config);
 
-		size_t max_evaluations = stoi(config[0][0]);
-		size_t max_trials = stoi(config[1][0]);
+		size_t max_evaluations = stoul(config[0][0]);
+		size_t max_trials = stoul(config[1][0]);
 		double convergence_threshold = stof(config[2][0]);
-		boundaries_t boundaries = read_boundaries(config[3], config[4]);
+		// TODO: handle neither true or false exception
+		bool is_discrete = config[3][0].compare("true") == 0;
+		size_t constraints = stoul(config[4][0]);
+		size_t costs = stoul(config[5][0]);
+		boundaries_t boundaries = read_boundaries(config[6], config[7]);
 
 		Evaluator evaluator(script);
 
 		EGO ego(evaluator, boundaries, {}, max_evaluations, max_trials,
-			convergence_threshold);
+			convergence_threshold, is_discrete, constraints, costs);
 
 		// Heuristic sample size = 5 * dim
 		ego.sample_latin(10);

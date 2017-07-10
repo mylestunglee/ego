@@ -14,7 +14,10 @@ class Transferrer {
 			size_t max_trials,
 			double convergence_threshold,
 			double sig_level,
-			boundaries_t boundaries);
+			boundaries_t boundaries,
+			bool is_discrete,
+			size_t constraints,
+			size_t costs);
 		void run();
 	private:
 		vector<pair<vector<double>, vector<double>>> results_old;
@@ -24,6 +27,9 @@ class Transferrer {
 		double convergence_threshold;
 		double sig_level;
 		boundaries_t boundaries;
+		bool is_discrete;
+		size_t constraints;
+		size_t costs;
 
 		void read_results(string filename);
 		results_t sample_results_old();
