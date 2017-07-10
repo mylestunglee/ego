@@ -18,8 +18,7 @@ $(EXECUTABLE) : $(OBJECTS)
 
 clean:
 	rm -rf *.o
-	rm -f test
-	rm -f $(EXECUTABLE)
+	rm -f test $(EXECUTABLE) *.log
 
 old_test: main.o $(OBJECTS)
 	$(CC) main.o surrogate.o functions.o optimise.o ego.o ihs.o libsvm-3.20/svm.o $(INC) $(LIBS) -o old_test

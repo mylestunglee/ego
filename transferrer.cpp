@@ -13,8 +13,6 @@ using namespace std;
 
 const unsigned FITNESS_INDEX = 0;
 const unsigned LABEL_INDEX   = 1;
-const unsigned COST_INDEX    = 2;
-
 
 Transferrer::Transferrer(
 	string filename_results_old,

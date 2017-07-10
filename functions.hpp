@@ -40,3 +40,5 @@ double calc_hypervolume(boundaries_t boundaries);
 vector<pair<double, double>> read_boundaries(vector<string> xs, vector<string> ys);
 
 vector<double> round_vector(vector<double> x);
+
+vector<vector<double>> generate_grid_samples(size_t density, boundaries_t boundaries);

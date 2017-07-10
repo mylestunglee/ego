@@ -258,3 +258,30 @@ vector<double> round_vector(vector<double> x) {
 	}
 	return result;
 }
+
+// Given a hypercuboid of dimension n with density d, generates evenly
+// distributed with d ^ n points
+vector<vector<double>> generate_grid_samples(size_t density,
+	boundaries_t boundaries) {
+	assert(density >= 2);
+
+	if (boundaries.empty()) {
+		return {{}};
+	}
+	vector<vector<double>> result;
+	auto boundary = boundaries.back();
+	auto lower = boundary.first;
+	auto upper = boundary.second;
+	boundaries.pop_back();
+	vector<vector<double>> subresults = generate_grid_samples(density,
+		 boundaries);
+	for (size_t sample = 0; sample < density; sample++) {
+		for (auto subresult : subresults) {
+			subresult.push_back(lower + (upper - lower) * (sample /
+				(density - 1.0)));
+			result.push_back(subresult);
+		}
+	}
+	return result;
+}
+
