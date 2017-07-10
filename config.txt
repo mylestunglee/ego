@@ -1,18 +1,18 @@
-# 0: max_evaluations
+# max_evaluations
 1000
-# 1: max_trials
+# max_trials
 1000
-# 2: convergence_threshold
+# convergence_threshold
 0.001
-# 3: is discrete?
+# is discrete?
 false
-# 4: number of constraint functions
+# number of constraint functions
 0
-# 5: number of cost functions
+# number of cost functions
 1
-# 6: lower boundaries
+# lower boundaries
 -2, -2
-# 7: upper boundaries
+# upper boundaries
 2, 2
-# 8: significance level
+# significance level (only for knowledge transfer)
 0.05

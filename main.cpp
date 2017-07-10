@@ -40,6 +40,9 @@ int main(int argc, char* argv[]) {
 		constraints = stoul(config.at(4).at(0));
 		costs = stoul(config.at(5).at(0));
 		boundaries = read_boundaries(config.at(6), config.at(7));
+		if (!are_valid_boundaries(boundaries)) {
+			throw invalid_argument("invalid boundaries");
+		}
 		if (is_knowledge_transfer) {
 			stof(config.at(8).at(0));
 		}

@@ -33,7 +33,7 @@ vector<double> fit_polynomial(vector<double> xs, vector<double> ys, int degree);
 void calc_correlation(vector<double> xs, vector<double> ys,
 	double &pearson, double& spearman);
 
-bool are_valid_boundary(boundaries_t boundaries);
+bool are_valid_boundaries(boundaries_t boundaries);
 
 double calc_hypervolume(boundaries_t boundaries);
 
