@@ -1,4 +1,5 @@
 #include <gsl/gsl_rng.h>
+#include <gsl/gsl_vector.h>
 #include <utility>
 #include <vector>
 
@@ -42,3 +43,13 @@ vector<pair<double, double>> read_boundaries(vector<string> xs, vector<string> y
 vector<double> round_vector(vector<double> x);
 
 vector<vector<double>> generate_grid_samples(size_t density, boundaries_t boundaries);
+
+vector<double> join_vectors(vector<double> x, vector<double> y);
+
+vector<double> minimise_local(double (*func)(const gsl_vector*, void*),
+	void* arg, vector<double> x, double convergence_threshold,
+	size_t max_trials, double& improvement);
+
+vector<double> minimise(double (*func)(const gsl_vector*, void*),
+	vector<double> (*gen)(void*), void* arg, double convergence_threshold,
+	size_t max_trials, double& improvement);

@@ -39,5 +39,5 @@ class Transferrer {
 			pair<vector<double>, vector<double>> ys);
 		void interpolate(boundaries_t boundaries_old, vector<double> coeffs,
 			results_t results_new);
-
+		void extrude(boundaries_t boundaries_old);
 };

@@ -72,7 +72,9 @@ void EGO::run()
 
 		// Find a point with the highest expected improvement
 		double improvement = 0.0;
-		vector<double> x = maximise_expected_improvement_global(improvement);
+		vector<double> x = minimise(expected_improvement_bounded,
+			generate_random_point, this, convergence_threshold, max_trials,
+			improvement);
 
 		if (x.empty()) {
 			cout << "Cannot maximise expected improvement!" << endl;
@@ -117,77 +119,7 @@ void EGO::sample_uniform(size_t n) {
 	}
 }
 
-// Runs multiple trials to maximise global expected improvement
-vector<double> EGO::maximise_expected_improvement_global(double& improvement) {
-	double improvement_best = 0.0;
-	vector<double> x_best;
-	for (size_t trial = 0; trial < max_trials; trial++) {
-		double improvement_trial = 0.0;
-		auto x = maximise_expected_improvement_local(improvement_trial);
-		if (improvement_trial > improvement_best) {
-			improvement_best = improvement_trial;
-			x_best = x;
-		}
-	}
-	improvement = improvement_best;
-	return x_best;
-}
-
-// Use the Nelder-Mead method to maximise local expected improvement
-vector<double> EGO::maximise_expected_improvement_local(double &improvement) {
-	const gsl_multimin_fminimizer_type *algorithm = gsl_multimin_fminimizer_nmsimplex2;
-	gsl_multimin_function func;
-
-	// Starting point
-	gsl_vector* x = gsl_vector_alloc (dimension);
-	auto v = generate_uniform_sample(rng, boundaries);
-	for (size_t i = 0; i < dimension; i++) {
-		gsl_vector_set(x, i, v[i]);
-	}
-
-	// Set initial step sizes to 1
-	gsl_vector* ss = gsl_vector_alloc (dimension);
-	gsl_vector_set_all (ss, 1.0);
-
-	// Initialize method and iterate
-	func.n = dimension;
-	func.f = &EGO::expected_improvement_bounded;
-	func.params = this;
-
-	gsl_multimin_fminimizer* s = gsl_multimin_fminimizer_alloc (algorithm, dimension);
-	gsl_multimin_fminimizer_set (s, &func, x, ss);
-
-	for (size_t trial = 0; trial < max_trials; trial++) {
-		int status = gsl_multimin_fminimizer_iterate(s);
-
-		if (status) {
-			break;
-		}
-
-    	double size = gsl_multimin_fminimizer_size (s);
-		status = gsl_multimin_test_size (size, convergence_threshold);
-
-		if (status != GSL_CONTINUE) {
-			break;
-		}
-	}
-
-	vector<double> result;
-
-	for (size_t i = 0; i < dimension; i++) {
-		result.push_back(gsl_vector_get(s->x, i));
-	}
-	result = is_discrete ? round_vector(result) : result;
-
-	improvement = -s->fval;
-
-	gsl_vector_free(x);
-	gsl_vector_free(ss);
-	gsl_multimin_fminimizer_free (s);
-
-	return result;
-}
-
+// Calcautes the expected improvement for maximisation with domain-specific knowledge
 double EGO::expected_improvement_bounded(const gsl_vector* v, void* p) {
 	EGO* ego = (EGO*) p;
 
@@ -214,6 +146,7 @@ double EGO::expected_improvement_bounded(const gsl_vector* v, void* p) {
 	return expectation;
 }
 
+// Computes raw expected improvement
 double EGO::expected_improvement(double y, double sd, double y_min) {
 	if (sd <= 0.0) {
 		return 0.0;
@@ -224,7 +157,7 @@ double EGO::expected_improvement(double y, double sd, double y_min) {
 	return y_diff * gsl_cdf_ugaussian_P(y_diff_s) + sd * gsl_ran_ugaussian_pdf(y_diff_s);
 }
 
-/* Evaluates a vector to add to the training set */
+// Evaluates a vector to add to the training set
 void EGO::thread_evaluate(EGO* ego, vector<double> x) {
 	assert(ego != NULL);
 
@@ -310,4 +243,10 @@ double EGO::success_constraints_probability(vector<double> x) {
 		probability *= gsl_cdf_gaussian_Q(1.0 - mean, sd) / gsl_cdf_gaussian_Q(-mean, sd);
 	}
 	return probability;
+}
+
+// Generates a random point
+vector<double> EGO::generate_random_point(void *p) {
+	EGO* ego = (EGO*) p;
+	return generate_uniform_sample(ego->rng, ego->boundaries);
 }

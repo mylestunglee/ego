@@ -8,6 +8,7 @@
 #include <gsl_statistics.h>
 #include <gsl_vector.h>
 #include <gsl_multifit.h>
+#include <gsl_multimin.h>
 #include "ihs.hpp"
 #include "functions.hpp"
 
@@ -285,3 +286,87 @@ vector<vector<double>> generate_grid_samples(size_t density,
 	return result;
 }
 
+// Given two vectors x and y, compute x ++ y
+vector<double> join_vectors(vector<double> x, vector<double> y) {
+	vector<double> result;
+	result.reserve(x.size() + y.size());
+	result.insert(result.end(), x.begin(), x.end());
+	result.insert(result.end(), y.begin(), y.end());
+	return result;
+}
+
+// Finds a local minimum of func(x, arg) with the initial point x_0
+vector<double> minimise_local(double (*func)(const gsl_vector*, void*),
+    void* arg, vector<double> x, double convergence_threshold,
+    size_t max_trials, double& improvement) {
+
+	const gsl_multimin_fminimizer_type *algorithm = gsl_multimin_fminimizer_nmsimplex2;
+    gsl_multimin_function gsl_func;
+
+    // Starting point
+	size_t dimension = x.size();
+    gsl_vector* gsl_x = gsl_vector_alloc (dimension);
+    for (size_t i = 0; i < dimension; i++) {
+        gsl_vector_set(gsl_x, i, x[i]);
+    }
+
+    // Set initial step sizes to 1
+    gsl_vector* ss = gsl_vector_alloc (dimension);
+    gsl_vector_set_all (ss, 1.0);
+
+    // Initialize method and iterate
+	gsl_func.n = dimension;
+	gsl_func.f = func;
+	gsl_func.params = arg;
+
+    gsl_multimin_fminimizer* s = gsl_multimin_fminimizer_alloc (algorithm, dimension);
+    gsl_multimin_fminimizer_set (s, &gsl_func, gsl_x, ss);
+
+    for (size_t trial = 0; trial < max_trials; trial++) {
+        int status = gsl_multimin_fminimizer_iterate(s);
+
+        if (status) {
+            break;
+        }
+
+        double size = gsl_multimin_fminimizer_size (s);
+        status = gsl_multimin_test_size (size, convergence_threshold);
+
+        if (status != GSL_CONTINUE) {
+            break;
+        }
+    }
+
+    vector<double> result;
+
+    for (size_t i = 0; i < dimension; i++) {
+        result.push_back(gsl_vector_get(s->x, i));
+    }
+
+    improvement = -s->fval;
+
+    gsl_vector_free(gsl_x);
+    gsl_vector_free(ss);
+    gsl_multimin_fminimizer_free (s);
+
+    return result;
+}
+
+// Runs multiple trials to maximise improvement for global minimum
+vector<double> minimise(double (*func)(const gsl_vector*, void*),
+    vector<double> (*gen)(void*), void* arg, double convergence_threshold,
+    size_t max_trials, double& improvement) {
+    double improvement_best = 0.0;
+    vector<double> x_best;
+    for (size_t trial = 0; trial < max_trials; trial++) {
+        double improvement_trial = 0.0;
+        auto x = minimise_local(func, arg, gen(arg), convergence_threshold,
+			max_trials, improvement_trial);
+        if (improvement_trial > improvement_best) {
+            improvement_best = improvement_trial;
+            x_best = x;
+        }
+    }
+    improvement = improvement_best;
+    return x_best;
+}

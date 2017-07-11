@@ -50,12 +50,11 @@ class EGO {
 
 		gsl_rng* rng;
 
-		vector<double> maximise_expected_improvement_global(double &improvement);
-		vector<double> maximise_expected_improvement_local(double &improvement);
 		static double expected_improvement_bounded(const gsl_vector* v, void* p);
 		static double expected_improvement(double y, double sd, double y_min);
 		static void thread_evaluate(EGO* ego, vector<double> x);
 		void evaluate(vector<vector<double>> xs);
 		double predict_cost(vector<double> x);
 		double success_constraints_probability(vector<double> x);
+		static vector<double> generate_random_point(void* p);
 };

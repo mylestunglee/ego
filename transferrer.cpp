@@ -40,6 +40,16 @@ Transferrer::Transferrer(
 
 // Performs the automatic knowledge transfer
 void Transferrer::run() {
+	boundaries_t boundaries_old = infer_boundaries(results_old);
+
+	if (boundaries_old.size() < boundaries.size()) {
+		extrude(boundaries_old);
+		return;
+	} else if (boundaries_old.size() > boundaries.size()) {
+		// TODO
+		assert(false);
+	}
+
 	vector<double> ys_old;
 	vector<double> ys_new;
 	results_t results_new;
@@ -89,7 +99,6 @@ void Transferrer::run() {
 	}
 
 	double y_new_best_approx = apply_polynomial(y_old_best, coeffs);
-	boundaries_t boundaries_old = infer_boundaries(results_old);
 
 	if (is_subset(boundaries, boundaries_old)) {
 		cout << "Trivial mapping, y_new_opt = " << y_new_best_approx << endl;
@@ -217,4 +226,43 @@ void Transferrer::interpolate(boundaries_t boundaries_old, vector<double> coeffs
 	}
 	ego.sample_uniform(10);
 	ego.run();
+}
+
+// Given an old parameter space, find a higher-dimensional mapping from the old
+// parameter space to the new parameter space
+void Transferrer::extrude(boundaries_t boundaries_old) {
+	size_t dimension_old = boundaries_old.size();
+	size_t dimension_new = boundaries.size();
+
+	// Number of samples per dimension
+	size_t density = floor(pow(10 * dimension_new, 1.0 /
+		(dimension_new - dimension_old + 1.0)));
+	if (density < 3) {
+		cout << "Insufficent points to sample higher-dimensional space" << endl;
+	}
+
+	auto rng = gsl_rng_alloc(gsl_rng_taus);
+
+	// Get cross sections from old and new parameter spaces' perspective
+	boundaries_t space_new(boundaries.begin() + dimension_old, boundaries.end());
+	boundaries_t space_old(boundaries.begin(), boundaries.begin() + dimension_old);
+	boundaries_t intersection = get_intersection(boundaries_old, space_old);
+	auto intersection_samples = generate_latin_samples(rng, density, boundaries_old);
+	auto space_new_samples = generate_grid_samples(density, space_new);
+
+	vector<Surrogate> surrogates(intersection_samples.size(), Surrogate(dimension_new));
+
+	// Build cross section functions
+	for (size_t i = 0; i < intersection_samples.size(); i++) {
+		for (auto space_new_sample : space_new_samples) {
+			auto x = join_vectors(intersection_samples[i], space_new_sample);
+			auto y = evaluator.evaluate(x);
+			assert(!y.empty());
+			surrogates[i].add(x, y[FITNESS_INDEX]);
+		}
+	}
+
+	// Minimise across cross sections
+
+	delete rng;
 }
