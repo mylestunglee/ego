@@ -70,7 +70,7 @@ void EGO::run()
 		train_surrogates();
 
 		// Find a point with the highest expected improvement
-		double neg_max_ei = numeric_limits<double>::max();;
+		double neg_max_ei = numeric_limits<double>::max();
 		vector<double> x = minimise(expected_improvement_bounded,
 			generate_random_point, this, convergence_threshold, max_trials,
 			neg_max_ei);
@@ -135,8 +135,8 @@ double EGO::expected_improvement_bounded(const gsl_vector* v, void* p) {
 		success_probability(ego->sg_label->mean(x), ego->sg_label->sd(x)) *
 		ego->success_constraints_probability(x) / ego->predict_cost(x);
 
-	if (expectation == 0.0 || !is_bounded(x, ego->boundaries)
-		|| is_bounded(x, ego->rejection)) {
+	if (isnan(expectation) || expectation == 0.0 ||
+		!is_bounded(x, ego->boundaries) || is_bounded(x, ego->rejection)) {
 		return euclidean_distance(x, ego->x_opt);
 	}
 
@@ -223,6 +223,7 @@ double EGO::predict_cost(vector<double> x) {
 	for (auto& cost : costs) {
 		sum += cost->mean(x);
 	}
+	assert(sum > 0.0);
 	return sum;
 }
 

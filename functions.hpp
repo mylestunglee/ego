@@ -59,3 +59,5 @@ vector<double> minimise(double (*func)(const gsl_vector*, void*),
 bool is_success(vector<double> y, size_t constraints, size_t costs);
 
 vector<double> gsl_to_std_vector(const gsl_vector* v);
+
+void print_boundaries(boundaries_t boundaries);

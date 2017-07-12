@@ -81,24 +81,10 @@ void Transferrer::run() {
 		return;
 	}
 
-	double pearson;
-	double spearman;
-	calc_correlation(ys_old, ys_new, pearson, spearman);
-
-	cout << "Pearson: " << pearson << ", Spearman: " << spearman << endl;
 	double y_old_best = (results_old[0].second)[FITNESS_INDEX];
-	vector<double> coeffs;
+	vector<double> coeffs = test_correlation(ys_old, ys_new);
 
-	// If hypothesis test for linear relationship between ys_old and ys_new passes
-	if (1.0 - pearson <= sig_level || 1.0 + pearson <= sig_level) {
-		coeffs = fit_polynomial(ys_old, ys_new, 1);
-		cout << "Using linear regression" << endl;
-
-	// If hypothesis test for monotonic relationship passes
-	} else if (1.0 - spearman <= sig_level || 1.0 + spearman <= sig_level) {
-		coeffs = fit_polynomial(ys_old, ys_new, 2);
-		cout << "Using quadratic regression" << endl;
-	} else {
+	if (coeffs.empty()) {
 		cout << "Insufficent monotonic relationship between fitness functions." << endl;
 		return;
 	}
@@ -126,7 +112,7 @@ void Transferrer::read_results(string filename) {
 		vector<double> y;
 		for (size_t i = 0; i < line.size(); i++) {
 			double cell = stof(line[i]);
-			if (i < line.size() - 3) {
+			if (i < line.size() - 2 - constraints - costs) {
 				x.push_back(cell);
 			} else {
 				y.push_back(cell);
@@ -229,11 +215,10 @@ void Transferrer::interpolate(boundaries_t boundaries_old, vector<double> coeffs
 			result_new.second[FITNESS_INDEX], coeffs);
 		ego.simulate(result_new.first, result_new.second);
 	}
-	ego.sample_uniform(10);
+	ego.sample_uniform(5 * boundaries.size());
 	ego.run();
 }
 
-#include <iomanip>
 // Given an old parameter space, find a higher-dimensional mapping from the old
 // parameter space to the new parameter space
 void Transferrer::extrude(boundaries_t boundaries_old) {
@@ -244,8 +229,9 @@ void Transferrer::extrude(boundaries_t boundaries_old) {
 	space_extend = boundaries_t(boundaries.begin() + dimension_old,
 		boundaries.end());
 	space_intersection = get_intersection(space_common, boundaries_old);
+	boundaries_t space_extrude = join_boundaries(space_intersection, space_extend);
 
-	// Number of knowledge transferable points of the old boundaries
+	// Test number of knowledge transferable points of the old boundaries
 	size_t samples_old_count = 0;
 	for (auto result_old : results_old) {
 		if (is_bounded(result_old.first, space_intersection)) {
@@ -257,8 +243,6 @@ void Transferrer::extrude(boundaries_t boundaries_old) {
 		return;
 	}
 
-	boundaries_t space_extrude = join_boundaries(space_intersection, space_extend);
-
 	// Generate a model of the new design space
 	auto samples_new = generate_latin_samples(rng, 5 * dimension, space_extrude);
 	results_t results_new;
@@ -269,13 +253,56 @@ void Transferrer::extrude(boundaries_t boundaries_old) {
 	}
 	predictor->train();
 
-	double neg_max_correlation = 999999;
+	// Find the best cross section of some variable point in space_extend
+	double neg_max_correlation = numeric_limits<double>::max();
 	auto point = minimise(cross_section_correlation, generate_random_point,
 		this, convergence_threshold, max_trials, neg_max_correlation);
-	double max_correlation = -neg_max_correlation;
-	cout << "Best at:";
-	print_vector(point);
-	cout << " with " << max_correlation << endl;
+
+	if (point.empty()) {
+		cout << "Cannot maximise correlation across cross sections" << endl;
+		return;
+	}
+
+	vector<double> fitnesses_old;
+	vector<double> fitnesses_new;
+
+	// Collect correlation data
+	for (auto result_old : results_old) {
+		auto x = result_old.first;
+		auto y = result_old.second;
+		if (is_bounded(x, space_intersection)) {
+			fitnesses_old.push_back(y[FITNESS_INDEX]);
+			fitnesses_new.push_back(
+				predictor->mean(join_vectors(x, point)));
+		}
+	}
+
+	// Bulid mapping function from old to new design
+	auto coeffs = test_correlation(fitnesses_old, fitnesses_new);
+	if (coeffs.empty()) {
+		cout << "Insufficent correlation for any cross section" << endl;
+		return;
+	}
+
+	// Add old samples as new correlated samples
+	for (auto result_old : results_old) {
+		auto x = result_old.first;
+		auto y = result_old.second;
+		y[FITNESS_INDEX] = apply_polynomial(y[FITNESS_INDEX], coeffs);
+		if (is_bounded(x, space_intersection)) {
+			results_new.push_back(make_pair(join_vectors(x, point), y));
+		}
+	}
+
+	// Sample space outside of space_extend but inside boundaries
+	EGO ego(evaluator, boundaries, {}, max_evaluations, max_trials,
+		convergence_threshold, is_discrete, constraints, costs);
+	for (auto result_new : results_new) {
+		// Update old fitness to new fitness
+		ego.simulate(result_new.first, result_new.second);
+	}
+	ego.sample_uniform(5 * boundaries.size());
+	ego.run();
 
 	delete predictor;
 }
@@ -335,4 +362,28 @@ double Transferrer::cross_section_correlation(const gsl_vector* v, void* p) {
 
 	// We try to find the best correlation using a minimiser
 	return -max(abs(pearson), abs(spearman));
+}
+
+// Test each correlation score for best polynomial function
+vector<double> Transferrer::test_correlation(vector<double> xs,
+	vector<double> ys) {
+	double pearson;
+	double spearman;
+	calc_correlation(xs, ys, pearson, spearman);
+
+	if (isnan(pearson) || isnan(spearman)) {
+		return fit_polynomial(xs, ys, 0);
+	}
+
+	// If hypothesis test for linear relationship between ys_old and ys_new passes
+	if (1.0 - pearson <= sig_level || 1.0 + pearson <= sig_level) {
+		return fit_polynomial(xs, ys, 1);
+	}
+
+	// If hypothesis test for monotonic relationship passes
+	if (1.0 - spearman <= sig_level || 1.0 + spearman <= sig_level) {
+		return fit_polynomial(xs, ys, 2);
+	}
+
+	return {};
 }

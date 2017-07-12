@@ -401,3 +401,18 @@ vector<double> gsl_to_std_vector(const gsl_vector* v) {
 	}
 	return x;
 }
+
+// Pretty prints some boundaries
+void print_boundaries(boundaries_t boundaries) {
+	if (boundaries.empty()) {
+		cout << "{}";
+	}
+
+	for (size_t i = 0; i < boundaries.size(); i++) {
+		cout << "[" << boundaries[i].first << ", " << boundaries[i].second
+			<< "]";
+		if (i < boundaries.size() - 1) {
+			cout << "x";
+		}
+	}
+}

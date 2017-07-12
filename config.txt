@@ -11,8 +11,8 @@ false
 # number of cost functions
 0
 # lower boundaries
--2, -2
+-1, -3
 # upper boundaries
-2, 2
+3, 4
 # significance level (only for knowledge transfer)
 0.05
