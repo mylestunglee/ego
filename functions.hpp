@@ -46,10 +46,16 @@ vector<vector<double>> generate_grid_samples(size_t density, boundaries_t bounda
 
 vector<double> join_vectors(vector<double> x, vector<double> y);
 
+boundaries_t join_boundaries(boundaries_t x, boundaries_t y);
+
 vector<double> minimise_local(double (*func)(const gsl_vector*, void*),
 	void* arg, vector<double> x, double convergence_threshold,
-	size_t max_trials, double& improvement);
+	size_t max_trials, double& minimum);
 
 vector<double> minimise(double (*func)(const gsl_vector*, void*),
 	vector<double> (*gen)(void*), void* arg, double convergence_threshold,
-	size_t max_trials, double& improvement);
+	size_t max_trials, double& minimum);
+
+bool is_success(vector<double> y, size_t constraints, size_t costs);
+
+vector<double> gsl_to_std_vector(const gsl_vector* v);

@@ -2,6 +2,7 @@
 #include <vector>
 #include "evaluator.hpp"
 #include "functions.hpp"
+#include "surrogate.hpp"
 
 using namespace std;
 
@@ -18,9 +19,10 @@ class Transferrer {
 			bool is_discrete,
 			size_t constraints,
 			size_t costs);
+		~Transferrer();
 		void run();
+
 	private:
-		vector<pair<vector<double>, vector<double>>> results_old;
 		Evaluator& evaluator;
 		size_t max_evaluations;
 		size_t max_trials;
@@ -30,6 +32,11 @@ class Transferrer {
 		bool is_discrete;
 		size_t constraints;
 		size_t costs;
+		results_t results_old;
+		boundaries_t space_intersection;
+		Surrogate* predictor;
+		boundaries_t space_extend;
+		gsl_rng* rng;
 
 		void read_results(string filename);
 		results_t sample_results_old();
@@ -40,4 +47,7 @@ class Transferrer {
 		void interpolate(boundaries_t boundaries_old, vector<double> coeffs,
 			results_t results_new);
 		void extrude(boundaries_t boundaries_old);
+		void reduce(boundaries_t boundaries_old);
+		static vector<double> generate_random_point(void* p);
+		static double cross_section_correlation(const gsl_vector* v, void* p);
 };

@@ -286,9 +286,17 @@ vector<vector<double>> generate_grid_samples(size_t density,
 	return result;
 }
 
-// Given two vectors x and y, compute x ++ y
 vector<double> join_vectors(vector<double> x, vector<double> y) {
 	vector<double> result;
+	result.reserve(x.size() + y.size());
+	result.insert(result.end(), x.begin(), x.end());
+	result.insert(result.end(), y.begin(), y.end());
+	return result;
+}
+
+// Given two vectors x and y, compute x ++ y
+boundaries_t join_boundaries(boundaries_t x, boundaries_t y) {
+	boundaries_t result;
 	result.reserve(x.size() + y.size());
 	result.insert(result.end(), x.begin(), x.end());
 	result.insert(result.end(), y.begin(), y.end());
@@ -298,7 +306,7 @@ vector<double> join_vectors(vector<double> x, vector<double> y) {
 // Finds a local minimum of func(x, arg) with the initial point x_0
 vector<double> minimise_local(double (*func)(const gsl_vector*, void*),
     void* arg, vector<double> x, double convergence_threshold,
-    size_t max_trials, double& improvement) {
+    size_t max_trials, double& minimum) {
 
 	const gsl_multimin_fminimizer_type *algorithm = gsl_multimin_fminimizer_nmsimplex2;
     gsl_multimin_function gsl_func;
@@ -343,7 +351,7 @@ vector<double> minimise_local(double (*func)(const gsl_vector*, void*),
         result.push_back(gsl_vector_get(s->x, i));
     }
 
-    improvement = -s->fval;
+    minimum = s->fval;
 
     gsl_vector_free(gsl_x);
     gsl_vector_free(ss);
@@ -355,18 +363,41 @@ vector<double> minimise_local(double (*func)(const gsl_vector*, void*),
 // Runs multiple trials to maximise improvement for global minimum
 vector<double> minimise(double (*func)(const gsl_vector*, void*),
     vector<double> (*gen)(void*), void* arg, double convergence_threshold,
-    size_t max_trials, double& improvement) {
-    double improvement_best = 0.0;
+    size_t max_trials, double& minimum) {
     vector<double> x_best;
     for (size_t trial = 0; trial < max_trials; trial++) {
-        double improvement_trial = 0.0;
+        double minimum_trial = 0.0;
         auto x = minimise_local(func, arg, gen(arg), convergence_threshold,
-			max_trials, improvement_trial);
-        if (improvement_trial > improvement_best) {
-            improvement_best = improvement_trial;
+			max_trials, minimum_trial);
+        if (minimum_trial < minimum) {
+            minimum = minimum_trial;
             x_best = x;
         }
     }
-    improvement = improvement_best;
     return x_best;
+}
+
+// Returns true iff the evaluation result passes all constraints
+bool is_success(vector<double> y, size_t constraints, size_t costs) {
+	const size_t FITNESS_LABEL_OFFSET = 2;
+	const size_t LABEL_INDEX = 1;
+	assert(y.size() == FITNESS_LABEL_OFFSET + constraints + costs);
+	if (y[LABEL_INDEX] != 0.0) {
+		return false;
+	}
+	for (size_t constraint = 0; constraint < constraints; constraint++) {
+		if (y[FITNESS_LABEL_OFFSET + constraint] > 1.0) {
+			return false;
+		}
+	}
+	return true;
+}
+
+// Converts a GSL vector into a std::vector
+vector<double> gsl_to_std_vector(const gsl_vector* v) {
+	vector<double> x;
+	for (size_t i = 0; i < v->size; i++) {
+		x.push_back(gsl_vector_get(v, i));
+	}
+	return x;
 }

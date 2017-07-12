@@ -57,4 +57,5 @@ class EGO {
 		double predict_cost(vector<double> x);
 		double success_constraints_probability(vector<double> x);
 		static vector<double> generate_random_point(void* p);
+		void train_surrogates();
 };

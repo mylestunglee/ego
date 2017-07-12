@@ -9,7 +9,7 @@ false
 # number of constraint functions
 0
 # number of cost functions
-1
+0
 # lower boundaries
 -2, -2
 # upper boundaries

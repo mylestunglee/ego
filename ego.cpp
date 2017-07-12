@@ -67,19 +67,19 @@ void EGO::run()
 	assert(evaluations > 0);
 
 	while(evaluations < max_evaluations) {
-		sg->train();
-		sg_label->train();
+		train_surrogates();
 
 		// Find a point with the highest expected improvement
-		double improvement = 0.0;
+		double neg_max_ei = numeric_limits<double>::max();;
 		vector<double> x = minimise(expected_improvement_bounded,
 			generate_random_point, this, convergence_threshold, max_trials,
-			improvement);
+			neg_max_ei);
+		double max_ei = -neg_max_ei;
 
 		if (x.empty()) {
 			cout << "Cannot maximise expected improvement!" << endl;
 			return;
-		} else if (improvement <= convergence_threshold) {
+		} else if (max_ei <= convergence_threshold) {
 			cout << "Optimial found!" << endl;
 			return;
 		}
@@ -123,10 +123,7 @@ void EGO::sample_uniform(size_t n) {
 double EGO::expected_improvement_bounded(const gsl_vector* v, void* p) {
 	EGO* ego = (EGO*) p;
 
-	vector<double> x;
-	for (size_t i = 0; i < ego->dimension; i++) {
-		x.push_back(gsl_vector_get(v, i));
-	}
+	vector<double> x = gsl_to_std_vector(v);
 	assert(x.size() == ego->dimension);
 
 	x = ego->is_discrete ? round_vector(x) : x;
@@ -201,16 +198,11 @@ void EGO::simulate(vector<double> x, vector<double> y) {
 
 	// Update GPs
 	sg->add(x, y[FITNESS_INDEX]);
-	sg_label->add(x, y[LABEL_INDEX] == 0 ? 1.0 : 0.0);
-
-	bool successful_constraint = true;
+	sg_label->add(x, y[LABEL_INDEX] == 0.0 ? 1.0 : 0.0);
 
 	for (size_t constraint = 0; constraint < constraints.size(); constraint++) {
 		double utilisation = y[FITNESS_LABEL_OFFSET + constraint];
 		constraints[constraint]->add(x, utilisation);
-		if (utilisation > 1.0) {
-			successful_constraint = false;
-		}
 	}
 
 	for (size_t cost = 0; cost < costs.size(); cost++) {
@@ -218,7 +210,8 @@ void EGO::simulate(vector<double> x, vector<double> y) {
 	}
 
 	// Update optimal point and fitness if point is successful
-	if (y[LABEL_INDEX] == 0 && successful_constraint && y[FITNESS_INDEX] < y_opt) {
+	if (is_success(y, constraints.size(), costs.size()) &&
+		y[FITNESS_INDEX] < y_opt) {
 		x_opt = x;
 		y_opt = y[0];
 	}
@@ -249,4 +242,16 @@ double EGO::success_constraints_probability(vector<double> x) {
 vector<double> EGO::generate_random_point(void *p) {
 	EGO* ego = (EGO*) p;
 	return generate_uniform_sample(ego->rng, ego->boundaries);
+}
+
+// Trains all surrogates
+void EGO::train_surrogates() {
+	sg->train();
+	sg_label->train();
+	for (auto& constraint : constraints) {
+		constraint->train();
+	}
+	for (auto& cost : costs) {
+		cost->train();
+	}
 }

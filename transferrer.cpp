@@ -36,6 +36,11 @@ Transferrer::Transferrer(
 	costs(costs) {
 	read_results(filename_results_old);
 	sort(results_old.begin(), results_old.end(), fitness_more_than);
+	rng = gsl_rng_alloc(gsl_rng_taus);
+}
+
+Transferrer::~Transferrer() {
+	delete rng;
 }
 
 // Performs the automatic knowledge transfer
@@ -46,8 +51,8 @@ void Transferrer::run() {
 		extrude(boundaries_old);
 		return;
 	} else if (boundaries_old.size() > boundaries.size()) {
-		// TODO
-		assert(false);
+		reduce(boundaries_old);
+		return;
 	}
 
 	vector<double> ys_old;
@@ -228,41 +233,106 @@ void Transferrer::interpolate(boundaries_t boundaries_old, vector<double> coeffs
 	ego.run();
 }
 
+#include <iomanip>
 // Given an old parameter space, find a higher-dimensional mapping from the old
 // parameter space to the new parameter space
 void Transferrer::extrude(boundaries_t boundaries_old) {
 	size_t dimension_old = boundaries_old.size();
-	size_t dimension_new = boundaries.size();
+	size_t dimension = boundaries.size();
+	boundaries_t space_common = boundaries_t(boundaries.begin(),
+		boundaries.begin() + dimension_old);
+	space_extend = boundaries_t(boundaries.begin() + dimension_old,
+		boundaries.end());
+	space_intersection = get_intersection(space_common, boundaries_old);
 
-	// Number of samples per dimension
-	size_t density = floor(pow(10 * dimension_new, 1.0 /
-		(dimension_new - dimension_old + 1.0)));
-	if (density < 3) {
-		cout << "Insufficent points to sample higher-dimensional space" << endl;
+	// Number of knowledge transferable points of the old boundaries
+	size_t samples_old_count = 0;
+	for (auto result_old : results_old) {
+		if (is_bounded(result_old.first, space_intersection)) {
+			samples_old_count++;
+		}
+	}
+	if (samples_old_count < 3) {
+		cout << "Too few common points to perform correlation analysis" << endl;
+		return;
 	}
 
-	auto rng = gsl_rng_alloc(gsl_rng_taus);
+	boundaries_t space_extrude = join_boundaries(space_intersection, space_extend);
 
-	// Get cross sections from old and new parameter spaces' perspective
-	boundaries_t space_new(boundaries.begin() + dimension_old, boundaries.end());
-	boundaries_t space_old(boundaries.begin(), boundaries.begin() + dimension_old);
-	boundaries_t intersection = get_intersection(boundaries_old, space_old);
-	auto intersection_samples = generate_latin_samples(rng, density, boundaries_old);
-	auto space_new_samples = generate_grid_samples(density, space_new);
+	// Generate a model of the new design space
+	auto samples_new = generate_latin_samples(rng, 5 * dimension, space_extrude);
+	results_t results_new;
+	predictor = new Surrogate(dimension);
+	for (auto sample_new : samples_new) {
+		auto y = evaluator.evaluate(sample_new);
+		predictor->add(sample_new, y[FITNESS_INDEX]);
+	}
+	predictor->train();
 
-	vector<Surrogate> surrogates(intersection_samples.size(), Surrogate(dimension_new));
+	double neg_max_correlation = 999999;
+	auto point = minimise(cross_section_correlation, generate_random_point,
+		this, convergence_threshold, max_trials, neg_max_correlation);
+	double max_correlation = -neg_max_correlation;
+	cout << "Best at:";
+	print_vector(point);
+	cout << " with " << max_correlation << endl;
 
-	// Build cross section functions
-	for (size_t i = 0; i < intersection_samples.size(); i++) {
-		for (auto space_new_sample : space_new_samples) {
-			auto x = join_vectors(intersection_samples[i], space_new_sample);
-			auto y = evaluator.evaluate(x);
-			assert(!y.empty());
-			surrogates[i].add(x, y[FITNESS_INDEX]);
+	delete predictor;
+}
+
+// Given an old parameter space, find a lower-dimensional mapping from the old
+// parameter space to the new parameter space
+void Transferrer::reduce(boundaries_t boundaries_old) {
+	Surrogate surrogate(boundaries_old.size());
+
+	// Rebuild previous GP
+	for (auto result_old : results_old) {
+		auto x = result_old.first;
+		auto y = result_old.second;
+		surrogate.add(x, y[FITNESS_INDEX]);
+	}
+	surrogate.train();
+}
+
+// Generates a random point in space_new
+vector<double> Transferrer::generate_random_point(void* p) {
+	Transferrer* t = (Transferrer*) p;
+	return generate_uniform_sample(t->rng, t->space_extend);
+}
+
+double Transferrer::cross_section_correlation(const gsl_vector* v, void* p) {
+	Transferrer* t = (Transferrer*) p;
+	auto extend = gsl_to_std_vector(v);
+
+	if (!is_bounded(extend, t->space_extend)) {
+		return euclidean_distance(extend, vector<double>(extend.size(), 0.0));
+	}
+
+	vector<double> fitnesses_old;
+	vector<double> fitnesses_new;
+
+	// Collect correlation data
+	for (auto result_old : t->results_old) {
+		auto x = result_old.first;
+		auto y = result_old.second;
+		if (is_bounded(x, t->space_intersection)) {
+			fitnesses_old.push_back(y[FITNESS_INDEX]);
+			fitnesses_new.push_back(
+				t->predictor->mean(join_vectors(x, extend)));
 		}
 	}
 
-	// Minimise across cross sections
+	// Perform correlation analysis
+	double pearson;
+	double spearman;
+	calc_correlation(fitnesses_old, fitnesses_new, pearson, spearman);
 
-	delete rng;
+	// If either old or new fitnesses have no variance then we have perfect
+	// correlation
+	if (isnan(pearson) || isnan(spearman)) {
+		return -1.0;
+	}
+
+	// We try to find the best correlation using a minimiser
+	return -max(abs(pearson), abs(spearman));
 }
