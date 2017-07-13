@@ -11,3 +11,5 @@ gsl*
 ego
 *.log
 eigen3/*
+examples/*
+

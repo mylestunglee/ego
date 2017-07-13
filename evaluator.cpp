@@ -31,7 +31,11 @@ vector<double> Evaluator::evaluate(vector<double> x) {
 	vector<double> result;
 
 	for (string line : execute(command)) {
-		result.push_back(atof(line.c_str()));
+		try {
+			result.push_back(stof(line));
+		} catch (const invalid_argument& ia) {
+			cout << line;
+		}
 	}
 
 	cache_lock.lock();

@@ -84,6 +84,10 @@ void EGO::run()
 			return;
 		}
 
+		// Ensure x is discrete if specified
+		x = is_discrete ? round_vector(x) : x;
+
+		// Evaluate new design and update GP models
 		evaluate({x});
 	}
 }
