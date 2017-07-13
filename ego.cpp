@@ -7,6 +7,7 @@
 #include <gsl_cdf.h>
 #include <gsl_randist.h>
 #include <gsl_multimin.h>
+#include <time.h>
 
 using namespace std;
 
@@ -42,6 +43,7 @@ EGO::EGO(
 	}
 
 	rng = gsl_rng_alloc(gsl_rng_taus);
+	gsl_rng_set(rng, time(NULL));
 
 	evaluations = 0;
 	y_opt = numeric_limits<double>::max();
@@ -201,8 +203,14 @@ void EGO::simulate(vector<double> x, vector<double> y) {
 	evaluator.simulate(x, y);
 
 	// Update GPs
+	bool label_success = y[LABEL_INDEX] == 0.0;
+	sg_label->add(x, label_success ? 1.0 : 0.0);
+
+	if (!label_success) {
+		return;
+	}
+
 	sg->add(x, y[FITNESS_INDEX]);
-	sg_label->add(x, y[LABEL_INDEX] == 0.0 ? 1.0 : 0.0);
 
 	for (size_t constraint = 0; constraint < constraints.size(); constraint++) {
 		double utilisation = y[FITNESS_LABEL_OFFSET + constraint];
@@ -225,9 +233,10 @@ void EGO::simulate(vector<double> x, vector<double> y) {
 double EGO::predict_cost(vector<double> x) {
 	double sum = 1.0;
 	for (auto& cost : costs) {
-		sum += cost->mean(x);
+		sum += max(cost->mean(x), 0.0);
 	}
-	assert(sum > 0.0);
+
+	assert(sum >= 1.0);
 	return sum;
 }
 

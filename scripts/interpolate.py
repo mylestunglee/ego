@@ -4,7 +4,7 @@ import csv
 import sys
 
 if len(sys.argv) < 3:
-	print('Usage: interpolate.py data.csv domain [x_1, ...]')
+	print('Usage: interpolate.py data.csv domain_dimension [x_1, ...]')
 	sys.exit(1)
 
 csvfile = open(sys.argv[1])

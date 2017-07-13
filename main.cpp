@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
 		// Heuristic sample size = 5 * dim
 		ego.sample_latin(5 * boundaries.size());
 		// Randomness can affect optimiser negatively
-		//ego.sample_uniform(10);
+		ego.sample_uniform(10);
 		ego.run();
 	}
 

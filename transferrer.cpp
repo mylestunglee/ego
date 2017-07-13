@@ -8,6 +8,7 @@
 #include <utility>
 #include <assert.h>
 #include <set>
+#include <time.h>
 
 using namespace std;
 
@@ -37,6 +38,7 @@ Transferrer::Transferrer(
 	read_results(filename_results_old);
 	sort(results_old.begin(), results_old.end(), fitness_more_than);
 	rng = gsl_rng_alloc(gsl_rng_taus);
+	gsl_rng_set(rng, time(NULL));
 }
 
 Transferrer::~Transferrer() {
