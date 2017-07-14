@@ -202,11 +202,13 @@ void EGO::simulate(vector<double> x, vector<double> y) {
 
 	evaluator.simulate(x, y);
 
-	// Update GPs
-	bool label_success = y[LABEL_INDEX] == 0.0;
-	sg_label->add(x, label_success ? 1.0 : 0.0);
+	assert(y[LABEL_INDEX] == 0.0 || y[LABEL_INDEX] == 1.0 || y[LABEL_INDEX] == 2.0);
 
-	if (!label_success) {
+	// Update success GP
+	sg_label->add(x, y[LABEL_INDEX] == 0.0 ? 1.0 : 0.0);
+
+	// Do not update resource GPs if evaluation failed
+	if (y[LABEL_INDEX] == 1.0) {
 		return;
 	}
 
