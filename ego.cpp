@@ -69,7 +69,6 @@ void EGO::run()
 	assert(evaluations > 0);
 
 	while(evaluations < max_evaluations) {
-		train_surrogates();
 
 		// Find a point with the highest expected improvement
 		double neg_max_ei = numeric_limits<double>::max();
@@ -91,6 +90,8 @@ void EGO::run()
 
 		// Evaluate new design and update GP models
 		evaluate({x});
+
+		train_surrogates();
 	}
 }
 
@@ -106,6 +107,7 @@ void EGO::sample_latin(size_t n)
 		}
 	}
 	evaluate(filered);
+	train_surrogates();
 }
 
 // Takes random uniformly distributed samples
@@ -118,6 +120,7 @@ void EGO::sample_uniform(size_t n) {
 			if (success_probability(sg_label->mean(x), sg_label->sd(x)) >= 0.5 &&
 				!is_bounded(x, rejection)) {
 				evaluate({x});
+				train_surrogates();
 				// Find next point
 				break;
 			}
