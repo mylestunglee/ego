@@ -1,0 +1,13 @@
+#!/bin/bash
+
+for i in {1..100}
+do
+	./scripts/transfer_example examples/stochastic/ 2 examples/robot/
+done
+
+echo "next"
+
+for i in {1..100}
+do
+	./scripts/run_example examples/stochastic/ 2
+done

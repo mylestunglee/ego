@@ -38,9 +38,7 @@ vector<double> Evaluator::evaluate(vector<double> x) {
 		}
 	}
 
-	cache_lock.lock();
-	cache[x] = result;
-	cache_lock.unlock();
+	simulate(x, result);
 
     return result;
 }
@@ -78,5 +76,13 @@ void Evaluator::save(string filename) {
 void Evaluator::simulate(vector<double> x, vector<double> y) {
 	cache_lock.lock();
 	cache[x] = y;
+
+	/* Ongoing output of minimum for experiments
+	static double min_y = 600.0;
+	if (y[0] < min_y && y[1] == 0) {
+		min_y = y[0];
+	}
+	cout << min_y << endl;*/
+
 	cache_lock.unlock();
 }

@@ -9,6 +9,7 @@
 #include <assert.h>
 #include <set>
 #include <time.h>
+#include <gsl_randist.h>
 
 using namespace std;
 
@@ -76,14 +77,13 @@ void Transferrer::run() {
 	}
 
 	double label_correlation = calc_label_correlation(results_new);
-	cout << "Label correlation: " << label_correlation << endl;
+	// cout << "Label correlation: " << label_correlation << endl;
 
 	if (1.0 - label_correlation > sig_level) {
 		cout << "Insufficent consistency of labels." << endl;
 		return;
 	}
 
-	double y_old_best = (results_old[0].second)[FITNESS_INDEX];
 	vector<double> coeffs = test_correlation(ys_old, ys_new);
 
 	if (coeffs.empty()) {
@@ -91,16 +91,36 @@ void Transferrer::run() {
 		return;
 	}
 
-	double y_new_best_approx = apply_polynomial(y_old_best, coeffs);
+	/* cout << "Using interpolation: ";
+	print_vector(coeffs);
+	cout << endl;*/
 
 	if (is_subset(boundaries, boundaries_old)) {
-		cout << "Trivial mapping, y_new_opt = " << y_new_best_approx << endl;
+		// cout << "Trivial mapping" << endl;
+		EGO ego(
+			evaluator,
+			boundaries,
+			{},
+			max_evaluations,
+			max_trials,
+			convergence_threshold,
+			is_discrete,
+			constraints,
+			costs);
+		/*for (auto result_old : results_old) {
+			auto x = result_old.first;
+			auto y = result_old.second;
+			y[FITNESS_INDEX] = apply_polynomial(y[FITNESS_INDEX], coeffs);
+			ego.simulate(x, y);
+		}*/
+		for (auto result_new : results_new) {
+			ego.simulate(result_new.first, result_new.second);
+		}
+		ego.sample_latin(5 * boundaries.size());
+		ego.sample_uniform(5 * boundaries.size());
+		ego.run();
 		return;
 	}
-
-	cout << "Using interpolation: ";
-	print_vector(coeffs);
-	cout << endl;
 
 	interpolate(boundaries_old, coeffs, results_new);
 }
@@ -126,18 +146,30 @@ void Transferrer::read_results(string filename) {
 
 // Selects a subset of old_results to determine relationship of old and new evaluators
 results_t Transferrer::sample_results_old() {
-	return results_old;
-
 	vector<pair<vector<double>, vector<double>>> result;
 	set<vector<double>> sampled;
+	
+	// Select best sample
+	/*for (auto result_old : results_old) {
+		if (is_bounded(result_old.first, boundaries)) {
+			sampled.insert(result_old.first);
+			result.push_back(result_old);
+			break;
+		}
+	}*/
 
 	for (size_t trial = 0; trial < max_trials; trial++) {
-		auto sample = results_old[rand() % results_old.size()];
+		auto sample = results_old[(size_t) gsl_ran_exponential(rng, 10) % results_old.size()];
 
 		// Only add sample when sample fits new parameter space and has not been
 		// sampled before
 		if (is_bounded(sample.first, boundaries) &&
 			sampled.find(sample.first) == sampled.end()) {
+
+			// Don't sample failed results
+			if (!is_success(sample.second, constraints, costs)) {
+				continue;
+			}
 
 			// Only sample iff is_discrete_old == is_discrete_new
 			if (is_discrete) {
@@ -150,12 +182,13 @@ results_t Transferrer::sample_results_old() {
 
 			sampled.insert(sample.first);
 			result.push_back(sample);
+
+			// Sample at most 5 * dimension
+			if (sampled.size() > 10 * boundaries.size()) {
+				return result;
+			}
 		}
 
-		// Sample at most 5 * dimension
-		if (sampled.size() > 5 * boundaries.size()) {
-			break;
-		}
 	}
 
 	return result;
@@ -165,6 +198,15 @@ bool Transferrer::fitness_more_than(
 	pair<vector<double>, vector<double>> x,
 	pair<vector<double>, vector<double>> y
 ) {
+	bool success_x = (x.second)[LABEL_INDEX] == 0.0;
+	bool success_y = (y.second)[LABEL_INDEX] == 0.0;
+	if (success_x && !success_y) {
+		return true;
+	}
+	if (!success_x && success_y) {
+		return false;
+	}
+
 	return (x.second)[0] < (y.second)[0];
 }
 

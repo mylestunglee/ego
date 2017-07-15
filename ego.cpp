@@ -81,7 +81,7 @@ void EGO::run()
 			cout << "Cannot maximise expected improvement!" << endl;
 			return;
 		} else if (max_ei <= convergence_threshold) {
-			cout << "Optimial found!" << endl;
+			cout << "Optimal found!" << endl;
 			return;
 		}
 
@@ -99,6 +99,7 @@ void EGO::run()
 void EGO::sample_latin(size_t n)
 {
 	auto xs = generate_latin_samples(rng, n, boundaries);
+	reverse(xs.begin(), xs.end());
 	vector<vector<double>> filered;
 	for (auto x : xs) {
 		x = is_discrete ? round_vector(x) : x;
