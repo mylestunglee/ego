@@ -65,6 +65,8 @@ void Transferrer::run() {
 	auto sample = sample_results_old();
 	assert(!sample.empty());
 
+	cout << "Sampling new design space..." << endl;
+
 	// Compute fitness for sample
 	for (auto result_old : sample) {
 		auto x_old = result_old.first;
@@ -91,38 +93,12 @@ void Transferrer::run() {
 		return;
 	}
 
-	/* cout << "Using interpolation: ";
-	print_vector(coeffs);
-	cout << endl;*/
-
 	if (is_subset(boundaries, boundaries_old)) {
-		// cout << "Trivial mapping" << endl;
-		EGO ego(
-			evaluator,
-			boundaries,
-			{},
-			max_evaluations,
-			max_trials,
-			convergence_threshold,
-			is_discrete,
-			constraints,
-			costs);
-		/*for (auto result_old : results_old) {
-			auto x = result_old.first;
-			auto y = result_old.second;
-			y[FITNESS_INDEX] = apply_polynomial(y[FITNESS_INDEX], coeffs);
-			ego.simulate(x, y);
-		}*/
-		for (auto result_new : results_new) {
-			ego.simulate(result_new.first, result_new.second);
-		}
-		ego.sample_latin(5 * boundaries.size());
-		ego.sample_uniform(5 * boundaries.size());
-		ego.run();
+		interpolate({}, {0.0, 1.0}, results_new);
 		return;
 	}
 
-	interpolate(boundaries_old, coeffs, results_new);
+	interpolate(boundaries_old, {0, 1.0}, results_new);
 }
 
 // Reads results from a CSV file from a previous EGO computation
@@ -148,47 +124,44 @@ void Transferrer::read_results(string filename) {
 results_t Transferrer::sample_results_old() {
 	vector<pair<vector<double>, vector<double>>> result;
 	set<vector<double>> sampled;
-	
-	// Select best sample
-	/*for (auto result_old : results_old) {
-		if (is_bounded(result_old.first, boundaries)) {
-			sampled.insert(result_old.first);
-			result.push_back(result_old);
-			break;
-		}
-	}*/
+	double fitness_threshold = calc_fitness_percentile(0.15);
 
 	for (size_t trial = 0; trial < max_trials; trial++) {
-		auto sample = results_old[(size_t) gsl_ran_exponential(rng, 10) % results_old.size()];
+		auto sample = results_old[gsl_rng_uniform_int(rng, results_old.size())];
+
+		//auto sample = results_old[(size_t) gsl_ran_exponential(rng, 10) % results_old.size()];
+
+		// Don't samples with bad fitnesses
+		if (sample.second[FITNESS_INDEX] > fitness_threshold) {
+			continue;
+		}
 
 		// Only add sample when sample fits new parameter space and has not been
 		// sampled before
-		if (is_bounded(sample.first, boundaries) &&
-			sampled.find(sample.first) == sampled.end()) {
-
-			// Don't sample failed results
-			if (!is_success(sample.second, constraints, costs)) {
-				continue;
-			}
-
-			// Only sample iff is_discrete_old == is_discrete_new
-			if (is_discrete) {
-				auto x = sample.first;
-				auto rounded = round_vector(x);
-				if (!equal(x.begin(), x.end(), rounded.begin())) {
-					continue;
-				}
-			}
-
-			sampled.insert(sample.first);
-			result.push_back(sample);
-
-			// Sample at most 5 * dimension
-			if (sampled.size() > 10 * boundaries.size()) {
-				return result;
-			}
+		if (!is_bounded(sample.first, boundaries) ||
+			sampled.find(sample.first) != sampled.end()) {
+			continue;
 		}
 
+		// Don't sample failed results
+		if (!is_success(sample.second, constraints, costs)) {
+			continue;
+		}
+
+		// Only sample iff is_discrete_old == is_discrete_new
+		if (is_discrete) {
+			auto x = sample.first;
+			auto rounded = round_vector(x);
+			if (!equal(x.begin(), x.end(), rounded.begin())) {
+				continue;
+			}
+		}
+		sampled.insert(sample.first);
+		result.push_back(sample);
+		// Sample at most 10 * dimension
+		if (sampled.size() > 10 * boundaries.size()) {
+			return result;
+		}
 	}
 
 	return result;
@@ -248,9 +221,11 @@ double Transferrer::calc_label_correlation(results_t results_new) {
 // samples of the new space, find y_opt
 void Transferrer::interpolate(boundaries_t boundaries_old, vector<double> coeffs,
 	results_t results_new) {
-
-	boundaries_t intersection = get_intersection(boundaries_old, boundaries);
-
+	boundaries_t intersection;
+	if (!boundaries_old.empty()) {
+		boundaries_t intersection = get_intersection(boundaries_old, boundaries);
+	}
+	cout << "Simulating results..." << endl;
 	EGO ego(evaluator, boundaries, intersection, max_evaluations, max_trials,
 		convergence_threshold, is_discrete, constraints, costs);
 	for (auto result_new : results_new) {
@@ -259,6 +234,8 @@ void Transferrer::interpolate(boundaries_t boundaries_old, vector<double> coeffs
 			result_new.second[FITNESS_INDEX], coeffs);
 		ego.simulate(result_new.first, result_new.second);
 	}
+	cout << "Sampling with LHS and uniform..." << endl;
+	ego.sample_latin(5 * boundaries.size());
 	ego.sample_uniform(5 * boundaries.size());
 	ego.run();
 }
@@ -430,4 +407,21 @@ vector<double> Transferrer::test_correlation(vector<double> xs,
 	}
 
 	return {};
+}
+
+// Given a value x between 0 and 1, determine the x percentile of the old
+// fitness function. Requires results_old to be sorted
+double Transferrer::calc_fitness_percentile(double percentile) {
+	assert(0.0 <= percentile && percentile <= 1.0);
+
+	// Find the number of valid samples
+	size_t successes = 0;
+	for (auto result_old : results_old) {
+		if (is_success(result_old.second, constraints, costs)) {
+			successes++;
+		}
+	}
+
+	assert(successes > 0);
+	return results_old[percentile * (double) successes].second[FITNESS_INDEX];
 }

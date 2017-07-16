@@ -146,7 +146,7 @@ double EGO::expected_improvement_bounded(const gsl_vector* v, void* p) {
 		ego->success_constraints_probability(x) / ego->predict_cost(x);
 
 	if (isnan(expectation) || expectation == 0.0 ||
-		!is_bounded(x, ego->boundaries) || is_bounded(x, ego->rejection)) {
+		!is_bounded(x, ego->boundaries)) {
 		return euclidean_distance(x, ego->x_opt);
 	}
 
@@ -172,12 +172,6 @@ void EGO::thread_evaluate(EGO* ego, vector<double> x) {
 
 	ego->evaluator_lock.lock();
 	ego->simulate(x, y);
-
-	cout << "Iteration [" << ego->evaluations << "/" << ego->max_evaluations << "]: " << fixed;
-	print_vector(x);
-	cout << "\t f";
-	print_vector(ego->x_opt);
-	cout << " = " << setprecision(6) << ego->y_opt << endl;
 
 	ego->evaluator_lock.unlock();
 }
@@ -212,27 +206,31 @@ void EGO::simulate(vector<double> x, vector<double> y) {
 	sg_label->add(x, y[LABEL_INDEX] == 0.0 ? 1.0 : 0.0);
 
 	// Do not update resource GPs if evaluation failed
-	if (y[LABEL_INDEX] == 1.0) {
-		return;
+	if (y[LABEL_INDEX] != 1.0) {
+		sg->add(x, y[FITNESS_INDEX]);
+
+		for (size_t constraint = 0; constraint < constraints.size(); constraint++) {
+			double utilisation = y[FITNESS_LABEL_OFFSET + constraint];
+			constraints[constraint]->add(x, utilisation);
+		}
+
+		for (size_t cost = 0; cost < costs.size(); cost++) {
+			costs[cost]->add(x, y[FITNESS_LABEL_OFFSET + constraints.size() + cost]);
+		}
+
+		// Update optimal point and fitness if point is successful
+		if (is_success(y, constraints.size(), costs.size()) &&
+			y[FITNESS_INDEX] < y_opt) {
+			x_opt = x;
+			y_opt = y[0];
+		}
 	}
 
-	sg->add(x, y[FITNESS_INDEX]);
-
-	for (size_t constraint = 0; constraint < constraints.size(); constraint++) {
-		double utilisation = y[FITNESS_LABEL_OFFSET + constraint];
-		constraints[constraint]->add(x, utilisation);
-	}
-
-	for (size_t cost = 0; cost < costs.size(); cost++) {
-		costs[cost]->add(x, y[FITNESS_LABEL_OFFSET + constraints.size() + cost]);
-	}
-
-	// Update optimal point and fitness if point is successful
-	if (is_success(y, constraints.size(), costs.size()) &&
-		y[FITNESS_INDEX] < y_opt) {
-		x_opt = x;
-		y_opt = y[0];
-	}
+	cout << "Iteration [" << evaluations << "/" << max_evaluations << "]: " << fixed;
+	print_vector(x);
+	cout << "\t f";
+	print_vector(x_opt);
+	cout << " = " << setprecision(6) << y_opt << endl;
 }
 
 // Given a point, predict the cost of evaluation

@@ -5,12 +5,11 @@
 #include <string>
 #include <array>
 #include <iostream>
+#include <limits>
 
 using namespace std;
 
-Evaluator::Evaluator(string script) {
-	this->script = script;
-}
+Evaluator::Evaluator(string script) : script(script) {}
 
 // Consults proxy then packages x for execution
 vector<double> Evaluator::evaluate(vector<double> x) {

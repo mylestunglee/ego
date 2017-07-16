@@ -51,4 +51,5 @@ class Transferrer {
 		static vector<double> generate_random_point(void* p);
 		static double cross_section_correlation(const gsl_vector* v, void* p);
 		vector<double> test_correlation(vector<double> xs, vector<double> ys);
+		double calc_fitness_percentile(double percentile);
 };
