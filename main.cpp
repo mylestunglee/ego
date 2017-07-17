@@ -16,10 +16,12 @@ int main(int argc, char* argv[]) {
 
 	bool is_knowledge_transfer = argc == 5;
 
+	// Read filenames from arguments
 	string filename_script(argv[1]);
 	string filename_config(argv[2]);
 	string filename_output(argv[3]);
 
+	// Load configuration file
 	auto config = read(filename_config);
 
 	size_t max_evaluations, max_trials, constraints, costs;
@@ -27,6 +29,7 @@ int main(int argc, char* argv[]) {
 	bool is_discrete;
 	boundaries_t boundaries;
 
+	// Parse configuration file
 	try {
 		max_evaluations = stoi(config.at(0).at(0));
 		max_trials = stoi(config.at(1).at(0));
@@ -54,6 +57,7 @@ int main(int argc, char* argv[]) {
 		return 0;
 	}
 
+	// Execute EGO
 	Evaluator evaluator(filename_script);
 
 	if (is_knowledge_transfer) {

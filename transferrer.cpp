@@ -37,6 +37,7 @@ Transferrer::Transferrer(
 	constraints(constraints),
 	costs(costs) {
 	read_results(filename_results_old);
+	cout << "Sorting old results" << endl;
 	sort(results_old.begin(), results_old.end(), fitness_more_than);
 	rng = gsl_rng_alloc(gsl_rng_taus);
 	gsl_rng_set(rng, time(NULL));
@@ -62,10 +63,10 @@ void Transferrer::run() {
 	vector<double> ys_new;
 	results_t results_new;
 
-	auto sample = sample_results_old();
+	auto sample = results_old; // sample_results_old();
 	assert(!sample.empty());
 
-	cout << "Sampling new design space..." << endl;
+	cout << "Sampling new design space";
 
 	// Compute fitness for sample
 	for (auto result_old : sample) {
@@ -73,13 +74,17 @@ void Transferrer::run() {
 		auto y_old = result_old.second;
 		auto y_new = evaluator.evaluate(x_old);
 
-		ys_old.push_back(y_old[FITNESS_INDEX]);
-		ys_new.push_back(y_new[FITNESS_INDEX]);
+		if (y_old[LABEL_INDEX] != 1.0 && is_success(y_new, constraints, costs)) {
+			ys_old.push_back(y_old[FITNESS_INDEX]);
+			ys_new.push_back(y_new[FITNESS_INDEX]);
+		}
+
 		results_new.push_back(make_pair(x_old, y_new));
+		cout << ".";
 	}
+	cout << endl;
 
 	double label_correlation = calc_label_correlation(results_new);
-	// cout << "Label correlation: " << label_correlation << endl;
 
 	if (1.0 - label_correlation > sig_level) {
 		cout << "Insufficent consistency of labels." << endl;
@@ -124,6 +129,8 @@ void Transferrer::read_results(string filename) {
 results_t Transferrer::sample_results_old() {
 	vector<pair<vector<double>, vector<double>>> result;
 	set<vector<double>> sampled;
+	// 0.15 is a hyperparameter for upper limit of samplable fitnesses to
+	// minimise noise
 	double fitness_threshold = calc_fitness_percentile(0.15);
 
 	for (size_t trial = 0; trial < max_trials; trial++) {
@@ -225,7 +232,7 @@ void Transferrer::interpolate(boundaries_t boundaries_old, vector<double> coeffs
 	if (!boundaries_old.empty()) {
 		boundaries_t intersection = get_intersection(boundaries_old, boundaries);
 	}
-	cout << "Simulating results..." << endl;
+	cout << "Simulating results" << endl;
 	EGO ego(evaluator, boundaries, intersection, max_evaluations, max_trials,
 		convergence_threshold, is_discrete, constraints, costs);
 	for (auto result_new : results_new) {
@@ -234,8 +241,9 @@ void Transferrer::interpolate(boundaries_t boundaries_old, vector<double> coeffs
 			result_new.second[FITNESS_INDEX], coeffs);
 		ego.simulate(result_new.first, result_new.second);
 	}
-	cout << "Sampling with LHS and uniform..." << endl;
+	cout << "Sampling using LHS" << endl;
 	ego.sample_latin(5 * boundaries.size());
+	cout << "Sampling using uniform" << endl;
 	ego.sample_uniform(5 * boundaries.size());
 	ego.run();
 }
@@ -393,17 +401,17 @@ vector<double> Transferrer::test_correlation(vector<double> xs,
 	calc_correlation(xs, ys, pearson, spearman);
 
 	if (isnan(pearson) || isnan(spearman)) {
-		return fit_polynomial(xs, ys, 0);
+		return {};
 	}
 
 	// If hypothesis test for linear relationship between ys_old and ys_new passes
 	if (1.0 - pearson <= sig_level || 1.0 + pearson <= sig_level) {
-		return fit_polynomial(xs, ys, 1);
+		return fit_polynomial_robust(xs, ys, 1);
 	}
 
 	// If hypothesis test for monotonic relationship passes
 	if (1.0 - spearman <= sig_level || 1.0 + spearman <= sig_level) {
-		return fit_polynomial(xs, ys, 2);
+		return fit_polynomial_robust(xs, ys, 2);
 	}
 
 	return {};

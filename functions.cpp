@@ -416,3 +416,44 @@ void print_boundaries(boundaries_t boundaries) {
 		}
 	}
 }
+
+// Finds a polynomial function from xs to ys, but recognises outliers
+vector<double> fit_polynomial_robust(vector<double> xs, vector<double> ys, int degree) {
+    assert(xs.size() == ys.size());
+
+    gsl_multifit_robust_workspace *ws;
+    gsl_matrix* cov;
+    gsl_matrix* X;
+    gsl_vector* y;
+    gsl_vector* c;
+    int order = degree + 1;
+    int n = xs.size();
+    X = gsl_matrix_alloc(n, order);
+    y = gsl_vector_alloc(n);
+    c = gsl_vector_alloc(order);
+    cov = gsl_matrix_alloc(order, order);
+
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < order; j++) {
+            gsl_matrix_set(X, i, j, pow(xs[i], j));
+        }
+        gsl_vector_set(y, i, ys[i]);
+    }
+
+    ws = gsl_multifit_robust_alloc(gsl_multifit_robust_bisquare, n, order);
+    gsl_multifit_robust(X, y, c, cov, ws);
+
+    vector<double> coeffs;
+
+    for (int i = 0; i < order; i++) {
+        coeffs.push_back(gsl_vector_get(c, i));
+    }
+
+    gsl_multifit_robust_free(ws);
+    gsl_matrix_free(X);
+    gsl_matrix_free(cov);
+    gsl_vector_free(y);
+    gsl_vector_free(c);
+
+    return coeffs;
+}
