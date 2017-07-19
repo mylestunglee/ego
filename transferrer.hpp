@@ -18,7 +18,8 @@ class Transferrer {
 			boundaries_t boundaries,
 			bool is_discrete,
 			size_t constraints,
-			size_t costs);
+			size_t costs,
+			double fitness_percentile);
 		~Transferrer();
 		void run();
 

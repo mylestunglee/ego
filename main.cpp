@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
 	auto config = read(filename_config);
 
 	size_t max_evaluations, max_trials, constraints, costs;
-	double convergence_threshold, sig_level = 1.0;
+	double convergence_threshold, sig_level = 1.0, fitness_percentile = 1.0;
 	bool is_discrete;
 	boundaries_t boundaries;
 
@@ -50,7 +50,8 @@ int main(int argc, char* argv[]) {
 			throw invalid_argument("invalid boundaries");
 		}
 		if (is_knowledge_transfer) {
-			stof(config.at(8).at(0));
+			sig_level = stof(config.at(8).at(0));
+			fitness_percentile = stof(config.at(9).at(0));
 		}
 	} catch (const invalid_argument& ia) {
 		cerr << "Invalid value in configuration file: " << ia.what() << endl;
@@ -76,7 +77,8 @@ int main(int argc, char* argv[]) {
 			boundaries,
 			is_discrete,
 			constraints,
-			costs);
+			costs,
+			fitness_percentile);
 		transferrer.run();
 	} else {
 		EGO ego(

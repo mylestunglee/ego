@@ -26,7 +26,8 @@ Transferrer::Transferrer(
 	boundaries_t boundaries,
 	bool is_discrete,
 	size_t constraints,
-	size_t costs) :
+	size_t costs,
+	double fitness_percentile) :
 	evaluator(evaluator),
 	max_evaluations(max_evaluations),
 	max_trials(max_trials),
@@ -36,7 +37,7 @@ Transferrer::Transferrer(
 	is_discrete(is_discrete),
 	constraints(constraints),
 	costs(costs),
-	fitness_percentile(0.3) {
+	fitness_percentile(fitness_percentile) {
 	read_results(filename_results_old);
 	cout << "Sorting old results" << endl;
 	sort(results_old.begin(), results_old.end(), fitness_more_than);
