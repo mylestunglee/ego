@@ -35,7 +35,8 @@ Transferrer::Transferrer(
 	boundaries(boundaries),
 	is_discrete(is_discrete),
 	constraints(constraints),
-	costs(costs) {
+	costs(costs),
+	fitness_percentile(0.3) {
 	read_results(filename_results_old);
 	cout << "Sorting old results" << endl;
 	sort(results_old.begin(), results_old.end(), fitness_more_than);
@@ -109,6 +110,8 @@ void Transferrer::run() {
 		return;
 	}
 
+	results_new = join_results(results_new, transfer_results_old(surrogate, samples));
+
 	if (is_subset(boundaries, boundaries_old)) {
 		interpolate({}, {0.0, 1.0}, results_new);
 		return;
@@ -140,9 +143,9 @@ void Transferrer::read_results(string filename) {
 results_t Transferrer::sample_results_old() {
 	vector<pair<vector<double>, vector<double>>> result;
 	set<vector<double>> sampled;
-	// fitness_threshold is a hyperparameter for upper limit of samplable
+	// fitness_percentile is a hyperparameter for upper limit of samplable
 	// fitnesses to minimise noise
-	double fitness_threshold = calc_fitness_percentile(1.0);
+	double fitness_threshold = calc_fitness_percentile(fitness_percentile);
 	for (size_t trial = 0; trial < max_trials; trial++) {
 		auto sample = results_old[gsl_rng_uniform_int(rng, results_old.size())];
 
@@ -175,8 +178,8 @@ results_t Transferrer::sample_results_old() {
 		}
 		sampled.insert(sample.first);
 		result.push_back(sample);
-		// Sample at most 10 * dimension
-		if (sampled.size() > 10 * boundaries.size()) {
+		// Sample at most 10 * dimension, but aim for 5 * dimension
+		if (sampled.size() > 5 * boundaries.size()) {
 			return result;
 		}
 	}
@@ -251,6 +254,7 @@ void Transferrer::interpolate(boundaries_t boundaries_old, vector<double> coeffs
 			result_new.second[FITNESS_INDEX], coeffs);
 		ego.simulate(result_new.first, result_new.second);
 	}
+
 	cout << "Sampling using LHS" << endl;
 	ego.sample_latin(5 * boundaries.size());
 	cout << "Sampling using uniform" << endl;
@@ -441,4 +445,40 @@ double Transferrer::calc_fitness_percentile(double percentile) {
 	}
 
 	assert(successes > 0);
-	return results_old[percentile * (successes - 1.0)].second[FITNESS_INDEX];}
+	return results_old[percentile * (successes - 1.0)].second[FITNESS_INDEX];
+}
+
+// Given a predictor for mapping the old fitness function to the new,
+// predict new fitnesses using old non-sampled results
+results_t Transferrer::transfer_results_old(Surrogate& surrogate,
+	results_t sampled) {
+	// Build a set of sampled points
+	set<vector<double>> points;
+	for (auto sample : sampled) {
+		points.insert(sample.first);
+	}
+
+	double fitness_threshold = calc_fitness_percentile(fitness_percentile);
+
+	// Compute set difference
+	results_t unsampled;
+	for (auto result_old : results_old) {
+		if (points.find(result_old.first) == points.end() ||
+			result_old.second[FITNESS_INDEX] > fitness_threshold) {
+			unsampled.push_back(result_old);
+		}
+	}
+
+	results_t results;
+
+	// Predict for each unsampled point
+	for (auto unsample : unsampled) {
+		double parameter = surrogate.mean(unsample.first);
+		double prediction = transfer_fitness_predict(
+			unsample.second[FITNESS_INDEX], parameter);
+		unsample.second[FITNESS_INDEX] = prediction;
+		results.push_back(unsample);
+	}
+
+	return results;
+}

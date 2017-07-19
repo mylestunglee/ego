@@ -49,6 +49,8 @@ vector<double> join_vectors(vector<double> x, vector<double> y);
 
 boundaries_t join_boundaries(boundaries_t x, boundaries_t y);
 
+results_t join_results(results_t x, results_t y);
+
 vector<double> minimise_local(double (*func)(const gsl_vector*, void*),
 	void* arg, vector<double> x, double convergence_threshold,
 	size_t max_trials, double& minimum);

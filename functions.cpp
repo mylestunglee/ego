@@ -288,6 +288,7 @@ vector<vector<double>> generate_grid_samples(size_t density,
 	return result;
 }
 
+// Given two vectors x and y, compute x ++ y
 vector<double> join_vectors(vector<double> x, vector<double> y) {
 	vector<double> result;
 	result.reserve(x.size() + y.size());
@@ -296,9 +297,16 @@ vector<double> join_vectors(vector<double> x, vector<double> y) {
 	return result;
 }
 
-// Given two vectors x and y, compute x ++ y
 boundaries_t join_boundaries(boundaries_t x, boundaries_t y) {
 	boundaries_t result;
+	result.reserve(x.size() + y.size());
+	result.insert(result.end(), x.begin(), x.end());
+	result.insert(result.end(), y.begin(), y.end());
+	return result;
+}
+
+results_t join_results(results_t x, results_t y) {
+	results_t result;
 	result.reserve(x.size() + y.size());
 	result.insert(result.end(), x.begin(), x.end());
 	result.insert(result.end(), y.begin(), y.end());

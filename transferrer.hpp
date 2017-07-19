@@ -32,7 +32,10 @@ class Transferrer {
 		bool is_discrete;
 		size_t constraints;
 		size_t costs;
+		double fitness_percentile;
 		results_t results_old;
+
+		// For dimension increasing
 		boundaries_t space_intersection;
 		Surrogate* predictor;
 		boundaries_t space_extend;
@@ -52,4 +55,5 @@ class Transferrer {
 		static double cross_section_correlation(const gsl_vector* v, void* p);
 		vector<double> test_correlation(vector<double> xs, vector<double> ys);
 		double calc_fitness_percentile(double percentile);
+		results_t transfer_results_old(Surrogate& surrogate, results_t sampled);
 };
