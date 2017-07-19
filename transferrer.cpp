@@ -63,26 +63,37 @@ void Transferrer::run() {
 	vector<double> ys_new;
 	results_t results_new;
 
-	auto sample = results_old; // sample_results_old();
-	assert(!sample.empty());
+	auto samples = sample_results_old();
+	assert(!samples.empty());
 
-	cout << "Sampling new design space";
+	Surrogate surrogate(boundaries.size());
 
 	// Compute fitness for sample
-	for (auto result_old : sample) {
+	for (auto result_old : samples) {
+		cout << "Sampling new design space: [" << results_new.size() << "/" <<
+			samples.size() << "]\r";
+		cout.flush();
+
 		auto x_old = result_old.first;
 		auto y_old = result_old.second;
 		auto y_new = evaluator.evaluate(x_old);
 
+		assert(!y_new.empty());
+
 		if (y_old[LABEL_INDEX] != 1.0 && is_success(y_new, constraints, costs)) {
 			ys_old.push_back(y_old[FITNESS_INDEX]);
 			ys_new.push_back(y_new[FITNESS_INDEX]);
+			surrogate.add(x_old, transfer_calc_parameter(y_old[FITNESS_INDEX],
+				y_new[FITNESS_INDEX]));
 		}
 
 		results_new.push_back(make_pair(x_old, y_new));
-		cout << ".";
 	}
-	cout << endl;
+
+	cout << "Sampling new design space: [" << results_new.size() << "/" <<
+		samples.size() << "]" << endl;
+
+	surrogate.train();
 
 	double label_correlation = calc_label_correlation(results_new);
 
@@ -129,14 +140,13 @@ void Transferrer::read_results(string filename) {
 results_t Transferrer::sample_results_old() {
 	vector<pair<vector<double>, vector<double>>> result;
 	set<vector<double>> sampled;
-	// 0.15 is a hyperparameter for upper limit of samplable fitnesses to
-	// minimise noise
-	double fitness_threshold = calc_fitness_percentile(0.15);
-
+	// fitness_threshold is a hyperparameter for upper limit of samplable
+	// fitnesses to minimise noise
+	double fitness_threshold = calc_fitness_percentile(1.0);
 	for (size_t trial = 0; trial < max_trials; trial++) {
 		auto sample = results_old[gsl_rng_uniform_int(rng, results_old.size())];
 
-		//auto sample = results_old[(size_t) gsl_ran_exponential(rng, 10) % results_old.size()];
+		// auto sample = results_old[(size_t) gsl_ran_exponential(rng, 10) % results_old.size()];
 
 		// Don't samples with bad fitnesses
 		if (sample.second[FITNESS_INDEX] > fitness_threshold) {
@@ -431,5 +441,4 @@ double Transferrer::calc_fitness_percentile(double percentile) {
 	}
 
 	assert(successes > 0);
-	return results_old[percentile * (double) successes].second[FITNESS_INDEX];
-}
+	return results_old[percentile * (successes - 1.0)].second[FITNESS_INDEX];}

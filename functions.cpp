@@ -11,6 +11,8 @@
 #include <gsl_multimin.h>
 #include "ihs.hpp"
 #include "functions.hpp"
+#include "surrogate.hpp"
+#include "csv.hpp"
 
 // Returns true iff x is bounded inside an n-dimensional hypercube defined by boundaries
 bool is_bounded(vector<double> x, boundaries_t boundaries) {
@@ -456,4 +458,54 @@ vector<double> fit_polynomial_robust(vector<double> xs, vector<double> ys, int d
     gsl_vector_free(c);
 
     return coeffs;
+}
+
+// Given a sampled value from the old fitness function and a learnt parameter,
+// predict the new fitness sample
+double transfer_fitness_predict(double fitness_old, double parameter) {
+	return fitness_old * parameter;
+}
+
+// Given two fitness function samples, estimate a parameter to maximise
+// correlation
+double transfer_calc_parameter(double fitness_old, double fitness_new) {
+	return fitness_new / fitness_old;
+}
+
+// Samples surrogate predictions and saves these predictions into an CSV
+void log_surrogate_predictions(Surrogate& surrogate, string filename,
+	boundaries_t boundaries) {
+	auto samples = generate_all_samples(boundaries);
+	vector<vector<string>> data;
+	for (auto sample : samples) {
+		vector<string> row;
+		for (auto x : sample) {
+			row.push_back(to_string(x));
+		};
+		row.push_back(to_string(surrogate.mean(sample)));
+		row.push_back(to_string(surrogate.sd(sample)));
+		data.push_back(row);
+	}
+	write(filename, data);
+}
+
+// Generates all integer positions that bounded by boundaries
+vector<vector<double>> generate_all_samples(boundaries_t boundaries) {
+
+	if (boundaries.empty()) {
+		return {{}};
+	}
+	vector<vector<double>> result;
+	auto boundary = boundaries.back();
+	auto lower = boundary.first;
+	auto upper = boundary.second;
+	boundaries.pop_back();
+	vector<vector<double>> subresults = generate_all_samples(boundaries);
+	for (auto sample = lower; sample <= upper; sample += 0.5) {
+		for (auto subresult : subresults) {
+			subresult.push_back(sample);
+			result.push_back(subresult);
+		}
+	}
+	return result;
 }

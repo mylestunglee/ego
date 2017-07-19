@@ -14,7 +14,7 @@ Surrogate::Surrogate(size_t dimension) {
 
   Eigen::VectorXd params(gp->covf().get_param_dim());
   for(size_t i = 0; i < gp->covf().get_param_dim(); i++) {
-    params(i) = -1;
+    params(i) = 1;
   }
   gp->covf().set_loghyper(params);
 }

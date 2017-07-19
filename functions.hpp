@@ -1,3 +1,4 @@
+#include "surrogate.hpp"
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_vector.h>
 #include <utility>
@@ -63,3 +64,12 @@ vector<double> gsl_to_std_vector(const gsl_vector* v);
 void print_boundaries(boundaries_t boundaries);
 
 vector<double> fit_polynomial_robust(vector<double> xs, vector<double> ys, int degree);
+
+double transfer_fitness_predict(double fitness_old, double parameter);
+
+double transfer_calc_parameter(double fitness_old, double fitness_new);
+
+void log_surrogate_predictions(Surrogate& surrogate, string filename, boundaries_t boundaries);
+
+vector<vector<double>> generate_all_samples(boundaries_t boundaries);
+
