@@ -509,7 +509,7 @@ vector<vector<double>> generate_all_samples(boundaries_t boundaries) {
 	auto upper = boundary.second;
 	boundaries.pop_back();
 	vector<vector<double>> subresults = generate_all_samples(boundaries);
-	for (auto sample = lower; sample <= upper; sample += 0.5) {
+	for (auto sample = lower; sample <= upper; sample++) {
 		for (auto subresult : subresults) {
 			subresult.push_back(sample);
 			result.push_back(subresult);

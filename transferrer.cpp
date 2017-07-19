@@ -110,14 +110,16 @@ void Transferrer::run() {
 		return;
 	}
 
-	results_new = join_results(results_new, transfer_results_old(surrogate, samples));
+	// log_surrogate_predictions(surrogate, "scalars.csv", boundaries);
+
+	auto predictions = transfer_results_old(surrogate, samples);
 
 	if (is_subset(boundaries, boundaries_old)) {
-		interpolate({}, {0.0, 1.0}, results_new);
+		interpolate({}, results_new, predictions);
 		return;
 	}
 
-	interpolate(boundaries_old, {0, 1.0}, results_new);
+	interpolate(boundaries_old, results_new, predictions);
 }
 
 // Reads results from a CSV file from a previous EGO computation
@@ -239,20 +241,24 @@ double Transferrer::calc_label_correlation(results_t results_new) {
 
 // Given a old parameter space, the approximation of y_olds to y_news, and some
 // samples of the new space, find y_opt
-void Transferrer::interpolate(boundaries_t boundaries_old, vector<double> coeffs,
-	results_t results_new) {
+void Transferrer::interpolate(boundaries_t boundaries_old, results_t results_new,
+	results_t predictions) {
+
 	boundaries_t intersection;
 	if (!boundaries_old.empty()) {
 		boundaries_t intersection = get_intersection(boundaries_old, boundaries);
 	}
-	cout << "Simulating results" << endl;
+	cout << "Modelling target true results" << endl;
+
 	EGO ego(evaluator, boundaries, intersection, max_evaluations, max_trials,
 		convergence_threshold, is_discrete, constraints, costs);
 	for (auto result_new : results_new) {
-		// Update old fitness to new fitness
-		result_new.second[FITNESS_INDEX] = apply_polynomial(
-			result_new.second[FITNESS_INDEX], coeffs);
 		ego.simulate(result_new.first, result_new.second);
+	}
+
+	cout << "Modelling target transferred results" << endl;
+	for (auto prediction : predictions) {
+		ego.simulate(prediction.first, prediction.second);
 	}
 
 	cout << "Sampling using LHS" << endl;
@@ -459,12 +465,21 @@ results_t Transferrer::transfer_results_old(Surrogate& surrogate,
 	}
 
 	double fitness_threshold = calc_fitness_percentile(fitness_percentile);
+	boundaries_t sampled_boundaries = infer_boundaries(sampled);
 
 	// Compute set difference
 	results_t unsampled;
 	for (auto result_old : results_old) {
-		if (points.find(result_old.first) == points.end() ||
-			result_old.second[FITNESS_INDEX] > fitness_threshold) {
+		auto x = result_old.first;
+		auto y = result_old.second;
+
+		// Only transfer points that are:
+		//	- not sampled already
+		//	- do not try to guess noisy fitness values
+		//	- near sampled points
+		if (points.find(x) == points.end() &&
+			y[FITNESS_INDEX] <= fitness_threshold &&
+			is_bounded(x, sampled_boundaries)) {
 			unsampled.push_back(result_old);
 		}
 	}

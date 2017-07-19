@@ -47,8 +47,8 @@ class Transferrer {
 		static bool fitness_more_than(
 			pair<vector<double>, vector<double>> xs,
 			pair<vector<double>, vector<double>> ys);
-		void interpolate(boundaries_t boundaries_old, vector<double> coeffs,
-			results_t results_new);
+		void interpolate(boundaries_t boundaries_old, results_t results_new,
+			results_t predictions);
 		void extrude(boundaries_t boundaries_old);
 		void reduce(boundaries_t boundaries_old);
 		static vector<double> generate_random_point(void* p);
