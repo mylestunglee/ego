@@ -3,6 +3,7 @@
 #include "surrogate.hpp"
 #include "functions.hpp"
 #include "ego.hpp"
+#include "animation.hpp"
 #include <vector>
 #include <algorithm>
 #include <utility>
@@ -39,7 +40,6 @@ Transferrer::Transferrer(
 	costs(costs),
 	fitness_percentile(fitness_percentile) {
 	read_results(filename_results_old);
-	cout << "Sorting old results" << endl;
 	sort(results_old.begin(), results_old.end(), fitness_more_than);
 	rng = gsl_rng_alloc(gsl_rng_taus);
 	gsl_rng_set(rng, time(NULL));
@@ -69,13 +69,10 @@ void Transferrer::run() {
 	assert(!samples.empty());
 
 	Surrogate surrogate(boundaries.size());
+	animation_start("Sampling new design space:", 0, samples.size());
 
 	// Compute fitness for sample
 	for (auto result_old : samples) {
-		cout << "Sampling new design space: [" << results_new.size() << "/" <<
-			samples.size() << "]\r";
-		cout.flush();
-
 		auto x_old = result_old.first;
 		auto y_old = result_old.second;
 		auto y_new = evaluator.evaluate(x_old);
@@ -90,10 +87,8 @@ void Transferrer::run() {
 		}
 
 		results_new.push_back(make_pair(x_old, y_new));
+		animation_step();
 	}
-
-	cout << "Sampling new design space: [" << results_new.size() << "/" <<
-		samples.size() << "]" << endl;
 
 	surrogate.train();
 

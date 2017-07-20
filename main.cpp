@@ -92,9 +92,12 @@ int main(int argc, char* argv[]) {
 			constraints,
 			costs);
 		// Heuristic sample size = 5 * dim
+		cout << "Sampling using LHS" << endl;
 		ego.sample_latin(5 * boundaries.size());
 		// Randomness can affect optimiser negatively
+		cout << "Sampling using uniform" << endl;
 		ego.sample_uniform(5 * boundaries.size());
+		cout << "Running EGO" << endl;
 		ego.run();
 	}
 

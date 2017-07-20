@@ -1,6 +1,7 @@
 #include <limits>
 #include "ego.hpp"
 #include "functions.hpp"
+#include "animation.hpp"
 #include <thread>
 #include <iostream>
 #include <iomanip>
@@ -71,6 +72,7 @@ void EGO::run()
 	while(evaluations < max_evaluations) {
 
 		// Find a point with the highest expected improvement
+		animation_start("Maximising expected improvement:", 0, max_trials);
 		double neg_max_ei = numeric_limits<double>::max();
 		vector<double> x = minimise(expected_improvement_bounded,
 			generate_random_point, this, convergence_threshold, max_trials,
@@ -78,7 +80,6 @@ void EGO::run()
 		double max_ei = -neg_max_ei;
 
 		if (x.empty()) {
-			cout << "Cannot maximise expected improvement!" << endl;
 			return;
 		} else if (max_ei <= convergence_threshold) {
 			cout << "Optimal found!" << endl;
@@ -89,7 +90,9 @@ void EGO::run()
 		x = is_discrete ? round_vector(x) : x;
 
 		// Evaluate new design and update GP models
+		animation_start("Evaluating:", 0, 1);
 		evaluate({x});
+		animation_finish();
 
 		train_surrogates();
 	}
@@ -172,14 +175,12 @@ void EGO::thread_evaluate(EGO* ego, vector<double> x) {
 
 	ego->evaluator_lock.lock();
 	ego->simulate(x, y);
-
 	ego->evaluator_lock.unlock();
 }
 
 // Concurrently evaluates multiple points xs
 void EGO::evaluate(vector<vector<double>> xs) {
 	vector<thread> threads;
-
 	for (auto x : xs) {
 		threads.push_back(thread(thread_evaluate, this, x));
 	}
@@ -264,12 +265,18 @@ vector<double> EGO::generate_random_point(void *p) {
 
 // Trains all surrogates
 void EGO::train_surrogates() {
+	animation_start("Training models: ",
+		0, 2 + constraints.size() + costs.size());
 	sg->train();
+	animation_step();
 	sg_label->train();
+	animation_step();
 	for (auto& constraint : constraints) {
 		constraint->train();
+		animation_step();
 	}
 	for (auto& cost : costs) {
 		cost->train();
+		animation_step();
 	}
 }

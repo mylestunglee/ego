@@ -13,6 +13,7 @@
 #include "functions.hpp"
 #include "surrogate.hpp"
 #include "csv.hpp"
+#include "animation.hpp"
 
 // Returns true iff x is bounded inside an n-dimensional hypercube defined by boundaries
 bool is_bounded(vector<double> x, boundaries_t boundaries) {
@@ -56,7 +57,7 @@ double euclidean_distance(vector<double> x, vector<double> y) {
 
 // Pretty prints a vector
 void print_vector(vector<double> x) {
-	cout << "(" << setprecision(3);
+	cout << "(" << setprecision(0);
 	for (size_t i = 0; i < x.size(); i++) {
 		cout << x[i];
 		if (i < x.size() - 1) {
@@ -376,6 +377,7 @@ vector<double> minimise(double (*func)(const gsl_vector*, void*),
     size_t max_trials, double& minimum) {
     vector<double> x_best;
     for (size_t trial = 0; trial < max_trials; trial++) {
+		cout.flush();
         double minimum_trial = 0.0;
         auto x = minimise_local(func, arg, gen(arg), convergence_threshold,
 			max_trials, minimum_trial);
@@ -383,6 +385,7 @@ vector<double> minimise(double (*func)(const gsl_vector*, void*),
             minimum = minimum_trial;
             x_best = x;
         }
+		animation_step();
     }
     return x_best;
 }
