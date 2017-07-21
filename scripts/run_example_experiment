@@ -1,16 +1,16 @@
 #!/bin/bash
 
-if [ $# != 1 ]; then
-	echo "Usage: run_example_experiment example"
+if [ $# != 3 ]; then
+	echo "Usage: run_example_experiment example iterations output"
 	exit 1
 fi
 
-rm -f experiments.csv
+rm -f $3
 
-for i in {1..20}; do
+for i in $(seq 1 $2); do
 	echo "Experiment iteration $i"
 	scripts/run_example $1
-	cat fitnesses.csv >> experiments.csv
+	cat fitnesses.csv >> $3
 	rm -f fitnesses.csv
 done
 
