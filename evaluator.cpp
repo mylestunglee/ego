@@ -1,5 +1,6 @@
 #include "evaluator.hpp"
 #include "csv.hpp"
+#include "functions.hpp"
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -39,6 +40,13 @@ vector<double> Evaluator::evaluate(vector<double> x) {
 
 	simulate(x, result);
 
+	// Ongoing output of minimum for experiments
+	static double fitness_min = numeric_limits<double>::max();
+	if (result[0] < fitness_min && result[1] == 0.0) {
+		fitness_min = result[0];
+	}
+	log_fitness(fitness_min);
+
     return result;
 }
 
@@ -75,13 +83,5 @@ void Evaluator::save(string filename) {
 void Evaluator::simulate(vector<double> x, vector<double> y) {
 	cache_lock.lock();
 	cache[x] = y;
-
-	/* Ongoing output of minimum for experiments
-	static double min_y = 600.0;
-	if (y[0] < min_y && y[1] == 0) {
-		min_y = y[0];
-	}
-	cout << min_y << endl;*/
-
 	cache_lock.unlock();
 }

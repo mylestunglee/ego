@@ -144,6 +144,7 @@ results_t Transferrer::sample_results_old() {
 	// fitness_percentile is a hyperparameter for upper limit of samplable
 	// fitnesses to minimise noise
 	double fitness_threshold = calc_fitness_percentile(fitness_percentile);
+
 	for (size_t trial = 0; trial < max_trials; trial++) {
 		auto sample = results_old[gsl_rng_uniform_int(rng, results_old.size())];
 
@@ -261,6 +262,7 @@ void Transferrer::interpolate(boundaries_t boundaries_old, results_t results_new
 	ego.sample_latin(5 * boundaries.size());
 	cout << "Sampling using uniform" << endl;
 	ego.sample_uniform(5 * boundaries.size());
+	cout << "Using EGO" << endl;
 	ego.run();
 }
 

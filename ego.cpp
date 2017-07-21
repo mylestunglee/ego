@@ -229,9 +229,13 @@ void EGO::simulate(vector<double> x, vector<double> y) {
 
 	cout << "Iteration [" << evaluations << "/" << max_evaluations << "]: " << fixed;
 	print_vector(x);
-	cout << "\t f";
-	print_vector(x_opt);
-	cout << " = " << setprecision(6) << y_opt << endl;
+	if (y_opt == numeric_limits<double>::max()) {
+		cout << endl;
+	} else {
+		cout << "\t f";
+		print_vector(x_opt);
+		cout << " = " << setprecision(6) << y_opt << endl;
+	}
 }
 
 // Given a point, predict the cost of evaluation
@@ -265,7 +269,7 @@ vector<double> EGO::generate_random_point(void *p) {
 
 // Trains all surrogates
 void EGO::train_surrogates() {
-	animation_start("Training models: ",
+	animation_start("Training models:",
 		0, 2 + constraints.size() + costs.size());
 	sg->train();
 	animation_step();
