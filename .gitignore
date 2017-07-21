@@ -4,7 +4,7 @@
 *.o
 *.swp
 *test*
-*example*
+/example/*
 libgp/*
 libsvm*
 gsl*
@@ -13,3 +13,4 @@ ego
 eigen3/*
 examples/*
 .~*
+*.csv

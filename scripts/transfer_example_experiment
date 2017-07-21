@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ $# != 2 ]; then
+	echo "Usage: transfer_example_experiment example_new example_old"
+	exit 1
+fi
+
+rm -f transfer_experiments.csv
+
+for i in {1..2}; do
+	scripts/run_example $2
+	scripts/transfer_example $1 $2
+	cat fitnesses.csv >> transfer_experiments.csv
+	rm -f fitnesses.csv
+done
+

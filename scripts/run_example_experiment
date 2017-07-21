@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ $# != 1 ]; then
+	echo "Usage: run_example_experiment example"
+	exit 1
+fi
+
+rm -f experiments.csv
+
+for i in {1..20}; do
+	echo "Experiment iteration $i"
+	scripts/run_example $1
+	cat fitnesses.csv >> experiments.csv
+	rm -f fitnesses.csv
+done
+

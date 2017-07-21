@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ $# == 1 ] ; then
+	if [ -f $1/script.py ] ; then
+		./ego "python3 $1/script.py" $1/config.txt $1/output.csv
+	else
+		./ego "python3 scripts/interpolate.py $1/results.csv $1/config.txt" $1/config.txt $1/output.csv
+	fi
+else
+	echo "Usage: run_example example_path"
+fi
