@@ -32,7 +32,7 @@ EGO::EGO(
 	this->boundaries = boundaries;
 	this->rejection = rejection;
 
-	sg = new Surrogate(dimension);
+	sg = new Surrogate(dimension, false, false);
 	sg_label = new Surrogate(dimension);
 
 	for (size_t constraint = 0; constraint < constraints; constraint++) {
@@ -68,6 +68,8 @@ EGO::~EGO() {
 void EGO::run()
 {
 	assert(evaluations > 0);
+
+	sg->optimise_space();
 
 	while(evaluations < max_evaluations) {
 

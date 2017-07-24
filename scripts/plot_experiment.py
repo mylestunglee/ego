@@ -19,28 +19,40 @@ def aggregate(filename):
 		max_columns = max(max_columns, len(row))
 
 	# Aggregate data into means and sds
+	indices = []
+	lowers = []
 	means = []
-	sds = []
+	uppers = []
+	# max_columns = min(max_columns, 25)
+
 	for i in range(max_columns):
 		values = []
 		for row in rows:
 			if i >= len(row) or float(row[i]) > 10.0 ** 308.0:
 				continue
 			values.append(float(row[i]))
-		means.append(np.mean(values))
-		sds.append(np.std(values))
-	return means, sds
+		if values != []:
+			indices.append(i + 1)
+			mean = np.mean(values)
+			sd = np.std(values)
+			lower = mean - sd
+			upper = mean + sd
 
-no_kt_means, no_kt_sds = aggregate(sys.argv[1])
-kt_means, kt_sds = aggregate(sys.argv[2])
+			lowers.append(lower)
+			means.append(mean)
+			uppers.append(upper)
+	return indices, lowers, means, uppers
+
+ni, nl, nm, nu = aggregate(sys.argv[1])
+ti, tl, tm, tu = aggregate(sys.argv[2])
 
 # Plot graph
-plt.plot(no_kt_means, label = 'Mean without KT')
-plt.plot(no_kt_sds, label = 'Standard deviation without KT')
-plt.plot(kt_means, label = 'Mean with KT')
-plt.plot(kt_sds, label = 'Standard deviation with KT')
+plt.fill_between(ni, nl, nu, facecolor = 'r', alpha = 0.25, edgecolor = 'none')
+plt.fill_between(ti, tl, tu, facecolor = 'b', alpha = 0.25, edgecolor = 'none')
+plt.plot(ni, nm, label = 'Without KT', color = 'r')
+plt.plot(ti, tm, label = 'With KT', color = 'b')
 plt.legend()
-plt.xlabel('Iteration')
+plt.xlabel('Evaluations')
 plt.ylabel('Fitness')
 plt.savefig(sys.argv[3])
 

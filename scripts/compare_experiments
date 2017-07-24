@@ -8,4 +8,3 @@ fi
 scripts/run_example_experiment $2 $3 experiments_no_kt.csv
 scripts/transfer_example_experiment  $2 $1 $3 experiments_kt.csv
 python3 scripts/plot_experiment.py experiments_no_kt.csv experiments_kt.csv $4
-rm -f experiments_no_kt.csv experiments_kt_csv
