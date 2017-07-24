@@ -9,7 +9,7 @@ libgp/*
 libsvm*
 gsl*
 ego
-*.log
+/logs/*
 eigen3/*
 examples/*
 .~*

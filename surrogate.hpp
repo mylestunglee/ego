@@ -9,7 +9,8 @@ using namespace libgp;
 class Surrogate
 {
   public:
-    Surrogate(size_t dimension, bool log_transform = false, bool fixed_space = true);
+    Surrogate(size_t dimension, bool log_transform = false,
+		bool fixed_space = true);
     ~Surrogate();
     void add(vector<double> x, double y);
     double mean(vector<double> x);

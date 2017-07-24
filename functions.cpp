@@ -164,46 +164,17 @@ bool is_subset(boundaries_t bxs, boundaries_t bys) {
 }
 
 // Fits a set of 2D points to a N-dimensional polynomial fit
-vector<double> fit_polynomial(vector<double> xs, vector<double> ys, int degree)
+vector<double> fit_polynomial(vector<double> x, vector<double> y, size_t degree)
 {
-    assert(xs.size() == ys.size());
-
-    gsl_multifit_linear_workspace *ws;
-    gsl_matrix* cov;
-    gsl_matrix* X;
-    gsl_vector* y;
-    gsl_vector* c;
-    double chisq;
-    int order = degree + 1;
-    int n = xs.size();
-    X = gsl_matrix_alloc(n, order);
-    y = gsl_vector_alloc(n);
-    c = gsl_vector_alloc(order);
-    cov = gsl_matrix_alloc(order, order);
-
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < order; j++) {
-            gsl_matrix_set(X, i, j, pow(xs[i], j));
-        }
-        gsl_vector_set(y, i, ys[i]);
-    }
-
-    ws = gsl_multifit_linear_alloc(n, order);
-    gsl_multifit_linear(X, y, c, cov, &chisq, ws);
-
-    vector<double> coeffs;
-
-    for (int i = 0; i < order; i++) {
-        coeffs.push_back(gsl_vector_get(c, i));
-    }
-
-    gsl_multifit_linear_free(ws);
-    gsl_matrix_free(X);
-    gsl_matrix_free(cov);
-    gsl_vector_free(y);
-    gsl_vector_free(c);
-
-    return coeffs;
+	vector<vector<double>> xs;
+	for (double v : x) {
+		vector<double> vs;
+		for (size_t i = 0; i < degree; i++) {
+			vs.push_back(pow(v, i));
+		}
+		xs.push_back(vs);
+	}
+	return multilinear_regression_fit(xs, y);
 }
 
 // Calculates Pearson and Spearman correlation coefficents
@@ -535,4 +506,181 @@ void write_fitness_log(string filename) {
 	}
 
 	write(filename, {row});
+}
+
+// Calcuates the covariance of some results
+double covariance_results(results_t results) {
+	const size_t FITNESS_INDEX = 0;
+	assert(!results.empty());
+	size_t dimension = results[0].first.size();
+	double sum = 0.0;
+	auto midpoint = midpoint_results(results);
+	for (auto result : results) {
+		double product = result.second[FITNESS_INDEX];
+		for (size_t i = 0; i < dimension; i++) {
+			product *= result.first[i] - midpoint[i];
+		}
+		sum += product;
+	}
+	return sum;
+}
+
+// Calculates the midpoint of multiple points
+vector<double> midpoint_results(results_t results) {
+	assert(!results.empty());
+	size_t dimension = results[0].first.size();
+	vector<double> sums(dimension, 0.0);
+	for (auto result : results) {
+		for (size_t i = 0; i < dimension; i++) {
+			sums[i] += result.first[i];
+		}
+	}
+	for (double& sum : sums) {
+		sum /= results.size();
+	}
+	return sums;
+}
+
+// Performs multi-linear regression on a matrix xs with vector ys
+vector<double> multilinear_regression_fit(vector<vector<double>> xs,
+	vector<double> ys) {
+    assert(xs.size() == ys.size());
+	assert(!xs.empty());
+
+    gsl_multifit_linear_workspace *ws;
+    gsl_matrix* cov;
+    gsl_matrix* X;
+    gsl_vector* y;
+    gsl_vector* c;
+    double chisq;
+    int order = xs[0].size();
+    int n = xs.size();
+    X = gsl_matrix_alloc(n, order);
+    y = gsl_vector_alloc(n);
+    c = gsl_vector_alloc(order);
+    cov = gsl_matrix_alloc(order, order);
+
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < order; j++) {
+            gsl_matrix_set(X, i, j, xs[i][j]);
+        }
+        gsl_vector_set(y, i, ys[i]);
+    }
+
+    ws = gsl_multifit_linear_alloc(n, order);
+    gsl_multifit_linear(X, y, c, cov, &chisq, ws);
+
+    vector<double> coeffs;
+
+    for (int i = 0; i < order; i++) {
+        coeffs.push_back(gsl_vector_get(c, i));
+    }
+
+    gsl_multifit_linear_free(ws);
+    gsl_matrix_free(X);
+    gsl_matrix_free(cov);
+    gsl_vector_free(y);
+    gsl_vector_free(c);
+
+    return coeffs;
+}
+
+// Given a surface defined by xs and ys, find a multi-variable quadratic fit
+vector<vector<double>> multiquadratic_regression_fit(vector<vector<double>> xs,
+	vector<double> ys) {
+	vector<vector<double>> matrix;
+	for (auto x : xs) {
+		vector<double> row = {1.0};
+		for (auto v : x) {
+			row.push_back(v);
+			row.push_back(v * v);
+		}
+		matrix.push_back(row);
+	}
+
+	auto coeffs = multilinear_regression_fit(matrix, ys);
+
+	// Group coefficents together
+	if (coeffs.size() == 1) {
+		return {coeffs};
+	}
+	vector<vector<double>> result;
+	for (size_t i = 1; i < coeffs.size(); i += 2) {
+		result.push_back({0.0, coeffs[i], coeffs[i + 1]});
+	}
+	result[0][0] = coeffs[0];
+	return result;
+}
+
+// Given results, extrapolate using a multi-variable quadratic fit
+vector<vector<double>> multiquadratic_result_extrapolate(results_t results,
+	size_t constraints, size_t costs) {
+	const size_t FITNESS_INDEX = 0;
+	vector<vector<double>> xs;
+	vector<double> ys;
+	for (auto result : results) {
+		if (is_success(result.second, constraints, costs)) {
+			xs.push_back(result.first);
+			ys.push_back(result.second[FITNESS_INDEX]);
+		}
+	}
+	// Insufficent number of samples for regression
+	if (xs.size() == 0 || xs.size() <= xs[0].size()) {
+		return {};
+	}
+	return multiquadratic_regression_fit(xs, ys);
+}
+
+// Samples points for extrapolation a multi-variable quadratic fit
+void log_multiquadratic_extrapolation(vector<vector<double>> fs,
+	string filename, boundaries_t boundaries, boundaries_t rejection) {
+
+	vector<vector<double>> grid = generate_all_samples(boundaries);
+	vector<vector<string>> data;
+	for (auto x : grid) {
+		if (is_bounded(x, rejection)) {
+			continue;
+		}
+		vector<string> row;
+		for (auto v : x) {
+			row.push_back(to_string(v));
+		}
+		double sum = 0.0;
+		for (size_t i = 0; i < x.size(); i++) {
+			sum += apply_polynomial(x[i], fs[i]);
+		}
+		row.push_back(to_string(sum));
+		data.push_back(row);
+	}
+	write(filename, data);
+}
+
+// Minimise a multi-variable quadratic function bounded by linear constraints
+vector<double> minimise_multiquadratic(vector<vector<double>> fs,
+	boundaries_t boundaries) {
+	assert(fs.size() == boundaries.size());
+	size_t dimension = fs.size();
+	vector<double> result;
+
+	for (size_t i = 0; i < dimension; i++) {
+		auto f = fs[i];
+		assert(f.size() == 3);
+		auto lower = boundaries[i].first;
+		auto upper = boundaries[i].second;
+
+		double minima = -f[1] / (2.0 * f[2]);
+		if (f[2] > 0 && lower <= minima && minima <= upper) {
+			// Quadratic minimum is bounded
+			result.push_back(minima);
+		} else if (f[1] * lower + f[2] * pow(lower, 2.0) <
+			f[1] * upper + f[2] * pow(upper, 2.0)) {
+			// Lower bound is minima
+			result.push_back(lower);
+		} else {
+			// Upper bound is minima
+			result.push_back(upper);
+		}
+	}
+
+	return result;
 }

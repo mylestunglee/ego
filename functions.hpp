@@ -30,7 +30,7 @@ double apply_polynomial(double x, vector<double> coeffs);
 
 bool is_subset(boundaries_t bxs, boundaries_t bys);
 
-vector<double> fit_polynomial(vector<double> xs, vector<double> ys, int degree);
+vector<double> fit_polynomial(vector<double> x, vector<double> y, size_t degree);
 
 void calc_correlation(vector<double> xs, vector<double> ys,
 	double &pearson, double& spearman);
@@ -78,3 +78,21 @@ vector<vector<double>> generate_all_samples(boundaries_t boundaries);
 void log_fitness(double fitness);
 
 void write_fitness_log(string filename);
+
+double covariance_results(results_t results);
+
+vector<double> midpoint_results(results_t results);
+
+vector<double> multilinear_regression_fit(vector<vector<double>> xs, vector<double> ys);
+
+vector<vector<double>> multiquadratic_regression_fit(vector<vector<double>> xs,
+	vector<double> ys);
+
+vector<vector<double>> multiquadratic_result_extrapolate(results_t results,
+	size_t constaints, size_t costs);
+
+void log_multiquadratic_extrapolation(vector<vector<double>> fs,
+	string filename, boundaries_t boundaries, boundaries_t rejection);
+
+vector<double> minimise_multiquadratic(vector<vector<double>> fs,
+	boundaries_t boundaries);

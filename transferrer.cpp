@@ -61,9 +61,20 @@ void Transferrer::run() {
 		return;
 	}
 
+	results_t results_new;
+
+	// Good for non-near-constrainted optimal solutions
+	animation_start("Performing multiquadratic regression fit", 0, 1);
+	auto fs = multiquadratic_result_extrapolate(results_old, constraints, costs);
+	if (!fs.empty()) {
+		auto mq_x = minimise_multiquadratic(fs, boundaries);
+		auto mq_y = evaluator.evaluate(mq_x);
+		results_new.push_back(make_pair(mq_x, mq_y));
+	}
+	animation_finish();
+
 	vector<double> ys_old;
 	vector<double> ys_new;
-	results_t results_new;
 
 	auto samples = sample_results_old();
 	assert(!samples.empty());
@@ -148,7 +159,7 @@ results_t Transferrer::sample_results_old() {
 	for (size_t trial = 0; trial < max_trials; trial++) {
 		auto sample = results_old[gsl_rng_uniform_int(rng, results_old.size())];
 
-		// auto sample = results_old[(size_t) gsl_ran_exponential(rng, 10) % results_old.size()];
+		// auto sample = results_old[(size_t) gsl_ran_exponential(rng, 1.0) % results_old.size()];
 
 		// Don't samples with bad fitnesses
 		if (sample.second[FITNESS_INDEX] > fitness_threshold) {
@@ -179,10 +190,11 @@ results_t Transferrer::sample_results_old() {
 		result.push_back(sample);
 		// Sample at most 10 * dimension, but aim for 5 * dimension
 		if (sampled.size() > 5 * boundaries.size()) {
-			return result;
+			break;
 		}
 	}
 
+	sort(result.begin(), result.end(), fitness_more_than);
 	return result;
 }
 
@@ -245,6 +257,7 @@ void Transferrer::interpolate(boundaries_t boundaries_old, results_t results_new
 	if (!boundaries_old.empty()) {
 		boundaries_t intersection = get_intersection(boundaries_old, boundaries);
 	}
+
 	cout << "Modelling target true results" << endl;
 
 	EGO ego(evaluator, boundaries, intersection, max_evaluations, max_trials,
@@ -253,10 +266,11 @@ void Transferrer::interpolate(boundaries_t boundaries_old, results_t results_new
 		ego.simulate(result_new.first, result_new.second);
 	}
 
+	/*
 	cout << "Modelling target transferred results" << endl;
 	for (auto prediction : predictions) {
 		ego.simulate(prediction.first, prediction.second);
-	}
+	} */
 
 	cout << "Sampling using LHS" << endl;
 	ego.sample_latin(5 * boundaries.size());
@@ -424,12 +438,12 @@ vector<double> Transferrer::test_correlation(vector<double> xs,
 
 	// If hypothesis test for linear relationship between ys_old and ys_new passes
 	if (1.0 - pearson <= sig_level || 1.0 + pearson <= sig_level) {
-		return fit_polynomial_robust(xs, ys, 1);
+		return fit_polynomial(xs, ys, 1);
 	}
 
 	// If hypothesis test for monotonic relationship passes
 	if (1.0 - spearman <= sig_level || 1.0 + spearman <= sig_level) {
-		return fit_polynomial_robust(xs, ys, 2);
+		return fit_polynomial(xs, ys, 2);
 	}
 
 	return {};
