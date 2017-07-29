@@ -17,6 +17,7 @@ class Surrogate
     double sd(vector<double> x);
     void train();
 	void optimise_space();
+	double cross_validate();
 
   private:
 	GaussianProcess* newGaussianProcess();

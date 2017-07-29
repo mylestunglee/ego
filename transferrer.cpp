@@ -103,22 +103,6 @@ void Transferrer::run() {
 
 	surrogate.train();
 
-	double label_correlation = calc_label_correlation(results_new);
-
-	if (1.0 - label_correlation > sig_level) {
-		cout << "Insufficent consistency of labels." << endl;
-		return;
-	}
-
-	vector<double> coeffs = test_correlation(ys_old, ys_new);
-
-	if (coeffs.empty()) {
-		cout << "Insufficent monotonic relationship between fitness functions." << endl;
-		return;
-	}
-
-	// log_surrogate_predictions(surrogate, "scalars.csv", boundaries);
-
 	auto predictions = transfer_results_old(surrogate, samples);
 
 	if (is_subset(boundaries, boundaries_old)) {

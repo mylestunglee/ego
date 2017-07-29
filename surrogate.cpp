@@ -80,3 +80,28 @@ void Surrogate::optimise_space() {
 		log_transform = !log_transform;
 	}
 }
+
+// Cross validation
+double Surrogate::cross_validate() {
+	assert(!fixed_space);
+	vector<double> errors;
+
+	// Select a point not to add
+	for (auto pair : added) {
+		Surrogate surrogate(dimension, false, false);
+		for (auto add : added) {
+			if (pair == add) {
+				 continue;
+			}
+			surrogate.add(add.first, add.second);
+		}
+		surrogate.train();
+		surrogate.optimise_space();
+
+		auto x = pair.first;
+		auto y = pair.second;
+		double error = (y - surrogate.mean(x)) / y;
+		errors.push_back(error);
+	}
+	return accumulate(errors.begin(), errors.end(), 0.0) / errors.size();
+}

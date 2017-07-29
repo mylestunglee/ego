@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for i in {1..1}; do
+	echo "Main experiment iteration $i"
+	scripts/compare_experiments examples/quadrature_max3/ examples/quadrature_max4/ 1
+	scripts/compare_experiments examples/stochastic examples/robot 1
+	scripts/compare_experiments examples/robot examples/stochastic 1
+	scripts/compare_experiments examples/xinyu_rtm_max3/ examples/xinyu_rtm_max4/ 1
+done

@@ -3,8 +3,8 @@ import numpy as np
 import csv
 import sys
 
-if len(sys.argv) != 4:
-	print('Usage: plot_experiment.py results_no_kt results_kt output')
+if len(sys.argv) < 4 or len(sys.argv) > 5:
+	print('Usage: plot_experiment.py results_no_kt results_kt output [max_evalutions]')
 	sys.exit(1)
 
 def aggregate(filename):
@@ -15,15 +15,17 @@ def aggregate(filename):
 	rows = []
 	max_columns = 0
 	for row in spamreader:
-		rows.append(row)
-		max_columns = max(max_columns, len(row))
+		cleaned = list(filter(None, row))
+		rows.append(cleaned)
+		max_columns = max(max_columns, len(cleaned))
 
 	# Aggregate data into means and sds
 	indices = []
 	lowers = []
 	means = []
 	uppers = []
-	# max_columns = min(max_columns, 25)
+	if len(sys.argv) == 5:
+		max_columns = min(max_columns, int(sys.argv[4]))
 
 	for i in range(max_columns):
 		values = []

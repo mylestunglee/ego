@@ -96,3 +96,9 @@ void log_multiquadratic_extrapolation(vector<vector<double>> fs,
 
 vector<double> minimise_multiquadratic(vector<vector<double>> fs,
 	boundaries_t boundaries);
+
+vector<vector<double>> generate_sparse_latin_samples_(gsl_rng* rng,
+	vector<vector<double>> xs, size_t samples, size_t max_trials,
+	boundaries_t boundaries);
+
+double cross_validate_results(results_t results);

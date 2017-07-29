@@ -684,3 +684,52 @@ vector<double> minimise_multiquadratic(vector<vector<double>> fs,
 
 	return result;
 }
+
+// Generate samples using LHS, but minimise samples that are close to xs
+vector<vector<double>> generate_sparse_latin_samples_(gsl_rng* rng,
+    vector<vector<double>> xs, size_t samples, size_t max_trials,
+    boundaries_t boundaries) {
+	assert(max_trials > 0 && !xs.empty());
+
+	vector<vector<vector<double>>> cubes;
+	for (size_t trials = 0; trials < max_trials; trials++) {
+		cubes.push_back(generate_latin_samples(rng, samples, boundaries));
+	}
+
+	double min_sum = numeric_limits<double>::max();
+	vector<vector<double>> result;
+
+	// Find sampling that minimises total distance
+	for (auto cube : cubes) {
+		double sum = 0.0;
+		for (auto x : xs) {
+			// Minimise distance between x and any point in cube
+			double min_dist = numeric_limits<double>::max();
+			for (auto point : cube) {
+				min_dist = min(min_dist, euclidean_distance(x, point));
+			}
+			sum += min_dist;
+		}
+		if (sum < min_sum) {
+			min_sum = sum;
+			result = cube;
+		}
+	}
+
+	return result;
+}
+
+// Given some results, compute the mean error of using Gaussian processes for
+// prediction
+double cross_validate_results(results_t results) {
+	assert(!results.empty());
+	const size_t FITNESS_INDEX = 0;
+	const size_t LABEL_INDEX = 1;
+	Surrogate surrogate(results[0].first.size(), false, false);
+	for (auto result : results) {
+		if (result.second[LABEL_INDEX] != 1.0) {
+			surrogate.add(result.first, result.second[FITNESS_INDEX]);
+		}
+	}
+	return surrogate.cross_validate();
+}
