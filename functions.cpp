@@ -733,3 +733,53 @@ double cross_validate_results(results_t results) {
 	}
 	return surrogate.cross_validate();
 }
+
+// Returns a pruned boundaries by restricting sub-optimial ranges determined
+// by the quadratic functions
+boundaries_t prune_boundaries(boundaries_t boundaries,
+	boundaries_t boundaries_old, vector<vector<double>> quadratics) {
+	size_t dimension = boundaries.size();
+	assert(dimension == boundaries_old.size());
+	assert(dimension == quadratics.size());
+	boundaries_t result;
+	for (size_t i = 0; i < dimension; i++) {
+		assert(quadratics[i].size() == 3);
+
+		auto boundary = boundaries[i];
+		auto boundary_old = boundaries_old[i];
+		auto quadratic = quadratics[i];
+		auto a = quadratic[2];
+		auto b = quadratic[1];
+		auto stationary = b / (2.0 * a);
+
+		// For each dimension, do not prune a boundary if any:
+		// -	the target space is smaller than the source space
+		// -	insufficent quadratic correlation
+		// -	the stationary point is too close to sampled space
+		if (is_subset({boundary}, {boundary_old}) || abs(a) < 1.0 ||
+			is_bounded({stationary}, {boundary_old})) {
+			result.push_back(boundary);
+			continue;
+		}
+
+		auto lower = boundary.first;
+		auto upper = boundary.second;
+		auto lower_old = boundary_old.first;
+		auto upper_old = boundary_old.second;
+
+		if (((a > 0.0 && stationary > upper_old) ||
+			(a < 0.0 && stationary < lower_old)) &&
+			max(lower, lower_old) != upper) {
+			// Prune lower ranges
+			result.push_back(make_pair(max(lower, lower_old), upper));
+		} else if (((a > 0.0 && stationary < lower_old) ||
+			(a < 0.0 && stationary > upper_old)) &&
+			min(upper, upper_old) != lower) {
+			// Prune upper ranges
+			result.push_back(make_pair(lower, min(upper, upper_old)));
+		} else {
+			result.push_back(boundary);
+		}
+	}
+	return result;
+}

@@ -102,3 +102,6 @@ vector<vector<double>> generate_sparse_latin_samples_(gsl_rng* rng,
 	boundaries_t boundaries);
 
 double cross_validate_results(results_t results);
+
+boundaries_t prune_boundaries(boundaries_t boundaries,
+	boundaries_t boundaries_old, vector<vector<double>> quadratics);

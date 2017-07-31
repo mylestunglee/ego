@@ -70,6 +70,7 @@ void Transferrer::run() {
 		auto mq_x = minimise_multiquadratic(fs, boundaries);
 		auto mq_y = evaluator.evaluate(mq_x);
 		results_new.push_back(make_pair(mq_x, mq_y));
+		boundaries = prune_boundaries(boundaries, boundaries_old, fs);
 	}
 	animation_finish();
 
