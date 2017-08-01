@@ -737,16 +737,19 @@ double cross_validate_results(results_t results) {
 // Returns a pruned boundaries by restricting sub-optimial ranges determined
 // by the quadratic functions
 boundaries_t prune_boundaries(boundaries_t boundaries,
-	boundaries_t boundaries_old, vector<vector<double>> quadratics) {
+	boundaries_t boundaries_old, vector<vector<double>> quadratics,
+	vector<double> spearmans, double sig_level) {
 	size_t dimension = boundaries.size();
 	assert(dimension == boundaries_old.size());
 	assert(dimension == quadratics.size());
+	assert(dimension == spearmans.size());
 	boundaries_t result;
 	for (size_t i = 0; i < dimension; i++) {
 		assert(quadratics[i].size() == 3);
 
 		auto boundary = boundaries[i];
 		auto boundary_old = boundaries_old[i];
+		auto spearman = spearmans[i];
 		auto quadratic = quadratics[i];
 		auto a = quadratic[2];
 		auto b = quadratic[1];
@@ -754,32 +757,73 @@ boundaries_t prune_boundaries(boundaries_t boundaries,
 
 		// For each dimension, do not prune a boundary if any:
 		// -	the target space is smaller than the source space
-		// -	insufficent quadratic correlation
+		// -	insufficent evidence that quadratic regression is accurate
 		// -	the stationary point is too close to sampled space
-		if (is_subset({boundary}, {boundary_old}) || abs(a) < 1.0 ||
+		if (is_subset({boundary}, {boundary_old}) ||
+			abs(spearman) < 1.0 - sig_level ||
 			is_bounded({stationary}, {boundary_old})) {
 			result.push_back(boundary);
 			continue;
 		}
 
+		// Quadratic pruning
 		auto lower = boundary.first;
 		auto upper = boundary.second;
 		auto lower_old = boundary_old.first;
 		auto upper_old = boundary_old.second;
 
+		// Prune lower ranges
 		if (((a > 0.0 && stationary > upper_old) ||
 			(a < 0.0 && stationary < lower_old)) &&
 			max(lower, lower_old) != upper) {
-			// Prune lower ranges
 			result.push_back(make_pair(max(lower, lower_old), upper));
-		} else if (((a > 0.0 && stationary < lower_old) ||
+			continue;
+		}
+
+		// Prune upper ranges
+		if (((a > 0.0 && stationary < lower_old) ||
 			(a < 0.0 && stationary > upper_old)) &&
 			min(upper, upper_old) != lower) {
-			// Prune upper ranges
 			result.push_back(make_pair(lower, min(upper, upper_old)));
-		} else {
-			result.push_back(boundary);
+			continue;
 		}
+
+		result.push_back(boundary);
 	}
+
+	return result;
+}
+
+// Given some results, compute the Spearman correlations for
+// each dimension
+vector<double> calc_spearmans(results_t results) {
+	vector<double> result;
+	assert(!results.empty());
+	const size_t FITNESS_INDEX = 0;
+	const size_t LABEL_INDEX = 1;
+	size_t dimension = results[0].first.size();
+
+	for (size_t i = 0; i < dimension; i++) {
+		vector<double> xs;
+		vector<double> ys;
+
+		// Collect results
+		for (auto result : results) {
+			auto x = result.first[i];
+			auto y = result.second;
+			if (y[LABEL_INDEX] != 1.0) {
+				xs.push_back(x);
+				ys.push_back(y[FITNESS_INDEX]);
+			}
+		}
+
+		// Compute correlations
+		double pearson;
+		double spearman;
+		calc_correlation(xs, ys, pearson, spearman);
+
+		result.push_back(spearman);
+	}
+
 	return result;
 }

@@ -67,10 +67,15 @@ void Transferrer::run() {
 	animation_start("Performing multiquadratic regression fit", 0, 1);
 	auto fs = multiquadratic_result_extrapolate(results_old, constraints, costs);
 	if (!fs.empty()) {
+		// Guess optimial point
 		auto mq_x = minimise_multiquadratic(fs, boundaries);
 		auto mq_y = evaluator.evaluate(mq_x);
 		results_new.push_back(make_pair(mq_x, mq_y));
-		boundaries = prune_boundaries(boundaries, boundaries_old, fs);
+
+		// Prune excess extrapolation
+		auto spearmans = calc_spearmans(results_old);
+		boundaries = prune_boundaries(boundaries, boundaries_old, fs,
+			spearmans, sig_level);
 	}
 	animation_finish();
 
