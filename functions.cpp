@@ -547,6 +547,11 @@ vector<double> multilinear_regression_fit(vector<vector<double>> xs,
     assert(xs.size() == ys.size());
 	assert(!xs.empty());
 
+	// Insufficent samples for regression
+	if (xs.size() < xs[0].size()) {
+		return {};
+	}
+
     gsl_multifit_linear_workspace *ws;
     gsl_matrix* cov;
     gsl_matrix* X;
@@ -599,6 +604,11 @@ vector<vector<double>> multiquadratic_regression_fit(vector<vector<double>> xs,
 	}
 
 	auto coeffs = multilinear_regression_fit(matrix, ys);
+
+	// Regression failed
+	if (coeffs.empty()) {
+		return {};
+	}
 
 	// Group coefficents together
 	if (coeffs.size() == 1) {
