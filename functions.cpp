@@ -57,7 +57,7 @@ double euclidean_distance(vector<double> x, vector<double> y) {
 
 // Pretty prints a vector
 void print_vector(vector<double> x) {
-	cout << "(" << setprecision(0);
+	cout << "(";
 	for (size_t i = 0; i < x.size(); i++) {
 		cout << x[i];
 		if (i < x.size() - 1) {
@@ -457,7 +457,9 @@ double transfer_calc_parameter(double fitness_old, double fitness_new) {
 // Samples surrogate predictions and saves these predictions into an CSV
 void log_surrogate_predictions(Surrogate& surrogate, string filename,
 	boundaries_t boundaries) {
+
 	auto samples = generate_all_samples(boundaries);
+
 	vector<vector<string>> data;
 	for (auto sample : samples) {
 		vector<string> row;
@@ -471,7 +473,7 @@ void log_surrogate_predictions(Surrogate& surrogate, string filename,
 	write(filename, data);
 }
 
-// Generates all integer positions that bounded by boundaries
+// Generates all discrete positions that bounded by boundaries
 vector<vector<double>> generate_all_samples(boundaries_t boundaries) {
 
 	if (boundaries.empty()) {
@@ -735,7 +737,7 @@ double cross_validate_results(results_t results) {
 	assert(!results.empty());
 	const size_t FITNESS_INDEX = 0;
 	const size_t LABEL_INDEX = 1;
-	Surrogate surrogate(results[0].first.size(), false, false);
+	Surrogate surrogate(results[0].first.size());
 	for (auto result : results) {
 		if (result.second[LABEL_INDEX] != 1.0) {
 			surrogate.add(result.first, result.second[FITNESS_INDEX]);
@@ -835,5 +837,34 @@ vector<double> calc_spearmans(results_t results) {
 		result.push_back(spearman);
 	}
 
+	return result;
+}
+
+// Computes the sample mean
+double sample_mean(vector<double> xs) {
+	assert(!xs.empty());
+	return accumulate(xs.begin(), xs.end(), 0.0) / (double) xs.size();
+}
+
+// Computes the sample standard deviation
+double sample_sd(vector<double> xs) {
+	assert(xs.size() >= 2);
+	double sum = 0.0;
+	double mean = sample_mean(xs);
+	for (auto x : xs) {
+		sum += pow(x - mean, 2.0);
+	}
+	return sqrt(sum / ((double) xs.size() - 1.0));
+}
+
+// Maps the log operation
+vector<double> log_vector(vector<double> xs) {
+	vector<double> result;
+	for (auto x : xs) {
+		if (x <= 0.0) {
+			return {};
+		}
+		result.push_back(log(x));
+	}
 	return result;
 }

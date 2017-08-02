@@ -1,4 +1,5 @@
 #include "surrogate.hpp"
+#include "functions.hpp"
 #include "gp.h"
 #include "cg.h"
 #include <thread>
@@ -8,18 +9,16 @@
 using namespace std;
 using namespace libgp;
 
-// Surrogate is a wrapper for Gaussian processes
-//   dimensions: number of dimensions in domain prediction space
-//   log_transform: use log space for predictions
-//   fixed_space: restrict space optimisation for performance
-Surrogate::Surrogate(size_t dimension, bool log_transform, bool fixed_space) :
-	dimension(dimension), log_transform(log_transform),
-	fixed_space(fixed_space), trained(true), gp(newGaussianProcess()) {}
+Surrogate::Surrogate(size_t dimension) :
+	dimension(dimension), log_transform(false), gp(NULL) {}
 
 Surrogate::~Surrogate() {
-	delete gp;
+	if (gp != NULL) {
+		delete gp;
+	}
 }
 
+// Wrapper for Gaussian Process library constructor
 GaussianProcess* Surrogate::newGaussianProcess() {
 	GaussianProcess* gp = new GaussianProcess(dimension, "CovSEard");
 	Eigen::VectorXd params(gp->covf().get_param_dim());
@@ -30,65 +29,106 @@ GaussianProcess* Surrogate::newGaussianProcess() {
 	return gp;
 }
 
+// Add to training set
 void Surrogate::add(vector<double> x, double y) {
 	assert(x.size() == dimension);
-	assert(!log_transform || y > 0.0);
-	gp->add_pattern(&x[0], log_transform ? log(y) : y);
-	if (!fixed_space) {
-		added.insert(make_pair(x, y));
+	// Predictor is now old-of-date
+	if (gp != NULL) {
+		delete gp;
+		gp = NULL;
 	}
-	trained = false;
+
+	added.insert(make_pair(x, y));
 }
 
-// Optimise hyper-parameters
+// Construct a predictor
 void Surrogate::train() {
-	if (trained) {
-		return;
+	assert(!added.empty());
+
+	if (gp != NULL) {
+		delete gp;
 	}
 
+	gp = newGaussianProcess();
+
+	auto ys = extract_ys();
+
+	if (log_transform) {
+		auto zs = log_vector(ys);
+		if (zs.empty()) {
+			log_transform = false;
+		} else {
+			ys = zs;
+		}
+	}
+
+	added_mean = sample_mean(ys);
+	added_sd = sample_sd(ys);
+
+	for (auto pair : added) {
+		auto y = log_transform ? log(pair.second) : pair.second;
+		auto y_normalised = (y - added_mean) / added_sd;
+		gp->add_pattern(&pair.first[0], y_normalised);
+	}
+
+	// Optimise hyper-parameters
 	CG cg;
 	cg.maximize(gp, 50, false);
-	trained = true;
 }
 
-// Get standard deviation of predictoin
+// Get standard deviation of prediction
 double Surrogate::sd(vector<double> x) {
 	assert(x.size() == dimension);
-	return sqrt(max(gp->var(&x[0]), 0.0));
+	if (gp == NULL) {
+		train();
+	}
+	double var = gp->var(&x[0]);
+	return sqrt(max(var, 0.0)) * added_sd;
 }
 
 // Get mean of prediction
 double Surrogate::mean(vector<double> x) {
 	assert(x.size() == dimension);
-	double mean = gp->f(&x[0]);
-	return log_transform ? exp(mean) : mean;
+	if (gp == NULL) {
+		train();
+	}
+	double mean_raw = gp->f(&x[0]);
+	double mean = log_transform ? exp(mean_raw) : mean_raw;
+	return mean * added_sd + added_mean;
 }
 
 // Switch between non-log and log space
 void Surrogate::optimise_space() {
-	assert(!fixed_space && !added.empty());
-	GaussianProcess* gp_new = newGaussianProcess();
-	for (auto pair : added) {
-		gp_new->add_pattern(&pair.first[0],
-			log_transform ? pair.second : log(pair.second));
+	assert(!added.empty());
+	if (gp == NULL) {
+		train();
 	}
-	if (gp->log_likelihood() > gp_new->log_likelihood()) {
-		delete gp_new;
-	} else {
+
+	auto gp_old = gp;
+
+	// Attempt training with other space
+	log_transform = !log_transform;
+	gp = NULL;
+	train();
+
+	// Previous result was better
+	if (gp_old->log_likelihood() > gp->log_likelihood()) {
+		// Revert changes
 		delete gp;
-		gp = gp_new;
+		gp = gp_old;
 		log_transform = !log_transform;
+	} else {
+		delete gp_old;
 	}
 }
 
 // Cross validation
 double Surrogate::cross_validate() {
-	assert(!fixed_space);
 	vector<double> errors;
 
 	// Select a point not to add
 	for (auto pair : added) {
-		Surrogate surrogate(dimension, false, false);
+		Surrogate surrogate(dimension);
 		for (auto add : added) {
 			if (pair == add) {
 				 continue;
@@ -104,4 +144,13 @@ double Surrogate::cross_validate() {
 		errors.push_back(error);
 	}
 	return accumulate(errors.begin(), errors.end(), 0.0) / errors.size();
+}
+
+// Extracts range from added points
+vector<double> Surrogate::extract_ys() {
+	vector<double> ys;
+	for (auto pair : added) {
+		ys.push_back(pair.second);
+	}
+	return ys;
 }

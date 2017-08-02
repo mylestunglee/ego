@@ -108,3 +108,9 @@ boundaries_t prune_boundaries(boundaries_t boundaries,
 	vector<double> correlations, double sig_level);
 
 vector<double> calc_spearmans(results_t results);
+
+double sample_mean(vector<double> xs);
+
+double sample_sd(vector<double> xs);
+
+vector<double> log_vector(vector<double> xs);

@@ -35,9 +35,12 @@ int main(int argc, char* argv[]) {
 
 	// Parse configuration file
 	try {
-		max_evaluations = stoi(config.at(0).at(0));
-		max_trials = stoi(config.at(1).at(0));
+		max_evaluations = stol(config.at(0).at(0));
+		max_trials = stol(config.at(1).at(0));
 		convergence_threshold = stof(config.at(2).at(0));
+		if (convergence_threshold < 0.0) {
+			throw invalid_argument("invalid convergence threshold");
+		}
 		string is_discrete_string = config.at(3).at(0);
 		if (is_discrete_string.compare("true") != 0 &&
 				is_discrete_string.compare("false") != 0) {
@@ -52,7 +55,13 @@ int main(int argc, char* argv[]) {
 		}
 		if (is_knowledge_transfer) {
 			sig_level = stof(config.at(8).at(0));
+			if (sig_level < 0.0 || sig_level > 1.0) {
+				throw invalid_argument("invalid significance level");
+			}
 			fitness_percentile = stof(config.at(9).at(0));
+			if (fitness_percentile < 0.0 || fitness_percentile > 1.0) {
+				throw invalid_argument("invalid fitness percentile");
+			}
 		}
 	} catch (const invalid_argument& ia) {
 		cerr << "Invalid value in configuration file: " << ia.what() << endl;

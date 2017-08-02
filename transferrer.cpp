@@ -107,8 +107,6 @@ void Transferrer::run() {
 		animation_step();
 	}
 
-	surrogate.train();
-
 	auto predictions = transfer_results_old(surrogate, samples);
 
 	if (is_subset(boundaries, boundaries_old)) {
@@ -216,7 +214,6 @@ double Transferrer::calc_label_correlation(results_t results_new) {
 			result_old.first,
 			(result_old.second)[LABEL_INDEX] == 0.0 ? 1.0 : 0.0);
 	}
-	surrogate.train();
 
 	vector<double> coeffs;
 
@@ -302,7 +299,6 @@ void Transferrer::extrude(boundaries_t boundaries_old) {
 		auto y = evaluator.evaluate(sample_new);
 		predictor->add(sample_new, y[FITNESS_INDEX]);
 	}
-	predictor->train();
 
 	// Find the best cross section of some variable point in space_extend
 	double neg_max_correlation = numeric_limits<double>::max();
@@ -369,7 +365,8 @@ void Transferrer::reduce(boundaries_t boundaries_old) {
 		auto y = result_old.second;
 		surrogate.add(x, y[FITNESS_INDEX]);
 	}
-	surrogate.train();
+
+	// TODO
 }
 
 // Generates a random point in space_new

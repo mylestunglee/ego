@@ -32,7 +32,7 @@ EGO::EGO(
 	this->boundaries = boundaries;
 	this->rejection = rejection;
 
-	sg = new Surrogate(dimension, false, false);
+	sg = new Surrogate(dimension);
 	sg_label = new Surrogate(dimension);
 
 	for (size_t constraint = 0; constraint < constraints; constraint++) {
@@ -47,6 +47,7 @@ EGO::EGO(
 	gsl_rng_set(rng, time(NULL));
 
 	evaluations = 0;
+	x_opt = {};
 	y_opt = numeric_limits<double>::max();
 }
 
@@ -68,6 +69,9 @@ EGO::~EGO() {
 void EGO::run()
 {
 	assert(evaluations > 0);
+	if (x_opt.empty()) {
+		return;
+	}
 
 	sg->optimise_space();
 
@@ -95,8 +99,6 @@ void EGO::run()
 		animation_start("Evaluating:", 0, 1);
 		evaluate({x});
 		animation_finish();
-
-		train_surrogates();
 	}
 }
 
@@ -113,7 +115,6 @@ void EGO::sample_latin(size_t n)
 		}
 	}
 	evaluate(filered);
-	train_surrogates();
 }
 
 // Takes random uniformly distributed samples
@@ -126,12 +127,13 @@ void EGO::sample_uniform(size_t n) {
 			if (success_probability(sg_label->mean(x), sg_label->sd(x)) >= 0.5 &&
 				!is_bounded(x, rejection)) {
 				evaluate({x});
-				train_surrogates();
 				// Find next point
 				break;
 			}
 		}
 	}
+	log_surrogate_predictions(*sg, "predictions.csv",
+		boundaries);
 }
 
 // Calcautes the expected improvement for maximisation with domain-specific knowledge
@@ -267,22 +269,4 @@ double EGO::success_constraints_probability(vector<double> x) {
 vector<double> EGO::generate_random_point(void *p) {
 	EGO* ego = (EGO*) p;
 	return generate_uniform_sample(ego->rng, ego->boundaries);
-}
-
-// Trains all surrogates
-void EGO::train_surrogates() {
-	animation_start("Training models:",
-		0, 2 + constraints.size() + costs.size());
-	sg->train();
-	animation_step();
-	sg_label->train();
-	animation_step();
-	for (auto& constraint : constraints) {
-		constraint->train();
-		animation_step();
-	}
-	for (auto& cost : costs) {
-		cost->train();
-		animation_step();
-	}
 }

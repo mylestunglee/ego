@@ -9,23 +9,23 @@ using namespace libgp;
 class Surrogate
 {
   public:
-    Surrogate(size_t dimension, bool log_transform = false,
-		bool fixed_space = true);
+    Surrogate(size_t dimension);
     ~Surrogate();
     void add(vector<double> x, double y);
     double mean(vector<double> x);
     double sd(vector<double> x);
-    void train();
 	void optimise_space();
 	double cross_validate();
 
   private:
 	GaussianProcess* newGaussianProcess();
+    void train();
+	vector<double> extract_ys();
 
     size_t dimension;
 	bool log_transform;
-	bool fixed_space;
-	bool trained;
     GaussianProcess* gp;
 	set<pair<vector<double>, double>> added;
+	double added_mean;
+	double added_sd;
 };
