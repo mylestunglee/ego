@@ -51,24 +51,15 @@ void Surrogate::train() {
 
 	gp = newGaussianProcess();
 
-	auto ys = extract_ys();
-
-	if (log_transform) {
-		auto zs = log_vector(ys);
-		if (zs.empty()) {
-			log_transform = false;
-		} else {
-			ys = zs;
-		}
-	}
-
-	added_mean = sample_mean(ys);
-	added_sd = sample_sd(ys);
+	update_whitener();
 
 	for (auto pair : added) {
+		auto x = pair.first;
+		auto x_normalised = normalise_x(x);
 		auto y = log_transform ? log(pair.second) : pair.second;
-		auto y_normalised = (y - added_mean) / added_sd;
-		gp->add_pattern(&pair.first[0], y_normalised);
+		auto y_normalised = (y - y_mean) / y_sd;
+
+		gp->add_pattern(&x_normalised[0], y_normalised);
 	}
 
 	// Optimise hyper-parameters
@@ -82,8 +73,9 @@ double Surrogate::sd(vector<double> x) {
 	if (gp == NULL) {
 		train();
 	}
-	double var = gp->var(&x[0]);
-	return sqrt(max(var, 0.0)) * added_sd;
+	auto x_normalised = normalise_x(x);
+	double var = gp->var(&x_normalised[0]);
+	return sqrt(max(var, 0.0)) * y_sd;
 }
 
 // Get mean of prediction
@@ -92,9 +84,10 @@ double Surrogate::mean(vector<double> x) {
 	if (gp == NULL) {
 		train();
 	}
-	double mean_raw = gp->f(&x[0]);
+	auto x_normalised = normalise_x(x);
+	double mean_raw = gp->f(&x_normalised[0]);
 	double mean = log_transform ? exp(mean_raw) : mean_raw;
-	return mean * added_sd + added_mean;
+	return mean * y_sd + y_mean;
 }
 
 // Switch between non-log and log space
@@ -146,11 +139,62 @@ double Surrogate::cross_validate() {
 	return accumulate(errors.begin(), errors.end(), 0.0) / errors.size();
 }
 
-// Extracts range from added points
+// Extracts ys from added points
 vector<double> Surrogate::extract_ys() {
 	vector<double> ys;
 	for (auto pair : added) {
 		ys.push_back(pair.second);
 	}
 	return ys;
+}
+
+// Extracts xs from added points
+vector<vector<double>> Surrogate::extract_xs() {
+	assert(!added.empty());
+	vector<vector<double>> result(dimension, vector<double>());
+	for (auto pair : added) {
+		auto x = pair.first;
+		for (size_t i = 0; i < dimension; i++) {
+			result[i].push_back(x[i]);
+		}
+	}
+	return result;
+}
+
+// Updates the linear transformation values to whiten input data
+void Surrogate::update_whitener() {
+	// Update xs
+	auto xs = extract_xs();
+
+	x_mean.clear();
+	x_sd.clear();
+
+	for (auto x : xs) {
+		x_mean.push_back(sample_mean(x));
+		x_sd.push_back(sample_sd(x));
+	}
+
+	// Update ys
+	auto ys = extract_ys();
+
+	if (log_transform) {
+		auto zs = log_vector(ys);
+		if (zs.empty()) {
+			log_transform = false;
+		} else {
+			ys = zs;
+		}
+	}
+
+	y_mean = sample_mean(ys);
+	y_sd = sample_sd(ys);
+}
+
+// Apply linear transformations to whiten x
+vector<double> Surrogate::normalise_x(vector<double> x) {
+	vector<double> normalised;
+	for (size_t i = 0; i < dimension; i++) {
+		normalised.push_back((x[i] - x_mean[i]) / x_sd[i]);
+	}
+	return normalised;
 }

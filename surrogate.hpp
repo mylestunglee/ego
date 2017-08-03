@@ -21,11 +21,16 @@ class Surrogate
 	GaussianProcess* newGaussianProcess();
     void train();
 	vector<double> extract_ys();
+	vector<vector<double>> extract_xs();
+	void update_whitener();
+	vector<double> normalise_x(vector<double> x);
 
     size_t dimension;
 	bool log_transform;
     GaussianProcess* gp;
 	set<pair<vector<double>, double>> added;
-	double added_mean;
-	double added_sd;
+	vector<double> x_mean;
+	vector<double> x_sd;
+	double y_mean;
+	double y_sd;
 };
