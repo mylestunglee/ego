@@ -13,7 +13,7 @@ class GaussianProcess : public Surrogate {
 		void add(vector<double> x, double y);
 		double mean(vector<double> x);
 		double sd(vector<double> x);
-		void optimise_space();
+		void optimise();
 		double cross_validate();
 
 	private:

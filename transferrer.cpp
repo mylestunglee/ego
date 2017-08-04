@@ -245,11 +245,10 @@ void Transferrer::interpolate(boundaries_t boundaries_old, results_t results_new
 		ego.simulate(result_new.first, result_new.second);
 	}
 
-	/*
 	cout << "Modelling target transferred results" << endl;
 	for (auto prediction : predictions) {
 		ego.simulate(prediction.first, prediction.second);
-	} */
+	}
 
 	cout << "Sampling using LHS" << endl;
 	ego.sample_latin(5 * boundaries.size());

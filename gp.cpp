@@ -90,7 +90,7 @@ double GaussianProcess::mean(vector<double> x) {
 }
 
 // Switch between non-log and log space
-void GaussianProcess::optimise_space() {
+void GaussianProcess::optimise() {
 	assert(!added.empty());
 	if (gp == NULL) {
 		train();
@@ -128,7 +128,7 @@ double GaussianProcess::cross_validate() {
 			surrogate.add(add.first, add.second);
 		}
 		surrogate.train();
-		surrogate.optimise_space();
+		surrogate.optimise();
 
 		auto x = pair.first;
 		auto y = pair.second;

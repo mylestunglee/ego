@@ -73,7 +73,7 @@ void EGO::run()
 		return;
 	}
 
-	sg->optimise_space();
+	sg->optimise();
 
 	while(evaluations < max_evaluations) {
 

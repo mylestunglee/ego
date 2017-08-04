@@ -6,10 +6,6 @@
 #include "functions.hpp"
 #include "csv.hpp"
 
-#include "surrogate.hpp"
-#include <utility>
-
-#include <vector>
 using namespace std;
 
 int main(int argc, char* argv[]) {
