@@ -53,14 +53,6 @@ Transferrer::~Transferrer() {
 void Transferrer::run() {
 	boundaries_t boundaries_old = infer_boundaries(results_old);
 
-	if (boundaries_old.size() < boundaries.size()) {
-		extrude(boundaries_old);
-		return;
-	} else if (boundaries_old.size() > boundaries.size()) {
-		reduce(boundaries_old);
-		return;
-	}
-
 	results_t results_new;
 
 	// Good for non-near-constrainted optimal solutions
@@ -85,7 +77,7 @@ void Transferrer::run() {
 	auto samples = sample_results_old();
 	assert(!samples.empty());
 
-	Surrogate surrogate(boundaries.size());
+	GaussianProcess surrogate(boundaries.size());
 	animation_start("Sampling new design space:", 0, samples.size());
 
 	// Compute fitness for sample
@@ -206,7 +198,7 @@ bool Transferrer::fitness_more_than(
 double Transferrer::calc_label_correlation(results_t results_new) {
 	assert(!results_new.empty());
 
-	Surrogate surrogate(boundaries.size());
+	GaussianProcess surrogate(boundaries.size());
 
 	// Converts labels into continuous values
 	for (auto result_old : results_old) {
@@ -267,151 +259,6 @@ void Transferrer::interpolate(boundaries_t boundaries_old, results_t results_new
 	ego.run();
 }
 
-// Given an old parameter space, find a higher-dimensional mapping from the old
-// parameter space to the new parameter space
-void Transferrer::extrude(boundaries_t boundaries_old) {
-	size_t dimension_old = boundaries_old.size();
-	size_t dimension = boundaries.size();
-	boundaries_t space_common = boundaries_t(boundaries.begin(),
-		boundaries.begin() + dimension_old);
-	space_extend = boundaries_t(boundaries.begin() + dimension_old,
-		boundaries.end());
-	space_intersection = get_intersection(space_common, boundaries_old);
-	boundaries_t space_extrude = join_boundaries(space_intersection, space_extend);
-
-	// Test number of knowledge transferable points of the old boundaries
-	size_t samples_old_count = 0;
-	for (auto result_old : results_old) {
-		if (is_bounded(result_old.first, space_intersection)) {
-			samples_old_count++;
-		}
-	}
-	if (samples_old_count < 3) {
-		cout << "Too few common points to perform correlation analysis" << endl;
-		return;
-	}
-
-	// Generate a model of the new design space
-	auto samples_new = generate_latin_samples(rng, 5 * dimension, space_extrude);
-	results_t results_new;
-	predictor = new Surrogate(dimension);
-	for (auto sample_new : samples_new) {
-		auto y = evaluator.evaluate(sample_new);
-		predictor->add(sample_new, y[FITNESS_INDEX]);
-	}
-
-	// Find the best cross section of some variable point in space_extend
-	double neg_max_correlation = numeric_limits<double>::max();
-	auto point = minimise(cross_section_correlation, generate_random_point,
-		this, convergence_threshold, max_trials, neg_max_correlation);
-
-	if (point.empty()) {
-		cout << "Cannot maximise correlation across cross sections" << endl;
-		return;
-	}
-
-	vector<double> fitnesses_old;
-	vector<double> fitnesses_new;
-
-	// Collect correlation data
-	for (auto result_old : results_old) {
-		auto x = result_old.first;
-		auto y = result_old.second;
-		if (is_bounded(x, space_intersection)) {
-			fitnesses_old.push_back(y[FITNESS_INDEX]);
-			fitnesses_new.push_back(
-				predictor->mean(join_vectors(x, point)));
-		}
-	}
-
-	// Bulid mapping function from old to new design
-	auto coeffs = test_correlation(fitnesses_old, fitnesses_new);
-	if (coeffs.empty()) {
-		cout << "Insufficent correlation for any cross section" << endl;
-		return;
-	}
-
-	// Add old samples as new correlated samples
-	for (auto result_old : results_old) {
-		auto x = result_old.first;
-		auto y = result_old.second;
-		y[FITNESS_INDEX] = apply_polynomial(y[FITNESS_INDEX], coeffs);
-		if (is_bounded(x, space_intersection)) {
-			results_new.push_back(make_pair(join_vectors(x, point), y));
-		}
-	}
-
-	// Sample space outside of space_extend but inside boundaries
-	EGO ego(evaluator, boundaries, {}, max_evaluations, max_trials,
-		convergence_threshold, is_discrete, constraints, costs);
-	for (auto result_new : results_new) {
-		// Update old fitness to new fitness
-		ego.simulate(result_new.first, result_new.second);
-	}
-	ego.sample_uniform(5 * boundaries.size());
-	ego.run();
-
-	delete predictor;
-}
-
-// Given an old parameter space, find a lower-dimensional mapping from the old
-// parameter space to the new parameter space
-void Transferrer::reduce(boundaries_t boundaries_old) {
-	Surrogate surrogate(boundaries_old.size());
-
-	// Rebuild previous GP
-	for (auto result_old : results_old) {
-		auto x = result_old.first;
-		auto y = result_old.second;
-		surrogate.add(x, y[FITNESS_INDEX]);
-	}
-
-	// TODO
-}
-
-// Generates a random point in space_new
-vector<double> Transferrer::generate_random_point(void* p) {
-	Transferrer* t = (Transferrer*) p;
-	return generate_uniform_sample(t->rng, t->space_extend);
-}
-
-double Transferrer::cross_section_correlation(const gsl_vector* v, void* p) {
-	Transferrer* t = (Transferrer*) p;
-	auto extend = gsl_to_std_vector(v);
-
-	if (!is_bounded(extend, t->space_extend)) {
-		return euclidean_distance(extend, vector<double>(extend.size(), 0.0));
-	}
-
-	vector<double> fitnesses_old;
-	vector<double> fitnesses_new;
-
-	// Collect correlation data
-	for (auto result_old : t->results_old) {
-		auto x = result_old.first;
-		auto y = result_old.second;
-		if (is_bounded(x, t->space_intersection)) {
-			fitnesses_old.push_back(y[FITNESS_INDEX]);
-			fitnesses_new.push_back(
-				t->predictor->mean(join_vectors(x, extend)));
-		}
-	}
-
-	// Perform correlation analysis
-	double pearson;
-	double spearman;
-	calc_correlation(fitnesses_old, fitnesses_new, pearson, spearman);
-
-	// If either old or new fitnesses have no variance then we have perfect
-	// correlation
-	if (isnan(pearson) || isnan(spearman)) {
-		return -1.0;
-	}
-
-	// We try to find the best correlation using a minimiser
-	return -max(abs(pearson), abs(spearman));
-}
-
 // Test each correlation score for best polynomial function
 vector<double> Transferrer::test_correlation(vector<double> xs,
 	vector<double> ys) {
@@ -455,7 +302,7 @@ double Transferrer::calc_fitness_percentile(double percentile) {
 
 // Given a predictor for mapping the old fitness function to the new,
 // predict new fitnesses using old non-sampled results
-results_t Transferrer::transfer_results_old(Surrogate& surrogate,
+results_t Transferrer::transfer_results_old(GaussianProcess& surrogate,
 	results_t sampled) {
 	// Build a set of sampled points
 	set<vector<double>> points;

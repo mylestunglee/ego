@@ -1,4 +1,4 @@
-#include "surrogate.hpp"
+#include "gp.hpp"
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_vector.h>
 #include <utility>

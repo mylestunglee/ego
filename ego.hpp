@@ -1,6 +1,6 @@
 #include <vector>
 #include <random>
-#include "surrogate.hpp"
+#include "gp.hpp"
 #include <mutex>
 #include "evaluator.hpp"
 #include "functions.hpp"

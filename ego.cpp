@@ -32,15 +32,15 @@ EGO::EGO(
 	this->boundaries = boundaries;
 	this->rejection = rejection;
 
-	sg = new Surrogate(dimension);
-	sg_label = new Surrogate(dimension);
+	sg = new GaussianProcess(dimension);
+	sg_label = new GaussianProcess(dimension);
 
 	for (size_t constraint = 0; constraint < constraints; constraint++) {
-		this->constraints.push_back(new Surrogate(dimension));
+		this->constraints.push_back(new GaussianProcess(dimension));
 	}
 
 	for (size_t cost = 0; cost < costs; cost++) {
-		this->costs.push_back(new Surrogate(dimension));
+		this->costs.push_back(new GaussianProcess(dimension));
 	}
 
 	rng = gsl_rng_alloc(gsl_rng_taus);

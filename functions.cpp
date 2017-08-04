@@ -737,7 +737,7 @@ double cross_validate_results(results_t results) {
 	assert(!results.empty());
 	const size_t FITNESS_INDEX = 0;
 	const size_t LABEL_INDEX = 1;
-	Surrogate surrogate(results[0].first.size());
+	GaussianProcess surrogate(results[0].first.size());
 	for (auto result : results) {
 		if (result.second[LABEL_INDEX] != 1.0) {
 			surrogate.add(result.first, result.second[FITNESS_INDEX]);
