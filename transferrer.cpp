@@ -71,42 +71,43 @@ void Transferrer::run() {
 	}
 	animation_finish();
 
-	vector<double> ys_old;
-	vector<double> ys_new;
-
 	auto samples = sample_results_old();
 	assert(!samples.empty());
 
-	GaussianProcess surrogate(boundaries.size());
 	animation_start("Sampling new design space:", 0, samples.size());
+	set<pair<vector<double>, double>> old;
 
 	// Compute fitness for sample
 	for (auto result_old : samples) {
-		auto x_old = result_old.first;
-		auto y_old = result_old.second;
-		auto y_new = evaluator.evaluate(x_old);
+		auto x = result_old.first;
+		auto y = evaluator.evaluate(x);
 
-		assert(!y_new.empty());
+		assert(!y.empty());
+		results_new.push_back(make_pair(x, y));
+		old.insert(make_pair(x, y[0]));
 
-		if (y_old[LABEL_INDEX] != 1.0 && is_success(y_new, constraints, costs)) {
-			ys_old.push_back(y_old[FITNESS_INDEX]);
-			ys_new.push_back(y_new[FITNESS_INDEX]);
-			surrogate.add(x_old, transfer_calc_parameter(y_old[FITNESS_INDEX],
-				y_new[FITNESS_INDEX]));
-		}
-
-		results_new.push_back(make_pair(x_old, y_new));
 		animation_step();
 	}
 
-	auto predictions = transfer_results_old(surrogate, samples);
-
+	// Define sampling rejection region
+	boundaries_t rejection;
 	if (is_subset(boundaries, boundaries_old)) {
-		interpolate({}, results_new, predictions);
-		return;
+		rejection = get_intersection(boundaries_old, boundaries);
 	}
 
-	interpolate(boundaries_old, results_new, predictions);
+	EGO ego(evaluator, boundaries, rejection, max_evaluations, max_trials,
+		convergence_threshold, is_discrete, constraints, costs, old);
+
+	for (auto result_new : results_new) {
+		ego.simulate(result_new.first, result_new.second);
+	}
+
+	cout << "Sampling using LHS" << endl;
+	ego.sample_latin(5 * boundaries.size());
+	cout << "Sampling using uniform" << endl;
+	ego.sample_uniform(5 * boundaries.size());
+	cout << "Using EGO" << endl;
+	ego.run();
 }
 
 // Reads results from a CSV file from a previous EGO computation
@@ -227,37 +228,6 @@ double Transferrer::calc_label_correlation(results_t results_new) {
 	return accumulate(coeffs.begin(), coeffs.end(), 0.0) / coeffs.size();
 }
 
-// Given a old parameter space, the approximation of y_olds to y_news, and some
-// samples of the new space, find y_opt
-void Transferrer::interpolate(boundaries_t boundaries_old, results_t results_new,
-	results_t predictions) {
-
-	boundaries_t intersection;
-	if (!boundaries_old.empty()) {
-		boundaries_t intersection = get_intersection(boundaries_old, boundaries);
-	}
-
-	cout << "Modelling target true results" << endl;
-
-	EGO ego(evaluator, boundaries, intersection, max_evaluations, max_trials,
-		convergence_threshold, is_discrete, constraints, costs);
-	for (auto result_new : results_new) {
-		ego.simulate(result_new.first, result_new.second);
-	}
-
-	cout << "Modelling target transferred results" << endl;
-	for (auto prediction : predictions) {
-		ego.simulate(prediction.first, prediction.second);
-	}
-
-	cout << "Sampling using LHS" << endl;
-	ego.sample_latin(5 * boundaries.size());
-	cout << "Sampling using uniform" << endl;
-	ego.sample_uniform(5 * boundaries.size());
-	cout << "Using EGO" << endl;
-	ego.run();
-}
-
 // Test each correlation score for best polynomial function
 vector<double> Transferrer::test_correlation(vector<double> xs,
 	vector<double> ys) {
@@ -297,48 +267,4 @@ double Transferrer::calc_fitness_percentile(double percentile) {
 
 	assert(successes > 0);
 	return results_old[percentile * (successes - 1.0)].second[FITNESS_INDEX];
-}
-
-// Given a predictor for mapping the old fitness function to the new,
-// predict new fitnesses using old non-sampled results
-results_t Transferrer::transfer_results_old(GaussianProcess& surrogate,
-	results_t sampled) {
-	// Build a set of sampled points
-	set<vector<double>> points;
-	for (auto sample : sampled) {
-		points.insert(sample.first);
-	}
-
-	double fitness_threshold = calc_fitness_percentile(fitness_percentile);
-	boundaries_t sampled_boundaries = infer_boundaries(sampled);
-
-	// Compute set difference
-	results_t unsampled;
-	for (auto result_old : results_old) {
-		auto x = result_old.first;
-		auto y = result_old.second;
-
-		// Only transfer points that are:
-		//	- not sampled already
-		//	- do not try to guess noisy fitness values
-		//	- near sampled points
-		if (points.find(x) == points.end() &&
-			y[FITNESS_INDEX] <= fitness_threshold &&
-			is_bounded(x, sampled_boundaries)) {
-			unsampled.push_back(result_old);
-		}
-	}
-
-	results_t results;
-
-	// Predict for each unsampled point
-	for (auto unsample : unsampled) {
-		double parameter = surrogate.mean(unsample.first);
-		double prediction = transfer_fitness_predict(
-			unsample.second[FITNESS_INDEX], parameter);
-		unsample.second[FITNESS_INDEX] = prediction;
-		results.push_back(unsample);
-	}
-
-	return results;
 }

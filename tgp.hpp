@@ -1,10 +1,11 @@
 #pragma once
+#include "surrogate.hpp"
 #include "gp.hpp"
 #include <set>
 
 using namespace std;
 
-class TransferredGaussianProcess {
+class TransferredGaussianProcess : public Surrogate {
 	public:
 		TransferredGaussianProcess(set<pair<vector<double>, double>> added);
 		~TransferredGaussianProcess();

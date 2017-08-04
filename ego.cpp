@@ -1,13 +1,13 @@
-#include <limits>
 #include "ego.hpp"
 #include "functions.hpp"
 #include "animation.hpp"
+#include "tgp.hpp"
+#include <limits>
 #include <thread>
 #include <iostream>
 #include <iomanip>
 #include <gsl_cdf.h>
 #include <gsl_randist.h>
-#include <gsl_multimin.h>
 #include <time.h>
 
 using namespace std;
@@ -21,18 +21,28 @@ EGO::EGO(
 	double convergence_threshold,
 	bool is_discrete,
 	size_t constraints,
-	size_t costs
-) :	max_evaluations(max_evaluations),
+	size_t costs,
+	set<pair<vector<double>, double>> old) :
+
+	dimension(boundaries.size()),
+	boundaries(boundaries),
+	rejection(rejection),
+	max_evaluations(max_evaluations),
+	evaluations(0),
 	max_trials(max_trials),
 	convergence_threshold(convergence_threshold),
 	is_discrete(is_discrete),
-	evaluator(evaluator)
-{
-	dimension = boundaries.size();
-	this->boundaries = boundaries;
-	this->rejection = rejection;
+	x_opt({}),
+	y_opt(numeric_limits<double>::max()),
+	evaluator(evaluator) {
 
-	sg = new GaussianProcess(dimension);
+	// Initalise surrogates
+	if (old.empty()) {
+		sg = new GaussianProcess(dimension);
+	} else {
+		sg = new TransferredGaussianProcess(old);
+	}
+
 	sg_label = new GaussianProcess(dimension);
 
 	for (size_t constraint = 0; constraint < constraints; constraint++) {
@@ -45,10 +55,6 @@ EGO::EGO(
 
 	rng = gsl_rng_alloc(gsl_rng_taus);
 	gsl_rng_set(rng, time(NULL));
-
-	evaluations = 0;
-	x_opt = {};
-	y_opt = numeric_limits<double>::max();
 }
 
 EGO::~EGO() {

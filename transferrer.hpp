@@ -45,9 +45,6 @@ class Transferrer {
 		static bool fitness_more_than(
 			pair<vector<double>, vector<double>> xs,
 			pair<vector<double>, vector<double>> ys);
-		void interpolate(boundaries_t boundaries_old, results_t results_new,
-			results_t predictions);
 		vector<double> test_correlation(vector<double> xs, vector<double> ys);
 		double calc_fitness_percentile(double percentile);
-		results_t transfer_results_old(GaussianProcess& surrogate, results_t sampled);
 };
