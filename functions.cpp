@@ -1,7 +1,6 @@
 #include <assert.h>
 #include <math.h>
 #include <iostream>
-#include <iomanip>
 #include <algorithm>
 #include <gsl_randist.h>
 #include <gsl_cdf.h>
@@ -451,6 +450,10 @@ double transfer_fitness_predict(double fitness_old, double parameter) {
 // Given two fitness function samples, estimate a parameter to maximise
 // correlation
 double transfer_calc_parameter(double fitness_old, double fitness_new) {
+	if (fitness_old == 0.0 && fitness_new == 0.0) {
+		return 1.0;
+	}
+
 	return fitness_new / fitness_old;
 }
 
@@ -698,7 +701,7 @@ vector<double> minimise_multiquadratic(vector<vector<double>> fs,
 }
 
 // Generate samples using LHS, but minimise samples that are close to xs
-vector<vector<double>> generate_sparse_latin_samples_(gsl_rng* rng,
+vector<vector<double>> generate_sparse_latin_samples(gsl_rng* rng,
     vector<vector<double>> xs, size_t samples, size_t max_trials,
     boundaries_t boundaries) {
 	assert(max_trials > 0 && !xs.empty());

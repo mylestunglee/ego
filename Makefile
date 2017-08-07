@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -c -std=c++14 -Wall -Wextra
+CFLAGS = -c -std=c++14 -Wall -Wextra -g
 INC = -isystem eigen3 -isystem libgp/include -Igsl-2.4/gsl
 LIBS = -Llibgp -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu/ -lgp -lpthread -lgsl -lgslcblas
 

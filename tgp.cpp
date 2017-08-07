@@ -48,6 +48,7 @@ double TransferredGaussianProcess::cross_validate() {
 	return transferred->cross_validate();
 }
 
+// Construct predictor of added_new using added_old
 void TransferredGaussianProcess::train() {
 	if (transferred != NULL) {
 		delete transferred;
@@ -98,6 +99,11 @@ void TransferredGaussianProcess::train() {
 			continue;
 		}
 		auto y = pair.second;
-		transferred->add(x, transfer_fitness_predict(y, parameter.mean(x)));
+
+		// Attempt to transfer
+		auto p = parameter.mean(x);
+		if (!isnan(p)) {
+			transferred->add(x, transfer_fitness_predict(y, p));
+		}
 	}
 }

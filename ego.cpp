@@ -5,7 +5,6 @@
 #include <limits>
 #include <thread>
 #include <iostream>
-#include <iomanip>
 #include <gsl_cdf.h>
 #include <gsl_randist.h>
 #include <time.h>
@@ -22,7 +21,7 @@ EGO::EGO(
 	bool is_discrete,
 	size_t constraints,
 	size_t costs,
-	set<pair<vector<double>, double>> old) :
+	results_t results_old) :
 
 	dimension(boundaries.size()),
 	boundaries(boundaries),
@@ -36,25 +35,73 @@ EGO::EGO(
 	y_opt(numeric_limits<double>::max()),
 	evaluator(evaluator) {
 
-	// Initalise surrogates
-	if (old.empty()) {
-		sg = new GaussianProcess(dimension);
-	} else {
-		sg = new TransferredGaussianProcess(old);
-	}
-
-	sg_label = new GaussianProcess(dimension);
-
-	for (size_t constraint = 0; constraint < constraints; constraint++) {
-		this->constraints.push_back(new GaussianProcess(dimension));
-	}
-
-	for (size_t cost = 0; cost < costs; cost++) {
-		this->costs.push_back(new GaussianProcess(dimension));
-	}
-
+	// Initialise random numbers
 	rng = gsl_rng_alloc(gsl_rng_taus);
 	gsl_rng_set(rng, time(NULL));
+
+	// If not using knowledge transfer
+	if (results_old.empty()) {
+		sg = new GaussianProcess(dimension);
+		sg_label = new GaussianProcess(dimension);
+
+		for (size_t constraint = 0; constraint < constraints; constraint++) {
+			this->constraints.push_back(new GaussianProcess(dimension));
+		}
+
+		for (size_t cost = 0; cost < costs; cost++) {
+			this->costs.push_back(new GaussianProcess(dimension));
+		}
+		return;
+	}
+
+	set<pair<vector<double>, double>> added_fitness;
+	set<pair<vector<double>, double>> added_label;
+	vector<set<pair<vector<double>, double>>> added_constraints =
+		vector<set<pair<vector<double>, double>>>(constraints,
+			set<pair<vector<double>, double>>{});
+	vector<set<pair<vector<double>, double>>> added_costs =
+		vector<set<pair<vector<double>, double>>>(costs,
+			set<pair<vector<double>, double>>{});
+
+		// Extract results for transfer
+	for (auto result_old : results_old) {
+		const size_t FITNESS_INDEX = 0;
+		const size_t LABEL_INDEX = 1;
+		const size_t FITNESS_LABEL_OFFSET = 2;
+		auto x = result_old.first;
+		auto y = result_old.second;
+
+		added_label.insert(make_pair(x, y[LABEL_INDEX]));
+
+		// Do not transfer non-label results if label failed
+		if (y[LABEL_INDEX] == 1.0) {
+			continue;
+		}
+
+		added_fitness.insert(make_pair(x, y[FITNESS_INDEX]));
+		for (size_t i = 0; i < constraints; i++) {
+			added_constraints[i].insert(
+				make_pair(x, y[FITNESS_LABEL_OFFSET + i]));
+		}
+
+		for (size_t i = 0; i < costs; i++) {
+			added_costs[i].insert(
+				make_pair(x, y[FITNESS_LABEL_OFFSET + constraints + i]));
+		}
+	}
+
+	// Build surrogates from previous data
+	sg = new TransferredGaussianProcess(added_fitness);
+	sg_label = new TransferredGaussianProcess(added_label);
+	for (size_t i = 0; i < constraints; i++) {
+		this->constraints.push_back(
+			new TransferredGaussianProcess(added_constraints[i]));
+	}
+
+	for (size_t i = 0; i < costs; i++) {
+		this->costs.push_back(
+			new TransferredGaussianProcess(added_costs[i]));
+	}
 }
 
 EGO::~EGO() {
@@ -74,10 +121,11 @@ EGO::~EGO() {
 
 void EGO::run()
 {
-	assert(evaluations > 0);
 	if (x_opt.empty()) {
 		return;
 	}
+
+	assert(evaluations > 0);
 
 	sg->optimise();
 
@@ -244,7 +292,7 @@ void EGO::simulate(vector<double> x, vector<double> y) {
 	} else {
 		cout << "\t f";
 		print_vector(x_opt);
-		cout << " = " << setprecision(6) << y_opt << endl;
+		cout << " = " << y_opt << endl;
 	}
 }
 

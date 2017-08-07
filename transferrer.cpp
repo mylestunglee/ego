@@ -1,3 +1,4 @@
+#include <limits>
 #include "transferrer.hpp"
 #include "csv.hpp"
 #include "surrogate.hpp"
@@ -75,7 +76,6 @@ void Transferrer::run() {
 	assert(!samples.empty());
 
 	animation_start("Sampling new design space:", 0, samples.size());
-	set<pair<vector<double>, double>> old;
 
 	// Compute fitness for sample
 	for (auto result_old : samples) {
@@ -84,7 +84,6 @@ void Transferrer::run() {
 
 		assert(!y.empty());
 		results_new.push_back(make_pair(x, y));
-		old.insert(make_pair(x, y[0]));
 
 		animation_step();
 	}
@@ -96,7 +95,7 @@ void Transferrer::run() {
 	}
 
 	EGO ego(evaluator, boundaries, rejection, max_evaluations, max_trials,
-		convergence_threshold, is_discrete, constraints, costs, old);
+		convergence_threshold, is_discrete, constraints, costs, results_old);
 
 	for (auto result_new : results_new) {
 		ego.simulate(result_new.first, result_new.second);
@@ -192,64 +191,7 @@ bool Transferrer::fitness_more_than(
 		return false;
 	}
 
-	return (x.second)[0] < (y.second)[0];
-}
-
-// Calculates the average p-value from confidence interval tests on all samples
-double Transferrer::calc_label_correlation(results_t results_new) {
-	assert(!results_new.empty());
-
-	GaussianProcess surrogate(boundaries.size());
-
-	// Converts labels into continuous values
-	for (auto result_old : results_old) {
-		surrogate.add(
-			result_old.first,
-			(result_old.second)[LABEL_INDEX] == 0.0 ? 1.0 : 0.0);
-	}
-
-	vector<double> coeffs;
-
-	for (auto result_new : results_new) {
-		auto x = result_new.first;
-		double mean = surrogate.mean(x);
-		double sd = surrogate.sd(x);
-
-		// If GP prediction is certain, otherwise assume normal distribution
-		if (isnan(sd) || sd <= 0.0) {
-			coeffs.push_back(1.0);
-		} else if (result_new.second[LABEL_INDEX] == 0.0) {
-			coeffs.push_back(success_probability(mean, sd));
-		} else {
-			coeffs.push_back(1.0 - success_probability(mean, sd));
-		}
-	}
-
-	return accumulate(coeffs.begin(), coeffs.end(), 0.0) / coeffs.size();
-}
-
-// Test each correlation score for best polynomial function
-vector<double> Transferrer::test_correlation(vector<double> xs,
-	vector<double> ys) {
-	double pearson;
-	double spearman;
-	calc_correlation(xs, ys, pearson, spearman);
-
-	if (isnan(pearson) || isnan(spearman)) {
-		return {};
-	}
-
-	// If hypothesis test for linear relationship between ys_old and ys_new passes
-	if (1.0 - pearson <= sig_level || 1.0 + pearson <= sig_level) {
-		return fit_polynomial(xs, ys, 1);
-	}
-
-	// If hypothesis test for monotonic relationship passes
-	if (1.0 - spearman <= sig_level || 1.0 + spearman <= sig_level) {
-		return fit_polynomial(xs, ys, 2);
-	}
-
-	return {};
+	return (x.second)[FITNESS_INDEX] < (y.second)[FITNESS_INDEX];
 }
 
 // Given a value x between 0 and 1, determine the x percentile of the old
@@ -265,6 +207,7 @@ double Transferrer::calc_fitness_percentile(double percentile) {
 		}
 	}
 
-	assert(successes > 0);
+	assert (successes > 0);
+
 	return results_old[percentile * (successes - 1.0)].second[FITNESS_INDEX];
 }

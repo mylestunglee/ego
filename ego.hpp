@@ -22,7 +22,7 @@ class EGO {
 			bool is_discrete,
 			size_t constraints,
 			size_t costs,
-			set<pair<vector<double>, double>> old = {});
+			results_t results_old = {});
 		~EGO();
 		void sample_latin(size_t n);
 		void sample_uniform(size_t n);

@@ -41,10 +41,8 @@ class Transferrer {
 
 		void read_results(string filename);
 		results_t sample_results_old();
-		double calc_label_correlation(results_t results_new);
 		static bool fitness_more_than(
 			pair<vector<double>, vector<double>> xs,
 			pair<vector<double>, vector<double>> ys);
-		vector<double> test_correlation(vector<double> xs, vector<double> ys);
 		double calc_fitness_percentile(double percentile);
 };

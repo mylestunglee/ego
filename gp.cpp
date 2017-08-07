@@ -9,7 +9,8 @@
 using namespace std;
 
 GaussianProcess::GaussianProcess(size_t dimension) :
-	dimension(dimension), log_transform(false), gp(NULL) {}
+	dimension(dimension), log_transform(false), gp(NULL), y_mean(0.0),
+	y_sd(1.0) {}
 
 GaussianProcess::~GaussianProcess() {
 	if (gp != NULL) {
@@ -30,6 +31,8 @@ libgp::GaussianProcess* GaussianProcess::newGaussianProcess() {
 
 // Add to training set
 void GaussianProcess::add(vector<double> x, double y) {
+	assert(!isnan(y));
+
 	assert(x.size() == dimension);
 	// Predictor is now old-of-date
 	if (gp != NULL) {
