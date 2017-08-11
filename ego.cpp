@@ -236,8 +236,13 @@ void EGO::thread_evaluate(EGO* ego, vector<double> x) {
 	ego->evaluator_lock.unlock();
 }
 
-// Concurrently evaluates multiple points xs
+// Evaluates multiple points xs
 void EGO::evaluate(vector<vector<double>> xs) {
+	for (auto x : xs) {
+		thread_evaluate(this, x);
+	}
+
+	/* Concurrent method:
 	vector<thread> threads;
 	for (auto x : xs) {
 		threads.push_back(thread(thread_evaluate, this, x));
@@ -245,7 +250,7 @@ void EGO::evaluate(vector<vector<double>> xs) {
 
 	for (auto& t : threads) {
 		t.join();
-	}
+	}*/
 }
 
 // Simulates an evaluation
@@ -285,7 +290,7 @@ void EGO::simulate(vector<double> x, vector<double> y) {
 		}
 	}
 
-	cout << "Iteration [" << evaluations << "/" << max_evaluations << "]: " << fixed;
+	cout << "Iteration [" << evaluations << "/" << max_evaluations << "]: ";
 	print_vector(x);
 	if (y_opt == numeric_limits<double>::max()) {
 		cout << endl;

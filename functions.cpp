@@ -207,6 +207,9 @@ bool are_valid_boundaries(boundaries_t boundaries) {
 // Computes hypervolume of a hypercuboid defined by boundaries
 double calc_hypervolume(boundaries_t boundaries) {
 	assert(are_valid_boundaries(boundaries));
+	if (boundaries.empty()) {
+		return 0.0;
+	}
 
 	double hypervolume = 1.0;
 	for (auto boundary : boundaries) {

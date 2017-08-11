@@ -89,10 +89,7 @@ void Transferrer::run() {
 	}
 
 	// Define sampling rejection region
-	boundaries_t rejection;
-	if (is_subset(boundaries, boundaries_old)) {
-		rejection = get_intersection(boundaries_old, boundaries);
-	}
+	boundaries_t rejection = get_intersection(boundaries_old, boundaries);
 
 	EGO ego(evaluator, boundaries, rejection, max_evaluations, max_trials,
 		convergence_threshold, is_discrete, constraints, costs, results_old);
@@ -104,7 +101,10 @@ void Transferrer::run() {
 	cout << "Sampling using LHS" << endl;
 	ego.sample_latin(5 * boundaries.size());
 	cout << "Sampling using uniform" << endl;
-	ego.sample_uniform(5 * boundaries.size());
+	double bhv = calc_hypervolume(boundaries);
+	double rhv = calc_hypervolume(rejection);
+	double sample_ratio = (bhv - rhv) / bhv;
+	ego.sample_uniform(5.0 * (double) boundaries.size() * sample_ratio);
 	cout << "Using EGO" << endl;
 	ego.run();
 }

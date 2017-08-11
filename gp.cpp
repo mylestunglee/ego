@@ -77,6 +77,10 @@ double GaussianProcess::sd(vector<double> x) {
 	}
 	auto x_normalised = normalise_x(x);
 	double var = gp->var(&x_normalised[0]);
+	if (isnan(var)) {
+		return 0.0;
+	}
+
 	return sqrt(max(var, 0.0)) * y_sd;
 }
 
@@ -88,6 +92,10 @@ double GaussianProcess::mean(vector<double> x) {
 	}
 	auto x_normalised = normalise_x(x);
 	double mean_raw = gp->f(&x_normalised[0]);
+	if (isnan(mean_raw)) {
+		mean_raw = 0.0;
+	}
+
 	double mean = log_transform ? exp(mean_raw) : mean_raw;
 	return mean * y_sd + y_mean;
 }

@@ -1,11 +1,32 @@
 #!/bin/bash
 
-if [ $# == 1 ] ; then
-	if [ -f $1/script.py ] ; then
-		./ego "python3 $1/script.py" $1/config.txt $1/output.csv
-	else
-		./ego "python3 scripts/interpolate.py $1/results.csv $1/config.txt" $1/config.txt $1/output.csv
-	fi
-else
+if [ $# != 1 ]; then
 	echo "Usage: run_example example_path"
+	exit 1
 fi
+
+script="$1/script"
+config="$1/config.txt"
+output="$1/output.csv"
+
+# Try bash script
+if [ -f $script ]; then
+	./ego $script $config $output
+	exit 0
+fi
+
+# Try Python script
+script="$1/script.py"
+
+if [ -f $script ]; then
+	./ego "python3 $script" $config $output
+	exit 0
+fi
+
+# Try interpolating results
+if [ -f "$1/results.csv" ]; then
+	./ego "python3 scripts/interpolate.py $1/results.csv $1/config.txt" $config $output
+	exit 0
+fi
+
+exit 1
