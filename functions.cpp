@@ -139,7 +139,11 @@ boundaries_t infer_boundaries(results_t results) {
 			x[boundary.second - x.begin()]));
 	}
 
-	return boundaries;
+	if (are_valid_boundaries(boundaries)) {
+		return boundaries;
+	}
+
+	return {};
 }
 
 // Given a polynomial of coefficents c_0, c_1..., compute c_0 + c_1x + c_2x^2...

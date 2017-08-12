@@ -1,3 +1,4 @@
+#pragma once
 #include <set>
 #include <vector>
 #include <mutex>
@@ -6,7 +7,6 @@
 #include "gp.hpp"
 #include "evaluator.hpp"
 #include "functions.hpp"
-#pragma once
 
 using namespace std;
 

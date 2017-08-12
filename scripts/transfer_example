@@ -2,9 +2,9 @@
 
 if [ $# == 2 ] ; then
 	if [ -f $1/script.py ] ; then
-		./ego "python3 $1/script.py" $1/config.txt $1/transfer.csv $2/output.csv
+		./ego -t "python3 $1/script.py" $1/config.txt $1/transfer.csv $2/output.csv
 	else
-		./ego "python3 scripts/interpolate.py $1/results.csv $1/config.txt" $1/config.txt $1/transfer.csv $2/output.csv
+		./ego -t "python3 scripts/interpolate.py $1/results.csv $1/config.txt" $1/config.txt $1/transfer.csv $2/output.csv
 	fi
 else
 	echo "Usage: transfer_example example_new example_old"
