@@ -39,7 +39,6 @@ class Transferrer {
 		results_t results_old;
 		gsl_rng* rng;
 
-		void read_results(string filename);
 		results_t sample_results_old();
 		static bool fitness_more_than(
 			pair<vector<double>, vector<double>> xs,

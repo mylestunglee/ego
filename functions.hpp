@@ -114,3 +114,5 @@ double sample_mean(vector<double> xs);
 double sample_sd(vector<double> xs);
 
 vector<double> log_vector(vector<double> xs);
+
+results_t read_results(string filename, size_t dimension);

@@ -878,3 +878,25 @@ vector<double> log_vector(vector<double> xs) {
 	}
 	return result;
 }
+
+// Reads a file containing samples that form results of evaluations
+results_t read_results(string filename, size_t dimension) {
+	auto data = read(filename);
+	results_t results;
+	for (auto line : data) {
+		vector<double> x;
+		vector<double> y;
+
+		for (size_t i = 0; i < line.size(); i++) {
+			double v = stof(line[i]);
+			if (i < dimension) {
+				x.push_back(v);
+			} else {
+				y.push_back(v);
+			}
+		}
+
+		results.push_back(make_pair(x, y));
+	}
+	return results;
+}

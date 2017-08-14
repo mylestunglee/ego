@@ -39,8 +39,8 @@ Transferrer::Transferrer(
 	is_discrete(is_discrete),
 	constraints(constraints),
 	costs(costs),
-	fitness_percentile(fitness_percentile) {
-	read_results(filename_results_old);
+	fitness_percentile(fitness_percentile),
+	results_old(read_results(filename_results_old, boundaries.size())) {
 	sort(results_old.begin(), results_old.end(), fitness_more_than);
 	rng = gsl_rng_alloc(gsl_rng_taus);
 	gsl_rng_set(rng, time(NULL));
@@ -107,25 +107,6 @@ void Transferrer::run() {
 	ego.sample_uniform(5.0 * (double) boundaries.size() * sample_ratio);
 	cout << "Using EGO" << endl;
 	ego.run();
-}
-
-// Reads results from a CSV file from a previous EGO computation
-void Transferrer::read_results(string filename) {
-	vector<vector<string>> data = read(filename);
-
-	for (vector<string> line : data) {
-		vector<double> x;
-		vector<double> y;
-		for (size_t i = 0; i < line.size(); i++) {
-			double cell = stof(line[i]);
-			if (i < line.size() - 2 - constraints - costs) {
-				x.push_back(cell);
-			} else {
-				y.push_back(cell);
-			}
-		}
-		results_old.push_back(make_pair(x, y));
-	}
 }
 
 // Selects a subset of old_results to determine relationship of old and new evaluators
