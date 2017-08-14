@@ -15,7 +15,7 @@ Evaluator::Evaluator(string script) : script(script) {}
 // Consults proxy then packages x for execution
 vector<double> Evaluator::evaluate(vector<double> x) {
 	cache_lock.lock();
-	if (cache.find(x) != cache.end()) {
+	if (was_evaluated(x)) {
 		vector<double> result = cache[x];
 		cache_lock.unlock();
 		return result;
@@ -84,4 +84,9 @@ void Evaluator::simulate(vector<double> x, vector<double> y) {
 	cache_lock.lock();
 	cache[x] = y;
 	cache_lock.unlock();
+}
+
+// Returns true iff x has been evaluated before
+bool Evaluator::was_evaluated(vector<double> x) {
+	return 	cache.find(x) != cache.end();
 }

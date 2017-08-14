@@ -3,6 +3,7 @@
 #include <gsl/gsl_vector.h>
 #include <utility>
 #include <vector>
+#include <functional>
 
 using namespace std;
 
@@ -57,7 +58,7 @@ vector<double> minimise_local(double (*func)(const gsl_vector*, void*),
 
 vector<double> minimise(double (*func)(const gsl_vector*, void*),
 	vector<double> (*gen)(void*), void* arg, double convergence_threshold,
-	size_t max_trials, double& minimum);
+	size_t max_trials, function<bool (vector<double> x)> pred, double& minimum);
 
 bool is_success(vector<double> y, size_t constraints, size_t costs);
 

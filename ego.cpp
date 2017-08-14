@@ -8,6 +8,7 @@
 #include <gsl_cdf.h>
 #include <gsl_randist.h>
 #include <time.h>
+#include <functional>
 
 using namespace std;
 
@@ -129,6 +130,11 @@ void EGO::run()
 
 	sg->optimise();
 
+	// Due to the discrete use of EGO, do not maximise EI if previously
+	// evaluated
+	function<bool (vector<double> x)> pred =
+		[&](vector<double> x) {return !this->evaluator.was_evaluated(x);};
+
 	while(evaluations < max_evaluations) {
 
 		// Find a point with the highest expected improvement
@@ -136,7 +142,7 @@ void EGO::run()
 		double neg_max_ei = numeric_limits<double>::max();
 		vector<double> x = minimise(expected_improvement_bounded,
 			generate_random_point, this, convergence_threshold, max_trials,
-			neg_max_ei);
+			pred, neg_max_ei);
 		double max_ei = -neg_max_ei;
 
 		if (x.empty()) {

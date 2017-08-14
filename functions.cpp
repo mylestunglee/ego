@@ -351,14 +351,15 @@ vector<double> minimise_local(double (*func)(const gsl_vector*, void*),
 // Runs multiple trials to maximise improvement for global minimum
 vector<double> minimise(double (*func)(const gsl_vector*, void*),
     vector<double> (*gen)(void*), void* arg, double convergence_threshold,
-    size_t max_trials, double& minimum) {
+    size_t max_trials, function<bool (vector<double> x)> pred,
+	double& minimum) {
     vector<double> x_best;
     for (size_t trial = 0; trial < max_trials; trial++) {
 		cout.flush();
         double minimum_trial = 0.0;
         auto x = minimise_local(func, arg, gen(arg), convergence_threshold,
 			max_trials, minimum_trial);
-        if (minimum_trial < minimum) {
+        if (minimum_trial < minimum && pred(x)) {
             minimum = minimum_trial;
             x_best = x;
         }
