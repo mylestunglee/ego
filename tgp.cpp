@@ -6,18 +6,21 @@ using namespace std;
 
 TransferredGaussianProcess::TransferredGaussianProcess(
 	set<pair<vector<double>, double>> added) :
-	added_old(added), transferred(NULL) {}
+	added_old(added), transferred(NULL), parameter(NULL) {}
 
 TransferredGaussianProcess::~TransferredGaussianProcess() {
 	if (transferred != NULL) {
 		delete transferred;
+		delete parameter;
 	}
 }
 
 void TransferredGaussianProcess::add(vector<double> x, double y) {
 	if (transferred != NULL) {
 		delete transferred;
+		delete parameter;
 		transferred = NULL;
+		parameter = NULL;
 	}
 	added_new.insert(make_pair(x, y));
 }
@@ -48,17 +51,18 @@ double TransferredGaussianProcess::cross_validate() {
 	return transferred->cross_validate();
 }
 
+double TransferredGaussianProcess::cross_validate_parameter() {
+	return parameter->cross_validate();
+}
+
 // Construct predictor of added_new using added_old
 void TransferredGaussianProcess::train() {
-	if (transferred != NULL) {
-		delete transferred;
-	}
 	assert(!added_old.empty());
 
 	// Reconstruct Gaussian processes
 	size_t dimension = added_old.begin()->first.size();
 	transferred = new GaussianProcess(dimension);
-	GaussianProcess parameter(dimension);
+	parameter = new GaussianProcess(dimension);
 
 	// Train without knowledge transfer
 	for (auto pair : added_new) {
@@ -84,7 +88,7 @@ void TransferredGaussianProcess::train() {
 		}
 		if (found) {
 			xs.push_back(make_pair(x, vector<double>()));
-			parameter.add(x, transfer_calc_parameter(y_old, y_new));
+			parameter->add(x, transfer_calc_parameter(y_old, y_new));
 		} else {
 			flexible.insert(pair_old);
 		}
@@ -101,7 +105,7 @@ void TransferredGaussianProcess::train() {
 		auto y = pair.second;
 
 		// Attempt to transfer
-		auto p = parameter.mean(x);
+		auto p = parameter->mean(x);
 		if (!isnan(p)) {
 			transferred->add(x, transfer_fitness_predict(y, p));
 		}

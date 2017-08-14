@@ -55,7 +55,12 @@ Transferrer::~Transferrer() {
 // Performs the automatic knowledge transfer
 void Transferrer::run() {
 	boundaries_t boundaries_old = infer_boundaries(results_old);
-	boundaries_t presampled_space = infer_boundaries(results_new);
+
+	// Prune EGO sampling for pre-sampled region
+	boundaries_t presampled_space;
+	if (!results_new.empty()) {
+		presampled_space  = infer_boundaries(results_new);
+	}
 
 	auto samples = sample_results_old();
 	assert(!samples.empty() || count_common_results(results_old, results_new) >= 3);

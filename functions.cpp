@@ -906,7 +906,15 @@ results_t read_results(string filename, size_t dimension) {
 	return results;
 }
 
-// ...
+// Computes the number of common points
 size_t count_common_results(results_t results_old, results_t results_new) {
-	return 10;
+	set<vector<double>> xs;
+	for (auto result : results_old) {
+		xs.insert(result.first);
+	}
+	size_t count = 0;
+	for (auto result : results_new) {
+		count += xs.count(result.first);
+	}
+	return count;
 }

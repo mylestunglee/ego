@@ -14,10 +14,12 @@ class TransferredGaussianProcess : public Surrogate {
 		double sd(vector<double> y);
 		void optimise();
 		double cross_validate();
+		double cross_validate_parameter();
 	private:
 		set<pair<vector<double>, double>> added_new;
 		set<pair<vector<double>, double>> added_old;
 		GaussianProcess* transferred;
+		GaussianProcess* parameter;
 
 		void train();
 };

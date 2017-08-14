@@ -5,6 +5,7 @@
 #include "transferrer.hpp"
 #include "functions.hpp"
 #include "csv.hpp"
+#include "compare.hpp"
 
 using namespace std;
 
@@ -33,16 +34,45 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	if (mode == Mode::compare) {
-		cerr << "Not implemented" << endl;
-		return 0;
-	}
-
-	if ((mode == Mode::optimise && (argc < 5 || argc > 6)) ||
+	// Check number of arguments
+	if ((mode == Mode::compare && argc < 5) ||
+		(mode == Mode::optimise && (argc < 5 || argc > 6)) ||
 		(mode == Mode::transfer && (argc < 6 || argc > 7))) {
 		cerr << "Invalid number of arguments" << endl;
 		return 1;
 	}
+
+	if (mode == Mode::compare) {
+		// Load configuration file
+		string filename_config(argv[2]);
+		size_t max_evaluations, max_trials, constraints, costs;
+		double convergence_threshold, sig_level, fitness_percentile;
+		bool is_discrete;
+		boundaries_t boundaries;
+		bool error = read_config(filename_config, max_evaluations, max_trials,
+			constraints, costs, convergence_threshold, sig_level,
+			fitness_percentile, is_discrete, boundaries);
+
+		if (error) {
+			return 1;
+		}
+
+		// Read results
+		string filename_results_new(argv[3]);
+		results_t results_new = read_results(
+			filename_results_new, boundaries.size());
+		vector<results_t> results_olds;
+		for (int i = 4; i < argc; i++) {
+			string filename_results_old(argv[i]);
+			results_olds.push_back(
+				read_results(filename_results_old, boundaries.size()));
+		}
+
+		compare(results_new, results_olds);
+
+		return 0;
+	}
+
 
 	// Read filenames from arguments
 	string filename_script(argv[2]);
@@ -137,7 +167,7 @@ void print_help(ostream& cstr) {
 	cstr << "Usage:" << endl;
 	cstr << "\tego -o script config output [results]" << endl;
 	cstr << "\tego -t script config output results_old [results_new]" << endl;
-	cstr << "\tego -c config output results_new results_old_1..." << endl;
+	cstr << "\tego -c config results_new results_old_1..." << endl;
 	cstr << "\tego -h" << endl;
 	cstr << "\t-o --optimise Optimise" << endl;
 	cstr << "\t-t --transfer Transfer" << endl;
