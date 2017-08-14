@@ -48,10 +48,16 @@ void TransferredGaussianProcess::optimise() {
 }
 
 double TransferredGaussianProcess::cross_validate() {
+	if (transferred == NULL) {
+		train();
+	}
 	return transferred->cross_validate();
 }
 
 double TransferredGaussianProcess::cross_validate_parameter() {
+	if (transferred == NULL) {
+		train();
+	}
 	return parameter->cross_validate();
 }
 

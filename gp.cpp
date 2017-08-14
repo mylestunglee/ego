@@ -1,3 +1,4 @@
+#include "animation.hpp"
 #include "functions.hpp"
 #include "gp.hpp"
 #include "gp.h"
@@ -9,8 +10,8 @@
 using namespace std;
 
 GaussianProcess::GaussianProcess(size_t dimension) :
-	dimension(dimension), log_transform(false), gp(NULL), y_mean(0.0),
-	y_sd(1.0) {}
+	dimension(dimension), log_transform(false), gp(NULL),
+	x_mean(dimension, 0.0), x_sd(dimension, 1.0), y_mean(0.0), y_sd(1.0) {}
 
 GaussianProcess::~GaussianProcess() {
 	if (gp != NULL) {
@@ -53,7 +54,7 @@ void GaussianProcess::train() {
 
 	gp = newGaussianProcess();
 
-	update_whitener();
+//	update_whitener();
 
 	for (auto pair : added) {
 		auto x = pair.first;
@@ -95,9 +96,8 @@ double GaussianProcess::mean(vector<double> x) {
 	if (isnan(mean_raw)) {
 		mean_raw = 0.0;
 	}
-
-	double mean = log_transform ? exp(mean_raw) : mean_raw;
-	return mean * y_sd + y_mean;
+	double mean = mean_raw * y_sd + y_mean;
+	return log_transform ? exp(mean) : mean;
 }
 
 // Switch between non-log and log space
@@ -127,6 +127,7 @@ void GaussianProcess::optimise() {
 
 // Cross validation
 double GaussianProcess::cross_validate() {
+	animation_start("Cross validating", 0, added.size());
 	vector<double> errors;
 
 	// Select a point not to add
@@ -138,15 +139,16 @@ double GaussianProcess::cross_validate() {
 			}
 			surrogate.add(add.first, add.second);
 		}
-		surrogate.train();
-		surrogate.optimise();
-
+//		surrogate.optimise();
 		auto x = pair.first;
 		auto y = pair.second;
-		double error = (y - surrogate.mean(x)) / y;
+		double error = abs(y - surrogate.mean(x));
 		errors.push_back(error);
+		animation_step();
 	}
-	return accumulate(errors.begin(), errors.end(), 0.0) / errors.size();
+	double mean = sample_mean(extract_ys());
+	return accumulate(errors.begin(), errors.end(), 0.0) /
+		((double)errors.size() * mean);
 }
 
 // Extracts ys from added points
@@ -202,6 +204,7 @@ void GaussianProcess::update_whitener() {
 
 // Apply linear transformations to whiten x
 vector<double> GaussianProcess::normalise_x(vector<double> x) {
+	assert(x.size() == dimension);
 	vector<double> normalised;
 	for (size_t i = 0; i < dimension; i++) {
 		normalised.push_back((x[i] - x_mean[i]) / x_sd[i]);

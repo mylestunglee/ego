@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	// Check number of arguments
-	if ((mode == Mode::compare && argc < 5) ||
+	if ((mode == Mode::compare && argc < 4) ||
 		(mode == Mode::optimise && (argc < 5 || argc > 6)) ||
 		(mode == Mode::transfer && (argc < 6 || argc > 7))) {
 		cerr << "Invalid number of arguments" << endl;

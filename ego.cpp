@@ -132,8 +132,7 @@ void EGO::run()
 
 	// Due to the discrete use of EGO, do not maximise EI if previously
 	// evaluated
-	function<bool (vector<double> x)> pred =
-		[&](vector<double> x) {return !evaluator.was_evaluated(
+	auto pred = [&](vector<double> x) {return !evaluator.was_evaluated(
 			is_discrete ? round_vector(x) : x);};
 
 	while(evaluations < max_evaluations) {
