@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
 	// Require at least one argument
 	if (argc < 2) {
 		cerr << "Insufficent arguments" << endl;
-		print_help();
+		print_help(cerr);
 		return 1;
 	}
 
@@ -25,8 +25,8 @@ int main(int argc, char* argv[]) {
 		mode = Mode::transfer;
 	} else if (mode_str == "-c" || mode_str == "--compare") {
 		mode = Mode::compare;
-	} else if (mode_str == "--help") {
-		print_help();
+	} else if (mode_str == "-h" || mode_str == "--help") {
+		print_help(cout);
 		return 0;
 	} else {
 		cerr << "Invalid mode" << endl;
@@ -66,16 +66,31 @@ int main(int argc, char* argv[]) {
 	}
 
 	if (mode == Mode::optimise) {
+		boundaries_t rejection = {};
+		results_t results = {};
+
+		// Read sampled results if provided
+		if (argc == 6) {
+			string filename_results(argv[5]);
+			results = read_results(filename_results, boundaries.size());
+			rejection = infer_boundaries(results);
+		}
+
 		EGO ego(
 			evaluator,
 			boundaries,
-			{},
+			rejection,
 			max_evaluations,
 			max_trials,
 			convergence_threshold,
 			is_discrete,
 			constraints,
 			costs);
+
+		if (argc == 6) {
+			simulate_results(ego, results);
+		}
+
 		// Heuristic sample size = 5 * dim
 		cout << "Sampling using LHS" << endl;
 		ego.sample_latin(5 * boundaries.size());
@@ -110,14 +125,15 @@ int main(int argc, char* argv[]) {
 }
 
 // Prints usage information
-void print_help() {
-	cerr << "Usage:" << endl;
-	cerr << "\tego -o script config output [results]" << endl;
-	cerr << "\tego -t script config output results_old [results_new]" << endl;
-	cerr << "\tego -c config output results_new results_old_1..." << endl;
-	cerr << "\t-o\tOptimise" << endl;
-	cerr << "\t-t\tTransfer" << endl;
-	cerr << "\t-c\tCompare" << endl;
+void print_help(ostream& cstr) {
+	cstr << "Usage:" << endl;
+	cstr << "\tego -o script config output [results]" << endl;
+	cstr << "\tego -t script config output results_old [results_new]" << endl;
+	cstr << "\tego -c config output results_new results_old_1..." << endl;
+	cstr << "\tego -h" << endl;
+	cstr << "\t-o --optimise Optimise" << endl;
+	cstr << "\t-t --transfer Transfer" << endl;
+	cstr << "\t-c --compare  Compare" << endl;
 }
 
 // Attempts to read configuration file at filename, returns false iff
@@ -172,4 +188,11 @@ bool read_config(
 	}
 
 	return false;
+}
+
+// Given an optimiser, simulate sampling using provided results
+void simulate_results(EGO& ego, results_t results) {
+	for (auto result : results) {
+		ego.simulate(result.first, result.second);
+	}
 }

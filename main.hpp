@@ -1,11 +1,21 @@
 #pragma once
 #include <string>
 #include "functions.hpp"
+#include "ego.hpp"
 
 using namespace std;
 
+enum class Mode {
+	undefined,
+	optimise,
+	transfer,
+	compare
+};
+
 int main(int argc, char* argv[]);
-void print_help();
+
+void print_help(ostream& cstr);
+
 bool read_config(
 	string filename,
 	size_t& max_evaluations,
@@ -19,9 +29,4 @@ bool read_config(
 	boundaries_t& boundaries
 );
 
-enum class Mode {
-	undefined,
-	optimise,
-	transfer,
-	compare
-};
+void simulate_results(EGO& ego, results_t results);
