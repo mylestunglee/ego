@@ -11,7 +11,8 @@ using namespace std;
 class Transferrer {
 	public:
 		Transferrer(
-			string filename_results_old,
+			results_t&_results_old,
+			results_t& results_new,
 			Evaluator& evaluator,
 			size_t max_evaluations,
 			size_t max_trials,
@@ -37,6 +38,7 @@ class Transferrer {
 		size_t costs;
 		double fitness_percentile;
 		results_t results_old;
+		results_t results_new;
 		gsl_rng* rng;
 
 		results_t sample_results_old();

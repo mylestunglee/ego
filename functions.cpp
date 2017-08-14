@@ -78,6 +78,10 @@ double success_probability(double mean, double sd) {
 
 // Returns the hypercuboid intersection of the two hypercuboid bxs and bys
 boundaries_t get_intersection(boundaries_t bxs, boundaries_t bys) {
+	if (bxs.empty() || bys.empty()) {
+		return {};
+	}
+
 	assert(bxs.size() == bys.size());
 	boundaries_t result;
 	for (size_t i = 0; i < bxs.size(); i++) {
@@ -900,4 +904,9 @@ results_t read_results(string filename, size_t dimension) {
 		results.push_back(make_pair(x, y));
 	}
 	return results;
+}
+
+// ...
+size_t count_common_results(results_t results_old, results_t results_new) {
+	return 10;
 }

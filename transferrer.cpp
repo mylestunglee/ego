@@ -19,7 +19,8 @@ const unsigned FITNESS_INDEX = 0;
 const unsigned LABEL_INDEX   = 1;
 
 Transferrer::Transferrer(
-	string filename_results_old,
+	results_t& results_old,
+	results_t& results_new,
 	Evaluator& evaluator,
 	size_t max_evaluations,
 	size_t max_trials,
@@ -40,7 +41,8 @@ Transferrer::Transferrer(
 	constraints(constraints),
 	costs(costs),
 	fitness_percentile(fitness_percentile),
-	results_old(read_results(filename_results_old, boundaries.size())) {
+	results_old(results_old),
+	results_new(results_new) {
 	sort(results_old.begin(), results_old.end(), fitness_more_than);
 	rng = gsl_rng_alloc(gsl_rng_taus);
 	gsl_rng_set(rng, time(NULL));
@@ -53,11 +55,13 @@ Transferrer::~Transferrer() {
 // Performs the automatic knowledge transfer
 void Transferrer::run() {
 	boundaries_t boundaries_old = infer_boundaries(results_old);
+	boundaries_t presampled_space = infer_boundaries(results_new);
 
-	results_t results_new;
+	auto samples = sample_results_old();
+	assert(!samples.empty() || count_common_results(results_old, results_new) >= 3);
 
 	// Good for non-near-constrainted optimal solutions
-	animation_start("Performing multiquadratic regression fit", 0, 1);
+	cout << "Performing multiquadratic regression fit" << endl;
 	auto fs = multiquadratic_result_extrapolate(results_old, constraints, costs);
 	if (!fs.empty()) {
 		// Guess optimial point
@@ -70,13 +74,8 @@ void Transferrer::run() {
 		boundaries = prune_boundaries(boundaries, boundaries_old, fs,
 			spearmans, sig_level);
 	}
-	animation_finish();
 
-	auto samples = sample_results_old();
-	assert(!samples.empty());
-
-	animation_start("Sampling new design space:", 0, samples.size());
-
+	cout << "Sampling new design space" << endl;
 	// Compute fitness for sample
 	for (auto result_old : samples) {
 		auto x = result_old.first;
@@ -90,6 +89,9 @@ void Transferrer::run() {
 
 	// Define sampling rejection region
 	boundaries_t rejection = get_intersection(boundaries_old, boundaries);
+	if (rejection.empty()) {
+		rejection = presampled_space;
+	}
 
 	EGO ego(evaluator, boundaries, rejection, max_evaluations, max_trials,
 		convergence_threshold, is_discrete, constraints, costs, results_old);
@@ -113,41 +115,51 @@ void Transferrer::run() {
 results_t Transferrer::sample_results_old() {
 	vector<pair<vector<double>, vector<double>>> result;
 	set<vector<double>> sampled;
+
+	boundaries_t presampled_space;
+	if (!results_new.empty()) {
+		presampled_space = infer_boundaries(results_new);
+	}
+
 	// fitness_percentile is a hyperparameter for upper limit of samplable
 	// fitnesses to minimise noise
 	double fitness_threshold = calc_fitness_percentile(fitness_percentile);
 
 	for (size_t trial = 0; trial < max_trials; trial++) {
 		auto sample = results_old[gsl_rng_uniform_int(rng, results_old.size())];
-
-		// auto sample = results_old[(size_t) gsl_ran_exponential(rng, 1.0) % results_old.size()];
+		auto x = sample.first;
+		auto y = sample.second;
 
 		// Don't samples with bad fitnesses
-		if (sample.second[FITNESS_INDEX] > fitness_threshold) {
+		if (y[FITNESS_INDEX] > fitness_threshold) {
 			continue;
 		}
 
 		// Only add sample when sample fits new parameter space and has not been
 		// sampled before
-		if (!is_bounded(sample.first, boundaries) ||
-			sampled.find(sample.first) != sampled.end()) {
+		if (!is_bounded(x, boundaries) || sampled.find(x) != sampled.end()) {
+			continue;
+		}
+
+		// Do not sample in pre-sampled space, assume we know the distribution
+		if (!presampled_space.empty() && is_bounded(x, presampled_space)) {
 			continue;
 		}
 
 		// Don't sample failed results
-		if (!is_success(sample.second, constraints, costs)) {
+		if (!is_success(y, constraints, costs)) {
 			continue;
 		}
 
 		// Only sample iff is_discrete_old == is_discrete_new
 		if (is_discrete) {
-			auto x = sample.first;
 			auto rounded = round_vector(x);
 			if (!equal(x.begin(), x.end(), rounded.begin())) {
 				continue;
 			}
 		}
-		sampled.insert(sample.first);
+
+		sampled.insert(x);
 		result.push_back(sample);
 		// Sample at most 10 * dimension, but aim for 5 * dimension
 		if (sampled.size() > 5 * boundaries.size()) {

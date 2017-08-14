@@ -117,3 +117,5 @@ double sample_sd(vector<double> xs);
 vector<double> log_vector(vector<double> xs);
 
 results_t read_results(string filename, size_t dimension);
+
+size_t count_common_results(results_t results_old, results_t results_new);

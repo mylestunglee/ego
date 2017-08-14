@@ -101,10 +101,18 @@ int main(int argc, char* argv[]) {
 		ego.run();
 		return 0;
 	} else {
-		string filename_results_old(argv[4]);
+		string filename_results_old(argv[5]);
+		results_t results_old = read_results(filename_results_old, boundaries.size());
+		results_t results_new;
+
+		if (argc == 7) {
+			string filename_results_new(argv[6]);
+			results_new = read_results(filename_results_new, boundaries.size());
+		}
 
 		Transferrer transferrer(
-			filename_results_old,
+			results_old,
+			results_new,
 			evaluator,
 			max_evaluations,
 			max_trials,
