@@ -116,6 +116,11 @@ results_t read_results(string filename, size_t dimension);
 
 size_t count_common_results(results_t results_old, results_t results_new);
 
+size_t count_common_results(vector<results_t> results_olds,
+	results_t results_new);
+
+size_t count_common_results(vector<results_t> resultss);
+
 void add_results_to_surrogate(results_t& results, Surrogate& surrogate);
 
 vector<vector<double>> calc_cluster_midpoints(vector<results_t> results,

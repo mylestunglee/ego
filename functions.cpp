@@ -877,15 +877,47 @@ results_t read_results(string filename, size_t dimension) {
 
 // Computes the number of common points
 size_t count_common_results(results_t results_old, results_t results_new) {
-	set<vector<double>> xs;
-	for (auto result : results_old) {
-		xs.insert(result.first);
+	return count_common_results(vector<results_t>{results_old}, results_new);
+}
+
+size_t count_common_results(vector<results_t> results_olds,
+	results_t results_new) {
+	vector<results_t> resultss = results_olds;
+	resultss.push_back(results_new);
+	return count_common_results(resultss);
+}
+
+size_t count_common_results(vector<results_t> resultss) {
+	// Empty set means no common points
+	if (resultss.empty()) {
+		return 0;
 	}
-	size_t count = 0;
-	for (auto result : results_new) {
-		count += xs.count(result.first);
+
+	vector<vector<double>> xs;
+	for (auto result : resultss[0]) {
+		auto x = result.first;
+		xs.push_back(x);
 	}
-	return count;
+
+	for (size_t i = 1; i < resultss.size(); i++) {
+		auto results = resultss[i];
+
+		vector<vector<double>> ys;
+		for (auto result : results) {
+			auto y = result.first;
+			ys.push_back(y);
+		}
+
+		sort(xs.begin(), xs.end());
+		sort(ys.begin(), ys.end());
+
+		vector<vector<double>> intersection;
+		set_intersection(xs.begin(), xs.end(), ys.begin(), ys.end(),
+			back_inserter(intersection));
+		xs = intersection;
+	}
+
+	return xs.size();
 }
 
 // Adds each valid result to the given surrogate

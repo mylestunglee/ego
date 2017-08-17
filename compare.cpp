@@ -11,17 +11,6 @@ const size_t LABEL_INDEX = 1;
 
 // Attempts to find the best combination of results for knowledge transfer
 void compare(results_t& results_new, vector<results_t>& results_olds) {
-	results_t r1 = {make_pair(vector<double>{1,2}, vector<double>{999}), make_pair(vector<double>{10,1}, vector<double>{999})};
-	results_t r2 = {make_pair(vector<double>{2,2}, vector<double>{999})};
-	results_t r3 = {make_pair(vector<double>{3,3}, vector<double>{999}), make_pair(vector<double>{14,2}, vector<double>{999})};
-	vector<results_t> results = {r1, r2, r3};
-	auto bests = calc_cluster_midpoints(results, 2);
-	for (auto best : bests) {
-		print_vector(best);
-	}
-
-	return;
-
 	size_t dimension = results_new[0].first.size();
 
 	cout << "Base case" << endl;
@@ -32,7 +21,8 @@ void compare(results_t& results_new, vector<results_t>& results_olds) {
 
 	for (results_t& results_old : results_olds) {
 		cout << "Comparing!" << endl;
-		cout << "\tNumber of common points: " << count_common_results(results_old, results_new) << endl;
+		cout << "\tNumber of common points: " <<
+			count_common_results(results_old, results_new) << endl;
 
 		set<pair<vector<double>, double>> added;
 		for (auto result_old : results_old) {
@@ -44,7 +34,15 @@ void compare(results_t& results_new, vector<results_t>& results_olds) {
 		TransferredGaussianProcess tgp(added);
 		add_results_to_surrogate(results_new, tgp);
 
-		cout << "\tFitness cross-validation mean error: " << tgp.cross_validate() << endl;
-		cout << "\tParameter cross-validation mean error: " << tgp.cross_validate_parameter() << endl;
+		cout << "\tFitness cross-validation mean error: " <<
+			tgp.cross_validate() << endl;
+		cout << "\tParameter cross-validation mean error: " <<
+			tgp.cross_validate_parameter() << endl;
 	}
+
+	size_t common_source_points = count_common_results(results_olds);
+	cout << "Common points across source designs: " << common_source_points << endl;
+	size_t common_all_points = count_common_results(results_olds, results_new);
+	cout << "Common points across all designs: " << common_all_points << endl;
+
 }
