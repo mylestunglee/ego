@@ -525,35 +525,19 @@ void write_fitness_log(string filename) {
 	write(filename, {row});
 }
 
-// Calcuates the covariance of some results
-double covariance_results(results_t results) {
-	const size_t FITNESS_INDEX = 0;
-	assert(!results.empty());
-	size_t dimension = results[0].first.size();
-	double sum = 0.0;
-	auto midpoint = midpoint_results(results);
-	for (auto result : results) {
-		double product = result.second[FITNESS_INDEX];
-		for (size_t i = 0; i < dimension; i++) {
-			product *= result.first[i] - midpoint[i];
-		}
-		sum += product;
-	}
-	return sum;
-}
-
 // Calculates the midpoint of multiple points
-vector<double> midpoint_results(results_t results) {
-	assert(!results.empty());
-	size_t dimension = results[0].first.size();
+vector<double> calc_midpoint(vector<vector<double>> xs) {
+	assert(!xs.empty());
+	size_t dimension = xs[0].size();
 	vector<double> sums(dimension, 0.0);
-	for (auto result : results) {
+	for (auto x : xs) {
 		for (size_t i = 0; i < dimension; i++) {
-			sums[i] += result.first[i];
+			sums[i] += x[i];
 		}
 	}
+	size_t n = xs.size();
 	for (double& sum : sums) {
-		sum /= results.size();
+		sum /= (double) n;
 	}
 	return sums;
 }
@@ -746,21 +730,6 @@ vector<vector<double>> generate_sparse_latin_samples(gsl_rng* rng,
 	return result;
 }
 
-// Given some results, compute the mean error of using Gaussian processes for
-// prediction
-double cross_validate_results(results_t results) {
-	assert(!results.empty());
-	const size_t FITNESS_INDEX = 0;
-	const size_t LABEL_INDEX = 1;
-	GaussianProcess surrogate(results[0].first.size());
-	for (auto result : results) {
-		if (result.second[LABEL_INDEX] != 1.0) {
-			surrogate.add(result.first, result.second[FITNESS_INDEX]);
-		}
-	}
-	return surrogate.cross_validate();
-}
-
 // Returns a pruned boundaries by restricting sub-optimial ranges determined
 // by the quadratic functions
 boundaries_t prune_boundaries(boundaries_t boundaries,
@@ -918,3 +887,103 @@ size_t count_common_results(results_t results_old, results_t results_new) {
 	}
 	return count;
 }
+
+// Adds each valid result to the given surrogate
+void add_results_to_surrogate(results_t& results, Surrogate& surrogate) {
+	const size_t FITNESS_INDEX = 0;
+	const size_t LABEL_INDEX = 1;
+
+    for (auto& result : results) {
+        auto y = result.second;
+        if (y[LABEL_INDEX] != 1.0) {
+            surrogate.add(result.first, y[FITNESS_INDEX]);
+        }
+    }
+}
+
+// Cluster n midpoints from each result in results
+vector<vector<double>> calc_cluster_midpoints(vector<results_t> results,
+	size_t n) {
+	vector<vector<double>> midpoints;
+	for (size_t i = 0; i < n; i++) {
+		auto midpoint = extract_cluster_midpoint(results);
+
+		// If cannot find a midpoint
+		if (midpoint.empty()) {
+			return midpoints;
+		}
+
+		midpoints.push_back(midpoint);
+	}
+
+	return midpoints;
+}
+
+// Given n-dimensional points in results, find a cluster of points where each
+// point is from each result listing
+vector<double> extract_cluster_midpoint(vector<results_t>& results) {
+	size_t sets = results.size();
+    double best_distance = numeric_limits<double>::max();
+    vector<size_t> indices(sets, 0);
+	vector<double> best_midpoint;
+	vector<size_t> best_indices;
+	extract_cluster_midpoint_auxiliary(results, 0, indices, best_distance,
+		best_midpoint, best_indices);
+
+	// If cannot find a midpoint
+	if (best_distance == numeric_limits<double>::max()) {
+		return {};
+	}
+
+	// Remove sourced points
+	for (size_t i = 0; i < sets; i++) {
+		results[i].erase(results[i].begin() + best_indices[i]);
+	}
+
+    return best_midpoint;
+}
+
+// Auxiliary function for calc_cluster_midpoint
+//     result: points to cluster
+//     step: index for each result listing
+//     indices: index ror each result
+//     best_distance: minimum metric for best result found
+//     best_midpoint: best cluster midpoint found
+//     best_indices: index of best_midpoint
+void extract_cluster_midpoint_auxiliary(vector<results_t>& results,
+    size_t step, vector<size_t>& indices, double& best_distance,
+    vector<double>& best_midpoint, vector<size_t>& best_indices) {
+    size_t sets = results.size();
+
+    assert(step <= sets && indices.size() == sets);
+
+    if (step == sets) {
+		// Get set of selected points
+        vector<vector<double>> xs;
+        for (size_t i = 0; i < sets; i++) {
+            xs.push_back(results[i][indices[i]].first);
+        }
+		auto midpoint = calc_midpoint(xs);
+
+		// Compute total distance from midpoint
+		double distance = 0.0;
+		for (auto x : xs) {
+			distance += euclidean_distance(x, midpoint);
+		}
+
+		if (distance < best_distance) {
+			best_distance = distance;
+			best_midpoint = midpoint;
+			best_indices = indices;
+		}
+        return;
+    }
+
+	// For each stepth result
+	for (size_t i = 0; i < results[step].size(); i++) {
+		indices[step] = i;
+		extract_cluster_midpoint_auxiliary(results, step + 1, indices,
+			best_distance, best_midpoint, best_indices);
+	}
+}
+

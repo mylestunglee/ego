@@ -48,9 +48,18 @@ scores_no_kt_mean = np.mean(scores_no_kt)
 scores_no_kt_sd   = np.std (scores_no_kt)
 scores_kt_mean    = np.mean(scores_kt   )
 scores_kt_sd      = np.std (scores_kt   )
+improvement_mean  = scores_no_kt_mean / scores_kt_mean
 
-print('No KT optimisation score mean:', scores_no_kt_mean)
-print('No KT optimisation score sd:  ', scores_no_kt_sd)
-print('KT optimisation score mean:   ', scores_kt_mean)
-print('KT optimisation score sd:     ', scores_kt_sd)
-print('KT improvement scale:         ', scores_no_kt_mean / scores_kt_mean)
+ratios = [x / y for x in scores_no_kt for y in scores_kt if y > 0.0]
+
+ratio_mean = np.mean(ratios)
+ratio_sd   = np.std (ratios)
+
+improvement_sd = (improvement_mean / ratio_mean) * ratio_sd
+
+print('No KT optimisation score mean: %0.3f' % scores_no_kt_mean)
+print('No KT optimisation score sd:   %0.3f' % scores_no_kt_sd  )
+print('KT optimisation score mean:    %0.3f' % scores_kt_mean   )
+print('KT optimisation score sd:      %0.3f' % scores_kt_sd     )
+print('Improvement ratio mean:        %0.3f' % improvement_mean )
+print('Improvement ratio sd:         ~%0.3f' % improvement_sd   )

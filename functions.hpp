@@ -80,9 +80,7 @@ void log_fitness(double fitness);
 
 void write_fitness_log(string filename);
 
-double covariance_results(results_t results);
-
-vector<double> midpoint_results(results_t results);
+vector<double> calc_midpoint(vector<vector<double>> xs);
 
 vector<double> multilinear_regression_fit(vector<vector<double>> xs, vector<double> ys);
 
@@ -102,8 +100,6 @@ vector<vector<double>> generate_sparse_latin_samples(gsl_rng* rng,
 	vector<vector<double>> xs, size_t samples, size_t max_trials,
 	boundaries_t boundaries);
 
-double cross_validate_results(results_t results);
-
 boundaries_t prune_boundaries(boundaries_t boundaries,
 	boundaries_t boundaries_old, vector<vector<double>> quadratics,
 	vector<double> correlations, double sig_level);
@@ -119,3 +115,16 @@ vector<double> log_vector(vector<double> xs);
 results_t read_results(string filename, size_t dimension);
 
 size_t count_common_results(results_t results_old, results_t results_new);
+
+void add_results_to_surrogate(results_t& results, Surrogate& surrogate);
+
+vector<vector<double>> calc_cluster_midpoints(vector<results_t> results,
+	size_t n);
+
+vector<double> extract_cluster_midpoint(vector<results_t>& results);
+
+void extract_cluster_midpoint_auxiliary(vector<results_t>& results,
+	size_t step, vector<size_t>& indices, double& best_distance,
+	vector<double>& best_midpoint, vector<size_t>& best_indices);
+
+
