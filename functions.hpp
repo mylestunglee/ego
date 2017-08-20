@@ -31,8 +31,6 @@ double apply_polynomial(double x, vector<double> coeffs);
 
 bool is_subset(boundaries_t bxs, boundaries_t bys);
 
-vector<double> fit_polynomial(vector<double> x, vector<double> y, size_t degree);
-
 void calc_correlation(vector<double> xs, vector<double> ys,
 	double &pearson, double& spearman);
 
@@ -46,12 +44,6 @@ vector<double> round_vector(vector<double> x);
 
 vector<vector<double>> generate_grid_samples(size_t density, boundaries_t boundaries);
 
-vector<double> join_vectors(vector<double> x, vector<double> y);
-
-boundaries_t join_boundaries(boundaries_t x, boundaries_t y);
-
-results_t join_results(results_t x, results_t y);
-
 vector<double> minimise_local(double (*func)(const gsl_vector*, void*),
 	void* arg, vector<double> x, double convergence_threshold,
 	size_t max_trials, double& minimum);
@@ -60,13 +52,9 @@ vector<double> minimise(double (*func)(const gsl_vector*, void*),
 	vector<double> (*gen)(void*), void* arg, double convergence_threshold,
 	size_t max_trials, function<bool (vector<double> x)> pred, double& minimum);
 
-bool is_success(vector<double> y, size_t constraints, size_t costs);
-
 vector<double> gsl_to_std_vector(const gsl_vector* v);
 
 void print_boundaries(boundaries_t boundaries);
-
-vector<double> fit_polynomial_robust(vector<double> xs, vector<double> ys, int degree);
 
 double transfer_fitness_predict(double fitness_old, double parameter);
 
@@ -113,8 +101,6 @@ double sample_sd(vector<double> xs);
 vector<double> log_vector(vector<double> xs);
 
 results_t read_results(string filename, size_t dimension);
-
-size_t count_common_results(results_t results_old, results_t results_new);
 
 size_t count_common_results(vector<results_t> results_olds,
 	results_t results_new);

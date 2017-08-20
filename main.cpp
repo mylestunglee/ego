@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
 		mode = Mode::transfer;
 	} else if (mode_str == "-c" || mode_str == "--compare") {
 		mode = Mode::compare;
-	} else if (mode_str == "-h" || mode_str == "--help") {
+	} else if (mode_str == "-h" || mode_str == "-?" || mode_str == "--help") {
 		print_help(cout);
 		return 0;
 	} else {

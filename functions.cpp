@@ -93,6 +93,11 @@ boundaries_t get_intersection(boundaries_t bxs, boundaries_t bys) {
 			result.push_back(make_pair(lower, upper));
 		}
 	}
+
+	if (!are_valid_boundaries(result)) {
+		return {};
+	}
+
 	return result;
 }
 
@@ -270,31 +275,6 @@ vector<vector<double>> generate_grid_samples(size_t density,
 	return result;
 }
 
-// Given two vectors x and y, compute x ++ y
-vector<double> join_vectors(vector<double> x, vector<double> y) {
-	vector<double> result;
-	result.reserve(x.size() + y.size());
-	result.insert(result.end(), x.begin(), x.end());
-	result.insert(result.end(), y.begin(), y.end());
-	return result;
-}
-
-boundaries_t join_boundaries(boundaries_t x, boundaries_t y) {
-	boundaries_t result;
-	result.reserve(x.size() + y.size());
-	result.insert(result.end(), x.begin(), x.end());
-	result.insert(result.end(), y.begin(), y.end());
-	return result;
-}
-
-results_t join_results(results_t x, results_t y) {
-	results_t result;
-	result.reserve(x.size() + y.size());
-	result.insert(result.end(), x.begin(), x.end());
-	result.insert(result.end(), y.begin(), y.end());
-	return result;
-}
-
 // Finds a local minimum of func(x, arg) with the initial point x_0
 vector<double> minimise_local(double (*func)(const gsl_vector*, void*),
     void* arg, vector<double> x, double convergence_threshold,
@@ -410,47 +390,6 @@ void print_boundaries(boundaries_t boundaries) {
 			cout << "x";
 		}
 	}
-}
-
-// Finds a polynomial function from xs to ys, but recognises outliers
-vector<double> fit_polynomial_robust(vector<double> xs, vector<double> ys, int degree) {
-    assert(xs.size() == ys.size());
-
-    gsl_multifit_robust_workspace *ws;
-    gsl_matrix* cov;
-    gsl_matrix* X;
-    gsl_vector* y;
-    gsl_vector* c;
-    int order = degree + 1;
-    int n = xs.size();
-    X = gsl_matrix_alloc(n, order);
-    y = gsl_vector_alloc(n);
-    c = gsl_vector_alloc(order);
-    cov = gsl_matrix_alloc(order, order);
-
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < order; j++) {
-            gsl_matrix_set(X, i, j, pow(xs[i], j));
-        }
-        gsl_vector_set(y, i, ys[i]);
-    }
-
-    ws = gsl_multifit_robust_alloc(gsl_multifit_robust_bisquare, n, order);
-    gsl_multifit_robust(X, y, c, cov, ws);
-
-    vector<double> coeffs;
-
-    for (int i = 0; i < order; i++) {
-        coeffs.push_back(gsl_vector_get(c, i));
-    }
-
-    gsl_multifit_robust_free(ws);
-    gsl_matrix_free(X);
-    gsl_matrix_free(cov);
-    gsl_vector_free(y);
-    gsl_vector_free(c);
-
-    return coeffs;
 }
 
 // Given a sampled value from the old fitness function and a learnt parameter,

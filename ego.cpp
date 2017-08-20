@@ -289,8 +289,7 @@ void EGO::simulate(vector<double> x, vector<double> y) {
 		}
 
 		// Update optimal point and fitness if point is successful
-		if (is_success(y, constraints.size(), costs.size()) &&
-			y[FITNESS_INDEX] < y_opt) {
+		if (y[LABEL_INDEX] == 0.0 && y[FITNESS_INDEX] < y_opt) {
 			x_opt = x;
 			y_opt = y[0];
 		}

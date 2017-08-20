@@ -6,7 +6,9 @@ using namespace std;
 
 TransferredGaussianProcess::TransferredGaussianProcess(
 	set<pair<vector<double>, double>> added) :
-	added_old(added), transferred(NULL), parameter(NULL) {}
+	added_old(added), transferred(NULL), parameter(NULL) {
+	assert(!added.empty());
+}
 
 TransferredGaussianProcess::~TransferredGaussianProcess() {
 	if (transferred != NULL) {

@@ -49,7 +49,7 @@ Transferrer::Transferrer(
 }
 
 Transferrer::~Transferrer() {
-	delete rng;
+	gsl_rng_free(rng);
 }
 
 // Performs the automatic knowledge transfer
@@ -63,7 +63,7 @@ void Transferrer::run() {
 	}
 
 	auto samples = sample_results_old();
-	assert(!samples.empty() || count_common_results(results_old, results_new) >= 3);
+	assert(!samples.empty() || count_common_results({results_old, results_new}) >= 3);
 
 	// Good for non-near-constrainted optimal solutions
 	cout << "Performing multiquadratic regression fit" << endl;
@@ -152,7 +152,7 @@ results_t Transferrer::sample_results_old() {
 		}
 
 		// Don't sample failed results
-		if (!is_success(y, constraints, costs)) {
+		if (y[LABEL_INDEX] != 0.0) {
 			continue;
 		}
 
@@ -200,7 +200,7 @@ double Transferrer::calc_fitness_percentile(double percentile) {
 	// Find the number of valid samples
 	size_t successes = 0;
 	for (auto result_old : results_old) {
-		if (is_success(result_old.second, constraints, costs)) {
+		if (result_old.second[LABEL_INDEX]) {
 			successes++;
 		}
 	}

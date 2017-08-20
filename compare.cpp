@@ -22,7 +22,7 @@ void compare(results_t& results_new, vector<results_t>& results_olds) {
 	for (results_t& results_old : results_olds) {
 		cout << "Comparing!" << endl;
 		cout << "\tNumber of common points: " <<
-			count_common_results(results_old, results_new) << endl;
+			count_common_results({results_old, results_new}) << endl;
 
 		set<pair<vector<double>, double>> added;
 		for (auto result_old : results_old) {
