@@ -12,26 +12,16 @@
 
 using namespace std;
 
-EGO::EGO(
-	Evaluator& evaluator,
-	boundaries_t boundaries,
-	boundaries_t rejection,
-	size_t max_evaluations,
-	size_t max_trials,
-	double convergence_threshold,
-	bool is_discrete,
-	size_t constraints,
-	size_t costs,
+EGO::EGO(Evaluator& evaluator, config_t config, boundaries_t rejection,
 	results_t results_old) :
-
-	dimension(boundaries.size()),
-	boundaries(boundaries),
+	dimension(config.boundaries.size()),
+	boundaries(config.boundaries),
 	rejection(rejection),
-	max_evaluations(max_evaluations),
+	max_evaluations(config.max_evaluations),
 	evaluations(0),
-	max_trials(max_trials),
-	convergence_threshold(convergence_threshold),
-	is_discrete(is_discrete),
+	max_trials(config.max_trials),
+	convergence_threshold(config.convergence_threshold),
+	is_discrete(config.is_discrete),
 	x_opt({}),
 	y_opt(numeric_limits<double>::max()),
 	evaluator(evaluator) {
@@ -45,11 +35,11 @@ EGO::EGO(
 		sg = new GaussianProcess(dimension);
 		sg_label = new GaussianProcess(dimension);
 
-		for (size_t constraint = 0; constraint < constraints; constraint++) {
+		for (size_t constraint = 0; constraint < config.constraints; constraint++) {
 			this->constraints.push_back(new GaussianProcess(dimension));
 		}
 
-		for (size_t cost = 0; cost < costs; cost++) {
+		for (size_t cost = 0; cost < config.costs; cost++) {
 			this->costs.push_back(new GaussianProcess(dimension));
 		}
 		return;
@@ -58,10 +48,10 @@ EGO::EGO(
 	set<pair<vector<double>, double>> added_fitness;
 	set<pair<vector<double>, double>> added_label;
 	vector<set<pair<vector<double>, double>>> added_constraints =
-		vector<set<pair<vector<double>, double>>>(constraints,
+		vector<set<pair<vector<double>, double>>>(config.constraints,
 			set<pair<vector<double>, double>>{});
 	vector<set<pair<vector<double>, double>>> added_costs =
-		vector<set<pair<vector<double>, double>>>(costs,
+		vector<set<pair<vector<double>, double>>>(config.costs,
 			set<pair<vector<double>, double>>{});
 
 		// Extract results for transfer
@@ -80,26 +70,26 @@ EGO::EGO(
 		}
 
 		added_fitness.insert(make_pair(x, y[FITNESS_INDEX]));
-		for (size_t i = 0; i < constraints; i++) {
+		for (size_t i = 0; i < config.constraints; i++) {
 			added_constraints[i].insert(
 				make_pair(x, y[FITNESS_LABEL_OFFSET + i]));
 		}
 
-		for (size_t i = 0; i < costs; i++) {
+		for (size_t i = 0; i < config.costs; i++) {
 			added_costs[i].insert(
-				make_pair(x, y[FITNESS_LABEL_OFFSET + constraints + i]));
+				make_pair(x, y[FITNESS_LABEL_OFFSET + config.constraints + i]));
 		}
 	}
 
 	// Build surrogates from previous data
 	sg = new TransferredGaussianProcess(added_fitness);
 	sg_label = new TransferredGaussianProcess(added_label);
-	for (size_t i = 0; i < constraints; i++) {
+	for (size_t i = 0; i < config.constraints; i++) {
 		this->constraints.push_back(
 			new TransferredGaussianProcess(added_constraints[i]));
 	}
 
-	for (size_t i = 0; i < costs; i++) {
+	for (size_t i = 0; i < config.costs; i++) {
 		this->costs.push_back(
 			new TransferredGaussianProcess(added_costs[i]));
 	}

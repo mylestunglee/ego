@@ -14,14 +14,8 @@ class EGO {
 	public:
 		EGO(
 			Evaluator& evaluator,
-			boundaries_t boundaries,
-			boundaries_t rejection,
-			size_t max_evaluations,
-			size_t max_trials,
-			double convegence_threshold,
-			bool is_discrete,
-			size_t constraints,
-			size_t costs,
+			config_t config,
+			boundaries_t rejection = {},
 			results_t results_old = {});
 		~EGO();
 		void sample_latin(size_t n);

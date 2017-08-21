@@ -45,13 +45,9 @@ int main(int argc, char* argv[]) {
 	if (mode == Mode::compare) {
 		// Load configuration file
 		string filename_config(argv[2]);
-		size_t max_evaluations, max_trials, constraints, costs;
-		double convergence_threshold, sig_level, fitness_percentile;
-		bool is_discrete;
 		boundaries_t boundaries;
-		bool error = read_config(filename_config, max_evaluations, max_trials,
-			constraints, costs, convergence_threshold, sig_level,
-			fitness_percentile, is_discrete, boundaries);
+		config_t config;
+		bool error = read_config(filename_config, config);
 
 		if (error) {
 			return 1;
@@ -83,13 +79,9 @@ int main(int argc, char* argv[]) {
 	Evaluator evaluator(filename_script);
 
 	// Load configuration file
-	size_t max_evaluations, max_trials, constraints, costs;
-	double convergence_threshold, sig_level, fitness_percentile;
-	bool is_discrete;
-	boundaries_t boundaries;
-	bool error = read_config(filename_config, max_evaluations, max_trials,
-		constraints, costs, convergence_threshold, sig_level,
-		fitness_percentile, is_discrete, boundaries);
+	config_t config;
+	bool error = read_config(filename_config, config);
+	size_t dimension = config.boundaries.size();
 
 	if (error) {
 		return 1;
@@ -102,20 +94,11 @@ int main(int argc, char* argv[]) {
 		// Read sampled results if provided
 		if (argc == 6) {
 			string filename_results(argv[5]);
-			results = read_results(filename_results, boundaries.size());
+			results = read_results(filename_results, dimension);
 			rejection = infer_boundaries(results);
 		}
 
-		EGO ego(
-			evaluator,
-			boundaries,
-			rejection,
-			max_evaluations,
-			max_trials,
-			convergence_threshold,
-			is_discrete,
-			constraints,
-			costs);
+		EGO ego(evaluator, config, rejection);
 
 		if (argc == 6) {
 			simulate_results(ego, results);
@@ -123,36 +106,24 @@ int main(int argc, char* argv[]) {
 
 		// Heuristic sample size = 5 * dim
 		cout << "Sampling using LHS" << endl;
-		ego.sample_latin(5 * boundaries.size());
+		ego.sample_latin(5 * dimension);
 		// Randomness can affect optimiser negatively
 		cout << "Sampling using uniform" << endl;
-		ego.sample_uniform(5 * boundaries.size());
+		ego.sample_uniform(5 * dimension);
 		cout << "Running EGO" << endl;
 		ego.run();
 		return 0;
 	} else {
 		string filename_results_old(argv[5]);
-		results_t results_old = read_results(filename_results_old, boundaries.size());
+		results_t results_old = read_results(filename_results_old, dimension);
 		results_t results_new;
 
 		if (argc == 7) {
 			string filename_results_new(argv[6]);
-			results_new = read_results(filename_results_new, boundaries.size());
+			results_new = read_results(filename_results_new, dimension);
 		}
 
-		Transferrer transferrer(
-			results_old,
-			results_new,
-			evaluator,
-			max_evaluations,
-			max_trials,
-			convergence_threshold,
-			sig_level,
-			boundaries,
-			is_discrete,
-			constraints,
-			costs,
-			fitness_percentile);
+		Transferrer transferrer(results_old, results_new, evaluator, config);
 		transferrer.run();
 	}
 
@@ -172,60 +143,6 @@ void print_help(ostream& cstr) {
 	cstr << "\t-o --optimise Optimise" << endl;
 	cstr << "\t-t --transfer Transfer" << endl;
 	cstr << "\t-c --compare  Compare" << endl;
-}
-
-// Attempts to read configuration file at filename, returns false iff
-// configuration file loads successfully
-bool read_config(
-    string filename,
-    size_t& max_evaluations,
-    size_t& max_trials,
-    size_t& constraints,
-    size_t& costs,
-    double& convergence_threshold,
-    double& sig_level,
-    double& fitness_percentile,
-    bool& is_discrete,
-    boundaries_t& boundaries) {
-	auto config = read(filename);
-
-	// Parse configuration file
-	try {
-		max_evaluations = stol(config.at(0).at(0));
-		max_trials = stol(config.at(1).at(0));
-		convergence_threshold = stof(config.at(2).at(0));
-		if (convergence_threshold < 0.0) {
-			throw invalid_argument("invalid convergence threshold");
-		}
-		string is_discrete_string = config.at(3).at(0);
-		if (is_discrete_string.compare("true") != 0 &&
-				is_discrete_string.compare("false") != 0) {
-			throw invalid_argument("is_discrete is not a boolean");
-		}
-		is_discrete = config.at(3).at(0).compare("true") == 0;
-		constraints = stoul(config.at(4).at(0));
-		costs = stoul(config.at(5).at(0));
-		boundaries = read_boundaries(config.at(6), config.at(7));
-		if (!are_valid_boundaries(boundaries)) {
-			throw invalid_argument("invalid boundaries");
-		}
-		sig_level = stof(config.at(8).at(0));
-		if (sig_level < 0.0 || sig_level > 1.0) {
-			throw invalid_argument("invalid significance level");
-		}
-		fitness_percentile = stof(config.at(9).at(0));
-		if (fitness_percentile < 0.0 || fitness_percentile > 1.0) {
-			throw invalid_argument("invalid fitness percentile");
-		}
-	} catch (const invalid_argument& ia) {
-		cerr << "Invalid value in configuration file: " << ia.what() << endl;
-		return true;
-	} catch (const out_of_range& oor) {
-		cerr << "Insufficent values in configuration file: " << oor.what() << endl;
-		return true;
-	}
-
-	return false;
 }
 
 // Given an optimiser, simulate sampling using provided results

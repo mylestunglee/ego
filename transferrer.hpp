@@ -14,28 +14,17 @@ class Transferrer {
 			results_t&_results_old,
 			results_t& results_new,
 			Evaluator& evaluator,
-			size_t max_evaluations,
-			size_t max_trials,
-			double convergence_threshold,
-			double sig_level,
-			boundaries_t boundaries,
-			bool is_discrete,
-			size_t constraints,
-			size_t costs,
-			double fitness_percentile);
+			config_t config);
 		~Transferrer();
 		void run();
 
 	private:
 		Evaluator& evaluator;
-		size_t max_evaluations;
+		config_t config;
 		size_t max_trials;
-		double convergence_threshold;
 		double sig_level;
 		boundaries_t boundaries;
 		bool is_discrete;
-		size_t constraints;
-		size_t costs;
 		double fitness_percentile;
 		results_t results_old;
 		results_t results_new;

@@ -1,3 +1,4 @@
+#pragma once
 #include "gp.hpp"
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_vector.h>
@@ -9,6 +10,20 @@ using namespace std;
 
 typedef vector<pair<double, double>> boundaries_t;
 typedef vector<pair<vector<double>, vector<double>>> results_t;
+
+struct config {
+	size_t max_evaluations;
+	size_t max_trials;
+	size_t constraints;
+	size_t costs;
+	double convergence_threshold;
+	double sig_level;
+	double fitness_percentile;
+	bool is_discrete;
+	boundaries_t boundaries;
+};
+
+typedef struct config config_t;
 
 bool is_bounded(vector<double> x, boundaries_t boundaries);
 
@@ -75,8 +90,7 @@ vector<double> multilinear_regression_fit(vector<vector<double>> xs, vector<doub
 vector<vector<double>> multiquadratic_regression_fit(vector<vector<double>> xs,
 	vector<double> ys);
 
-vector<vector<double>> multiquadratic_result_extrapolate(results_t results,
-	size_t constaints, size_t costs);
+vector<vector<double>> multiquadratic_result_extrapolate(results_t results);
 
 void log_multiquadratic_extrapolation(vector<vector<double>> fs,
 	string filename, boundaries_t boundaries, boundaries_t rejection);
@@ -118,4 +132,4 @@ void extract_cluster_midpoint_auxiliary(vector<results_t>& results,
 	size_t step, vector<size_t>& indices, double& best_distance,
 	vector<double>& best_midpoint, vector<size_t>& best_indices);
 
-
+bool read_config(string filename, config_t& config);

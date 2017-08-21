@@ -22,25 +22,14 @@ Transferrer::Transferrer(
 	results_t& results_old,
 	results_t& results_new,
 	Evaluator& evaluator,
-	size_t max_evaluations,
-	size_t max_trials,
-	double convergence_threshold,
-	double sig_level,
-	boundaries_t boundaries,
-	bool is_discrete,
-	size_t constraints,
-	size_t costs,
-	double fitness_percentile) :
+	config_t config) :
 	evaluator(evaluator),
-	max_evaluations(max_evaluations),
-	max_trials(max_trials),
-	convergence_threshold(convergence_threshold),
-	sig_level(sig_level),
-	boundaries(boundaries),
-	is_discrete(is_discrete),
-	constraints(constraints),
-	costs(costs),
-	fitness_percentile(fitness_percentile),
+	config(config),
+	max_trials(config.max_trials),
+	sig_level(config.sig_level),
+	boundaries(config.boundaries),
+	is_discrete(config.is_discrete),
+	fitness_percentile(config.fitness_percentile),
 	results_old(results_old),
 	results_new(results_new) {
 	sort(results_old.begin(), results_old.end(), fitness_more_than);
@@ -67,10 +56,11 @@ void Transferrer::run() {
 
 	// Good for non-near-constrainted optimal solutions
 	cout << "Performing multiquadratic regression fit" << endl;
-	auto fs = multiquadratic_result_extrapolate(results_old, constraints, costs);
+	auto fs = multiquadratic_result_extrapolate(results_old);
 	if (!fs.empty()) {
 		// Guess optimial point
 		auto mq_x = minimise_multiquadratic(fs, boundaries);
+		mq_x = is_discrete ? round_vector(mq_x) : mq_x;
 		auto mq_y = evaluator.evaluate(mq_x);
 		results_new.push_back(make_pair(mq_x, mq_y));
 
@@ -98,8 +88,7 @@ void Transferrer::run() {
 		rejection = presampled_space;
 	}
 
-	EGO ego(evaluator, boundaries, rejection, max_evaluations, max_trials,
-		convergence_threshold, is_discrete, constraints, costs, results_old);
+	EGO ego(evaluator, config, rejection, results_old);
 
 	for (auto result_new : results_new) {
 		ego.simulate(result_new.first, result_new.second);
