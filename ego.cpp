@@ -182,8 +182,6 @@ void EGO::sample_uniform(size_t n) {
 			}
 		}
 	}
-
-	// log_surrogate_predictions(*sg, "predictions.csv", boundaries);
 }
 
 // Calcautes the expected improvement for maximisation with domain-specific knowledge

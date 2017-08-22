@@ -102,6 +102,11 @@ void TransferredGaussianProcess::train() {
 		}
 	}
 
+	// No flexible points to transfer
+	if (xs.empty()) {
+		return;
+	}
+
 	boundaries_t boundaries = infer_boundaries(xs);
 
 	for (auto pair : flexible) {

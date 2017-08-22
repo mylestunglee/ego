@@ -47,20 +47,20 @@ vector<double> Evaluator::evaluate(vector<double> x) {
 	}
 	log_fitness(fitness_min);
 
-    return result;
+	return result;
 }
 
 // Executes command returning a vector of lines from stdout
 vector<string> Evaluator::execute(string command) {
 	array<char, 128> buffer;
 	vector<string> result;
-    std::shared_ptr<FILE> pipe(popen(command.c_str(), "r"), pclose);
-    if (!pipe) throw std::runtime_error("popen() failed!");
-    while (!feof(pipe.get())) {
-        if (fgets(buffer.data(), 128, pipe.get()) != NULL)
-            result.push_back(buffer.data());
-    }
-    return result;
+	std::shared_ptr<FILE> pipe(popen(command.c_str(), "r"), pclose);
+	if (!pipe) throw std::runtime_error("popen() failed!");
+	while (!feof(pipe.get())) {
+		if (fgets(buffer.data(), 128, pipe.get()) != NULL)
+			result.push_back(buffer.data());
+	}
+	return result;
 }
 
 // Saves the cache as a CSV file

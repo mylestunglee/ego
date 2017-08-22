@@ -991,6 +991,7 @@ bool read_config(string filename, config_t& config) {
 		if (config.fitness_percentile < 0.0 || config.fitness_percentile > 1.0) {
 			throw invalid_argument("invalid fitness percentile");
 		}
+		config.names = data.at(10);
 	} catch (const invalid_argument& ia) {
 		cerr << "Invalid value in configuration file: " << ia.what() << endl;
 		return true;

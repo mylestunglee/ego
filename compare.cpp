@@ -3,6 +3,7 @@
 #include <limits>
 #include "compare.hpp"
 #include "tgp.hpp"
+#include "csv.hpp"
 
 using namespace std;
 
@@ -10,8 +11,16 @@ const size_t FITNESS_INDEX = 0;
 const size_t LABEL_INDEX = 1;
 
 // Attempts to find the best combination of results for knowledge transfer
-void compare(results_t& results_new, vector<results_t>& results_olds) {
-	size_t dimension = results_new[0].first.size();
+void compare(config_t config_new, results_t& results_new,
+	vector<config_t>& configs_old, vector<results_t>& results_olds,
+	char* argv[]) {
+	assert(!results_new.empty());
+
+	double best_score = 0;
+	size_t best_i = 0;
+
+	// Statistics
+	size_t dimension = config_new.boundaries.size();
 
 	cout << "Base case" << endl;
 	GaussianProcess gp(dimension);
@@ -19,11 +28,28 @@ void compare(results_t& results_new, vector<results_t>& results_olds) {
 
 	cout << "\tFitness cross-validation mean error: " << gp.cross_validate() << endl;
 
-	for (results_t& results_old : results_olds) {
-		cout << "Comparing!" << endl;
-		cout << "\tNumber of common points: " <<
-			count_common_results({results_old, results_new}) << endl;
+	for (size_t i = 0; i < results_olds.size(); i++) {
+		cout << "Comparing design " << i << ": " << argv[4 + 2 * i] << endl;
 
+		results_t& results_old = results_olds[i];
+		assert(!results_old.empty());
+
+		// Compute statistics
+		size_t common_results = count_common_results({results_old, results_new});
+		cout << "\tNumber of common points: " << common_results << endl;
+
+		double score = calc_comparison_score(config_new, configs_old[i]);
+		if (score > best_score) {
+			best_score = score;
+			best_i = i;
+		}
+		cout << "\tComparison score: " << score << endl;
+
+		if (common_results == 0) {
+			continue;
+		}
+
+		// Build tgp
 		set<pair<vector<double>, double>> added;
 		for (auto result_old : results_old) {
 			auto y = result_old.second;
@@ -45,4 +71,23 @@ void compare(results_t& results_new, vector<results_t>& results_olds) {
 	size_t common_all_points = count_common_results(results_olds, results_new);
 	cout << "Common points across all designs: " << common_all_points << endl;
 
+	if (best_score > 0.0) {
+		write("best_source.txt", {{to_string(best_i)}});
+	}
+}
+
+// Compares how suitable knowledge transfer will be between the source and
+// target configs
+double calc_comparison_score(config_t& config_new, config_t& config_old) {
+	// Incompatible if different dimensions
+	if (config_new.boundaries.size() != config_old.boundaries.size()) {
+		return 0.0;
+	}
+
+	if (config_new.names == config_old.names) {
+		return 1.0;
+	}
+
+	// TODO: implement score formula
+	return 0.0;
 }

@@ -6,6 +6,7 @@
 #include <thread>
 #include <iostream>
 #include <sstream>
+#include <limits>
 
 using namespace std;
 
@@ -127,6 +128,10 @@ void GaussianProcess::optimise() {
 
 // Cross validation
 double GaussianProcess::cross_validate() {
+	if (added.size() <= 1) {
+		return numeric_limits<double>::infinity();
+	}
+
 	animation_start("Cross validating", 0, added.size());
 	vector<double> errors;
 
@@ -139,7 +144,6 @@ double GaussianProcess::cross_validate() {
 			}
 			surrogate.add(add.first, add.second);
 		}
-//		surrogate.optimise();
 		auto x = pair.first;
 		auto y = pair.second;
 		double error = abs(y - surrogate.mean(x));

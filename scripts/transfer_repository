@@ -1,0 +1,45 @@
+#!/bin/bash
+
+if [ $# != 1 ]; then
+	echo "Usage: transfer_repository example"
+	exit 1
+fi
+
+dir="examples"
+designs=$(find "$dir" -maxdepth 1 -mindepth 1 -type d -printf '%f\n')
+sources=""
+
+# Filter possible designs
+for design in $designs; do
+	# Ignore examples that have retrieve build data
+	if [ "${design/online}" = "$design" ] && [ "$dir/$design/" != "$1" ]; then
+		sources="$sources $design"
+	fi
+done
+
+# Build argument list
+args="$1config.txt $1output.csv"
+for source in $sources; do
+	args="$args $dir/$source/config.txt $dir/$source/output.csv"
+done
+
+# Find best source
+rm -f best_source.txt
+./ego -c $args
+if [ ! -f best_source.txt ]; then
+#	echo "No best source found"
+	echo $args
+	exit 1
+fi
+best=$(cat best_source.txt)
+best_source=""
+rm -f best_source.txt
+i=0
+for source in $sources; do
+	if [ $i = $best ]; then
+		best_source="$source"
+	fi
+	i=$((i+1))
+done
+
+echo $best_source

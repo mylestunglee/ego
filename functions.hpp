@@ -21,6 +21,7 @@ struct config {
 	double fitness_percentile;
 	bool is_discrete;
 	boundaries_t boundaries;
+	vector<string> names;
 };
 
 typedef struct config config_t;

@@ -37,34 +37,44 @@ int main(int argc, char* argv[]) {
 	// Check number of arguments
 	if ((mode == Mode::compare && argc < 4) ||
 		(mode == Mode::optimise && (argc < 5 || argc > 6)) ||
-		(mode == Mode::transfer && (argc < 6 || argc > 7))) {
+		(mode == Mode::transfer && (argc < 6 || argc % 2 != 0))) {
 		cerr << "Invalid number of arguments" << endl;
 		return 1;
 	}
 
 	if (mode == Mode::compare) {
-		// Load configuration file
-		string filename_config(argv[2]);
-		boundaries_t boundaries;
-		config_t config;
-		bool error = read_config(filename_config, config);
+		// Read new results and configs
+		string filename_config_new(argv[2]);
+		config_t config_new;
+		bool error = read_config(filename_config_new, config_new);
 
 		if (error) {
 			return 1;
 		}
 
-		// Read results
+		// Read old results and configs
 		string filename_results_new(argv[3]);
 		results_t results_new = read_results(
-			filename_results_new, boundaries.size());
+			filename_results_new, config_new.boundaries.size());
 		vector<results_t> results_olds;
-		for (int i = 4; i < argc; i++) {
-			string filename_results_old(argv[i]);
+		vector<config_t> configs_old;
+		for (int i = 0; i < (argc - 4) / 2; i++) {
+			// Read config
+			string filename_config_old(argv[4 + 2 * i]);
+			config_t config_old;
+			bool error = read_config(filename_config_old, config_old);
+			if (error) {
+				return 1;
+			}
+			configs_old.push_back(config_old);
+
+			// Read result
+			string filename_results_old(argv[5 + 2 * i]);
 			results_olds.push_back(
-				read_results(filename_results_old, boundaries.size()));
+				read_results(filename_results_old, config_old.boundaries.size()));
 		}
 
-		compare(results_new, results_olds);
+		compare(config_new, results_new, configs_old, results_olds, argv);
 
 		return 0;
 	}
@@ -112,7 +122,6 @@ int main(int argc, char* argv[]) {
 		ego.sample_uniform(5 * dimension);
 		cout << "Running EGO" << endl;
 		ego.run();
-		return 0;
 	} else {
 		string filename_results_old(argv[5]);
 		results_t results_old = read_results(filename_results_old, dimension);
@@ -138,7 +147,7 @@ void print_help(ostream& cstr) {
 	cstr << "Usage:" << endl;
 	cstr << "\tego -o script config output [results]" << endl;
 	cstr << "\tego -t script config output results_old [results_new]" << endl;
-	cstr << "\tego -c config results_new results_old_1..." << endl;
+	cstr << "\tego -c config_new results_new configs_old... results_old..." << endl;
 	cstr << "\tego -h" << endl;
 	cstr << "\t-o --optimise Optimise" << endl;
 	cstr << "\t-t --transfer Transfer" << endl;
