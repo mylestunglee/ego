@@ -42,4 +42,5 @@ for source in $sources; do
 	i=$((i+1))
 done
 
-echo $best_source
+echo "Using source design: $best_source"
+./scripts/transfer_example "$1" "$dir/$best_source"
