@@ -59,35 +59,69 @@ void compare(config_t config_new, results_t& results_new,
 double calc_comparison_score(config_t& config_new, results_t& results_new,
 	config_t& config_old, results_t& results_old) {
 
-	size_t common_results = count_common_results({results_old, results_new});
-	cout << "\tNumber of common points: " << common_results << endl;
-
-	// Incompatible if different dimensions
-	if (config_new.boundaries.size() != config_old.boundaries.size()) {
+	if (config_old.boundaries.size() != config_new.boundaries.size()) {
 		return 0.0;
 	}
 
-	// Build tgp
-	set<pair<vector<double>, double>> added;
-	for (auto result_old : results_old) {
-		auto y = result_old.second;
-		if (y[LABEL_INDEX] != 1.0) {
-			added.insert(make_pair(result_old.first, y[FITNESS_INDEX]));
-		}
+	double boundaries_score = calc_boundaries_comparison_score(
+		config_new.boundaries, config_old.boundaries);
+	double cross_validation_score =
+		calc_cross_validation_comparison_score(results_new, results_old);
+	double results_score = calc_results_comparison_score(
+		results_new, results_old);
+	double names_score = calc_names_comparison_score(config_new.names,
+		config_old.names);
+
+/*	cout << "boundaries_score = " << boundaries_score << endl <<
+			"cross_validation_score = " << cross_validation_score << endl <<
+			"results_score = " << results_score << endl <<
+			"names_score = " << names_score << endl;*/
+
+	return names_score * (results_score + cross_validation_score + boundaries_score);
+}
+
+// Calculates a score representing the similiarity of two boundaries
+double calc_boundaries_comparison_score(boundaries_t& boundaries_new,
+	boundaries_t& boundaries_old) {
+	boundaries_t intersection = get_intersection(boundaries_new,
+		boundaries_old);
+	double bhv = calc_hypervolume(boundaries_new);
+	double ihv = calc_hypervolume(intersection);
+	return ihv / bhv;
+}
+
+// Calculates a score representing the ability of a trasferred Gaussian process
+double calc_cross_validation_comparison_score(results_t& results_new,
+	results_t& results_old) {
+
+	// Build prior samples
+    set<pair<vector<double>, double>> added;
+    for (auto result_old : results_old) {
+        auto y = result_old.second;
+        if (y[LABEL_INDEX] != 1.0) {
+            added.insert(make_pair(result_old.first, y[FITNESS_INDEX]));
+        }
+    }
+
+    TransferredGaussianProcess tgp(added);
+    add_results_to_surrogate(results_new, tgp);
+
+	// TODO: use tgp.cross_validate()?
+	return 1.0 / tgp.cross_validate_parameter();
+}
+
+// Calculates a score based on the number of common designs
+double calc_results_comparison_score(results_t& results_new, results_t& results_old) {
+	size_t common = count_common_results({results_old, results_new});
+	size_t bound = min(results_new.size(), results_old.size());
+	return (double) common / (double) bound;
+}
+
+// Calcuates how similar two designs' parameters are
+double calc_names_comparison_score(vector<string>& names_new,
+	vector<string>& names_old) {
+	if (names_new == names_old) {
+		return 1.0;
 	}
-	TransferredGaussianProcess tgp(added);
-	add_results_to_surrogate(results_new, tgp);
-
-	cout << "\tFitness cross-validation mean error: " <<
-		tgp.cross_validate() << endl;
-	double parameter_error = tgp.cross_validate_parameter();
-	cout << "\tParameter cross-validation mean error: " << parameter_error
-		<< endl;
-
-	if (config_new.names == config_old.names) {
-		return 1.0 + 1.0 / parameter_error;
-	}
-
-	// TODO: implement score formula
 	return 0.0;
 }

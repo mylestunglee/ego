@@ -1,7 +1,12 @@
 #!/bin/bash
 
-if [ $# == 2 ] ; then
-	if [ -f $1/script.py ] ; then
+if [ $# == 2 ]; then
+	if [ -f $1/script ]; then
+		./ego -t "$1/script" $1/config.txt $1/transfer.csv $2/output.csv
+		exit 0
+	fi
+
+	if [ -f $1/script.py ]; then
 		./ego -t "python3 $1/script.py" $1/config.txt $1/transfer.csv $2/output.csv
 	else
 		./ego -t "python3 scripts/interpolate.py $1/results.csv $1/config.txt" $1/config.txt $1/transfer.csv $2/output.csv

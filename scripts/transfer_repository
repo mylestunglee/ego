@@ -27,8 +27,7 @@ done
 rm -f best_source.txt
 ./ego -c $args
 if [ ! -f best_source.txt ]; then
-#	echo "No best source found"
-	echo $args
+	echo "No best source found"
 	exit 1
 fi
 best=$(cat best_source.txt)
@@ -43,4 +42,5 @@ for source in $sources; do
 done
 
 echo "Using source design: $best_source"
-./scripts/transfer_example "$1" "$dir/$best_source"
+
+#./scripts/transfer_example "$1" "$dir/$best_source"
