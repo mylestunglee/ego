@@ -1,8 +1,16 @@
 #!/bin/bash
 
-if [ $# != 1 ]; then
-	echo "Usage: transfer_repository example"
-	exit 1
+if [ $# == 1 ]; then
+	target="$1"
+	transfer=false
+else
+	if [ $# == 2 ]; then
+		target="$2"
+		transfer=true
+	else
+		echo "Usage: transfer_repository [-t] example"
+		exit 1
+	fi
 fi
 
 dir="examples"
@@ -12,13 +20,13 @@ sources=""
 # Filter possible designs
 for design in $designs; do
 	# Ignore examples that have retrieve build data
-	if [ "${design/online}" = "$design" ] && [ "$dir/$design/" != "$1" ]; then
+	if [ "${design/online}" = "$design" ] && [ "$dir/$design/" != "$target" ]; then
 		sources="$sources $design"
 	fi
 done
 
 # Build argument list
-args="$1config.txt $1output.csv"
+args="${target}config.txt ${target}output.csv"
 for source in $sources; do
 	args="$args $dir/$source/config.txt $dir/$source/output.csv"
 done
@@ -31,8 +39,8 @@ if [ ! -f best_source.txt ]; then
 	exit 1
 fi
 best=$(cat best_source.txt)
-best_source=""
 rm -f best_source.txt
+best_source=""
 i=0
 for source in $sources; do
 	if [ $i = $best ]; then
@@ -41,6 +49,9 @@ for source in $sources; do
 	i=$((i+1))
 done
 
-echo "Using source design: $best_source"
+# Print result
+echo "$dir/$best_source"
 
-#./scripts/transfer_example "$1" "$dir/$best_source"
+if [ $transfer = true ]; then
+	./scripts/transfer_example "$target" "$dir/$best_source"
+fi

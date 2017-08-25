@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Build actual results
+./scripts/transfer_repository examples/quadrature_max3/       | tail -n 1 >  repository_actual.txt
+./scripts/transfer_repository examples/quadrature_max4/       | tail -n 1 >> repository_actual.txt
+./scripts/transfer_repository examples/robot/                 | tail -n 1 >> repository_actual.txt
+./scripts/transfer_repository examples/stochastic/            | tail -n 1 >> repository_actual.txt
+./scripts/transfer_repository examples/xinyu_rtm_max3/        | tail -n 1 >> repository_actual.txt
+./scripts/transfer_repository examples/xinyu_rtm_max4/        | tail -n 1 >> repository_actual.txt
+./scripts/transfer_repository examples/genomics_max3_offline/ | tail -n 1 >> repository_actual.txt
+./scripts/transfer_repository examples/genomics_max4_offline/ | tail -n 1 >> repository_actual.txt
+
+# Build expected results
+echo "examples/quadrature_max4"       >  repository_expected.txt
+echo "examples/quadrature_max3"       >> repository_expected.txt
+echo "examples/stochastic"            >> repository_expected.txt
+echo "examples/robot"                 >> repository_expected.txt
+echo "examples/xinyu_rtm_max4"        >> repository_expected.txt
+echo "examples/xinyu_rtm_max3"        >> repository_expected.txt
+echo "examples/genomics_max4_offline" >> repository_expected.txt
+echo "examples/genomics_max3_offline" >> repository_expected.txt
+
+# Compare results
+diff repository_actual.txt repository_expected.txt
+
+# Tidy up
+rm -f repository_actual.txt repository_expected.txt
