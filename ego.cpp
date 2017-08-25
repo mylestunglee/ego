@@ -32,8 +32,8 @@ EGO::EGO(Evaluator& evaluator, config_t config, boundaries_t rejection,
 
 	// If not using knowledge transfer
 	if (results_old.empty()) {
-		sg = new GaussianProcess(dimension);
-		sg_label = new GaussianProcess(dimension);
+		fitness = new GaussianProcess(dimension);
+		label = new GaussianProcess(dimension);
 
 		for (size_t constraint = 0; constraint < config.constraints; constraint++) {
 			this->constraints.push_back(new GaussianProcess(dimension));
@@ -82,8 +82,8 @@ EGO::EGO(Evaluator& evaluator, config_t config, boundaries_t rejection,
 	}
 
 	// Build surrogates from previous data
-	sg = new TransferredGaussianProcess(added_fitness);
-	sg_label = new TransferredGaussianProcess(added_label);
+	fitness = new TransferredGaussianProcess(added_fitness);
+	label = new TransferredGaussianProcess(added_label);
 	for (size_t i = 0; i < config.constraints; i++) {
 		this->constraints.push_back(
 			new TransferredGaussianProcess(added_constraints[i]));
@@ -98,8 +98,8 @@ EGO::EGO(Evaluator& evaluator, config_t config, boundaries_t rejection,
 EGO::~EGO() {
 	gsl_rng_free(rng);
 
-	delete sg;
-	delete sg_label;
+	delete fitness;
+	delete label;
 
 	for (auto& constraint : constraints) {
 		delete constraint;
@@ -118,7 +118,7 @@ void EGO::run()
 
 	assert(evaluations > 0);
 
-	sg->optimise();
+	fitness->optimise();
 
 	// Due to the discrete use of EGO, do not maximise EI if previously
 	// evaluated
@@ -174,7 +174,7 @@ void EGO::sample_uniform(size_t n) {
 			auto x = generate_uniform_sample(rng, boundaries);
 			x = is_discrete ? round_vector(x) : x;
 			// Predicted label is valid and is not excluded
-			if (success_probability(sg_label->mean(x), sg_label->sd(x)) >= 0.5 &&
+			if (success_probability(label->mean(x), label->sd(x)) >= 0.5 &&
 				!is_bounded(x, rejection)) {
 				evaluate({x});
 				// Find next point
@@ -196,8 +196,8 @@ double EGO::expected_improvement_bounded(const gsl_vector* v, void* p) {
 	// Negate to maximise expected_improvement because this function is called by
 	// a minimiser
 	auto expectation =
-		-expected_improvement(ego->sg->mean(x), ego->sg->sd(x), ego->y_opt) *
-		success_probability(ego->sg_label->mean(x), ego->sg_label->sd(x)) *
+		-expected_improvement(ego->fitness->mean(x), ego->fitness->sd(x), ego->y_opt) *
+		success_probability(ego->label->mean(x), ego->label->sd(x)) *
 		ego->success_constraints_probability(x) / ego->predict_cost(x);
 
 	if (isnan(expectation) || expectation == 0.0 ||
@@ -261,11 +261,11 @@ void EGO::simulate(vector<double> x, vector<double> y) {
 	assert(y[LABEL_INDEX] == 0.0 || y[LABEL_INDEX] == 1.0 || y[LABEL_INDEX] == 2.0);
 
 	// Update success GP
-	sg_label->add(x, y[LABEL_INDEX] == 0.0 ? 1.0 : 0.0);
+	label->add(x, y[LABEL_INDEX] == 0.0 ? 1.0 : 0.0);
 
 	// Do not update resource GPs if evaluation failed
 	if (y[LABEL_INDEX] != 1.0) {
-		sg->add(x, y[FITNESS_INDEX]);
+		fitness->add(x, y[FITNESS_INDEX]);
 
 		for (size_t constraint = 0; constraint < constraints.size(); constraint++) {
 			double utilisation = y[FITNESS_LABEL_OFFSET + constraint];

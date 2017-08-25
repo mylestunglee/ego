@@ -38,8 +38,8 @@ class EGO {
 
 		mutex evaluator_lock;
 
-		Surrogate* sg;
-		Surrogate* sg_label;
+		Surrogate* fitness;
+		Surrogate* label;
 		vector<Surrogate*> constraints;
 		vector<Surrogate*> costs;
 
