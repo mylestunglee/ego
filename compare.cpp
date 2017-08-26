@@ -28,13 +28,17 @@ void compare(config_t config_new, results_t& results_new,
 
 	cout << "\tFitness cross-validation mean error: " << gp.cross_validate() << endl;
 
+	vector<results_t> valid_results;
+	vector<config_t> valid_configs;
+
 	for (size_t i = 0; i < results_olds.size(); i++) {
 		cout << "Comparing design " << i << ": " << argv[4 + 2 * i] << endl;
 
-		results_t& results_old = results_olds[i];
+		auto& results_old = results_olds[i];
+		auto& config_old = configs_old[i];
 		assert(!results_old.empty());
 
-		double score = calc_comparison_score(config_new, results_new, configs_old[i],
+		double score = calc_comparison_score(config_new, results_new, config_old,
 			results_old);
 		if (score > best_score) {
 			best_score = score;
@@ -42,12 +46,19 @@ void compare(config_t config_new, results_t& results_new,
 		}
 
 		cout << "\tComparison score: " << score << endl;
+
+		if (score > 0.0) {
+			valid_results.push_back(results_old);
+			valid_configs.push_back(config_old);
+		}
 	}
 
 	size_t common_source_points = count_common_results(results_olds);
 	cout << "Common points across source designs: " << common_source_points << endl;
 	size_t common_all_points = count_common_results(results_olds, results_new);
 	cout << "Common points across all designs: " << common_all_points << endl;
+
+//	print_vector(calc_repository_midpoint(valid_configs, config_new, valid_results));
 
 	if (best_score > 0.0) {
 		write("best_source.txt", {{to_string(best_i)}});
@@ -124,4 +135,79 @@ double calc_names_comparison_score(vector<string>& names_new,
 		return 1.0;
 	}
 	return 0.0;
+}
+
+// Returns true iff each name in names is unique
+bool are_unique_names(vector<string> names) {
+	set<string> seen;
+	for (auto name : names) {
+		if (seen.find(name) != seen.end()) {
+			return false;
+		}
+		seen.insert(name);
+	}
+	return true;
+}
+
+// Applys the swap pattern from names_old to names_new with coeffss
+vector<double> swap_pattern_point(vector<string> names_old,
+	vector<string> names_new, vector<double> x) {
+	vector<double> result;
+	size_t n = x.size();
+
+	assert(n == names_old.size());
+	assert(n == names_new.size());
+	assert(are_unique_names(names_old));
+	assert(are_unique_names(names_new));
+
+	for (size_t i = 0; i < n; i++) {
+		size_t j = 0;
+		// Find matching name in old names
+		for (; j < n; j++) {
+			if (names_new[i] == names_old[j]) {
+				break;
+			}
+		}
+		result.push_back(x[j]);
+	}
+	return result;
+}
+
+// Compute the weighted midpoint of a multi-quadratic regression
+vector<double> calc_repository_midpoint(vector<config_t> config_old,
+	config_t config_new, vector<results_t>& resultss) {
+
+	size_t n = config_old.size();
+	assert(n == resultss.size());
+
+	vector<vector<double>> minimas;
+	vector<vector<double>> spearmanss;
+
+	// Collect statistics
+	for (size_t i = 0; i < n; i++) {
+		auto& results = resultss[i];
+		auto coeffss = multiquadratic_result_extrapolate(results);
+		auto unswapped = minimise_multiquadratic(coeffss,
+			config_new.boundaries);
+		auto minima = swap_pattern_point(config_new.names, config_old[i].names,
+			unswapped);
+		auto spearmans = calc_spearmans(results);
+		minimas.push_back(minima);
+		spearmanss.push_back(spearmans);
+	}
+
+	size_t dimension = config_new.boundaries.size();
+	vector<double> weighted_minima;
+
+	for (size_t i = 0; i < dimension; i++) {
+		double sum_minima = 0.0;
+		double sum_normaliser = 0.0;
+		for (size_t j = 0; j < resultss.size(); j++) {
+			sum_minima += minimas[j][i] * abs(spearmanss[j][i]);
+			sum_normaliser += abs(spearmanss[j][i]);
+		}
+		weighted_minima.push_back(sum_minima / sum_normaliser);
+	}
+
+	return weighted_minima;
 }

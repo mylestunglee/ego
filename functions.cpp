@@ -352,22 +352,6 @@ vector<double> minimise(double (*func)(const gsl_vector*, void*),
 	return x_best;
 }
 
-// Returns true iff the evaluation result passes all constraints
-bool is_success(vector<double> y, size_t constraints, size_t costs) {
-	const size_t FITNESS_LABEL_OFFSET = 2;
-	const size_t LABEL_INDEX = 1;
-	assert(y.size() == FITNESS_LABEL_OFFSET + constraints + costs);
-	if (y[LABEL_INDEX] != 0.0) {
-		return false;
-	}
-	for (size_t constraint = 0; constraint < constraints; constraint++) {
-		if (y[FITNESS_LABEL_OFFSET + constraint] > 1.0) {
-			return false;
-		}
-	}
-	return true;
-}
-
 // Converts a GSL vector into a std::vector
 vector<double> gsl_to_std_vector(const gsl_vector* v) {
 	vector<double> x;

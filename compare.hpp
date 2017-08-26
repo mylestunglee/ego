@@ -23,3 +23,11 @@ double calc_results_comparison_score(results_t& results_new,
 
 double calc_names_comparison_score(vector<string>& names_new,
 	vector<string>& names_old);
+
+bool are_unique_names(vector<string> names);
+
+vector<double> swap_pattern_point(vector<string> names_old,
+	vector<string> names_new, vector<double> coeffss);
+
+vector<double> calc_repository_midpoint(vector<config_t> config_old,
+	config_t config_new, vector<results_t>& resultss);
