@@ -1,0 +1,3 @@
+[submodule "libgp"]
+	path = libgp
+	ignore = dirty
