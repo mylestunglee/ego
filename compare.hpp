@@ -31,3 +31,6 @@ vector<double> swap_pattern_point(vector<string> names_old,
 
 vector<double> calc_repository_midpoint(vector<config_t> config_old,
 	config_t config_new, vector<results_t>& resultss);
+
+double calc_tags_comparison_score(vector<string>& tags_new,
+	vector<string>& tags_old);

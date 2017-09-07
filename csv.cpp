@@ -26,7 +26,7 @@ vector<vector<string>> read(string filename) {
 	vector<vector<string>> data;
 	while (getline(file, line)) {
 		// Skip comment lines
-		if (!line.empty() && line[0] == '#') {
+		if (line[0] == '#') {
 			continue;
 		}
 
@@ -36,9 +36,8 @@ vector<vector<string>> read(string filename) {
 		while (getline(ss, cell, ',')) {
 			tokens.push_back(cell);
 		}
-		if (!tokens.empty()) {
-			data.push_back(tokens);
-		}
+		data.push_back(tokens);
 	}
+
 	return data;
 }

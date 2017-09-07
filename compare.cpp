@@ -58,6 +58,7 @@ void compare(config_t config_new, results_t& results_new,
 	size_t common_all_points = count_common_results(results_olds, results_new);
 	cout << "Common points across all designs: " << common_all_points << endl;
 
+	// Suggests weighted midpoint
 //	print_vector(calc_repository_midpoint(valid_configs, config_new, valid_results));
 
 	if (best_score > 0.0) {
@@ -74,21 +75,19 @@ double calc_comparison_score(config_t& config_new, results_t& results_new,
 		return 0.0;
 	}
 
+	double names_score = calc_names_comparison_score(config_new.names,
+		config_old.names);
 	double boundaries_score = calc_boundaries_comparison_score(
 		config_new.boundaries, config_old.boundaries);
 	double cross_validation_score =
 		calc_cross_validation_comparison_score(results_new, results_old);
 	double results_score = calc_results_comparison_score(
 		results_new, results_old);
-	double names_score = calc_names_comparison_score(config_new.names,
-		config_old.names);
+	double tags_score = calc_tags_comparison_score(config_new.tags,
+		config_old.tags);
 
-/*	cout << "boundaries_score = " << boundaries_score << endl <<
-			"cross_validation_score = " << cross_validation_score << endl <<
-			"results_score = " << results_score << endl <<
-			"names_score = " << names_score << endl;*/
-
-	return names_score * (results_score + cross_validation_score + boundaries_score);
+	return names_score * (results_score + cross_validation_score +
+		boundaries_score + tags_score);
 }
 
 // Calculates a score representing the similiarity of two boundaries
@@ -210,4 +209,24 @@ vector<double> calc_repository_midpoint(vector<config_t> config_old,
 	}
 
 	return weighted_minima;
+}
+
+// Score of number of common tags
+double calc_tags_comparison_score(vector<string>& tags_new,
+	vector<string>& tags_old) {
+	set<string> seen;
+	for (auto& tag_new : tags_new) {
+		seen.insert(tag_new);
+	}
+	size_t common = 0;
+	for (auto& tag_old : tags_old) {
+		if (seen.find(tag_old) != seen.end()) {
+			common += 1;
+		}
+	}
+	size_t max_common = min(tags_new.size(), tags_old.size());
+	if (common == 0 || max_common == 0) {
+		return 0.0;
+	}
+	return (double) common / (double) max_common;
 }

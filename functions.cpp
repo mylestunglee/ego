@@ -976,6 +976,7 @@ bool read_config(string filename, config_t& config) {
 			throw invalid_argument("invalid fitness percentile");
 		}
 		config.names = data.at(10);
+		config.tags = data.at(11);
 	} catch (const invalid_argument& ia) {
 		cerr << "Invalid value in configuration file: " << ia.what() << endl;
 		return true;

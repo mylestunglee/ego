@@ -22,6 +22,7 @@ struct config {
 	bool is_discrete;
 	boundaries_t boundaries;
 	vector<string> names;
+	vector<string> tags;
 };
 
 typedef struct config config_t;
