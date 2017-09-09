@@ -4,20 +4,20 @@
 
 using namespace std;
 
-TransferredGaussianProcess::TransferredGaussianProcess(
+TransferableGaussianProcess::TransferableGaussianProcess(
 	set<pair<vector<double>, double>> added) :
 	added_old(added), transferred(NULL), parameter(NULL) {
 	assert(!added.empty());
 }
 
-TransferredGaussianProcess::~TransferredGaussianProcess() {
+TransferableGaussianProcess::~TransferableGaussianProcess() {
 	if (transferred != NULL) {
 		delete transferred;
 		delete parameter;
 	}
 }
 
-void TransferredGaussianProcess::add(vector<double> x, double y) {
+void TransferableGaussianProcess::add(vector<double> x, double y) {
 	if (transferred != NULL) {
 		delete transferred;
 		delete parameter;
@@ -27,21 +27,21 @@ void TransferredGaussianProcess::add(vector<double> x, double y) {
 	added_new.insert(make_pair(x, y));
 }
 
-double TransferredGaussianProcess::mean(vector<double> x) {
+double TransferableGaussianProcess::mean(vector<double> x) {
 	if (transferred == NULL) {
 		train();
 	}
 	return transferred->mean(x);
 }
 
-double TransferredGaussianProcess::sd(vector<double> x) {
+double TransferableGaussianProcess::sd(vector<double> x) {
 	if (transferred == NULL) {
 		train();
 	}
 	return transferred->mean(x);
 }
 
-void TransferredGaussianProcess::optimise() {
+void TransferableGaussianProcess::optimise() {
 	if (transferred == NULL) {
 		train();
 	}
@@ -49,14 +49,14 @@ void TransferredGaussianProcess::optimise() {
 	train();
 }
 
-double TransferredGaussianProcess::cross_validate() {
+double TransferableGaussianProcess::cross_validate() {
 	if (transferred == NULL) {
 		train();
 	}
 	return transferred->cross_validate();
 }
 
-double TransferredGaussianProcess::cross_validate_parameter() {
+double TransferableGaussianProcess::cross_validate_parameter() {
 	if (transferred == NULL) {
 		train();
 	}
@@ -64,7 +64,7 @@ double TransferredGaussianProcess::cross_validate_parameter() {
 }
 
 // Construct predictor of added_new using added_old
-void TransferredGaussianProcess::train() {
+void TransferableGaussianProcess::train() {
 	assert(!added_old.empty());
 
 	// Reconstruct Gaussian processes

@@ -1,0 +1,40 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\author{Myles Lee}
+\title{Repository Knowledge Transfer in Automatic Optimisation of
+Reconfigurable Designs}
+\begin{document}
+\maketitle
+\section*{Introduction}
+\subsection*{Problem}
+The objective is to optimise a design $T$, by finding the optimial design $x_T^*$ using the performace metric $f_T$, using the least number of evaluations of $f_T$. $T$ has $n_T$ reconfigurable parameters, the design space $\mathbb{X}_T$ is defined to be the mathematical Cartesian product of $n_T$ real intervals. $f_T$ is expensive to evaluate and cannot be assumed that is differentable or convex. Therefore, computing $x_T^*$ is expensive. Finding the true optimial design maybe too costly, and a near-optimial design may be used.
+\subsection*{Previous Work}
+To minimise this cost, a previous effort \cite{ego} introduced another design $S$. Using observations $\{(x_1,y_1),...\}$ from $f_S$ and $x_S^*$, $x_T^*$ can be approximated.
+\section*{Contributions}
+The main contributions are summarised below:
+\begin{enumerate}
+\item Improvement of knowledge transfer to predict obserations of $f_T$, using a \emph{Transferrable Gaussian Process}
+\item Using multiple designs to improve knowledge transfer
+\item Extension of Will's code base with implementation of the above concepts
+\end{enumerate}
+\subsection*{Transferable Gaussian Process}
+Previously, we use observations $O_T=\{(x_1,y_1),...\}$ from $f_T$ to train a surrogate $\hat{f_T}$ so that $\hat{f_T}(x)\approx f_T(x)$. Let us define use the syntax $p_{O_T}$ to represent $\hat{f_T}$. From \cite{ego}, a linear mapping from $y_S$ to $y_T$ is used.
+
+This not practical in some cases.
+
+\section*{Evaluation}
+a load of graphs here
+\section*{Future Work}
+
+\begin{thebibliography}{9}
+\bibitem{ego}
+Kurek, M and Deisenroth, MP and Luk, W and Todman, T,
+2016,
+\textit{Transfer in Automatic Optimisation of Reconfigurable Designs},
+24th IEEE International Symposium on Field-Programmable Custom Computing Machines (FCCM), Publisher: IEEE, Pages: 84-87
+
+\end{thebibliography}
+\end{document}

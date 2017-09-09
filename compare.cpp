@@ -113,7 +113,7 @@ double calc_cross_validation_comparison_score(results_t& results_new,
         }
     }
 
-    TransferredGaussianProcess tgp(added);
+    TransferableGaussianProcess tgp(added);
     add_results_to_surrogate(results_new, tgp);
 
 	// TODO: use tgp.cross_validate()?

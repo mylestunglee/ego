@@ -5,10 +5,10 @@
 
 using namespace std;
 
-class TransferredGaussianProcess : public Surrogate {
+class TransferableGaussianProcess : public Surrogate {
 	public:
-		TransferredGaussianProcess(set<pair<vector<double>, double>> added);
-		~TransferredGaussianProcess();
+		TransferableGaussianProcess(set<pair<vector<double>, double>> added);
+		~TransferableGaussianProcess();
 		void add(vector<double> x, double y);
 		double mean(vector<double> x);
 		double sd(vector<double> y);

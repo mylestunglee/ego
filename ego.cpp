@@ -82,16 +82,16 @@ EGO::EGO(Evaluator& evaluator, config_t config, boundaries_t rejection,
 	}
 
 	// Build surrogates from previous data
-	fitness = new TransferredGaussianProcess(added_fitness);
-	label = new TransferredGaussianProcess(added_label);
+	fitness = new TransferableGaussianProcess(added_fitness);
+	label = new TransferableGaussianProcess(added_label);
 	for (size_t i = 0; i < config.constraints; i++) {
 		this->constraints.push_back(
-			new TransferredGaussianProcess(added_constraints[i]));
+			new TransferableGaussianProcess(added_constraints[i]));
 	}
 
 	for (size_t i = 0; i < config.costs; i++) {
 		this->costs.push_back(
-			new TransferredGaussianProcess(added_costs[i]));
+			new TransferableGaussianProcess(added_costs[i]));
 	}
 }
 
