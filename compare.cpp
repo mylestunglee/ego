@@ -81,12 +81,12 @@ double calc_comparison_score(config_t& config_new, results_t& results_new,
 		config_new.boundaries, config_old.boundaries);
 	double cross_validation_score =
 		calc_cross_validation_comparison_score(results_new, results_old);
-	double results_score = calc_results_comparison_score(
+	double common_score = calc_common_comparison_score(
 		results_new, results_old);
 	double tags_score = calc_tags_comparison_score(config_new.tags,
 		config_old.tags);
 
-	return names_score * (results_score + cross_validation_score +
+	return names_score * (common_score + cross_validation_score +
 		boundaries_score + tags_score);
 }
 
@@ -121,7 +121,7 @@ double calc_cross_validation_comparison_score(results_t& results_new,
 }
 
 // Calculates a score based on the number of common designs
-double calc_results_comparison_score(results_t& results_new, results_t& results_old) {
+double calc_common_comparison_score(results_t& results_new, results_t& results_old) {
 	size_t common = count_common_results({results_old, results_new});
 	size_t bound = min(results_new.size(), results_old.size());
 	return (double) common / (double) bound;

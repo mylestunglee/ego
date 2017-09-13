@@ -5,12 +5,12 @@ import csv
 import sys
 
 if len(sys.argv) < 3:
-	print('Usage: parser.py data.csv index')
+	print('Usage: parser.py data.csv dimension')
 	exit(1)
 
 csvfile = open(sys.argv[1], 'r')
 spamreader = csv.reader(csvfile, delimiter = ',')
-index = int(sys.argv[2])
+dimension = int(sys.argv[2])
 
 data = {}
 
@@ -31,8 +31,8 @@ for row in spamreader:
 	if not is_all_numbers(row):
 		continue
 
-	xs = tuple(map(int, row[:index]))
-	y = float(row[index])
+	xs = tuple(map(int, row[:dimension]))
+	y = float(row[dimension])
 	if xs in data:
 		(n, sum) = data[xs]
 		data[xs] = (n + 1, sum + y)

@@ -18,7 +18,7 @@ double calc_boundaries_comparison_score(boundaries_t& boundaries_new,
 double calc_cross_validation_comparison_score(results_t& results_new,
 	results_t& results_old);
 
-double calc_results_comparison_score(results_t& results_new,
+double calc_common_comparison_score(results_t& results_new,
 	results_t& results_old);
 
 double calc_names_comparison_score(vector<string>& names_new,
