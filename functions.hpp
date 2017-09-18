@@ -81,10 +81,6 @@ void log_surrogate_predictions(Surrogate& surrogate, string filename, boundaries
 
 vector<vector<double>> generate_all_samples(boundaries_t boundaries);
 
-void log_fitness(double fitness);
-
-void write_fitness_log(string filename);
-
 vector<double> calc_midpoint(vector<vector<double>> xs);
 
 vector<double> multilinear_regression_fit(vector<vector<double>> xs, vector<double> ys);

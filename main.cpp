@@ -137,7 +137,6 @@ int main(int argc, char* argv[]) {
 	}
 
 	evaluator.save(filename_output);
-	write_fitness_log("fitnesses.csv");
 
 	return 0;
 }

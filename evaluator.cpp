@@ -14,40 +14,36 @@ Evaluator::Evaluator(string script) : script(script) {}
 
 // Consults proxy then packages x for execution
 vector<double> Evaluator::evaluate(vector<double> x) {
+	// Return cache if already executed
 	cache_lock.lock();
 	if (was_evaluated(x)) {
-		vector<double> result = cache[x];
+		auto result = lookup[x];
 		cache_lock.unlock();
 		return result;
 	}
 	cache_lock.unlock();
 
+	// Build command
 	string command = script;
-
 	for (double arg : x) {
 		command += " " + to_string(arg);
 	}
 
-	vector<double> result;
-
+	// Excute command
+	vector<double> y;
 	for (string line : execute(command)) {
 		try {
-			result.push_back(stof(line));
+			y.push_back(stof(line));
 		} catch (const invalid_argument& ia) {
 			cout << line;
 		}
 	}
 
-	simulate(x, result);
+	// Save result
+	results.push_back(make_pair(x, y));
+	simulate(x, y);
 
-	// Ongoing output of minimum for experiments
-	static double fitness_min = numeric_limits<double>::max();
-	if (result[0] < fitness_min && result[1] == 0.0) {
-		fitness_min = result[0];
-	}
-	log_fitness(fitness_min);
-
-	return result;
+	return y;
 }
 
 // Executes command returning a vector of lines from stdout
@@ -66,7 +62,7 @@ vector<string> Evaluator::execute(string command) {
 // Saves the cache as a CSV file
 void Evaluator::save(string filename) {
 	vector<vector<string>> data;
-	for (pair<vector<double>, vector<double>> pair : cache) {
+	for (auto pair : results) {
 		vector<string> line;
 		for (double x : pair.first) {
 			line.push_back(to_string(x));
@@ -82,11 +78,11 @@ void Evaluator::save(string filename) {
 // Simulates an execution without evalauting the script
 void Evaluator::simulate(vector<double> x, vector<double> y) {
 	cache_lock.lock();
-	cache[x] = y;
+	lookup[x] = y;
 	cache_lock.unlock();
 }
 
 // Returns true iff x has been evaluated before
 bool Evaluator::was_evaluated(vector<double> x) {
-	return 	cache.find(x) != cache.end();
+	return lookup.find(x) != lookup.end();
 }

@@ -432,22 +432,6 @@ vector<vector<double>> generate_all_samples(boundaries_t boundaries) {
 	return result;
 }
 
-// Used for determining the efficiency of the EGO algorithm
-static vector<double> fitnesses;
-
-void log_fitness(double fitness) {
-	fitnesses.push_back(fitness);
-}
-
-void write_fitness_log(string filename) {
-	vector<string> row;
-	for (auto fitness : fitnesses) {
-		row.push_back(to_string(fitness));
-	}
-
-	write(filename, {row});
-}
-
 // Calculates the midpoint of multiple points
 vector<double> calc_midpoint(vector<vector<double>> xs) {
 	assert(!xs.empty());
