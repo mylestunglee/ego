@@ -30,9 +30,16 @@ def aggregate(filename):
 	for i in range(max_columns):
 		values = []
 		for row in rows:
-			if i >= len(row) or float(row[i]) > 10.0 ** 308.0:
+			value = 10.0 ** 308.0
+			if i >= len(row):
+				value = float(row[-1])
+			else:
+				value = float(row[i])
+
+			if value >= 10.0 ** 308.0:
 				continue
-			values.append(float(row[i]))
+
+			values.append(value)
 		if values != []:
 			indices.append(i + 1)
 			mean = np.mean(values)

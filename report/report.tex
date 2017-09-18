@@ -10,6 +10,12 @@
 \usepackage{float}
 \usepackage{framed}
 \usepackage[linesnumbered]{algorithm2e}
+\usepackage{cprotect}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\newcommand{\dsb}[1]{[\![#1]\!]}
+
 \author{Myles Lee}
 \title{Repository Knowledge Transfer in Automatic Optimisation of
 Reconfigurable Designs}
@@ -19,13 +25,13 @@ Reconfigurable Designs}
 This project was supervised by Maciej Kurek and Wayne Luk and managed under the UROP scheme at the Custom Computing Group at the Department of Computing in Imperial College London.
 
 \section{Introduction}
-The objective is to optimise a design $T$, by finding the optimal configuration $\mathbf{x}_T^*$ using the performance metric $f_T$, using the least number of $f_T$ evaluations. $T$ has $n_T$ reconfigurable parameters, the design space $\mathbb{X}_T$ is defined to be the mathematical Cartesian product of $n_T$ intervals. $f_T$ is expensive to evaluate and cannot be assumed that $f_T$ is differentiable or convex. Therefore, computing $\mathbf{x}_T^*$ is expensive. Finding the true optimal design maybe too costly, and a sub-optimal configuration may be used.
+The objective is to optimise a design $T$, by finding the optimal configuration $\mathbf{x}_T^*$ using a fitness function $f_T$, with a budget of $f_T$ evaluations. $T$ has $n_T$ reconfigurable parameters, the design space $\mathbb{X}_T$ is defined to be the mathematical Cartesian product of $n_T$ intervals. $f_T$ is expensive to evaluate and cannot be assumed that $f_T$ is differentiable or convex. Therefore, computing $\mathbf{x}_T^*$ is expensive. Finding the true optimal design maybe too costly, and a sub-optimal configuration may be used.
 
-Each design has a label function $g_T$, such that for some configuration $\mathbf{x}$, $g_T(\mathbf{x})=0$ if and only if $\mathbf{x}$ is successful. $g_T(\mathbf{x}_T^*)=0$ is required. In addition, each design have $m_T$ constraint functions $\{{h_1}_T,...\}$. Each constraint function determines the resource restrictions on the configurations. In the reconfigurable computing context, a constraint function could represent the fraction of a used hardware resource on the chip. For some constraint function ${h_i}_T$ and configuration $\mathbf{x}$, ${h_i}_T(\mathbf{x})<1$ if and only if $\mathbf{x}$ satisfies the $i^{th}$ constraint. Therefore $\forall \mathbf{x}\in\mathbb{X}_T.(\forall i\in\{1,...,m_T\}.{h_i}_T(\mathbf{x})<1)\Leftrightarrow g_T(\mathbf{x})=0$.
+Each design has a label function $g_T$, such that for some configuration $\mathbf{x}$, $g_T(\mathbf{x})=0$ if and only if $\mathbf{x}$ is successful. $g_T(\mathbf{x}_T^*)=0$ is required. In addition, each design have $m_T$ constraint functions $\{{h_1}_T,...\}$. Each constraint function determines the resource restrictions on the configurations. In the reconfigurable computing context, a constraint function could represent the fraction of a used hardware resource on the chip. For some constraint function ${h_i}_T$ and configuration $\mathbf{x}$, ${h_i}_T(\mathbf{x})<1$ if and only if $\mathbf{x}$ satisfies the $i^{\text{th}}$ constraint. Therefore $\forall \mathbf{x}\in\mathbb{X}_T.(\forall i\in\{1,...,m_T\}.{h_i}_T(\mathbf{x})<1)\Leftrightarrow g_T(\mathbf{x})=0$.
 
-Moreover, each design have $c_T$ cost functions, where each cost function determines the cost of evaluating a component of $f_T$. For example, two cost functions can represent the software and hardware build time. The cost of evaluating $f_T(\mathbf{x})$ is the sum of each cost function, $\sum_{i=1}^{c_T}{c_i}_T(\mathbf{x})$. The cost of evaluating all samples may be minimised instead of minimising the number of evaluations, depending on the application of the optimisation.
+Moreover, each design have $c_T$ cost functions, where each cost function determines the cost of evaluating a component of $f_T$. For example, two cost functions can represent the software and hardware build time. Typically, the cost is defined as the time taken to evaluate $f_T$. The cost of evaluating $f_T(\mathbf{x})$ is the sum of each cost function, $\sum_{i=1}^{c_T}{c_i}_T(\mathbf{x})$. The budget restricts the number of observations of $f_T$, as the sum of evaluation costs must not exceed the budget. If the evaluation cost of any configuration is constant, then the budget can be interpreted as the maximum number of $f_T$ evaluations.
 
-To minimise this cost, a pre-optimised source design $S$ can be used to provide insight to a target design $T$ with limited sampling. Using observations from $f_S$, $\mathbf{x}_T^*$ can be approximated from $x_S^*$. Knowledge transfer is used to estimate properties of $T$ using other, possibility similar designs such as $S$. 
+To minimise this cost, a pre-optimised source design $S$ can be used to provide insight to a target design $T$ with limited sampling. Using observations from $f_S$, $\mathbf{x}_T^*$ can be approximated from $x_S^*$. Knowledge transfer is used to estimate properties of $T$ using other, possibility similar designs such as $S$.
 
 \section{Contributions}
 
@@ -44,7 +50,7 @@ Suppose $f_S(\mathbf{x})=1+\mathbf{x}_1$, $f_T(\mathbf{x})=1+\mathbf{x}_1+\mathb
 
 To solve this, a Transferable Gaussian Process (TGP) is used as follows. A TGP is composed of two Gaussian Processes of the same kernel, a process $p$ to predict the scalar of $f_S$ to $f_T$ and another process $q$ as a surrogate of $f_T$. $p$ is trained on the ratio of source and target fitness values, so $p(\mathbf{x})=\frac{f_T(\mathbf{x})}{f_S(\mathbf{x})}$ at sampled points. The training data for the example above would be $\{((0,0),1),((0,1),2),((1,0),1),((1,1),\frac{3}{2})\}$. $q$ is trained on observations of $f_S$, so $q=f_S$ at sampled points. Then we define $z(\mathbf{x})=p(\mathbf{x})q(\mathbf{x})$. So $(z\circ f_S)(\mathbf{x})=\frac{f_T(\mathbf{x})}{f_S(\mathbf{x})}\cdot f_S(\mathbf{x})=f_T(\mathbf{x})$. Using TGPs are more accurate than using polynomial regression because TGPs captures transferred features better in high dimensional space.
 
-\subsection{Optimal Configuration Prediction}
+\subsection{Near-optimal Configuration Prediction}
 Correlation analysis is used to determine the effectiveness of predicting the optimal configuration. For each dimension $i$ of the $\mathbb{X}_S$, we compute the Spearman correlation coefficient $\rho_i$ by comparing configurations against fitness values using observations of $f_S$. For a given significance level $\alpha$, if $\forall i\in\{1,...,n_S\}.1-|\rho_i|\le\alpha$ and $n_S=n_T$, then we can apply knowledge transfer. We approximate $f_S$ with a multi-dimensional quadratic function $\hat{f_S}$. We use multi-linear regression to find constants $c$, $\mathbf{d}$ and $\mathbf{e}$ such that $\hat{f_S}(\mathbf{x})=c+\sum_{i=1}^{n_S}\mathbf{d}_i \mathbf{x}_i+\mathbf{e}_i \mathbf{x}_i^2$. Then we approximate $\mathbf{x}_T^*=argmin_{\mathbf{x}\in\mathbb{X}_T}\hat{f_S}(\mathbf{x})$. This approximation is a signifiant improvement over using $\mathbf{x}_T^*\approx\mathbf{x}_S^*$ because $f_T$ and $f_S$ tend to be independent in each dimension and noisy\cite{Xi2004}. The evaluation illustrates this improvement.
 
 \subsection{Repository Knowledge Transfer}
@@ -102,66 +108,171 @@ The implementation of knowledge transfer follows the algorithm below. For the fu
 
 \section{Evaluation}
 
-a load of graphs here
+The program was applied to many designs. To differentiate integer and real intervals, the notation $\dsb{a,b}=\{a\le n\le b|n\in\mathbb{Z}$ and $[a,b]=\{a\le n\le b|n\in\mathbb{R}$ is used.
+
+\begin{table}[H]
+	\begin{tabularx}{\linewidth}{X l Y c c X}
+		\hline
+		Design & Platform & $\mathbb{X}$ & $m$ & $c$ & $names$\\
+		\hline
+		robot & & $\dsb{1,4}\times\dsb{8,40}$ & 3 & 0 & cores, mantissa width\\
+		stochastic & & $\dsb{1,4}\times\dsb{10,40}$ & 3 & 0 & cores, mantissa width\\
+		quadrature\cite{Tse2012} & Max3 & $\dsb{11,53}\times\dsb{1,32}$ & 1 & 0 & mantissa width, density factor\\
+		quadrature\cite{Tse2012} & Max4 & $\dsb{11,53}\times\dsb{1,32}$ & 1 & 0 & mantissa width, density factor\\
+		xinyu rtm & Max3 & $\dsb{1,10}\times\dsb{1,10}\times\dsb{4,24}\times\dsb{1,3}\times\dsb{1,10}\times\dsb{1,10}\times\dsb{1,32}$ & 0 & 1 & alpha, beta, B, T, Pknl, Ptl, Pdp\\
+		xinyu rtm & Max4 & $\dsb{1,10}\times\dsb{1,10}\times\dsb{4,24}\times\dsb{1,3}\times\dsb{1,20}\times\dsb{1,20}\times\dsb{1,32}$ & 0 & 1 & alpha, beta, B, T, Pknl, Ptl, Pdp\\
+		genomics\cite{Arram2017} & Max3 & $\dsb{1,10}\times\dsb{-3,2}\times\dsb{0,1}$ & 0 & 0 & sample distance, optimisation index, oversample\\
+		genomics\cite{Arram2017} & Max4 & $\dsb{1,10}\times\dsb{-2,2}\times\dsb{0,1}$ & 0 & 0 & sample distance, optimisation index, oversample\\
+		\hline
+ 	\end{tabularx}
+	\caption{Designs used for knowledge transfer}
+\end{table}
+
+\begin{figure}[H]
+	 \begin{center}
+		\subfigure[robot]{
+			\includegraphics[width=0.4\textwidth]{cropped_robot_plot.png}
+		}
+		\subfigure[stochastic]{
+			\includegraphics[width=0.4\textwidth]{cropped_stochastic_plot.png}
+		}
+		\subfigure[quadrature Max3]{
+			\includegraphics[width=0.4\textwidth]{cropped_quadrature_max3_plot.png}
+		}
+		\subfigure[quadrature Max4]{
+			\includegraphics[width=0.4\textwidth]{cropped_quadrature_max4_plot.png}
+		}
+		\subfigure[genomics Max3 oversample=0]{
+			\includegraphics[width=0.4\textwidth]{cropped_genomics_max3_offline_0_plot.png}
+		}
+		\subfigure[genomics Max3 oversample=1]{
+			\includegraphics[width=0.4\textwidth]{cropped_genomics_max3_offline_1_plot.png}
+		}
+		\subfigure[genomics Max4 oversample=0]{
+			\includegraphics[width=0.4\textwidth]{cropped_genomics_max4_offline_0_plot.png}
+		}
+		\subfigure[genomics Max4 oversample=1]{
+			\includegraphics[width=0.4\textwidth]{cropped_genomics_max4_offline_1_plot.png}
+		}
+	\end{center}
+	\caption{Function surface plots of designs}
+	\label{fig:subfigures}
+\end{figure}
+
+\begin{figure}[H]
+	 \begin{center}
+		\subfigure[robot to stochastic]{
+			\includegraphics[width=0.4\textwidth]{cropped_robot_stochastic_transfer.png}
+		}
+		\subfigure[stochastic to robot]{
+			\includegraphics[width=0.4\textwidth]{cropped_stochastic_robot_transfer.png}
+		}
+		\subfigure[quadrature Max3 to Max4]{
+			\includegraphics[width=0.4\textwidth]{cropped_quadrature_max3_quadrature_max4_transfer.png}
+		}
+		\subfigure[genomics Max3 to Max4]{
+			\includegraphics[width=0.4\textwidth]{cropped_genomics_max3_offline_genomics_max4_offline_transfer.png}
+		}
+		\subfigure[xinyu rtm Max3 to Max4]{
+			\includegraphics[width=0.4\textwidth]{cropped_xinyu_rtm_max3_xinyu_rtm_max4_transfer.png}
+		}
+	\end{center}
+	\caption{Optimisation graphs illustrating knowledge transfer improvement}
+	\label{fig:subfigures}
+\end{figure}
+
+Each knowledge transfer application has been executed 100 times. In the optimisation graphs, the solid lines represent the mean of best fitness values and the shaded area represents the confidence interval of one standard deviation from the mean. Each application execution results in a non-increasing curve because of the optimisation objective. The curve is not defined for all evaluations because evaluated points may not meet the design's constraints, hence there is no fitness value. Therefore, taking an aggregate of these curves does not necessarily result in a non-increasing curve, as shown in the xinyu rtm example.
+
+From the optimisation graphs, we observe that using knowledge transfer results in faster optimisation. When the optimal configuration at the edge of the configuration space, the near-optimal configuration prediction is very effective to improve the optimisation curve. We see this in the quadrature and genomics example where the first evaluation is near-optimal or optimal. When the fitness surface function more noisy, then the optimisation curve is more uncertain, as in the robot example. This is due to the inaccuracy of interpolation using a few observations.
+
+To quantify the improvement using knowledge, define the number of knowledge transfer applications as $\lambda$. Define a scoring function $score$ on the $i^{\text{th}}$ optimisation curve $f_i:\mathbb{R}_{\ge 0}\rightharpoonup\mathbb{R}$ for some $i\in\dsb{1,\lambda}$, that gives the best fitness value given some cost utilisation $t$.
+
+\[
+	\begin{split}
+		score(f_i)&=\dfrac{1}{t_{max}(y_{max}-y_{min})}\\
+		&\int_{t=0}^{t_{max}}min\{f_i(j)|j\in[0,t],\exists y\in\mathbb{R}.f_i(j)=y\}\cup\{y_{max}\}-y_{min}\mathrm{d}t
+	\end{split}
+\]where
+\[y_{min}=min_{i\in\dsb{1,\lambda},t\in\mathbb{R}}\{f_i(t)|\exists y\in\mathbb{R}.f_i(t)=y\}\]
+\[y_{max}=max_{i\in\dsb{1,\lambda},t\in\mathbb{R}}\{f_i(t)|\exists y\in\mathbb{R}.f_i(t)=y\}\]
+\[t_{max}=max_{i\in\dsb{1,\lambda},t\in\mathbb{R}}\{t|\exists y\in\mathbb{R}.f_i(t)=y\}\]
+
+Intuitive, $score$ defines the normalised area under the optimisation graph. The complication arises because $f_i$ is not a total function. The formula is derived by summing the regret $f_i(t)-y_{min}$ as the cost $t$ increases. A score of zero means that the optimiser selects the optimal configuration with no cost, hence no regret. A score of one means the optimiser does not improve from the worst configuration, or does not suggest any successful configurations. To consider the randomicity of the optimiser, we take the average of $score(f_i)$ for each $i$. To compute the improvement using knowledge transfer, compute the ratio of the average score without knowledge transfer by the average score with knowledge transfer.
+
+There are limitations with this definition of $score$ does not describe the distribution of $f_i$. However, the balance between quickly finding near-optimal configurations and slowly finding optimal configurations is not well-defined. An alternative definition would be the cost required to achieve the optimal configuration. This is not suitable for large configuration spaces as the cost of finding the optimal configuration varies greatly.
+
+\begin{table}[H]
+	\begin{tabularx}{\linewidth}{X X X X X}
+		\hline
+		$T$ & $S$ & No KT Score & KT Score & Improvement Ratio\\
+		\hline
+		robot & stochastic & 0.074 & 0.010 & 7.195\\
+		stochastic & robot & 0.226 & 0.141 & 1.605\\
+		quadrature Max3 & quadrature Max4 & 0.045 & 0.05 & 9.756\\
+		genomics Max3 & genomics Max4 & 0.024 & 0.002 & 13.823\\
+		xinyu rtm Max3 & xinyu rtm Max4 & 0.658 & 0.506 & 1.300\\
+		\hline
+	\end{tabularx}
+	\caption{Scores of knowledge transfer applications}
+\end{table}
 
 \section{Technical Documentation}
 
-The program is written in C++ 14.
+The program is written in C++ 14. Each design mentioned in the evaluation section can be found in the \path{examples} directory.
 
 \subsection{Structure}
 
-Below are files and directories in the working directory. 
-
-\noindent
-\begin{tabularx}{\textwidth}{|l|X|}
-	\hline
-	File/Directory & Description\\\hline
-	animation & manages printing of animated progress to standard output\\\hline
-	catch & unit test library\\\hline
-	csv & manages file I/O to CSV files\\\hline
-	compare & comparison metrics between source designs and a target design\\\hline
-	eigen3 & libgp dependency\\\hline
-	ego & efficient global optimiser\\\hline
-	evaluator & interfaces command line script with runtime variables and caches results\\\hline
-	examples & directory of designs used for benchmarking\\\hline
-	functions & collection of general functions\\\hline
-	gsl-2.4 & GNU scientific library\\\hline
-	gp & wrapper for libgp's Gaussian process with log-space and whitening transformation\\\hline
-	ihs & hypercube sampling library\\\hline
-	logs & directory of experiment results and optimisation graphs\\\hline
-	Makefile & builds and tests executable\\\hline
-	tgp & implementation of TGP\\\hline
-	transferrer & implementation of single knowledge transfer that wraps EGO\\\hline
-	scripts & Bash and Python scripts to manage batch execution and manipulate CSV files\\\hline
-	surrogate & interface for high dimensional regression\\\hline
-\end{tabularx}
+\begin{table}[H]
+	\begin{tabularx}{\linewidth}{l X}
+		\hline
+		File/Directory & Description\\
+		\hline
+		\path{animation} & manages printing of animated progress to standard output\\
+		\path{catch} & unit test library\\
+		\path{csv} & manages file I/O to CSV files\\
+		\path{compare} & comparison metrics between source designs and a target design\\
+		\path{eigen3} & libgp dependency\\
+		\path{ego} & efficient global optimiser\\
+		\path{evaluator} & interfaces command line script with runtime variables and caches results\\
+		\path{examples} & directory of designs used for benchmarking\\
+		\path{functions} & collection of general functions\\
+		\path{gsl-2.4} & GNU scientific library\\
+		\path{gp} & wrapper for libgp's Gaussian process with log-space and whitening transformation\\
+		\path{ihs} & hypercube sampling library\\
+		\path{logs} & directory of experiment results and optimisation graphs\\
+		\path{Makefile} & builds and tests executable\\
+		\path{tgp} & implementation of TGP\\
+		\path{transferrer} & implementation of single knowledge transfer that wraps EGO\\
+		\path{scripts} & Bash and Python scripts to manage batch execution and manipulate CSV files\\
+		\path{surrogate} & interface for high dimensional regression\\
+		\hline
+	\end{tabularx}
+	\caption{Files and directories descriptions in the working repository}
+\end{table}
 \begin{landscape}
-	Below are scripts found in the scripts directory.
-	
-	\noindent
-	\begin{tabularx}{\linewidth}{|l|X|X|}
+	\begin{tabularx}{\linewidth}{l X X}
 		\hline
 		Name & Description & Example\\\hline
-		compare\_all\_experiments & runs program on all precomputed examples with and without knowledge transfer & \path{./scripts/compare_all_experiments}\\\hline
-		compare\_experiments & runs program on source and target designs with and without knowledge transfer & \path{./scripts/compare_experiments examples/robot examples/stochastic 5}\\\hline
-		compare\_kt.py & computes optimisation statistics from logs with and without knowledge transfer & \path{python3 scripts/compare_kt.py logs/robot_stochastic_no_kt.csv logs/robot_stochastic_kt.csv}\\\hline
-		csv\_stats.py & computes statistics on a CSV file & \path{python3 scripts/csv_stats.py examples/robot/results.csv}\\\hline
-		fill\_space.py & adds failed builds to precomputed results when results do not exhaustively represent the configuration space & \path{python3 scripts/fill_space.py examples/robot/results.csv 1 4 8 40}\\\hline
-		interpolate.py & uses a Gaussian process to interpolate fitness values when results do not exhaustively represent the configuration space & \path{python3 scripts/interpolate.py examples/robot/results.csv examples/robot/config.txt 1 8}\\\hline
-		parser.py & aggregates results by computing average fitness value of each duplicate sampled point & \path{python3 scripts/parser.py examples/robot/results.csv 2}\\\hline
-		plot\_experiment.py & plots optimisation curve with and without knowledge transfer & \path{python3 scripts/plot_experiment.py logs/robot_stochastic_no_kt.csv logs/robot_stochastic_kt.csv}\\\hline
-		plot\_predictions.py & plots 2-dimensional fitness function surface & \path{python3 scripts/plot_predictions.py examples/robot/results.csv output.png}\\\hline
-		run\_example & runs program on a example design without knowledge transfer & \path{./scripts/run_example examples/robot}\\\hline
-		transfer\_example & runs program on a target example design with knowledge transfer using a source & \path{./scripts/transfer_example examples/robot examples/stochastic}\\\hline
+		\path{compare_all_experiments} & runs program on all precomputed examples with and without knowledge transfer & \path{./scripts/compare_all_experiments}\\
+		\path{compare_experiments} & runs program on source and target designs with and without knowledge transfer & \path{./scripts/compare_experiments examples/robot examples/stochastic 5}\\
+		\path{compare_kt.py} & computes optimisation statistics from logs with and without knowledge transfer & \path{python3 scripts/compare_kt.py logs/robot_stochastic_no_kt.csv logs/robot_stochastic_kt.csv}\\
+		\path{csv_stats.py} & computes statistics on a CSV file & \path{python3 scripts/csv_stats.py examples/robot/results.csv}\\
+		\path{fill_space.py} & adds failed builds to precomputed results when results do not exhaustively represent the configuration space & \path{python3 scripts/fill_space.py examples/robot/results.csv 1 4 8 40}\\
+		\path{interpolate.py} & uses a Gaussian process to interpolate fitness values when results do not exhaustively represent the configuration space & \path{python3 scripts/interpolate.py examples/robot/results.csv examples/robot/config.txt 1 8}\\
+		\path{parser.py} & aggregates results by computing average fitness value of each duplicate sampled point & \path{python3 scripts/parser.py examples/robot/results.csv 2}\\
+		\path{plot_experiment.py} & plots optimisation curve with and without knowledge transfer & \path{python3 scripts/plot_experiment.py logs/robot_stochastic_no_kt.csv logs/robot_stochastic_kt.csv}\\
+		\path{plot_results.py} & plots 2-dimensional fitness function surface & \path{python3 scripts/plot_results.py examples/robot/config.txt examples/robot/results.csv output.png}\\
+		\path{run_example} & runs program on a example design without knowledge transfer & \path{./scripts/run_example examples/robot}\\
+		\path{transfer_example} & runs program on a target example design with knowledge transfer using a source & \path{./scripts/transfer_example examples/robot examples/stochastic}\\
 	\end{tabularx}
-\end{landscape}
-\begin{landscape}
-	\noindent
-	\begin{tabularx}{\linewidth}{|l|X|X|}
-		\hline
-		transfer\_repository & recommends a source example design for knowledge transfer of a target design & \path{./scripts/transfer_repository examples/robot}\\\hline
-		transfer\_repository\_all & checks that all recommended source designs are most suitable for knowledge transfer across all example designs & \path{./scripts/transfer_repository_all}\\\hline
-	\end{tabularx}
+	\begin{table}[H]
+		\begin{tabularx}{\linewidth}{l X X}
+			\path{transfer_repository} & recommends a source example design for knowledge transfer of a target design & \path{./scripts/transfer_repository examples/robot}\\
+			\path{transfer_repository_all} & checks that all recommended source designs are most suitable for knowledge transfer across all example designs & \path{./scripts/transfer_repository_all}\\
+			\hline
+		\end{tabularx}
+		\cprotect\caption{Scripts in the \path{script} directory}
+	\end{table}
 \end{landscape}
 
 \begin{figure}[H]
@@ -221,25 +332,31 @@ Below are files and directories in the working directory.
 \end{figure}
 
 \subsection{Design Specification}
-For designs to be optimised by the program, each design must provide a configuration file and method to retrieve performance metrics. The configuration file defines the problem and determines how the program should interpret the results. A description of each configuration field is described below alongside the default configuration file.
+
+For designs to be optimised by the program, each design must provide a configuration file and method to evaluate the fitness function. The configuration file defines the problem and determines how the program should interpret the results. A description of each setting is described below alongside the default configuration file.
 
 \noindent
-\begin{tabularx}{\linewidth}{|l|X|}
-	\hline
-	Configuration & Description\\\hline
-	max evaluations & terminates program after number of $f_T$ evaluations exceed max evaluations\\\hline
-	max trials & number of iterations for Monte-Carlo algorithms in the program that balances between configuration selection cost and evaluation cost\\\hline
-	convergence\_threshold & terminates program when next evaluation is expected to improve less than the convergence threshold\\\hline
-	discrete & \verb|false| when optimising real-valued configurations and \verb|true| when optimising integer-valued configurations\\\hline
-	number of constraint functions & $m_T$\\\hline
-	number of cost functions & $c_T$\\\hline
-	lower boundaries & if $\mathbb{X}_T=[l_1,u_1]\times...\times[l_{n_T},u_{n_T}]$ then lower boundaries are $l_1,...,l_{n_T}$\\\hline
-	upper boundaries & if $\mathbb{X}_T=[l_1,u_1]\times...\times[l_{n_T},u_{n_T}]$ then upper boundaries are $u_1,...,u_{n_T}$\\\hline
-	significance level & negative transfer tolerance $\alpha$, when $\alpha=0$, knowledge transfer only occurs when $S$ has perfect correction with $T$, when $\alpha=1$, knowledge allows occurs\\\hline
-	fitness percentile & fitness percentile threshold $\beta$, when $\beta=1$, use all samples, when $\beta=0.5$, only sample when fitness values are below the median, when $\beta=0$, do not use any samples\\\hline
-	names & names for each configuration parameter transfer\\\hline
-	tags & description of the design in keywords\\\hline
-\end{tabularx}
+\begin{table}[H]
+	\begin{tabularx}{\linewidth}{l X}
+		\hline
+		Setting & Description\\
+		\hline
+		max evaluations & terminates program after number of $f_T$ evaluations exceed max evaluations\\
+		max trials & number of iterations for Monte-Carlo algorithms in the program that balances between configuration selection cost and evaluation cost\\
+		convergence\_threshold & terminates program when next evaluation is expected to improve less than the convergence threshold\\
+		discrete & \verb|false| when optimising real-valued configurations and \verb|true| when optimising integer-valued configurations\\
+		number of constraint functions & $m_T$\\
+		number of cost functions & $c_T$\\
+		lower boundaries & if $\mathbb{X}_T=[l_1,u_1]\times...\times[l_{n_T},u_{n_T}]$ then lower boundaries are $l_1,...,l_{n_T}$\\
+		upper boundaries & if $\mathbb{X}_T=[l_1,u_1]\times...\times[l_{n_T},u_{n_T}]$ then upper boundaries are $u_1,...,u_{n_T}$\\
+		significance level & negative transfer tolerance $\alpha$, when $\alpha=0$, knowledge transfer only occurs when $S$ has perfect correction with $T$, when $\alpha=1$, knowledge allows occurs\\
+		fitness percentile & fitness percentile threshold $\beta$, when $\beta=1$, use all samples, when $\beta=0.5$, only sample when fitness values are below the median, when $\beta=0$, do not use any samples\\
+		names & names for each configuration parameter transfer\\
+		tags & description of the design in keywords\\
+		\hline
+	\end{tabularx}
+	\caption{Configuration file descriptions}
+\end{table}
 
 \begin{figure}[H]
 	\begin{framed}
@@ -273,7 +390,7 @@ For designs to be optimised by the program, each design must provide a configura
 	\caption{Default configuration file}
 \end{figure}
 
-Performance metrics can be either be generated through a script or be precomputed. The script takes $\mathbf{x}$ in the form of $n_T$ command line arguments and outputs $f_T(\mathbf{x}),g_T(\mathbf{x}),{h_1}_T(\mathbf{x}),...,{c_i}_T(\mathbf{x}),...$ as line-delimited values. Suppose $f_T(\mathbf{x})=\mathbf{x}_1+\mathbf{x}_2$ and $g_T(\mathbf{x})=\mathbf{x}_1$.
+The fitness value can be either be generated through a script or be precomputed. The script takes $\mathbf{x}$ in the form of $n_T$ command line arguments and outputs $f_T(\mathbf{x}),g_T(\mathbf{x}),{h_1}_T(\mathbf{x}),...,{c_i}_T(\mathbf{x}),...$ as line-delimited values. Suppose $f_T(\mathbf{x})=\mathbf{x}_1+\mathbf{x}_2$ and $g_T(\mathbf{x})=\mathbf{x}_1$.
 
 \begin{figure}[H]
 	\begin{framed}
@@ -287,7 +404,7 @@ Performance metrics can be either be generated through a script or be precompute
 
 Suppose the configuration file was saved as \path{config.txt} and the script was saved as \path{script}. We can run the program with \path{./ego -o ./script config.txt output.csv}. The file \path{output.csv} contains the results of evaluating \path{script} with sampled points. This may be used as precomputed results.
 
-When supplying precomputed results, the results are stored in a comma-delimited CSV without headers. Each row has $n_T+2+m_T+c_T$ cells. For some configuration $\mathbf{x}$, The first $n_T$ cells are $\mathbf{x}$, then $f_T(\mathbf{x})$, then $g_T(\mathbf{x})$, then each constraint ${h_i}_T(\mathbf{x})$, each ${c_i}_T(\mathbf{x})$. When $g_T(\mathbf{x})=0$, $x$ is successful, when $g_T(\mathbf{x})=1$, $x$ is unsuccessful and the program does not learn results, when $g_T(\mathbf{x})=2$, $x$ is unsuccessful but the program learns fitness values, constraints and costs. The difference between $g_T(\mathbf{x})$ being 1 or 2 depends on validity of the results. For example, if a configuration fails before performance metric can be measured, then rouge values should not be learnt.
+When supplying precomputed results, the results are stored in a comma-delimited CSV without headers. Each row has $n_T+2+m_T+c_T$ cells. For some configuration $\mathbf{x}$, The first $n_T$ cells are $\mathbf{x}$, then $f_T(\mathbf{x})$, then $g_T(\mathbf{x})$, then each constraint ${h_i}_T(\mathbf{x})$, each ${c_i}_T(\mathbf{x})$. When $g_T(\mathbf{x})=0$, $x$ is successful, when $g_T(\mathbf{x})=1$, $x$ is unsuccessful and the program does not learn results, when $g_T(\mathbf{x})=2$, $x$ is unsuccessful but the program learns fitness values, constraints and costs. The difference between $g_T(\mathbf{x})$ being 1 or 2 depends on validity of the results. For example, if a configuration fails before the fitness value can be measured, then rouge values should not be learnt.
 
 \begin{figure}[H]
 	\begin{framed}
