@@ -1,49 +1,44 @@
-import math
+from plot_experiments import parse_file, read_boxess, max_value
+from os.path import basename, normpath
 import numpy as np
-import csv
 import sys
 
 if len(sys.argv) != 3:
-	print('Usage: plot_compare.py results_no_kt results_kt')
+	print('Usage: compare_kt.py example_old example_new')
 	sys.exit(1)
 
-def read_csv(filename):
-	csvfile = open(filename, 'r')
-	spamreader = csv.reader(csvfile, delimiter=',')
+path_old = basename(normpath(sys.argv[1]))
+path_new = basename(normpath(sys.argv[2]))
+config = parse_file('examples/' + path_new + '/config.txt')
 
-	rows = []
-	for row in spamreader:
-		rows.append(list(map(float, row)))
-	return rows
+def calc_cost_max(boxes):
+	costs = [box[0] for box in boxes]
+	return sum(costs) + np.mean(costs)
 
-# Read data from optimiser
-no_kt = read_csv(sys.argv[1])
-kt = read_csv(sys.argv[2])
+def calc_score_parameters(boxess):
+	fitnesses = [box[1] for boxes in boxess for box in boxes if box[1] < max_value]
+	cost_max = max(list(map(calc_cost_max, boxess)))
+	return min(fitnesses), max(fitnesses), cost_max
 
-# Find minimum and maximum
-flatten = lambda l: [item for sublist in l for item in sublist]
-is_defined = lambda x: x < 10 ** 308
-remove_undefineds = lambda l: filter(is_defined, l)
-ys = flatten(no_kt) + flatten(kt)
-y_min = min(ys)
-y_max = max(remove_undefineds(ys))
+def score_boxes(boxes, fitness_min, fitness_max, cost_max):
+	area = boxes[0][0] * fitness_max
+	for i in range(len(boxes) - 1):
+		area += boxes[i + 1][0] * (min([boxes[i][1], fitness_max]) - fitness_min)
+	accum = sum([box[0] for box in boxes])
+	area += (cost_max - accum) * (min([boxes[-1][1], fitness_max]) - fitness_min)
+	return area / (cost_max * (fitness_max - fitness_min))
 
-# Calculates efficency of optimisation
-def calc_score(vs, m):
-	sum = 0.0
-	curr = y_max
-	for i in range(m):
-		if i < len(vs) and is_defined(vs[i]):
-			curr = vs[i]
-		sum += curr - y_min
-	return sum / (m * (y_max - y_min))
+# Read boxess
+boxess_no_kt = read_boxess('logs/' + path_old + '_' + path_new + '_no_kt', config)
+boxess_kt    = read_boxess('logs/' + path_old + '_' + path_new + '_kt',    config)
 
-m = math.floor(np.mean(list(map(len, no_kt + kt))))
-calc_score_fixed = lambda vs: calc_score(vs, m)
+# Compute scores
+fitness_min, fitness_max, cost_max = calc_score_parameters(boxess_no_kt + boxess_kt)
 
-scores_no_kt = list(map(calc_score_fixed, no_kt))
-scores_kt = list(map(calc_score_fixed, kt))
+scores_no_kt = [score_boxes(boxes, fitness_min, fitness_max, cost_max) for boxes in boxess_no_kt]
+scores_kt    = [score_boxes(boxes, fitness_min, fitness_max, cost_max) for boxes in boxess_kt   ]
 
+# Aggregate scores
 scores_no_kt_mean = np.mean(scores_no_kt)
 scores_no_kt_sd   = np.std (scores_no_kt)
 scores_kt_mean    = np.mean(scores_kt   )

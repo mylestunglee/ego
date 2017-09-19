@@ -6,18 +6,18 @@ import sys
 from os import listdir
 from os.path import isfile, join, basename, normpath
 
-if len(sys.argv) < 4 or len(sys.argv) > 5:
-	print('Usage plot_experiments example_old example_new output [max_cost]')
+if len(sys.argv) < 3 or len(sys.argv) > 5:
+	print('Usage: plot_experiments example_old example_new [output] [max_cost]')
 	sys.exit(1)
 
 # Get designs
 path_old = basename(normpath(sys.argv[1]))
 path_new = basename(normpath(sys.argv[2]))
 # Upper bound for fitness values
-max = 10.0 ** 308.0
+max_value = 10.0 ** 308.0
 
 # Read cost
-max_cost = max
+max_cost = max_value
 if len(sys.argv) == 5:
 	max_cost = float(sys.argv[4])
 
@@ -29,8 +29,6 @@ def parse_file(file):
 		if len(row) > 0 and row[0][0] != '#':
 			rows.append(row)
 	return rows
-
-config = parse_file('examples/' + path_new + '/config.txt')
 
 def parse_results(rows, config):
 	# Read configuration file
@@ -47,7 +45,7 @@ def parse_results(rows, config):
 		if count_costs > 0:
 			cost = sum(values[dimension + 2 + constraints :])
 		if label != 0.0:
-			fitness = max
+			fitness = max_value
 
 		boxes.append((cost, fitness))
 	return boxes
@@ -77,10 +75,10 @@ def partition_by_widths(boxess_old, widths):
 	boxess_new = []
 	for width in widths:
 		if len(boxess_old) == 0:
-			boxess_new.append((width, max))
+			boxess_new.append((width, max_value))
 		elif width < boxess_old[0][0]:
-			boxess_old[0][0] -= width
-			boxess_new.append((width, boxess[0][1]))
+			boxess_old[0] = (boxess_old[0][0] - width, boxess_old[0][1])
+			boxess_new.append((width, boxess_old[0][1]))
 		elif width == boxess_old[0][0]:
 			boxess_new.append(boxess_old.pop(0))
 		else:
@@ -102,7 +100,7 @@ def aggregate_boxess(boxess):
 	sum = 0.0
 	for i in range(len(boxess[0])):
 		cost = boxess[0][i][0]
-		fitnesses = [boxes[i][1] for boxes in boxess if boxes[i][1] < max]
+		fitnesses = [boxes[i][1] for boxes in boxess if boxes[i][1] < max_value]
 		sum += cost
 		if len(fitnesses) == 0:
 			continue
@@ -111,16 +109,18 @@ def aggregate_boxess(boxess):
 		accum.append(sum)
 	return means, sds, accum
 
-def read_boxess(directory):
+def read_boxess(directory, config):
 	files = [join(directory, f) for f in listdir(directory) if isfile(join(directory, f))]
 	rowss = [parse_file(file) for file in files]
-	return [parse_results(rows, config) for rows in rowss]
-
-def parse_directory(directory, label, color):
-	boxess = read_boxess(directory)
+	boxess = [parse_results(rows, config) for rows in rowss]
 	widths = aggregate_widths(boxess)
 	boxess = [partition_by_widths(boxes, widths) for boxes in boxess]
 	boxess = list(map(decrease_boxes, boxess))
+	return boxess
+
+def parse_directory(directory, config, label, color):
+	boxess = read_boxess(directory, config)
+	widths = aggregate_widths(boxess)
 
 	means, sds, accum = aggregate_boxess(boxess)
 
@@ -131,14 +131,18 @@ def parse_directory(directory, label, color):
 	for i in range(len(means)):
 		plt.fill_between([accum[i], nexts[i]], [means[i] - sds[i]] * 2, [means[i] + sds[i]] * 2, alpha = 0.25, edgecolor = 'none', facecolor = color)
 
-boxess = parse_directory('logs/' + path_old + '_' + path_new + '_no_kt', 'No KT', 'r')
-boxess = parse_directory('logs/' + path_old + '_' + path_new + '_kt', 'KT', 'b')
+# Do not plot without output
+if len(sys.argv) != 3:
+	config = parse_file('examples/' + path_new + '/config.txt')
 
-lims = plt.xlim()
-plt.xlim(lims[0], min([lims[1], max_cost]))
+	boxess = parse_directory('logs/' + path_old + '_' + path_new + '_no_kt', config, 'No KT', 'r')
+	boxess = parse_directory('logs/' + path_old + '_' + path_new + '_kt', config, 'KT', 'b')
 
-plt.legend()
-plt.xlabel('Cost')
-plt.ylabel('Fitness')
-plt.savefig(sys.argv[3])
+	lims = plt.xlim()
+	plt.xlim(lims[0], min([lims[1], max_cost]))
+
+	plt.legend()
+	plt.xlabel('Cost')
+	plt.ylabel('Fitness')
+	plt.savefig(sys.argv[3])
 
