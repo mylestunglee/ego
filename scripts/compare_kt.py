@@ -12,8 +12,7 @@ path_new = basename(normpath(sys.argv[2]))
 config = parse_file('examples/' + path_new + '/config.txt')
 
 def calc_cost_max(boxes):
-	costs = [box[0] for box in boxes]
-	return sum(costs) + np.mean(costs)
+	return sum([box[0] for box in boxes])
 
 def calc_score_parameters(boxess):
 	fitnesses = [box[1] for boxes in boxess for box in boxes if box[1] < max_value]
@@ -24,8 +23,7 @@ def score_boxes(boxes, fitness_min, fitness_max, cost_max):
 	area = boxes[0][0] * fitness_max
 	for i in range(len(boxes) - 1):
 		area += boxes[i + 1][0] * (min([boxes[i][1], fitness_max]) - fitness_min)
-	accum = sum([box[0] for box in boxes])
-	area += (cost_max - accum) * (min([boxes[-1][1], fitness_max]) - fitness_min)
+	area += (cost_max - calc_cost_max(boxes)) * (min([boxes[-1][1], fitness_max]) - fitness_min)
 	return area / (cost_max * (fitness_max - fitness_min))
 
 # Read boxess

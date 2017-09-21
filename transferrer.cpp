@@ -189,7 +189,7 @@ double Transferrer::calc_fitness_percentile(double percentile) {
 	// Find the number of valid samples
 	size_t successes = 0;
 	for (auto result_old : results_old) {
-		if (result_old.second[LABEL_INDEX]) {
+		if (result_old.second[LABEL_INDEX] == 0.0) {
 			successes++;
 		}
 	}

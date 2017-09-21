@@ -51,6 +51,9 @@ def parse_results(rows, config):
 	return boxes
 
 def aggregate_widths(boxess):
+	np.cumsum
+
+def aggregate_widths(boxess):
 	# Get list of list of costs
 	costss = [[box[0] for box in boxes] for boxes in boxess]
 	widths = []
@@ -87,9 +90,10 @@ def partition_by_widths(boxess_old, widths):
 
 def decrease_boxes(boxes_old):
 	boxes_new = []
+	height = max_value
 	for i in range(len(boxes_old)):
 		width = boxes_old[i][0]
-		height = min(list(map(lambda heights: heights[1], boxes_old[:(i + 1)])))
+		height = min(boxes_old[i][1], height)
 		boxes_new.append((width, height))
 	return boxes_new
 
@@ -107,33 +111,47 @@ def aggregate_boxess(boxess):
 		means.append(np.mean(fitnesses))
 		sds.append(np.std(fitnesses))
 		accum.append(sum)
+		print(i)
 	return means, sds, accum
 
 def read_boxess(directory, config):
+	print('Scanning directory')
 	files = [join(directory, f) for f in listdir(directory) if isfile(join(directory, f))]
+	print('Reading files')
 	rowss = [parse_file(file) for file in files]
+	print('Parsing results')
 	boxess = [parse_results(rows, config) for rows in rowss]
+	print('Aggregating widths')
 	widths = aggregate_widths(boxess)
+	print('Paritioning widths')
 	boxess = [partition_by_widths(boxes, widths) for boxes in boxess]
+	print('Decreasing boxes')
 	boxess = list(map(decrease_boxes, boxess))
 	return boxess
 
 def parse_directory(directory, config, label, color):
 	boxess = read_boxess(directory, config)
-	widths = aggregate_widths(boxess)
-
+	print('Aggregating widths')
+	widths = [box[0] for box in boxess[0]]
+	print('Aggregating boxes')
 	means, sds, accum = aggregate_boxess(boxess)
 
-	nexts = accum[1:] + [accum[-1] + np.mean(widths)]
+	nexts = accum[1:]
 
-	plt.hlines(means, accum, nexts, color = color, label = label)
+	# Plot horizontal lines
+	plt.hlines(means[:-1], accum[:-1], nexts, color = color, label = label)
 
-	for i in range(len(means)):
+	# Plot confidence interval
+	for i in range(len(means) - 1):
 		plt.fill_between([accum[i], nexts[i]], [means[i] - sds[i]] * 2, [means[i] + sds[i]] * 2, alpha = 0.25, edgecolor = 'none', facecolor = color)
 
 # Do not plot without output
 if len(sys.argv) != 3:
 	config = parse_file('examples/' + path_new + '/config.txt')
+
+	# Use Latex font
+	plt.rc('text', usetex = True)
+	plt.rc('font', family = 'serif')
 
 	boxess = parse_directory('logs/' + path_old + '_' + path_new + '_no_kt', config, 'No KT', 'r')
 	boxess = parse_directory('logs/' + path_old + '_' + path_new + '_kt', config, 'KT', 'b')
@@ -142,7 +160,7 @@ if len(sys.argv) != 3:
 	plt.xlim(lims[0], min([lims[1], max_cost]))
 
 	plt.legend()
-	plt.xlabel('Cost')
-	plt.ylabel('Fitness')
+	plt.xlabel('Optimisation time (s)')
+	plt.ylabel('Benchmark execution time (s)')
 	plt.savefig(sys.argv[3])
 

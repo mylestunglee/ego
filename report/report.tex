@@ -15,6 +15,7 @@
 \usepackage{graphicx}
 \usepackage{subfigure}
 \newcommand{\dsb}[1]{[\![#1]\!]}
+\usepackage{adjustbox}
 
 \author{Myles Lee}
 \title{Repository Knowledge Transfer in Automatic Optimisation of
@@ -25,7 +26,7 @@ Reconfigurable Designs}
 This project was supervised by Maciej Kurek and Wayne Luk and managed under the UROP scheme at the Custom Computing Group at the Department of Computing in Imperial College London.
 
 \section{Introduction}
-The objective is to optimise a design $T$, by finding the optimal configuration $\mathbf{x}_T^*$ using a fitness function $f_T$, with a budget of $f_T$ evaluations. $T$ has $n_T$ reconfigurable parameters, the design space $\mathbb{X}_T$ is defined to be the mathematical Cartesian product of $n_T$ intervals. $f_T$ is expensive to evaluate and cannot be assumed that $f_T$ is differentiable or convex. Therefore, computing $\mathbf{x}_T^*$ is expensive. Finding the true optimal design maybe too costly, and a sub-optimal configuration may be used.
+The project adapts the cost-aware, constrained, global, non-convex mathematical optimisation problem to the reconfigurable computing domain. The objective is to optimise a design $T$, by finding the optimal configuration $\mathbf{x}_T^*$ using a fitness function $f_T$, with a budget of $f_T$ evaluations. $T$ has $n_T$ reconfigurable parameters, the design space $\mathbb{X}_T$ is defined to be the mathematical Cartesian product of $n_T$ intervals. $f_T$ is expensive to evaluate and cannot be assumed that $f_T$ is differentiable or convex. Therefore, computing $\mathbf{x}_T^*$ is expensive. Finding the true optimal design maybe too costly, and a sub-optimal configuration may be used.
 
 Each design has a label function $g_T$, such that for some configuration $\mathbf{x}$, $g_T(\mathbf{x})=0$ if and only if $\mathbf{x}$ is successful. $g_T(\mathbf{x}_T^*)=0$ is required. In addition, each design have $m_T$ constraint functions $\{{h_1}_T,...\}$. Each constraint function determines the resource restrictions on the configurations. In the reconfigurable computing context, a constraint function could represent the fraction of a used hardware resource on the chip. For some constraint function ${h_i}_T$ and configuration $\mathbf{x}$, ${h_i}_T(\mathbf{x})<1$ if and only if $\mathbf{x}$ satisfies the $i^{\text{th}}$ constraint. Therefore $\forall \mathbf{x}\in\mathbb{X}_T.(\forall i\in\{1,...,m_T\}.{h_i}_T(\mathbf{x})<1)\Leftrightarrow g_T(\mathbf{x})=0$.
 
@@ -38,7 +39,7 @@ To minimise this cost, a pre-optimised source design $S$ can be used to provide 
 The main contributions are summarised below:
 \begin{enumerate}
 \item Improvement of the surrogate to predict $f_T$, using a \emph{Transferable Gaussian Process}
-\item Extension of knowledge transfer to predict optimal configuration at the first evaluation
+\item Extension of knowledge transfer to predict a near-optimal configuration at the first evaluation
 \item Extension of knowledge transfer using multiple designs from a repository
 \item Modification of previous code base\cite{Nicholson2015} with implementation of the above concepts
 \end{enumerate}
@@ -51,7 +52,7 @@ Suppose $f_S(\mathbf{x})=1+\mathbf{x}_1$, $f_T(\mathbf{x})=1+\mathbf{x}_1+\mathb
 To solve this, a Transferable Gaussian Process (TGP) is used as follows. A TGP is composed of two Gaussian Processes of the same kernel, a process $p$ to predict the scalar of $f_S$ to $f_T$ and another process $q$ as a surrogate of $f_T$. $p$ is trained on the ratio of source and target fitness values, so $p(\mathbf{x})=\frac{f_T(\mathbf{x})}{f_S(\mathbf{x})}$ at sampled points. The training data for the example above would be $\{((0,0),1),((0,1),2),((1,0),1),((1,1),\frac{3}{2})\}$. $q$ is trained on observations of $f_S$, so $q=f_S$ at sampled points. Then we define $z(\mathbf{x})=p(\mathbf{x})q(\mathbf{x})$. So $(z\circ f_S)(\mathbf{x})=\frac{f_T(\mathbf{x})}{f_S(\mathbf{x})}\cdot f_S(\mathbf{x})=f_T(\mathbf{x})$. Using TGPs are more accurate than using polynomial regression because TGPs captures transferred features better in high dimensional space.
 
 \subsection{Near-optimal Configuration Prediction}
-Correlation analysis is used to determine the effectiveness of predicting the optimal configuration. For each dimension $i$ of the $\mathbb{X}_S$, we compute the Spearman correlation coefficient $\rho_i$ by comparing configurations against fitness values using observations of $f_S$. For a given significance level $\alpha$, if $\forall i\in\{1,...,n_S\}.1-|\rho_i|\le\alpha$ and $n_S=n_T$, then we can apply knowledge transfer. We approximate $f_S$ with a multi-dimensional quadratic function $\hat{f_S}$. We use multi-linear regression to find constants $c$, $\mathbf{d}$ and $\mathbf{e}$ such that $\hat{f_S}(\mathbf{x})=c+\sum_{i=1}^{n_S}\mathbf{d}_i \mathbf{x}_i+\mathbf{e}_i \mathbf{x}_i^2$. Then we approximate $\mathbf{x}_T^*=argmin_{\mathbf{x}\in\mathbb{X}_T}\hat{f_S}(\mathbf{x})$. This approximation is a signifiant improvement over using $\mathbf{x}_T^*\approx\mathbf{x}_S^*$ because $f_T$ and $f_S$ tend to be independent in each dimension and noisy\cite{Xi2004}. The evaluation illustrates this improvement.
+Correlation analysis is used to determine the effectiveness of predicting a near-optimal configuration. For each dimension $i$ of the $\mathbb{X}_S$, we compute the Spearman correlation coefficient $\rho_i$ by comparing configurations against fitness values using observations of $f_S$. For a given significance level $\alpha$, if $\forall i\in\{1,...,n_S\}.1-|\rho_i|\le\alpha$ and $n_S=n_T$, then we can apply knowledge transfer. We approximate $f_S$ with a multi-dimensional quadratic function $\hat{f_S}$\cite{Xi2004}. We use multi-linear regression to find constants $c$, $\mathbf{d}$ and $\mathbf{e}$ such that $\hat{f_S}(\mathbf{x})=c+\sum_{i=1}^{n_S}\mathbf{d}_i \mathbf{x}_i+\mathbf{e}_i \mathbf{x}_i^2$. Then we approximate $\mathbf{x}_T^*\approx argmin_{\mathbf{x}\in\mathbb{X}_T}\hat{f_S}(\mathbf{x})$. This approximation is a signifiant improvement over using $\mathbf{x}_T^*\approx\mathbf{x}_S^*$ because $f_T$ and $f_S$ tend to be independent in each dimension and noisy. The evaluation illustrates this improvement.
 
 \subsection{Repository Knowledge Transfer}
 
@@ -61,17 +62,22 @@ We extend designs to include parameter names and tags. For an arbitrary design $
 
 \[
 	\begin{split}
-		f_{transferability}(S,T)=f_{names}(S,T)\times(f_{common}(S,T)+f_{cross}(S,T)\\
+		f_{transferability}(S,T)=f_{names}(S,T)\times(f_{common}(S,T)+\frac{1}{|f_{cross}(S,T)|}\\
 			+f_{boundaries}(S,T)+f_{tags}(S,T))
 	\end{split}
 \] where
 \[f_{names}(S,T)=|names_S\cap names_T|\]
 \[f_{common}(S,T)=\text{number of common points in $O_S$ and $O_T$}\]
-\[f_{cross}(S,T)=\text{leave-one-out cross-validation\cite{Jones1998} of predictor Gaussian process in TGP}\]
+\[
+	\begin{split}
+		f_{cross}(S,T)=\text{standardized cross-validated residual\cite{Jones1998}}\\
+			\text{of predictor Gaussian process in TGP}
+	\end{split}
+\]
 \[f_{boundaries}(S,T)=|\mathbb{X}_S\cup\mathbb{X}_T|/|\mathbb{X}_T|\]
 \[f_{tags}(S,T)=|tags_S\cap tags_T|\]
 
-The intuition of the definition of $f_{transferability}$ is derived by visualising designs on a hypergraph. Let a hypergraph $G$ have nodes for each unique name in any design of $R\cup\{T\}$. The hyperedges are the set of parameter names of each design $R\cup\{T\}$. If the hyperedges of two designs $S_1$ and $S_2$ intersect, then the number of intersecting nodes is $f_{names}(S_1,S_2)$. We only want to compare designs that have common names with $T$. Hence, $f_{names}(S,T)=0\Rightarrow f_{transferability}(S,T)=0$.
+The intuition of the definition of $f_{transferability}$ is derived by visualising designs on a hypergraph. Let a hypergraph $G$ have nodes for each unique name in any design of $R\cup\{T\}$. The hyperedges are the set of parameter names of each design $R\cup\{T\}$. If the hyperedges of two designs $S_1$ and $S_2$ intersect, then the number of intersecting nodes is $f_{names}(S_1,S_2)$. We only want to compare designs that have common names with $T$. Hence, $f_{names}(S,T)=0\Rightarrow f_{transferability}(S,T)=0$. Note that $f_{transferability}(S,T)$ is maximised when $S=T$. If $S=T$ then, we can optimise $S$ to find $\mathbf{x}_S^*$, to directly infer $\mathbf{x}_T^*$.
 
 \subsection{Modification of Codebase}
 
@@ -82,7 +88,7 @@ For the full details of modifications, refer to the git repository of the accomp
 	\item Replace Python script interface with the Evaluator class that interfaces with arbitrary scripts
 \end{enumerate}
 
-The implementation of knowledge transfer follows the algorithm below. For the full details, see \path{transferrer.cpp}.
+The implementation of knowledge transfer follows the algorithm below. For the full details, see \path{transferrer.cpp}. We use $10n_T$ samples to learn about $T$, by using $5n_T$ configurations from $S$ to sample $T$ and $5n_T$ configurations from LHS in the EGO algorithm. 
 \begin{figure}[H]
 	\begin{framed}
 		\begin{algorithm}[H]
@@ -92,12 +98,12 @@ The implementation of knowledge transfer follows the algorithm below. For the fu
 				Compute multi-quadratic regression $\hat{f_S}$ from $O_S$\\
 				$\mathbf{x}_q=argmin_{\mathbf{x}\in\mathbb{X}_S}\hat{f_S}(\mathbf{x})$\\
 				$\mathbf{y}=(f_T(\mathbf{x}_q),g_T(\mathbf{x}_q),{h_1}_T(\mathbf{x}_q),...,{c_1}_T(\mathbf{x}_q),...)$\\
-				Add $\mathbf{y}$ to $O_T$
+				Add $(\mathbf{x},\mathbf{y})$ to $O_T$
 			}
 			Select $5n_T$ successful configurations randomly from $O_S$ into $\mathbf{X}$\\
 			\For{$\mathbf{x}\in\mathbf{X}$}{
 				$\mathbf{y}=(f_T(\mathbf{x}),g_T(\mathbf{x}),{h_1}_T(\mathbf{x}),...,{c_1}_T(\mathbf{x}),...)$\\
-				Add $\mathbf{y}$ to $O_T$
+				Add $(\mathbf{x},\mathbf{y})$ to $O_T$
 			}
 			Construct TGPs using $O_S$ and $O_T$\\
 			Run EGO algorithm with TGPs
@@ -108,7 +114,9 @@ The implementation of knowledge transfer follows the algorithm below. For the fu
 
 \section{Evaluation}
 
-The program was applied to many designs. To differentiate integer and real intervals, the notation $\dsb{a,b}=\{a\le n\le b|n\in\mathbb{Z}$ and $[a,b]=\{a\le n\le b|n\in\mathbb{R}$ is used.
+\subsection{Designs}
+
+The program was applied to many designs. To differentiate integer and real intervals, the notation $\dsb{a,b}=\{a\le n\le b|n\in\mathbb{Z}\}$ and $[a,b]=\{a\le n\le b|n\in\mathbb{R}\}$ is used.
 
 \begin{table}[H]
 	\begin{tabularx}{\linewidth}{X l Y c c X}
@@ -121,8 +129,8 @@ The program was applied to many designs. To differentiate integer and real inter
 		quadrature\cite{Tse2012} & Max4 & $\dsb{11,53}\times\dsb{1,32}$ & 1 & 0 & mantissa width, density factor\\
 		xinyu rtm & Max3 & $\dsb{1,10}\times\dsb{1,10}\times\dsb{4,24}\times\dsb{1,3}\times\dsb{1,10}\times\dsb{1,10}\times\dsb{1,32}$ & 0 & 1 & alpha, beta, B, T, Pknl, Ptl, Pdp\\
 		xinyu rtm & Max4 & $\dsb{1,10}\times\dsb{1,10}\times\dsb{4,24}\times\dsb{1,3}\times\dsb{1,20}\times\dsb{1,20}\times\dsb{1,32}$ & 0 & 1 & alpha, beta, B, T, Pknl, Ptl, Pdp\\
-		genomics\cite{Arram2017} & Max3 & $\dsb{1,10}\times\dsb{-3,2}\times\dsb{0,1}$ & 0 & 0 & sample distance, optimisation index, oversample\\
-		genomics\cite{Arram2017} & Max4 & $\dsb{1,10}\times\dsb{-2,2}\times\dsb{0,1}$ & 0 & 0 & sample distance, optimisation index, oversample\\
+		genomics\cite{Arram2017} & Max3 & $\dsb{1,10}\times\dsb{-3,3}\times\dsb{0,1}$ & 0 & 0 & sample distance, optimisation index, oversample\\
+		genomics\cite{Arram2017} & Max4 & $\dsb{1,10}\times\dsb{-3,3}\times\dsb{0,1}$ & 0 & 0 & sample distance, optimisation index, oversample\\
 		\hline
  	\end{tabularx}
 	\caption{Designs used for knowledge transfer}
@@ -131,59 +139,65 @@ The program was applied to many designs. To differentiate integer and real inter
 \begin{figure}[H]
 	 \begin{center}
 		\subfigure[robot]{
-			\includegraphics[width=0.4\textwidth]{cropped_robot_plot.png}
+			\includegraphics[width=0.45\textwidth]{images/robot_fitness.png}
 		}
 		\subfigure[stochastic]{
-			\includegraphics[width=0.4\textwidth]{cropped_stochastic_plot.png}
+			\includegraphics[width=0.45\textwidth]{images/stochastic_fitness.png}
 		}
 		\subfigure[quadrature Max3]{
-			\includegraphics[width=0.4\textwidth]{cropped_quadrature_max3_plot.png}
+			\includegraphics[width=0.45\textwidth]{images/quadrature_max3_fitness.png}
 		}
 		\subfigure[quadrature Max4]{
-			\includegraphics[width=0.4\textwidth]{cropped_quadrature_max4_plot.png}
+			\includegraphics[width=0.45\textwidth]{images/quadrature_max4_fitness.png}
 		}
 		\subfigure[genomics Max3 oversample=0]{
-			\includegraphics[width=0.4\textwidth]{cropped_genomics_max3_offline_0_plot.png}
+			\includegraphics[width=0.45\textwidth]{images/genomics_max3_oversample_0_plot.png}
 		}
 		\subfigure[genomics Max3 oversample=1]{
-			\includegraphics[width=0.4\textwidth]{cropped_genomics_max3_offline_1_plot.png}
+			\includegraphics[width=0.45\textwidth]{images/genomics_max3_oversample_1_plot.png}
 		}
 		\subfigure[genomics Max4 oversample=0]{
-			\includegraphics[width=0.4\textwidth]{cropped_genomics_max4_offline_0_plot.png}
+			\includegraphics[width=0.45\textwidth]{images/genomics_max4_oversample_0_plot.png}
 		}
 		\subfigure[genomics Max4 oversample=1]{
-			\includegraphics[width=0.4\textwidth]{cropped_genomics_max4_offline_1_plot.png}
+			\includegraphics[width=0.45\textwidth]{images/genomics_max4_oversample_1_plot.png}
 		}
 	\end{center}
 	\caption{Function surface plots of designs}
 	\label{fig:subfigures}
 \end{figure}
 
+\subsection{Optimisation}
+
 \begin{figure}[H]
 	 \begin{center}
 		\subfigure[robot to stochastic]{
-			\includegraphics[width=0.4\textwidth]{cropped_robot_stochastic_transfer.png}
+			\includegraphics[width=0.45\textwidth]{cropped_robot_stochastic_transfer.png}
 		}
 		\subfigure[stochastic to robot]{
-			\includegraphics[width=0.4\textwidth]{cropped_stochastic_robot_transfer.png}
+			\includegraphics[width=0.45\textwidth]{cropped_stochastic_robot_transfer.png}
 		}
 		\subfigure[quadrature Max3 to Max4]{
-			\includegraphics[width=0.4\textwidth]{cropped_quadrature_max3_quadrature_max4_transfer.png}
+			\includegraphics[width=0.45\textwidth]{cropped_quadrature_max3_quadrature_max4_transfer.png}
 		}
 		\subfigure[genomics Max3 to Max4]{
-			\includegraphics[width=0.4\textwidth]{cropped_genomics_max3_offline_genomics_max4_offline_transfer.png}
+			\includegraphics[width=0.45\textwidth]{images/genomics_max3_max4_optimisation.png}
 		}
 		\subfigure[xinyu rtm Max3 to Max4]{
-			\includegraphics[width=0.4\textwidth]{cropped_xinyu_rtm_max3_xinyu_rtm_max4_transfer.png}
+			\includegraphics[width=0.45\textwidth]{cropped_xinyu_rtm_max3_xinyu_rtm_max4_transfer.png}
 		}
 	\end{center}
 	\caption{Optimisation graphs illustrating knowledge transfer improvement}
 	\label{fig:subfigures}
 \end{figure}
 
-Each knowledge transfer application has been executed 100 times. In the optimisation graphs, the solid lines represent the mean of best fitness values and the shaded area represents the confidence interval of one standard deviation from the mean. Each application execution results in a non-increasing curve because of the optimisation objective. The curve is not defined for all evaluations because evaluated points may not meet the design's constraints, hence there is no fitness value. Therefore, taking an aggregate of these curves does not necessarily result in a non-increasing curve, as shown in the xinyu rtm example.
+Each knowledge transfer application has been executed 100 times. In the optimisation graphs, the solid lines represent the mean of best fitness values and the shaded area represents the confidence interval of one standard deviation from the mean. Each application execution results in a non-increasing curve because of the optimisation objective. The curve is not defined for all evaluations because evaluated points may not meet the design's constraints, hence there is no fitness value. Therefore, taking an aggregate of these curves does not necessarily result in a non-increasing curve.
 
 From the optimisation graphs, we observe that using knowledge transfer results in faster optimisation. When the optimal configuration at the edge of the configuration space, the near-optimal configuration prediction is very effective to improve the optimisation curve. We see this in the quadrature and genomics example where the first evaluation is near-optimal or optimal. When the fitness surface function more noisy, then the optimisation curve is more uncertain, as in the robot example. This is due to the inaccuracy of interpolation using a few observations.
+
+The optimisation of genomics designs was focused in this project. The fitness is the benchmark execution time to run the DNA exact alignment and the cost is the time taken to build each design. The optimisation index is a combination of the step size and precomputed interval parameters. Because these parameters are mutually-exclusive, the dimension of the configuration space can be reduced.
+
+\subsection{Quantification of Improvement}
 
 To quantify the improvement using knowledge, define the number of knowledge transfer applications as $\lambda$. Define a scoring function $score$ on the $i^{\text{th}}$ optimisation curve $f_i:\mathbb{R}_{\ge 0}\rightharpoonup\mathbb{R}$ for some $i\in\dsb{1,\lambda}$, that gives the best fitness value given some cost utilisation $t$.
 
@@ -193,13 +207,13 @@ To quantify the improvement using knowledge, define the number of knowledge tran
 		&\int_{t=0}^{t_{max}}min\{f_i(j)|j\in[0,t],\exists y\in\mathbb{R}.f_i(j)=y\}\cup\{y_{max}\}-y_{min}\mathrm{d}t
 	\end{split}
 \]where
-\[y_{min}=min_{i\in\dsb{1,\lambda},t\in\mathbb{R}}\{f_i(t)|\exists y\in\mathbb{R}.f_i(t)=y\}\]
-\[y_{max}=max_{i\in\dsb{1,\lambda},t\in\mathbb{R}}\{f_i(t)|\exists y\in\mathbb{R}.f_i(t)=y\}\]
-\[t_{max}=max_{i\in\dsb{1,\lambda},t\in\mathbb{R}}\{t|\exists y\in\mathbb{R}.f_i(t)=y\}\]
+\[y_{min}=min\{f_i(t)|i\in\dsb{1,\lambda},t\in\mathbb{R},\exists y\in\mathbb{R}.f_i(t)=y\}\]
+\[y_{max}=max\{f_i(t)|i\in\dsb{1,\lambda},t\in\mathbb{R},\exists y\in\mathbb{R}.f_i(t)=y\}\]
+\[t_{max}=max\{t|i\in\dsb{1,\lambda},t\in\mathbb{R},\exists y\in\mathbb{R}.f_i(t)=y\}\]
 
-Intuitive, $score$ defines the normalised area under the optimisation graph. The complication arises because $f_i$ is not a total function. The formula is derived by summing the regret $f_i(t)-y_{min}$ as the cost $t$ increases. A score of zero means that the optimiser selects the optimal configuration with no cost, hence no regret. A score of one means the optimiser does not improve from the worst configuration, or does not suggest any successful configurations. To consider the randomicity of the optimiser, we take the average of $score(f_i)$ for each $i$. To compute the improvement using knowledge transfer, compute the ratio of the average score without knowledge transfer by the average score with knowledge transfer.
+Intuitively, $score$ defines the normalised area under the optimisation graph. The complication arises because $f_i$ is not a total function. The formula is derived by summing the regret $f_i(t)-y_{min}$ as the cost $t$ increases. A score of zero means that the optimiser selects the optimal configuration with no cost, hence no regret. A score of one means the optimiser does not improve from the worst configuration, or does not suggest any successful configurations. To consider the randomicity of the optimiser, we take the average of $score(f_i)$ for each $i$. To compute the improvement using knowledge transfer, compute the ratio of the average score without knowledge transfer by the average score with knowledge transfer.
 
-There are limitations with this definition of $score$ does not describe the distribution of $f_i$. However, the balance between quickly finding near-optimal configurations and slowly finding optimal configurations is not well-defined. An alternative definition would be the cost required to achieve the optimal configuration. This is not suitable for large configuration spaces as the cost of finding the optimal configuration varies greatly.
+A limitation of the definition of $score$ is that this definition does not describe the distribution of $f_i$. However, the balance between quickly finding near-optimal configurations and slowly finding optimal configurations is not well-defined. An alternative definition would be the cost required to achieve the optimal configuration, but this is not suitable for large configuration spaces as the cost of finding the optimal configuration varies greatly or the optimal configuration is not found
 
 \begin{table}[H]
 	\begin{tabularx}{\linewidth}{X X X X X}
@@ -209,13 +223,16 @@ There are limitations with this definition of $score$ does not describe the dist
 		robot & stochastic & 0.074 & 0.010 & 7.195\\
 		stochastic & robot & 0.226 & 0.141 & 1.605\\
 		quadrature Max3 & quadrature Max4 & 0.045 & 0.05 & 9.756\\
-		genomics Max3 & genomics Max4 & 0.024 & 0.002 & 13.823\\
+		genomics Max3 & genomics Max4 & 0.020 & 0.009 & 2.269\\
 		xinyu rtm Max3 & xinyu rtm Max4 & 0.658 & 0.506 & 1.300\\
 		\hline
 	\end{tabularx}
 	\caption{Scores of knowledge transfer applications}
 \end{table}
 
+\subsection{Repository}
+
+For each target design, the repository knowledge transfer selects the most suitable source design automatically.
 \section{Technical Documentation}
 
 The program is written in C++ 14. Each design mentioned in the evaluation section can be found in the \path{examples} directory.
@@ -260,7 +277,7 @@ The program is written in C++ 14. Each design mentioned in the evaluation sectio
 		\path{fill_space.py} & adds failed builds to precomputed results when results do not exhaustively represent the configuration space & \path{python3 scripts/fill_space.py examples/robot/results.csv 1 4 8 40}\\
 		\path{interpolate.py} & uses a Gaussian process to interpolate fitness values when results do not exhaustively represent the configuration space & \path{python3 scripts/interpolate.py examples/robot/results.csv examples/robot/config.txt 1 8}\\
 		\path{parser.py} & aggregates results by computing average fitness value of each duplicate sampled point & \path{python3 scripts/parser.py examples/robot/results.csv 2}\\
-		\path{plot_experiment.py} & plots optimisation curve with and without knowledge transfer & \path{python3 scripts/plot_experiment.py logs/robot_stochastic_no_kt.csv logs/robot_stochastic_kt.csv}\\
+		\path{plot_experiments.py} & plots optimisation curve with and without knowledge transfer & \path{python3 scripts/plot_experiment.py examples/robot/ examples/stochastic/}\\
 		\path{plot_results.py} & plots 2-dimensional fitness function surface & \path{python3 scripts/plot_results.py examples/robot/config.txt examples/robot/results.csv output.png}\\
 		\path{run_example} & runs program on a example design without knowledge transfer & \path{./scripts/run_example examples/robot}\\
 		\path{transfer_example} & runs program on a target example design with knowledge transfer using a source & \path{./scripts/transfer_example examples/robot examples/stochastic}\\
@@ -422,7 +439,9 @@ Suppose the precomputed results file was saved as \path{results.csv}, then we ca
 
 \section{Future Work}
 
-A limitation of the TGP is that only common points in the observations of $f_S$ and $f_T$ for the parameter Gaussian process are trained. When there are very few common points, the parameter Gaussian process predictions are inaccurate. A possible solution is to allow partial training of the Gaussian process by assigning a weight to each point. This weight would relate to the relative distance to the nearest common point. The implementation of this may require redesigning of the kernel, since the covariance matrix is parametrised by weights. Future work could investigate how TGPs can be improved.
+A limitation of the TGP is that only common points in the observations of $f_S$ and $f_T$ for the parameter Gaussian process are used for trained. When there are very few common points, the parameter Gaussian process predictions are inaccurate. A possible solution is to allow partial training of the Gaussian process by assigning a weight to each point. This weight would relate to the relative distance to the nearest common point. The implementation of this may require redesigning of the kernel, to accommodate the parametrisation of covariance matrix by weights. Future work could investigate how TGPs can be improved.
+
+The proposed repository knowledge transfer method can be improved by using multiple source designs. We can extend the method by computing an auxiliary design, which is derived from related source designs, then we can transfer directly with the target design. The challenge is the methodology of computing this auxiliary design.
 
 \bibliographystyle{plain}
 \bibliography{report}

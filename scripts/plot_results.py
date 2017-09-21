@@ -20,7 +20,7 @@ for row in config_reader:
 
 if (len(settings[6]) != 2):
 	print('Cannot plot non-two-dimensional functions')
-#	sys.exit(1)
+	sys.exit(1)
 
 results_file = open(sys.argv[2], 'r')
 results_reader = csv.reader(results_file, delimiter = ',')
@@ -34,6 +34,11 @@ for row in results_reader:
 	zs.append(float(row[2]))
 
 # Plot
+
+# Use Latex font
+plt.rc('text', usetex = True)
+plt.rc('font', family = 'serif')
+
 fig = plt.figure()
 
 ax = fig.gca(projection = '3d')
@@ -53,7 +58,7 @@ if get_interval(list(ax.get_yticks())) <= 1.0:
 	ax.set_yticks(np.arange(min(ys), max(ys)+1, 1.0))
 
 # Rotation
-# ax.view_init(azim=135)
+#ax.view_init(azim=135)
 
 plt.savefig(sys.argv[3])
 
