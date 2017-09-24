@@ -43,9 +43,13 @@ fig = plt.figure()
 
 ax = fig.gca(projection = '3d')
 ax.plot_trisurf(xs, ys, zs, cmap = cm.plasma, linewidth = 0.0)
-ax.set_xlabel(settings[10][0].replace('_', ' '))
-ax.set_ylabel(settings[10][1].replace('_', ' '))
-ax.set_zlabel('fitness')
+
+def format_label(text):
+	return text.replace('_', ' ').capitalize()
+
+ax.set_xlabel(format_label(settings[10][0]))
+ax.set_ylabel(format_label(settings[10][1]))
+ax.set_zlabel('Benchmark execution time (s)')
 
 # Normalise axes
 def get_interval(xs):
@@ -58,7 +62,7 @@ if get_interval(list(ax.get_yticks())) <= 1.0:
 	ax.set_yticks(np.arange(min(ys), max(ys)+1, 1.0))
 
 # Rotation
-#ax.view_init(azim=135)
+ax.view_init(azim=135)
 
 plt.savefig(sys.argv[3])
 

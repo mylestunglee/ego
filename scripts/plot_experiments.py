@@ -111,7 +111,6 @@ def aggregate_boxess(boxess):
 		means.append(np.mean(fitnesses))
 		sds.append(np.std(fitnesses))
 		accum.append(sum)
-		print(i)
 	return means, sds, accum
 
 def read_boxess(directory, config):
@@ -156,11 +155,17 @@ if len(sys.argv) != 3:
 	boxess = parse_directory('logs/' + path_old + '_' + path_new + '_no_kt', config, 'No KT', 'r')
 	boxess = parse_directory('logs/' + path_old + '_' + path_new + '_kt', config, 'KT', 'b')
 
+	print('Plotting')
 	lims = plt.xlim()
 	plt.xlim(lims[0], min([lims[1], max_cost]))
 
 	plt.legend()
-	plt.xlabel('Optimisation time (s)')
-	plt.ylabel('Benchmark execution time (s)')
+
+	count_costs = int(config[5][0])
+	if count_costs == 0:
+		plt.xlabel('Evalatuions')
+	else:
+		plt.xlabel('Cost')
+	plt.ylabel('Fitness')
 	plt.savefig(sys.argv[3])
 
