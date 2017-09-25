@@ -270,9 +270,9 @@ The program is written in C++ 14. Each design mentioned in the evaluation sectio
 	\begin{tabularx}{\linewidth}{l X X}
 		\hline
 		Name & Description & Example\\\hline
-		\path{compare_all_experiments} & runs program on all precomputed examples with and without knowledge transfer & \path{./scripts/compare_all_experiments}\\
-		\path{compare_experiments} & runs program on source and target designs with and without knowledge transfer & \path{./scripts/compare_experiments examples/robot examples/stochastic 5}\\
-		\path{compare_kt.py} & computes optimisation statistics from logs with and without knowledge transfer & \path{python3 scripts/compare_kt.py examples/robot/ examples/stochastic/}\\
+		\path{run_experiments_all.py} & runs program on all precomputed examples with and without knowledge transfer & \path{./scripts/run_experiments_all}\\
+		\path{run_experiments.py} & runs program on source and target designs with and without knowledge transfer & \path{./scripts/run_experiments examples/robot examples/stochastic 5}\\
+		\path{compare_experiments.py} & computes optimisation statistics from logs with and without knowledge transfer & \path{python3 scripts/compare_experiments.py examples/robot/ examples/stochastic/}\\
 		\path{csv_stats.py} & computes statistics on a CSV file & \path{python3 scripts/csv_stats.py examples/robot/results.csv}\\
 		\path{fill_space.py} & adds failed builds to precomputed results when results do not exhaustively represent the configuration space & \path{python3 scripts/fill_space.py examples/robot/results.csv 1 4 8 40}\\
 		\path{interpolate.py} & uses a Gaussian process to interpolate fitness values & \path{python3 scripts/interpolate.py examples/robot/results.csv examples/robot/config.txt 1 8}\\
@@ -359,7 +359,7 @@ For designs to be optimised by the program, each design must provided with a con
 		\hline
 		Setting & Description\\
 		\hline
-		max evaluations & terminates program after number of $f_T$ evaluations exceed max evaluations\\
+		budget & terminates program after number of accumulated cost of each $f_T$ evaluation exceeds the budget\\
 		max trials & number of iterations for Monte-Carlo algorithms in the program that balances between configuration selection cost and evaluation cost\\
 		convergence threshold & terminates program when next evaluation is expected to improve less than the convergence threshold\\
 		discrete & \verb|false| when optimising real-valued configurations and \verb|true| when optimising integer-valued configurations\\
@@ -379,8 +379,8 @@ For designs to be optimised by the program, each design must provided with a con
 \begin{figure}[H]
 	\begin{framed}
 		\begin{verbatim}
-			# max evaluations
-			1000
+			# budget
+			100
 			# max trials
 			100
 			# convergence threshold

@@ -1,0 +1,29 @@
+#!/bin/bash
+
+if [ $# != 3 ]; then
+	echo "Usage: compare_experiments example_old example_new iterations"
+	exit 1
+fi
+
+old=$(basename $1)
+new=$(basename $2)
+
+# For generating plots
+#python3 scripts/plot_results.py $1/config.txt $1/results.csv logs/"$old"_plot.png
+
+# Create log directories
+mkdir -p logs/"$old"_"$new"_no_kt
+mkdir -p logs/"$old"_"$new"_kt
+
+for i in $(seq 1 $3); do
+	echo "Experiment iteration $i"
+
+	scripts/run_example $2
+	output_no_kt=$(mktemp logs/"$old"_"$new"_no_kt/XXXXX.csv)
+	cp $2/output.csv "$output_no_kt"
+
+	scripts/run_example $1
+	scripts/transfer_example $2 $1
+	output_kt=$(mktemp logs/"$old"_"$new"_kt/XXXXX.csv)
+	cp $2/transfer.csv "$output_kt"
+done
