@@ -933,7 +933,7 @@ bool read_config(string filename, config_t& config) {
 
 	// Parse configuration file
 	try {
-		config.max_evaluations = stol(data.at(0).at(0));
+		config.budget = stol(data.at(0).at(0));
 		config.max_trials = stol(data.at(1).at(0));
 		config.convergence_threshold = stof(data.at(2).at(0));
 		if (config.convergence_threshold < 0.0) {

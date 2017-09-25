@@ -17,8 +17,8 @@ EGO::EGO(Evaluator& evaluator, config_t config, boundaries_t rejection,
 	dimension(config.boundaries.size()),
 	boundaries(config.boundaries),
 	rejection(rejection),
-	max_evaluations(config.max_evaluations),
-	evaluations(0),
+	budget(config.budget),
+	accum_cost(0.0),
 	max_trials(config.max_trials),
 	convergence_threshold(config.convergence_threshold),
 	is_discrete(config.is_discrete),
@@ -116,7 +116,7 @@ void EGO::run()
 		return;
 	}
 
-	assert(evaluations > 0);
+	assert(accum_cost > 0);
 
 	fitness->optimise();
 
@@ -125,7 +125,7 @@ void EGO::run()
 	auto pred = [&](vector<double> x) {return !evaluator.was_evaluated(
 			is_discrete ? round_vector(x) : x);};
 
-	while(evaluations < max_evaluations) {
+	while(accum_cost < budget) {
 
 		// Find a point with the highest expected improvement
 		animation_start("Maximising expected improvement:", 0, max_trials);
@@ -198,7 +198,7 @@ double EGO::expected_improvement_bounded(const gsl_vector* v, void* p) {
 	auto expectation =
 		-expected_improvement(ego->fitness->mean(x), ego->fitness->sd(x), ego->y_opt) *
 		success_probability(ego->label->mean(x), ego->label->sd(x)) *
-		ego->success_constraints_probability(x) / ego->predict_cost(x);
+		ego->success_constraints_probability(x) / (ego->predict_cost(x) + 1.0);
 
 	if (isnan(expectation) || expectation == 0.0 ||
 		!is_bounded(x, ego->boundaries)) {
@@ -254,7 +254,7 @@ void EGO::simulate(vector<double> x, vector<double> y) {
 	const size_t FITNESS_LABEL_OFFSET = 2;
 	assert(y.size() == FITNESS_LABEL_OFFSET + constraints.size() + costs.size());
 
-	evaluations++;
+	accum_cost += result_cost(y);
 
 	evaluator.simulate(x, y);
 
@@ -283,7 +283,8 @@ void EGO::simulate(vector<double> x, vector<double> y) {
 		}
 	}
 
-	cout << "Iteration [" << evaluations << "/" << max_evaluations << "]: ";
+	// Print summary for this evaluation
+	cout << accum_cost << " ";
 	print_vector(x);
 	if (y_opt == numeric_limits<double>::max()) {
 		cout << endl;
@@ -296,12 +297,26 @@ void EGO::simulate(vector<double> x, vector<double> y) {
 
 // Given a point, predict the cost of evaluation
 double EGO::predict_cost(vector<double> x) {
-	double sum = 1.0;
+	double sum = 0.0;
 	for (auto& cost : costs) {
 		sum += max(cost->mean(x), 0.0);
 	}
 
-	assert(sum >= 1.0);
+	assert(sum >= 0.0);
+	return sum;
+}
+
+// Given a result, get the evaluation cost
+double EGO::result_cost(vector<double> y) {
+	if (costs.empty()) {
+		return 1.0;
+	}
+
+	double sum = 0.0;
+	const size_t COST_OFFSET = 2 + constraints.size();
+	for (size_t i = 0; i < costs.size(); i++) {
+		sum += y[COST_OFFSET + i];
+	}
 	return sum;
 }
 

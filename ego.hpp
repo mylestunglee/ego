@@ -26,8 +26,8 @@ class EGO {
 		size_t dimension;
 		boundaries_t boundaries;
 		boundaries_t rejection;
-		size_t max_evaluations;
-		size_t evaluations;
+		double budget;
+		double accum_cost;
 		size_t max_trials;
 		double convergence_threshold;
 		bool is_discrete;
@@ -50,6 +50,7 @@ class EGO {
 		static void thread_evaluate(EGO* ego, vector<double> x);
 		void evaluate(vector<vector<double>> xs);
 		double predict_cost(vector<double> x);
+		double result_cost(vector<double> y);
 		double success_constraints_probability(vector<double> x);
 		static vector<double> generate_random_point(void* p);
 };

@@ -12,7 +12,7 @@ typedef vector<pair<double, double>> boundaries_t;
 typedef vector<pair<vector<double>, vector<double>>> results_t;
 
 struct config {
-	size_t max_evaluations;
+	double budget;
 	size_t max_trials;
 	size_t constraints;
 	size_t costs;
