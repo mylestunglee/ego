@@ -16,7 +16,7 @@ if [ -f "$1/script.py" ]; then
 fi
 
 if [ -f "$1/results.csv" ]; then
-	./ego -t "python3 scripts/interpolate.py $1/results.csv $1/config.txt" "$1/config.txt" "$1/transfer.csv" "$2/output.csv"
+	./ego -t "python3 scripts/interpolate.py $1/results.csv" "$1/config.txt" "$1/transfer.csv" "$2/output.csv"
 	exit 0
 fi
 

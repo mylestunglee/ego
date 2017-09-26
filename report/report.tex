@@ -16,6 +16,7 @@
 \usepackage{subfigure}
 \newcommand{\dsb}[1]{[\![#1]\!]}
 \usepackage{adjustbox}
+\usepackage[nottoc,numbib]{tocbibind}
 
 \author{Myles Lee}
 \title{Repository Knowledge Transfer in Automatic Optimisation of Reconfigurable Designs}
@@ -24,12 +25,14 @@
 \maketitle
 This project was supervised by Maciej Kurek and Wayne Luk and managed under the UROP scheme at the Custom Computing Group at the Department at Computing in Imperial College London.
 
+\tableofcontents
+
 \section{Introduction}
 This project adapts the cost-aware, constrained, global, non-convex mathematical optimisation problem to the reconfigurable computing domain. The objective is to optimise a design $T$, by finding the optimal configuration $\mathbf{x}_T^*$ of a fitness function $f_T$, with a budget of $f_T$ evaluations. $T$ has $n_T$ reconfigurable parameters. The design space $\mathbb{X}_T$ is defined to be the Cartesian product of $n_T$ intervals. $f_T$ is expensive to evaluate and cannot be assumed that $f_T$ is differentiable or convex. Therefore, computing $\mathbf{x}_T^*$ is expensive. Finding the optimal design maybe too costly, and a sub-optimal configuration may be used.
 
-Each design has a label function $g_T$, such that for some configuration $\mathbf{x}$, $g_T(\mathbf{x})=0$ if and only if $\mathbf{x}$ is successful. $g_T(\mathbf{x}_T^*)=0$ is required. In addition, each design have $m_T$ constraint functions $\{{h_1}_T,...\}$. Each constraint function determines the resource restrictions on the configurations. In the reconfigurable computing context, a constraint function could represent the fraction of used hardware resource on the chip. For some constraint function ${h_i}_T$ and configuration $\mathbf{x}$, ${h_i}_T(\mathbf{x})<1$ if and only if $\mathbf{x}$ satisfies the $i^{\text{th}}$ constraint. Therefore $\forall \mathbf{x}\in\mathbb{X}_T.(\forall i\in\{1,...,m_T\}.{h_i}_T(\mathbf{x})<1)\Leftrightarrow g_T(\mathbf{x})=0$.
+Each design has a label function $g_T$, such that for some configuration $\mathbf{x}$, $g_T(\mathbf{x})=0$ if and only if $\mathbf{x}$ is successful. $g_T(\mathbf{x}_T^*)=0$ is required. In addition, each design have $h_T$ constraint functions $\{{\mathbf{h}_1}_T,...\}$. Each constraint function determines the resource restrictions on the configurations. In the reconfigurable computing context, a constraint function could represent the fraction of used hardware resource on the chip. For some constraint function ${\mathbf{h}_i}_T$ and configuration $\mathbf{x}$, ${\mathbf{h}_i}_T(\mathbf{x})<1$ if and only if $\mathbf{x}$ satisfies the $i^{\text{th}}$ constraint. Therefore $\forall \mathbf{x}\in\mathbb{X}_T.(\forall i\in\{1,...,h_T\}.{\mathbf{h}_i}_T(\mathbf{x})<1)\Leftrightarrow g_T(\mathbf{x})=0$.
 
-Moreover, each design have $c_T$ cost functions, where each cost function determines the cost of evaluating a component of $f_T$. For example, two cost functions can represent the software and hardware build time. Typically, the cost is defined as the time taken to evaluate $f_T$. The cost of evaluating $f_T(\mathbf{x})$ is the sum of each cost function, $\sum_{i=1}^{c_T}{c_i}_T(\mathbf{x})$. The budget restricts the number of $f_T$ evaluations, as the sum of evaluation costs must not exceed the budget. If the evaluation cost of any configuration is constant, then the budget can be interpreted as a scale of the maximum number of $f_T$ evaluations.
+Moreover, each design have $c_T$ cost functions, where each cost function determines the cost of evaluating a component of $f_T$. For example, two cost functions can represent the software and hardware build time. Typically, the cost is defined as the time taken to evaluate $f_T$. The cost of evaluating $f_T(\mathbf{x})$ is the sum of each cost function, $\sum_{i=1}^{c_T}{\mathbf{c}_i}_T(\mathbf{x})$. The budget restricts the number of $f_T$ evaluations, as the sum of evaluation costs must not exceed the budget. If the evaluation cost of any configuration is constant, then the budget can be interpreted as a scale of the maximum number of $f_T$ evaluations.
 
 To minimise this cost, a pre-optimised source design $S$ can be used to provide insight to a target design $T$ with limited sampling. Using observations from $f_S$, $\mathbf{x}_T^*$ can be approximated from $\mathbf{x}_S^*$. Knowledge transfer is used to estimate properties of $T$ using other, possibility similar designs such as $S$.
 
@@ -51,7 +54,7 @@ Suppose $f_S(\mathbf{x})=1+\mathbf{x}_1$, $f_T(\mathbf{x})=1+\mathbf{x}_1+\mathb
 To solve this, a Transferable Gaussian Process (TGP) is used as follows. A TGP is composed of two Gaussian Processes of the same kernel, a process $p$ to predict the scalar of $f_S$ to $f_T$ and process $q$ as a surrogate of $f_T$. $p$ is trained on the ratio of source and target fitness values, so $p(\mathbf{x})=\frac{f_T(\mathbf{x})}{f_S(\mathbf{x})}$ at sampled points. The training data for the example above would be $\{((0,0),1),((0,1),2),((1,0),1),((1,1),\frac{3}{2})\}$. $q$ is trained on the observations of $f_S$, so $q=f_S$ at sampled points. Then we define $z(\mathbf{x})=p(\mathbf{x})q(\mathbf{x})$. So $(z\circ f_S)(\mathbf{x})=\frac{f_T(\mathbf{x})}{f_S(\mathbf{x})}\cdot f_S(\mathbf{x})=f_T(\mathbf{x})$. Using TGPs are more accurate than using polynomial regression because TGPs captures transferred features better in high dimensional space.
 
 \subsection{Near-optimal Configuration Prediction}
-Correlation analysis is used to determine the effectiveness of predicting a near-optimal configuration. For each dimension $i$ of the $\mathbb{X}_S$, we compute the Spearman correlation coefficient $\rho_i$ by comparing configurations against fitness values using observations of $f_S$. For a given significance level $\alpha$, if $\forall i\in\{1,...,n_S\}.1-|\rho_i|\le\alpha$ and $n_S=n_T$, then we can apply knowledge transfer. We approximate $f_S$ with a multi-dimensional quadratic function $\hat{f_S}$\cite{Xi2004}. We use multi-linear regression to find constants $c$, $\mathbf{d}$ and $\mathbf{e}$ such that $\hat{f_S}(\mathbf{x})=c+\sum_{i=1}^{n_S}\mathbf{d}_i \mathbf{x}_i+\mathbf{e}_i \mathbf{x}_i^2$. Then we approximate $\mathbf{x}_T^*\approx argmin_{\mathbf{x}\in\mathbb{X}_T}\hat{f_S}(\mathbf{x})$. This approximation is a signifiant improvement over using $\mathbf{x}_T^*\approx\mathbf{x}_S^*$ because $f_T$ and $f_S$ tend to be noisy and independent in each dimension. The evaluation section illustrates this improvement.
+Correlation analysis is used to determine the effectiveness of predicting a near-optimal configuration. For each dimension $i$ of the $\mathbb{X}_S$, we compute the Spearman correlation coefficient $\rho_i$ by comparing configurations against fitness values using observations of $f_S$. For a given significance level $\alpha$, if $\forall i\in\dsb{1,n_S}.1-|\rho_i|\le\alpha$ and $n_S=n_T$, then we can apply knowledge transfer. We approximate $f_S$ with a multi-dimensional quadratic function $\hat{f_S}$\cite{Xi2004}. We use multi-linear regression to find constants $c$, $\mathbf{d}$ and $\mathbf{e}$ such that $\hat{f_S}(\mathbf{x})=c+\sum_{i=1}^{n_S}\mathbf{d}_i \mathbf{x}_i+\mathbf{e}_i \mathbf{x}_i^2$. Then we approximate $\mathbf{x}_T^*\approx argmin_{\mathbf{x}\in\mathbb{X}_T}\hat{f_S}(\mathbf{x})$. This approximation is a signifiant improvement over using $\mathbf{x}_T^*\approx\mathbf{x}_S^*$ because $f_T$ and $f_S$ tend to be noisy and independent in each dimension. The evaluation section illustrates this improvement.
 
 \subsection{Repository Knowledge Transfer}
 
@@ -97,12 +100,12 @@ The implementation of knowledge transfer follows the algorithm below. For the fu
 			\If{$O_S$ is sufficently independent with significance level $\alpha$}{
 				Compute multi-quadratic regression $\hat{f_S}$ from $O_S$\\
 				$\mathbf{x}_q=argmin_{\mathbf{x}\in\mathbb{X}_S}\hat{f_S}(\mathbf{x})$\\
-				$\mathbf{y}=(f_T(\mathbf{x}_q),g_T(\mathbf{x}_q),{h_1}_T(\mathbf{x}_q),...,{c_1}_T(\mathbf{x}_q),...)$\\
+				$\mathbf{y}=(f_T(\mathbf{x}_q),g_T(\mathbf{x}_q),{\mathbf{h}_1}_T(\mathbf{x}_q),...,{\mathbf{c}_1}_T(\mathbf{x}_q),...)$\\
 				Add $(\mathbf{x},\mathbf{y})$ to $O_T$
 			}
 			Select $5n_T$ successful configurations randomly from $O_S$ into $\mathbf{X}$\\
 			\For{$\mathbf{x}\in\mathbf{X}$}{
-				$\mathbf{y}=(f_T(\mathbf{x}),g_T(\mathbf{x}),{h_1}_T(\mathbf{x}),...,{c_1}_T(\mathbf{x}),...)$\\
+				$\mathbf{y}=(f_T(\mathbf{x}),g_T(\mathbf{x}),{\mathbf{h}_1}_T(\mathbf{x}),...,{\mathbf{c}_1}_T(\mathbf{x}),...)$\\
 				Add $(\mathbf{x},\mathbf{y})$ to $O_T$
 			}
 			Construct TGPs using $O_S$ and $O_T$\\
@@ -116,19 +119,19 @@ The implementation of knowledge transfer follows the algorithm below. For the fu
 
 \subsection{Designs}
 
-The program was applied to many designs. To differentiate integer and real intervals, the notation $\dsb{a,b}=\{a\le n\le b|n\in\mathbb{Z}\}$ and $[a,b]=\{a\le n\le b|n\in\mathbb{R}\}$ are used. Knowledge transfer was used to improve the optimisation to port reconfigurable designs from the Max3 to the Max4 platform.
+Knowledge transfer was used to improve the optimisation of porting reconfigurable designs from the Max3 to the Max4 platform.
 
 \begin{table}[H]
 	\begin{tabularx}{\linewidth}{X l Y c c X}
 		\hline
-		Design & Platform & $\mathbb{X}$ & $m$ & $c$ & $names$\\
+		Design & Platform & $\mathbb{X}$ & $h$ & $c$ & $names$\\
 		\hline
-		robot & & $\dsb{1,4}\times\dsb{8,40}$ & 3 & 0 & cores, mantissa width\\
-		stochastic & & $\dsb{1,4}\times\dsb{10,40}$ & 3 & 0 & cores, mantissa width\\
-		quadrature\cite{Tse2012} & Max3 & $\dsb{11,53}\times\dsb{1,32}$ & 1 & 0 & mantissa width, density factor\\
-		quadrature\cite{Tse2012} & Max4 & $\dsb{11,53}\times\dsb{1,32}$ & 1 & 0 & mantissa width, density factor\\
-		xinyu rtm & Max3 & $\dsb{1,10}\times\dsb{1,10}\times\dsb{4,24}\times\dsb{1,3}\times\dsb{1,10}\times\dsb{1,10}\times\dsb{1,32}$ & 0 & 1 & alpha, beta, B, T, Pknl, Ptl, Pdp\\
-		xinyu rtm & Max4 & $\dsb{1,10}\times\dsb{1,10}\times\dsb{4,24}\times\dsb{1,3}\times\dsb{1,20}\times\dsb{1,20}\times\dsb{1,32}$ & 0 & 1 & alpha, beta, B, T, Pknl, Ptl, Pdp\\
+		robot\cite{Chau2014} & & $\{2^n|n\in\dsb{1,4}\}\times\dsb{10,40,2}\times\dsb{2048,8168,60}$ & 4 & 1 & cores, mantissa width, particles\\
+		stochastic\cite{Chau2014} & & $\{2^n|n\in\dsb{1,4}\}\times\dsb{10,40,2}\times\dsb{96,4056,60}$ & 4 & 1 & cores, mantissa width, particles\\
+		quadrature\cite{Tse2012} & Max3 & $\dsb{1,24}\times\dsb{4,32}\times\dsb{11,53}$ & 1 & 1 & cores, density factor, mantissa width\\
+		quadrature\cite{Tse2012} & Max4 & $\dsb{1,16}\times\dsb{4,32}\times\dsb{32,53}$ & 1 & 0 & cores, density factor, mantissa width\\
+		xinyu rtm\cite{Niu2012} & Max3 & $\dsb{1,10}\times\dsb{1,10}\times\dsb{4,24}\times\dsb{1,3}\times\dsb{1,10}\times\dsb{1,10}\times\dsb{1,32}$ & 0 & 1 & alpha, beta, B, T, Pknl, Ptl, Pdp\\
+		xinyu rtm\cite{Niu2012} & Max4 & $\dsb{1,10}\times\dsb{1,10}\times\dsb{4,24}\times\dsb{1,3}\times\dsb{1,20}\times\dsb{1,20}\times\dsb{1,32}$ & 0 & 1 & alpha, beta, B, T, Pknl, Ptl, Pdp\\
 		genomics\cite{Arram2017} & Max3 & $\dsb{1,10}\times\dsb{-3,3}\times\dsb{0,1}$ & 0 & 1 & sample distance, optimisation index, oversample\\
 		genomics\cite{Arram2017} & Max4 & $\dsb{1,10}\times\dsb{-3,3}\times\dsb{0,1}$ & 0 & 1 & sample distance, optimisation index, oversample\\
 		\hline
@@ -138,16 +141,10 @@ The program was applied to many designs. To differentiate integer and real inter
 
 \begin{figure}[H]
 	 \begin{center}
-		\subfigure[robot]{
-			\includegraphics[width=0.45\textwidth]{images/robot_fitness.png}
-		}
-		\subfigure[stochastic]{
-			\includegraphics[width=0.45\textwidth]{images/stochastic_fitness.png}
-		}
-		\subfigure[quadrature Max3]{
+		\subfigure[quadrature Max3 cores=1]{
 			\includegraphics[width=0.45\textwidth]{images/quadrature_max3_fitness.png}
 		}
-		\subfigure[quadrature Max4]{
+		\subfigure[quadrature Max4 cores=1]{
 			\includegraphics[width=0.45\textwidth]{images/quadrature_max4_fitness.png}
 		}
 		\subfigure[genomics Max3 oversample=0]{
@@ -220,9 +217,9 @@ A limitation of the definition of $score$ is that this definition does not descr
 		\hline
 		$T$ & $S$ & No KT Score & KT Score & Improvement Ratio\\
 		\hline
-		robot & stochastic & 0.131 & 0.069 & $\phantom{0}$1.887\\
-		stochastic & robot & 0.128 & 0.065 & $\phantom{0}$1.965\\
-		quadrature Max3 & quadrature Max4 & 0.050 & 0.022 & $\phantom{0}$2.274\\
+		robot & stochastic & 0.165 & 0.164 & $\phantom{0}$1.001\\
+		stochastic & robot & 0.276 & 0.230 & $\phantom{0}$1.198\\
+		quadrature Max3 & quadrature Max4 & 0.077 & 0.053 & $\phantom{0}$1.452\\
 		genomics Max3 & genomics Max4 & 0.020 & 0.009 & $\phantom{0}$2.269\\
 		xinyu rtm Max3 & xinyu rtm Max4 & 0.560 & 0.013 & 44.481\\
 		\hline
@@ -363,7 +360,7 @@ For designs to be optimised by the program, each design must provided with a con
 		max trials & number of iterations for Monte-Carlo algorithms in the program that balances between configuration selection cost and evaluation cost\\
 		convergence threshold & terminates program when next evaluation is expected to improve less than the convergence threshold\\
 		discrete & \verb|false| when optimising real-valued configurations and \verb|true| when optimising integer-valued configurations\\
-		number of constraint functions & $m_T$\\
+		number of constraint functions & $h_T$\\
 		number of cost functions & $c_T$\\
 		lower boundaries & if $\mathbb{X}_T=[l_1,u_1]\times...\times[l_{n_T},u_{n_T}]$ then the lower boundaries are $l_1,...,l_{n_T}$\\
 		upper boundaries & if $\mathbb{X}_T=[l_1,u_1]\times...\times[l_{n_T},u_{n_T}]$ then the upper boundaries are $u_1,...,u_{n_T}$\\
@@ -408,7 +405,7 @@ For designs to be optimised by the program, each design must provided with a con
 	\caption{Default configuration file}
 \end{figure}
 
-The fitness value can be either be generated through a script or be precomputed. The script takes $\mathbf{x}$ in the form of $n_T$ command line arguments and outputs $f_T(\mathbf{x}),g_T(\mathbf{x}),{h_1}_T(\mathbf{x}),...,{c_1}_T(\mathbf{x}),...$ as line-delimited values. Suppose $f_T(\mathbf{x})=\mathbf{x}_1+\mathbf{x}_2$ and $g_T(\mathbf{x})=\mathbf{x}_1$ as in the example.
+The fitness value can be either be generated through a script or be precomputed. The script takes $\mathbf{x}$ in the form of $n_T$ command line arguments and outputs $f_T(\mathbf{x}),g_T(\mathbf{x}),{\mathbf{h}_1}_T(\mathbf{x}),...,{\mathbf{c}_1}_T(\mathbf{x}),...$ as line-delimited values. Suppose $f_T(\mathbf{x})=\mathbf{x}_1+\mathbf{x}_2$ and $g_T(\mathbf{x})=\mathbf{x}_1$ as in the example.
 
 \begin{figure}[H]
 	\begin{framed}
@@ -422,7 +419,7 @@ The fitness value can be either be generated through a script or be precomputed.
 
 Suppose the configuration file was saved as \path{config.txt} and the script was saved as \path{script}. We can run the program with \path{./ego -o ./script config.txt output.csv}. The file \path{output.csv} contains the results of evaluating \path{script} with sampled points. This may be used as precomputed results.
 
-When supplying precomputed results, the results are stored in a comma-delimited CSV without headers. Each row has $n_T+2+m_T+c_T$ cells. For some configuration $\mathbf{x}$, The first $n_T$ cells are $\mathbf{x}$, then $f_T(\mathbf{x})$, then $g_T(\mathbf{x})$, then each constraint ${h_i}_T(\mathbf{x})$, each ${c_i}_T(\mathbf{x})$. When $g_T(\mathbf{x})=0$, $x$ is successful, when $g_T(\mathbf{x})=1$, $x$ is unsuccessful and the program does not learn results, when $g_T(\mathbf{x})=2$, $x$ is unsuccessful but the program learns fitness values, constraints and costs. The difference between $g_T(\mathbf{x})$ being 1 or 2 depends on validity of the results. For example, if a configuration fails before the fitness value can be measured, then rouge values should not be learnt.
+When supplying precomputed results, the results are stored in a comma-delimited CSV without headers. Each row has $n_T+2+h_T+c_T$ cells. For some configuration $\mathbf{x}$, The first $n_T$ cells are $\mathbf{x}$, then $f_T(\mathbf{x})$, then $g_T(\mathbf{x})$, then each constraint ${\mathbf{h}_i}_T(\mathbf{x})$, each ${\mathbf{c}_i}_T(\mathbf{x})$. When $g_T(\mathbf{x})=0$, $x$ is successful, when $g_T(\mathbf{x})=1$, $x$ is unsuccessful and the program does not learn results, when $g_T(\mathbf{x})=2$, $x$ is unsuccessful but the program learns fitness values, constraints and costs. The difference between $g_T(\mathbf{x})$ being 1 or 2 depends on validity of the results. For example, if a configuration fails before the fitness value can be measured, then rouge values should not be learnt.
 
 \begin{figure}[H]
 	\begin{framed}
@@ -443,6 +440,32 @@ Suppose the precomputed results file was saved as \path{results.csv}, then we ca
 A limitation of the TGP is that only common points in the observations of $f_S$ and $f_T$ for the parameter Gaussian process are used for training. When there are very few common points, the parameter Gaussian process predictions are inaccurate. A possible solution is to allow partial training of the Gaussian process by assigning a weight to each point. This weight is the relative distance to the nearest common training point. The implementation of this may require redesigning of the kernel, to accommodate the parametrisation of covariance matrix by weights. Future work could investigate how TGPs can be improved.
 
 The proposed repository knowledge transfer method can be improved by using multiple source designs. We can extend the method by computing an auxiliary design, which is derived from related source designs, then we can transfer directly with the target design. The challenge is the methodology of computing this auxiliary design.
+
+\section{Notation}
+
+\begin{table}[H]
+	\begin{tabularx}{\linewidth}{l l}
+		\hline
+		Notation & Definition\\
+		\hline
+		$\dsb{l,u}$ & integers from $l$ to $u$ inclusively\\
+		$\dsb{l,u,s}$ & integers from $l$ to $u$ with step $s$ inclusively\\
+		$c_T$ & number of cost functions in $T$\\
+		${\mathbf{c}_i}_T$ & $i^{\text{th}}$ cost function of $T$\\
+		$f_T$ & fitness function of $T$\\
+		$g_T$ & label function of $T$\\
+		$h_T$ & number of constraint functions in $T$\\
+		${\mathbf{h}_i}_T$ & $i^{\text{th}}$ constraint function of $T$\\
+		$n_T$ & number of reconfigurable parameters in $T$\\
+		$R$ & repository of source reconfigurable designs\\
+		$S$ & source reconfigurable design\\
+		$T$ & target reconfigurable design\\
+		$\mathbf{x}_T^*$ & optimal configuration of $T$\\
+		$\mathbb{X}_T$ & configuration space of $T$\\
+		\hline
+	\end{tabularx}
+	\caption{Notation used in this report}
+\end{table}
 
 \bibliographystyle{plain}
 \bibliography{report}

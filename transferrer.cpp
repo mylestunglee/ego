@@ -88,7 +88,7 @@ void Transferrer::run() {
 		rejection = presampled_space;
 	}
 
-	EGO ego(evaluator, config, rejection, results_old);
+	EGO ego(evaluator, config, {}/*rejection*/, results_old);
 
 	for (auto result_new : results_new) {
 		ego.simulate(result_new.first, result_new.second);
@@ -126,7 +126,7 @@ results_t Transferrer::sample_results_old() {
 
 		// Don't samples with bad fitnesses
 		if (y[FITNESS_INDEX] > fitness_threshold) {
-			continue;
+//			continue;
 		}
 
 		// Only add sample when sample fits new parameter space and has not been

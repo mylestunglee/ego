@@ -128,6 +128,9 @@ def read_boxess(directory, config):
 	boxess = list(map(decrease_boxes, boxess))
 	return boxess
 
+def to_hours(seconds):
+	return [second / (60 * 60) for second in seconds]
+
 def parse_directory(directory, config, label, color):
 	boxess = read_boxess(directory, config)
 	print('Aggregating widths')
@@ -138,11 +141,11 @@ def parse_directory(directory, config, label, color):
 	nexts = accum[1:]
 
 	# Plot horizontal lines
-	plt.hlines(means[:-1], accum[:-1], nexts, color = color, label = label)
+	plt.hlines(means[:-1], to_hours(accum[:-1]), to_hours(nexts), color = color, label = label)
 
 	# Plot confidence interval
 	for i in range(len(means) - 1):
-		plt.fill_between([accum[i], nexts[i]], [means[i] - sds[i]] * 2, [means[i] + sds[i]] * 2, alpha = 0.25, edgecolor = 'none', facecolor = color)
+		plt.fill_between([to_hours([accum[i]])[0], to_hours([nexts[i]])[0]], [means[i] - sds[i]] * 2, [means[i] + sds[i]] * 2, alpha = 0.25, edgecolor = 'none', facecolor = color)
 
 # Do not plot without output
 if len(sys.argv) != 3:
@@ -165,7 +168,7 @@ if len(sys.argv) != 3:
 	if count_costs == 0:
 		plt.xlabel('Evalatuions')
 	else:
-		plt.xlabel('Cost')
+		plt.xlabel('Optimisation time (hours)')
 	plt.ylabel('Fitness')
 	plt.savefig(sys.argv[3])
 

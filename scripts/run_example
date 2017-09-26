@@ -25,7 +25,7 @@ fi
 
 # Try interpolating results
 if [ -f "$1/results.csv" ]; then
-	./ego -o "python3 scripts/interpolate.py $1/results.csv $1/config.txt" $config $output
+	./ego -o "python3 scripts/interpolate.py $1/results.csv" $config $output
 	exit 0
 fi
 
