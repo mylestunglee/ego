@@ -49,9 +49,9 @@ The main contributions of this project are summarised below:
 
 Previous effort\cite{Kurek2016} used a polynomial function $z$ to map from source to target fitness values such that $z\circ f_S\approx f_T$. This is derived from polynomial regression of sampled source and target fitness values. However, $z$ is inaccurate for predicting when $f_S$ and $f_T$ are noisy or high dimensional functions. An example follows to demonstrate this.
 
-Suppose $f_S(\mathbf{x})=1+\mathbf{x}_1$, $f_T(\mathbf{x})=1+\mathbf{x}_1+\mathbf{x}_2$ and $\mathbb{X}_S=\mathbb{X}_T=[0,1]^2$. By sampling at $\{(0,0),(0,1),(1,0),(1,1)\}$, we obtain the observations $\{((0,0),1),\allowbreak((0,1),1),((1,0),2),((1,1),2)\}$ and $\{((0,0),1),((0,1),2),((1,0),2),((1,1),3)\}$ by evaluating $f_S$ and $f_T$ respectively. By pairing source and target sample points, we obtain $\{(1,1),(1,2),(2,2),(2,3)\}$. Using linear regression, we can derive $z(y)=\frac{1}{2}+y$. Then for some sample, $(z\circ f_S)(x_1,x_2)=\frac{3}{2}+x_1\not=f_T(x_1,x_2)$. Therefore $z$ is inaccurate.
+Suppose $f_S(\mathbf{x})=1+\mathbf{x}_1$, $f_T(\mathbf{x})=1+\mathbf{x}_1+\mathbf{x}_2$ and $\mathbb{X}_S=\mathbb{X}_T=[0,1]^2$. By sampling at $\{(0,0),(0,1),(1,0),(1,1)\}$, we obtain the observations $\{((0,0),1),\allowbreak((0,1),1),\allowbreak((1,0),2),((1,1),2)\}$ and $\{((0,0),1),((0,1),2),((1,0),2),((1,1),3)\}$ by evaluating $f_S$ and $f_T$ respectively. By pairing source and target sample points, we obtain $\{(1,1),(1,2),(2,2),(2,3)\}$. Using linear regression, we can derive $z(y)=\frac{1}{2}+y$. Then for some sample, $(z\circ f_S)(x_1,x_2)=\frac{3}{2}+x_1\not=f_T(x_1,x_2)$. Therefore $z$ is inaccurate.
 
-To solve this, a Transferable Gaussian Process (TGP) is used as follows. A TGP is composed of two Gaussian Processes of the same kernel, a process $p$ to predict the scalar of $f_S$ to $f_T$ and process $q$ as a surrogate of $f_T$. $p$ is trained on the ratio of source and target fitness values, so $p(\mathbf{x})=\frac{f_T(\mathbf{x})}{f_S(\mathbf{x})}$ at sampled points. The training data for the example above would be $\{((0,0),1),((0,1),2),((1,0),1),((1,1),\frac{3}{2})\}$. $q$ is trained on the observations of $f_S$, so $q=f_S$ at sampled points. Then we define $z(\mathbf{x})=p(\mathbf{x})q(\mathbf{x})$. So $(z\circ f_S)(\mathbf{x})=\frac{f_T(\mathbf{x})}{f_S(\mathbf{x})}\cdot f_S(\mathbf{x})=f_T(\mathbf{x})$. Using TGPs are more accurate than using polynomial regression because TGPs captures transferred features better in high dimensional space.
+To solve this, a Transferable Gaussian Process (TGP) is used as follows. A TGP is composed of two Gaussian Processes of the same kernel, a process $p$ to predict the scalar of $f_S$ to $f_T$ and process $q$ as a surrogate of $f_T$. $p$ is trained on the ratio of source and target fitness values, so $p(\mathbf{x})=\frac{f_T(\mathbf{x})}{f_S(\mathbf{x})}$ at sampled points. The training data for the example above would be $\{((0,0),1),((0,1),2),((1,0),1),\allowbreak((1,1),\frac{3}{2})\}$. $q$ is trained on the observations of $f_S$, so $q=f_S$ at sampled points. Then we define $z(\mathbf{x})=p(\mathbf{x})q(\mathbf{x})$. So $(z\circ f_S)(\mathbf{x})=\frac{f_T(\mathbf{x})}{f_S(\mathbf{x})}\cdot f_S(\mathbf{x})=f_T(\mathbf{x})$. Using TGPs are more accurate than using polynomial regression because TGPs captures transferred features better in high dimensional space.
 
 \subsection{Near-optimal Configuration Prediction}
 Correlation analysis is used to determine the effectiveness of predicting a near-optimal configuration. For each dimension $i$ of the $\mathbb{X}_S$, we compute the Spearman correlation coefficient $\rho_i$ by comparing configurations against fitness values using observations of $f_S$. For a given significance level $\alpha$, if $\forall i\in\dsb{1,n_S}.1-|\rho_i|\le\alpha$ and $n_S=n_T$, then we can apply knowledge transfer. We approximate $f_S$ with a multi-dimensional quadratic function $\hat{f_S}$\cite{Xi2004}. We use multi-linear regression to find constants $c$, $\mathbf{d}$ and $\mathbf{e}$ such that $\hat{f_S}(\mathbf{x})=c+\sum_{i=1}^{n_S}\mathbf{d}_i \mathbf{x}_i+\mathbf{e}_i \mathbf{x}_i^2$. Then we approximate $\mathbf{x}_T^*\approx argmin_{\mathbf{x}\in\mathbb{X}_T}\hat{f_S}(\mathbf{x})$. This approximation is a signifiant improvement over using $\mathbf{x}_T^*\approx\mathbf{x}_S^*$ because $f_T$ and $f_S$ tend to be noisy and independent in each dimension. The evaluation section illustrates this improvement.
@@ -232,7 +232,7 @@ A limitation of the definition of $score$ is that this definition does not descr
 For each target design, the repository knowledge transfer selects the most suitable source design from the repository automatically. If the repository includes the target design, the target design is always selected for transfer.
 \section{Technical Documentation}
 
-The program is written in C++ 14. Each design mentioned in the evaluation section can be found in the \path{examples} directory.
+The program is written in C++ 14. Each design mentioned in the evaluation section can be found in the \path{examples} directory. The program has the dependencies: \path{Catch}, \path{eigen}, \path{gsl} and \path{libgp}.
 
 \subsection{Structure}
 
@@ -272,7 +272,7 @@ The program is written in C++ 14. Each design mentioned in the evaluation sectio
 		\path{compare_experiments.py} & computes optimisation statistics from logs with and without knowledge transfer & \path{python3 scripts/compare_experiments.py examples/robot/ examples/stochastic/}\\
 		\path{csv_stats.py} & computes statistics on a CSV file & \path{python3 scripts/csv_stats.py examples/robot/results.csv}\\
 		\path{fill_space.py} & adds failed builds to precomputed results when results do not exhaustively represent the configuration space & \path{python3 scripts/fill_space.py examples/robot/results.csv 1 4 8 40}\\
-		\path{interpolate.py} & uses a Gaussian process to interpolate fitness values & \path{python3 scripts/interpolate.py examples/robot/results.csv examples/robot/config.txt 1 8}\\
+		\path{lookup.py} & given a configuration as command-line parameters, uses a CSV file as a lookup table & \path{python3 scripts/lookup.py examples/robot/results.csv 1 8}\\
 		\path{parser.py} & aggregates results by computing average fitness value of each duplicate sampled point & \path{python3 scripts/parser.py examples/robot/results.csv 2}\\
 		\path{plot_experiments.py} & plots optimisation curve with and without knowledge transfer & \path{python3 scripts/plot_experiment.py examples/robot/ examples/stochastic/}\\
 		\path{plot_results.py} & plots 2-dimensional fitness function surface & \path{python3 scripts/plot_results.py examples/robot/config.txt examples/robot/results.csv output.png}\\
@@ -433,7 +433,7 @@ When supplying precomputed results, the results are stored in a comma-delimited 
 	\caption{Example precomputed result file using default configurations}
 \end{figure}
 
-Suppose the precomputed results file was saved as \path{results.csv}, then we can run the program with \path{./ego -o "python3 scripts/interpolate.py results.csv config.txt" config.txt}. The interpolation script wraps the results file into a script. Precomputed results can be used with the script to reduce evaluations by supplying the results as in \path{./ego -o ./script config.txt results.csv}.
+Suppose the precomputed results file was saved as \path{results.csv}, then we can run the program with \path{./ego -o "python3 scripts/lookup.py results.csv" config.txt}. The lookup script wraps the results file into a script. Precomputed results can be used with the script to reduce evaluations by supplying the results as in \path{./ego -o ./script config.txt results.csv}.
 
 \section{Future Work}
 

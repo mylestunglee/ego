@@ -5,7 +5,7 @@ import csv
 import sys
 
 if len(sys.argv) < 2 or len(sys.argv) % 2 != 0:
-	print('Usage: csv_stats.py data.csv [l_1, u_1, ...]')
+	print('Usage: python3 csv_stats.py results.csv [l_1, u_1, ...]')
 	sys.exit(1)
 
 csvfile = open(sys.argv[1], 'r')

@@ -8,9 +8,6 @@ fi
 old=$(basename $1)
 new=$(basename $2)
 
-# For generating plots
-#python3 scripts/plot_results.py $1/config.txt $1/results.csv logs/"$old"_plot.png
-
 # Create log directories
 mkdir -p logs/"$old"_"$new"_no_kt
 mkdir -p logs/"$old"_"$new"_kt

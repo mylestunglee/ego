@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Install GSL
+if [ ! -d "gsl-2.4" ]; then
+	wget "ftp://ftp.gnu.org/gnu/gsl/gsl-2.4.tar.gz"
+	tar -zxvf "gsl-2.4.tar.gz"
+	rm "gsl-2.4.tar.gz"
+	cd "gsl-2.4"
+	./configure
+	make
+	cd ..
+fi
+
+# Install Catch
+if [ ! -f "catch.hpp" ]; then
+	wget "https://raw.githubusercontent.com/philsquared/Catch/master/single_include/catch.hpp"
+fi
+
+# Install eigen3
+if [ ! -d "eigen3" ]; then
+	wget "http://bitbucket.org/eigen/eigen/get/3.3.4.tar.gz"
+	tar -zxvf "3.3.4.tar.gz"
+	rm "3.3.4.tar.gz"
+	mv "eigen-eigen-5a0156e40feb" "eigen3"
+fi
+
+# Install libgp
+if [ ! -d "libgp" ]; then
+	git clone "https://github.com/mblum/libgp.git"
+	cd "libgp"
+	mkdir "build"
+	cd "build"
+	cmake ..
+	make
+	cd ../..
+fi
+
+make clean
+make

@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -c -std=c++14 -Wall -Wextra -g
 INC = -isystem eigen3 -isystem libgp/include -Igsl-2.4/gsl
-LIBS = -Llibgp -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu/ -lgp -lpthread -lgsl -lgslcblas
+LIBS = -Llibgp/build -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu/ -lgp -lpthread -lgsl -lgslcblas
 
 SOURCES = compare.cpp tgp.cpp gp.cpp animation.cpp functions.cpp transferrer.cpp csv.cpp evaluator.cpp surrogate.cpp ego.cpp ihs.cpp
 HEADERS = compare.hpp tgp.hpp gp.hpp animation.hpp functions.hpp transferrer.hpp csv.hpp evaluator.hpp surrogate.hpp ego.hpp ihs.hpp

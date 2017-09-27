@@ -2,7 +2,7 @@ import csv
 import sys
 
 if len(sys.argv) < 2:
-	print('Usage: interpolate.py results.csv [x_1, ...]')
+	print('Usage: python3 lookup.py results.csv [x_1, ...]')
 	sys.exit(1)
 
 file = open(sys.argv[1], 'r')

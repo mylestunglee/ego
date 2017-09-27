@@ -5,7 +5,7 @@ import csv
 import sys
 
 if len(sys.argv) < 3:
-	print('Usage: parser.py data.csv dimension')
+	print('Usage: python3 parser.py results.csv dimension')
 	exit(1)
 
 csvfile = open(sys.argv[1], 'r')

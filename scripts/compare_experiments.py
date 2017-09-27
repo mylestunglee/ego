@@ -4,7 +4,7 @@ import numpy as np
 import sys
 
 if len(sys.argv) != 3:
-	print('Usage: compare_kt.py example_old example_new')
+	print('Usage: python3 compare_kt.py example_old example_new')
 	sys.exit(1)
 
 path_old = basename(normpath(sys.argv[1]))
