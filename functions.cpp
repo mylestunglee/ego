@@ -8,8 +8,8 @@
 #include <gsl_vector.h>
 #include <gsl_multifit.h>
 #include <gsl_multimin.h>
-#include "ihs.hpp"
 #include "functions.hpp"
+#include "ihs.hpp"
 #include "surrogate.hpp"
 #include "csv.hpp"
 #include "animation.hpp"
