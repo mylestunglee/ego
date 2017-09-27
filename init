@@ -35,5 +35,14 @@ if [ ! -d "libgp" ]; then
 	cd ../..
 fi
 
+# Install ihs
+if [ ! -f "ihs.hpp" ]; then
+	wget "https://people.sc.fsu.edu/~jburkardt/cpp_src/ihs/ihs.hpp"
+fi
+
+if [ ! -f "ihs.cpp" ]; then
+	wget "https://people.sc.fsu.edu/~jburkardt/cpp_src/ihs/ihs.cpp"
+fi
+
 make clean
 make

@@ -1,0 +1,24 @@
+# budget
+1000000
+# max_trials
+300
+# convergence_threshold
+0
+# is discrete?
+true
+# number of constraint functions
+0
+# number of cost functions
+1
+# lower boundaries
+1.0, 1.0, 4.0, 1.0, 1.0, 1.0, 1.0
+# upper boundaries
+10.0, 10.0, 24.0, 3.0, 20.0, 20.0, 32.0
+# significance level
+1.0
+# fitness %
+1.0
+# names
+alpha,beta,B,T,Pknl,Ptl,Pdp
+# tags
+model

@@ -1,0 +1,24 @@
+# budget
+10000
+# max_trials
+1000
+# convergence_threshold
+0
+# is discrete?
+true
+# number of constraint functions
+0
+# number of cost functions
+1
+# lower boundaries
+1,-3,0
+# upper boundaries
+10,3,1
+# significance level (only for knowledge transfer)
+1.0
+# fitness percentile
+1.0
+# names
+sample_distance,optimisation_index,oversample
+# tags
+genomics

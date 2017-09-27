@@ -1,0 +1,24 @@
+# budget
+50
+# max_trials
+1000
+# convergence_threshold
+0
+# is discrete?
+true
+# number of constraint functions
+1
+# number of cost functions
+1
+# lower boundaries
+1,4,32
+# upper boundaries
+16,32,53
+# significance level
+1.0
+# fitness percentile
+1.0
+# names
+cores,density_factor,mantissa_width
+# tags
+quadrature

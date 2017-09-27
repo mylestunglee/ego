@@ -1,0 +1,8 @@
+#!/bin/bash
+sd=$(printf "%.0f" $1)
+oi=$(printf "%.0f" $2)
+os=$(printf "%.0f" $3)
+
+ssh cccad1 "cd ~/genomics/; ./build max4 $sd $oi $os > result.txt; exit"
+cat ~/genomics/result.txt
+rm -f ~/genomics/result.txt

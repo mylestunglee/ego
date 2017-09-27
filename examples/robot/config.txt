@@ -1,0 +1,24 @@
+# budget
+1000000
+# max_trials
+100
+# convergence_threshold
+0
+# is discrete?
+true
+# number of constraint functions
+4
+# number of cost functions
+1
+# lower boundaries
+1,5,0
+# upper boundaries
+4,20,102
+# significance level
+1.0
+# fitness percentile
+1.0
+# names
+exp_cores,mantissa_width,particles
+# tags
+

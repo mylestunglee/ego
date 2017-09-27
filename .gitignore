@@ -1,20 +1,22 @@
-.DS_Store
-*.swp
-*.swo
-*.o
-*.swp
-*test*
-example/*
+# Dependencies
 libgp/*
-libsvm*
-gsl*
-ego
-logs/*
+gsl-2.4/*
 eigen3/*
-examples/*
-report/*
-.~*
-*.csv
+catch.hpp
+ihs.cpp
+ihs.hpp
 
+# Experiment files
+logs/*
+output.csv
+transfer.csv
+
+# Report files
+report/*
 !report/report.tex
 !report/report.bib
+
+# Other files
+ego
+*.swp
+*.o
