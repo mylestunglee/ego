@@ -1,0 +1,70 @@
+\documentclass{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\newcommand{\dsb}[1]{[\![#1]\!]}
+\usepackage{multirow}
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\range}{range}
+\usepackage{tabularx}
+\usepackage{makecell}
+\usepackage[margin=1in]{geometry}
+\usepackage{mathtools}
+\pagenumbering{gobble}
+\date{}
+\author{Myles Lee}
+\title{Formalisation of Repository Knowledge Transfer in Automatic
+	Optimisation of Reconfigurable Designs}
+\begin{document}
+	\maketitle
+	\begin{tabularx}{\textwidth}{r X}
+		reconfigurable design space & $\mathbb{D}$ \\
+		reconfigurable design & $D\in\mathbb{D}$ \\
+		reconfigurable parameter count & $n\ D\in\mathbb{N}$ \\
+		intervals & $\boldsymbol{\delta}\ D\in\mathbb{R}_{\geqslant0}^{n\,D}$ \\
+		lower boundaries & $\boldsymbol{\ell}\ D\in\mathbb{R}^{n\,D}$ \\
+		upper boundaries & $\mathbf{u}\ D\in\mathbb{R}^{n\,D}$ \\
+		reconfigurable parameter space & $\begin{aligned}
+		\mathbb{X}\ D=\prod_{i=1}^{n\,D}\{&n(\boldsymbol{\delta}\ D)_i|n\in\mathbb{N}\land(\boldsymbol{\delta}\ D)_i>0\land(\boldsymbol{\ell}\ D)_i\leqslant n(\boldsymbol{\delta}\ D)_i\leqslant\\
+		&(\mathbf{u}\ D)_i\}\cup\{r|r\in\mathbb{R}\land(\boldsymbol{\delta}\ D)_i=0\}
+		\end{aligned}$ \\
+		configuration & $\mathbf{x}\in\mathbb{X}$ \\
+		fitness function & $f\ D:\mathbb{X}\ D\rightarrow\mathbb{R}$ \\
+		label function & $g\ D:\mathbb{X}\ D\rightarrow\mathbb{B}$ \\
+		constraint function count & $\eta\in\mathbb{N}$ \\
+		constraint functions & $\mathbf{h}\ D:(\mathbb{X}\ D\rightharpoonup\mathbb{R}_{\geqslant0})^{\eta\,D}$ \\
+		partiality of constraint functions & $\forall D\in\mathbb{D}.\ \forall\mathbf{x}\in\mathbb{X}\ D.\ (\forall h\in\mathbf{h}\ D.\ \exists r\in\mathbb{R}.\ h\ \mathbf{x}=r)\Leftrightarrow g\ D\ \mathbf{x}$ \\
+		cost function count & $\varsigma\in\mathbb{N}$ \\
+		cost functions & $\mathbf{c}\ D:(\mathbb{X}\ D\rightarrow\mathbb{R}_{\geqslant0})^{\varsigma\,D}$ \\
+		repository & $R\subset\mathbb{D}$ \\
+		state space & $\Gamma$ \\
+		state & $\gamma\in\Gamma$ \\
+		optimiser space & $\Theta\ D=\Gamma\rightarrow(\mathbb{X}\ D\times\Gamma)$ \\
+		optimiser & $\boldsymbol{\theta}\in\Theta$ \\
+		samples & $\phi\subset\mathbb{N}\rightharpoonup\mathbb{R}^\mathbb{N}$ \\
+		sample selection & $\begin{aligned}
+			\phi^*\ \boldsymbol{\theta}_D\ \gamma\ i=\bigcup\{\{(i,\mathbf{x})\}\cup\phi^*\ \boldsymbol{\theta}_D\ \gamma'\ (i+1)|(\mathbf{x},\gamma')=\boldsymbol{\theta}_D\ \gamma\}
+		\end{aligned}$ \\
+		seed space size & $\sigma\in\mathbb{N}$ \\
+		seed & $s\in\mathbb{N}_{<\sigma}$ \\
+		state initialiser & $\tau:\wp\ \mathbb{D}\rightarrow\mathbb{N}_{<\sigma}\rightarrow\Gamma$ \\
+		plot & $\begin{aligned}
+			\Omega\ D\ \phi\ t=\min\ \{&f\ D\ (\phi\ i)|n\in\mathbb{N}\land i\in\mathbb{N}_{<n}\ \land \\
+			&\sum_{c\in\mathbf{c}\,D}\sum_{j=0}^{n-1}c\ (\phi\ j)\leqslant t\land g\ D\ (\phi\ i)\}
+		\end{aligned}$ \\
+		optimisation graph & $\omega:\mathbb{R}_{\geqslant0}\rightarrow\mathbb{R}$ \\
+		score & $\begin{aligned}
+			\nu\ y_{min}\ y_{max}\ \omega=&\frac{1}{y_{max}-y_{min}}\int_0^\infty e^{-t}\\
+			&\min\{\omega\ u|u\in\mathbb{R}\land0\leqslant u\leqslant t\}\cup\{y_{max}\}-y_{min}\mathrm{d}t
+		\end{aligned}$ \\
+		aggregate & $\begin{aligned}
+			\mu\ \boldsymbol{\omega}=\frac{1}{|\boldsymbol{\omega}|}\smashoperator{\sum_{\omega\in\boldsymbol{\omega}}}\prod\{\nu\ (\min \mathfrak{R})\ (\max \mathfrak{R})\ \omega|\mathfrak{R}=\smashoperator{\bigcup_{\omega\in\boldsymbol{\omega}}}\range{\omega}\land \mathfrak{R}\not=\varnothing\}
+		\end{aligned}$ \\
+		optimal optimiser & $\begin{aligned}
+			\boldsymbol{\theta}^*\ \mathbb{D}\ R=\argmin_{\boldsymbol{\theta}\in\Theta}\ \mu\ \{&\Omega\ D\ (\phi^*\ (\boldsymbol{\theta}\ D)\ (\tau\ R\ s)\ 0)|D\in\mathbb{D}\land s\in\mathbb{N}_{<\sigma}\}
+		\end{aligned}$ \\
+		objective & given $\mathbb{D}$ and $R$ find $\hat{\boldsymbol{\theta}}\in\boldsymbol{\theta}^*\ \mathbb{D}\ R$ \\
+	\end{tabularx}
+\end{document}
